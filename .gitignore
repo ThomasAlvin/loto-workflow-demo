@@ -1,0 +1,102 @@
+# ============================================
+# GLOBAL IGNORE
+# ============================================
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# ============================================
+# FRONTEND-demo (React + Vite)
+# ============================================
+
+# Node modules
+frontend-demo/node_modules/
+
+# Vite build output
+frontend-demo/dist/
+
+# Vite temp/cache
+frontend-demo/.vite/
+frontend-demo/vite.config.js.timestamp-*
+
+# TypeScript info
+frontend-demo/*.tsbuildinfo
+
+# ============================================
+# FULLSTACK-DEMO (React + Vite)
+# ============================================
+
+# Node modules
+fullstack-demo/node_modules/
+
+# Vite build output
+fullstack-demo/dist/
+
+# Vite temp/cache
+fullstack-demo/.vite/
+fullstack-demo/vite.config.js.timestamp-*
+
+# TypeScript info
+fullstack-demo/*.tsbuildinfo
+
+# Optional lock files (uncomment to ignore them)
+# client/package-lock.json
+# client/yarn.lock
+# client/pnpm-lock.yaml
+
+# ============================================
+# BACKEND (Laravel)
+# ============================================
+
+# Composer vendor
+server/vendor/
+
+# Laravel caches
+server/storage/*.key
+server/storage/app/public/*
+server/storage/framework/cache/data/*
+server/storage/framework/views/*.php
+server/storage/logs/*.log
+
+# Laravel compiled files
+server/bootstrap/cache/*.php
+
+# Laravel testing files
+server/phpunit.xml
+server/phpunit-resultcache.txt
+
+# Laravel node modules (if using Vite inside Laravel)
+server/node_modules/
+
+# SQLite DB (if used)
+server/*.sqlite
+server/*.sqlite-journal
+
+# ============================================
+# MISC
+# ============================================
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build artifacts
+dist/
+build/
