@@ -30,7 +30,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "../api/api";
 import moment from "moment";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import { IoMdSearch } from "react-icons/io";
 import { debounce } from "lodash";
 import ListEmptyState from "../components/ListEmptyState";
@@ -526,7 +526,7 @@ export default function TemplatesPage() {
               {templates.length ? (
                 templates.map((val, index) => {
                   const { bgColor, textColor, icon, text } =
-                    TableStatusStyleMapper(val.status);
+                    tableStatusStyleMapper(val.status);
                   const currentUserAccess = val.template_access.find(
                     (templateAccess) =>
                       templateAccess?.member?.userId === userSelector.id

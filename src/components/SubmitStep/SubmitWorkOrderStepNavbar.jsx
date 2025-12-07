@@ -1,16 +1,5 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Divider,
-  Flex,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
-import { FaArrowLeftLong, FaChevronUp } from "react-icons/fa6";
+import { Box, Divider, Flex } from "@chakra-ui/react";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 export default function SubmitWorkOrderStepNavbar({ handleBackRedirect }) {
   return (

@@ -1,81 +1,22 @@
-import {
-  Button,
-  Flex,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Textarea,
-  Tooltip,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
-import {
-  memo,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { TfiBackRight } from "react-icons/tfi";
-import { TbArrowMoveUp } from "react-icons/tb";
-import {
-  ReactFlow,
-  Controls,
-  Background,
-  useNodesState,
-  useEdgesState,
-  Handle,
-  Position,
-  useReactFlow,
-} from "@xyflow/react";
+import { Flex, Tooltip, useToast } from "@chakra-ui/react";
+import { Handle, Position, useReactFlow } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import DynamicPropsComparator from "../utils/DynamicPropsComparator";
-import { IoIosWarning, IoMdClose } from "react-icons/io";
-import { AiOutlineClose } from "react-icons/ai";
-import { TiClipboard } from "react-icons/ti";
-import {
-  FaBan,
-  FaCogs,
-  FaLink,
-  FaPlus,
-  FaRegBell,
-  FaRegStopCircle,
-  FaStar,
-  FaStopCircle,
-  FaUserAltSlash,
-} from "react-icons/fa";
-import { MdLockOutline, MdWebhook } from "react-icons/md";
-import { BsDiamond, BsFillHexagonFill, BsGlobe2 } from "react-icons/bs";
-import NewWorkFlowStepBadges from "./CreateTemplate/NewWorkFlowStepBadges";
-import {
-  FaArrowRotateRight,
-  FaDiamond,
-  FaFlag,
-  FaPlay,
-  FaStop,
-} from "react-icons/fa6";
-import { useFormikContext } from "formik";
-import { useDeleteContext } from "../service/DeleteMultiLockAccessContext";
-import { LuCornerLeftUp, LuNetwork } from "react-icons/lu";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
-import deleteNodeValidator from "../utils/deleteNodeValidator";
-import findAncestorConditions from "../utils/findAncestorConditions";
-import { getAllowedLoopTargets } from "../utils/getAllowedLoopTargets";
-import { getAllowedLoopTargetsLatest } from "../utils/getAllowedLoopTargetsLatest";
+import { memo, useContext, useMemo } from "react";
+import { FaBan } from "react-icons/fa";
+import { FaArrowRotateRight, FaFlag, FaPlay } from "react-icons/fa6";
+import { IoMdClose } from "react-icons/io";
 import { memoPropsComparator } from "../debugging/memoPropsComparator";
+import { useDeleteContext } from "../service/DeleteMultiLockAccessContext";
 import {
   ActionsContext,
   AllowedTargetsContext,
   FlagContext,
   UIContext,
 } from "../service/FlowProvider";
+import deleteNodeValidator from "../utils/deleteNodeValidator";
+import { getAllowedLoopTargetsLatest } from "../utils/getAllowedLoopTargetsLatest";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import NewWorkFlowStepBadges from "./CreateTemplate/NewWorkFlowStepBadges";
 
 function CustomReactFlowNodeMemo(node) {
   console.log(node.data.order, "CustomReactFlowNode Rerendered");
@@ -87,7 +28,7 @@ function CustomReactFlowNodeMemo(node) {
   const { data, selected } = node;
   // const workOrderFormik = useFormikContext();
   const toast = useToast();
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
     data?.status
   );
   const { isOpen, deleteTarget, openDeleteConfirm, closeDeleteConfirm } =

@@ -4,7 +4,7 @@ import GT5107Image from "@/assets/images/lock-images/GT5107.png";
 import GT5209Image from "@/assets/images/lock-images/GT5209.png";
 import GT5300Image from "@/assets/images/lock-images/GT5300.png";
 
-const GetLockImageByModel = (model) => {
+const getLockImageByModel = (model) => {
   switch (model) {
     case "GT5407":
       return GT5407Image;
@@ -26,4 +26,4 @@ const GetLockImageByModel = (model) => {
       return GT5407Image;
   }
 };
-export default GetLockImageByModel;
+export default getLockImageByModel;

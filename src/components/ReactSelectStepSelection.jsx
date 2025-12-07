@@ -1,12 +1,10 @@
-import { Avatar, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { components } from "react-select";
-import LabelizeRole from "../utils/LabelizeRole";
-import { IoCheckmark } from "react-icons/io5";
-import TableStatusStyleMapper from "../utils/TableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 export default function ReactSelectStepSelection(props) {
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
-    props.data.status,
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
+    props.data.status
   );
   return (
     <components.Option {...props}>

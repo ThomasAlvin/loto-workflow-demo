@@ -1,5 +1,4 @@
-import { Avatar, Flex, Tooltip } from "@chakra-ui/react";
-import { FaLock, FaUserAlt } from "react-icons/fa";
+import { Flex } from "@chakra-ui/react";
 import { IoIosLock } from "react-icons/io";
 import { components } from "react-select";
 

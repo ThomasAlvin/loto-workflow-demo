@@ -1,7 +1,5 @@
 import { Box, Button, Divider, Flex, useDisclosure } from "@chakra-ui/react";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { IoSettingsOutline } from "react-icons/io5";
-import { RiDraftLine } from "react-icons/ri";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import TemplateSaveAsDraftConfirmationModal from "./TemplateSaveAsDraftConfirmationModal";
 import SaveChangesConfirmationModal from "../CreateEditWorkOrderTemplate/SaveChangesConfirmationModal";

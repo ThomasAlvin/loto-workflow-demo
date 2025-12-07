@@ -1,47 +1,10 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Avatar,
-  Box,
-  Button,
-  Checkbox,
-  Collapse,
-  Flex,
-  FormLabel,
-  Input,
-  Slide,
-  Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderTrack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Textarea,
-  Th,
-  Thead,
-  Tooltip,
-  Tr,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Box, Checkbox, Flex, Slide, useDisclosure } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
 
-import { IoMdClose } from "react-icons/io";
 import { useReactFlow } from "@xyflow/react";
-import { v4 as uuid } from "uuid";
+import { IoMdClose } from "react-icons/io";
 import { useDeleteContext } from "../../service/DeleteMultiLockAccessContext";
-import { useSelector } from "react-redux";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
-import ImageFocusOverlay from "../ImageFocusOverlay";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
 
 export default function TemplateStepDetailsDrawerDetails({
@@ -50,7 +13,7 @@ export default function TemplateStepDetailsDrawerDetails({
 }) {
   const { isOpen } = useDeleteContext();
   const drawerRef = useRef();
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
     selectedEditStep?.status
   );
   const editStepQuestionsDisclosure = useDisclosure();

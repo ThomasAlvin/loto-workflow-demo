@@ -1,32 +1,22 @@
 import {
   Button,
-  Collapse,
   Divider,
   Flex,
-  MenuItem,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { FaChevronDown } from "react-icons/fa6";
-import { ImExit } from "react-icons/im";
-import { IoIosLock } from "react-icons/io";
-import { IoWarning } from "react-icons/io5";
-import VerifyMachineDropdownMenu from "./VerifyMachineDropdownMenu";
-import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import setAllFieldsTouched from "../../utils/SetAllFieldsTouched";
-import Swal from "sweetalert2";
-import SwalErrorMessages from "../SwalErrorMessages";
-import { api } from "../../api/api";
+import { IoWarning } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
+import VerifyMachineDropdownMenu from "./VerifyMachineDropdownMenu";
 
 export default function VerifyMachineUIDModal({
   setValue,
@@ -79,7 +69,7 @@ export default function VerifyMachineUIDModal({
               });
 
             return false;
-          },
+          }
         ),
       inputQrUID: Yup.string()
         .nullable()
@@ -111,7 +101,7 @@ export default function VerifyMachineUIDModal({
               });
 
             return false;
-          },
+          }
         ),
     }),
     onSubmit: () => {
@@ -155,7 +145,7 @@ export default function VerifyMachineUIDModal({
     setValue(
       `workOrderStepMachines[${selectedVerifyMachine.stepMachinesCounterIndex}].isMachineVerified`,
       true,
-      { shouldValidate: true },
+      { shouldValidate: true }
     );
     onClose();
     // setButtonLoading(true);

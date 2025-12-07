@@ -1,55 +1,22 @@
 import {
   Avatar,
-  Box,
-  Button,
   Checkbox,
-  Divider,
   Flex,
-  Image,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuGroup,
-  MenuItem,
-  MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Spinner,
-  Table,
-  TableContainer,
-  Tbody,
   Td,
-  Th,
-  Thead,
   Tooltip,
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
-import { BiExport } from "react-icons/bi";
-import {
-  AddIcon,
-  EditIcon,
-  ExternalLinkIcon,
-  RepeatIcon,
-} from "@chakra-ui/icons";
-import { LuDownload } from "react-icons/lu";
-import LabelizeRole from "../../utils/LabelizeRole";
+import moment from "moment";
 import { FaRegTrashAlt, FaUserAlt } from "react-icons/fa";
 import { HiWrenchScrewdriver } from "react-icons/hi2";
-import { GrMapLocation } from "react-icons/gr";
-import moment from "moment";
-import { api } from "../../api/api";
-import { IoLocationSharp } from "react-icons/io5";
-import NotificationDetailsModal from "./NotificationDetailsModal";
 import { RiExternalLinkLine } from "react-icons/ri";
+import { Link, useNavigate } from "react-router-dom";
+import { api } from "../../api/api";
 import formatString from "../../utils/formatString";
-import GetNotificationLinkByEvent from "../../utils/GetNotificationLinkByEvent";
+import getNotificationLinkByEvent from "../../utils/getNotificationLinkByEvent";
+import labelizeRole from "../../utils/labelizeRole";
+import NotificationDetailsModal from "./NotificationDetailsModal";
 
 export default function NotificationCard({
   val,
@@ -71,15 +38,15 @@ export default function NotificationCard({
       prevState.map((notification) =>
         notification.UID === val.UID
           ? { ...notification, is_read: 1 } // Mark as read
-          : notification,
-      ),
+          : notification
+      )
     );
     setNotificationsPagination((prevState) => ({
       ...prevState,
       data: prevState.data.map((notification) =>
         notification.UID === val.UID
           ? { ...notification, is_read: 1 } // Mark as read
-          : notification,
+          : notification
       ),
     }));
     setNewNotificationsCount((prevState) => {
@@ -179,7 +146,7 @@ export default function NotificationCard({
                                 {val.first_name + " " + val.last_name}
                               </Flex>
                               <Flex fontSize={"14px"} color={"#848484"}>
-                                {LabelizeRole(val.role)}
+                                {labelizeRole(val.role)}
                                 Supervisor
                               </Flex>
                             </Flex> */}
@@ -221,10 +188,10 @@ export default function NotificationCard({
                 {val.type === "system"
                   ? "Digipas Technologies.Inc"
                   : val.from_user?.is_superadmin
-                    ? LabelizeRole("super_admin")
-                    : val?.from_user?.member?.role
-                      ? LabelizeRole(val?.from_user?.member?.role)
-                      : "Role not found"}
+                  ? labelizeRole("super_admin")
+                  : val?.from_user?.member?.role
+                  ? labelizeRole(val?.from_user?.member?.role)
+                  : "Role not found"}
               </Flex>
               {/* <Flex
                 alignItems={"center"}
@@ -277,25 +244,25 @@ export default function NotificationCard({
               hasArrow
               placement={"top"}
               label={
-                GetNotificationLinkByEvent(val.event, val.resource_UID)
+                getNotificationLinkByEvent(val.event, val.resource_UID)
                   ? "View " +
                     formatString(
                       val?.event === "work_order_assigned"
                         ? "Assigned work order"
-                        : val.event,
+                        : val.event
                     ) +
                     (val.resource_UID ? "" : " List")
                   : "No Link"
               }
               aria-label="A tooltip"
               background={
-                GetNotificationLinkByEvent(val.event, val.resource_UID)
+                getNotificationLinkByEvent(val.event, val.resource_UID)
                   ? "#008cff"
                   : "#848484"
               }
               color={"white"}
               pointerEvents={
-                GetNotificationLinkByEvent(val.event, val.resource_UID)
+                getNotificationLinkByEvent(val.event, val.resource_UID)
                   ? "auto"
                   : "none"
               }
@@ -304,13 +271,13 @@ export default function NotificationCard({
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
-                to={GetNotificationLinkByEvent(val.event, val.resource_UID)}
+                to={getNotificationLinkByEvent(val.event, val.resource_UID)}
               >
                 <Flex
                   fontSize={"20px"}
                   cursor={"pointer"}
                   color={
-                    GetNotificationLinkByEvent(val.event, val.resource_UID)
+                    getNotificationLinkByEvent(val.event, val.resource_UID)
                       ? "#008cff"
                       : "#848484"
                   }

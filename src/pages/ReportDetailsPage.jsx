@@ -17,7 +17,7 @@ import moment from "moment";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { api } from "../api/api";
-import LabelizeRole from "../utils/labelizeRole";
+import labelizeRole from "../utils/labelizeRole";
 import { FaUserAlt } from "react-icons/fa";
 import html2pdf from "html2pdf.js";
 import html2canvas from "html2canvas";
@@ -56,12 +56,12 @@ export default function ReportDetailsPage() {
     }
   );
   const creatorInfo = report?.creator?.is_superadmin
-    ? { ...report?.creator, role: LabelizeRole("super_admin") }
+    ? { ...report?.creator, role: labelizeRole("super_admin") }
     : {
         ...report?.creator,
         first_name: report?.creator?.first_name,
         last_name: report?.creator?.last_name,
-        role: LabelizeRole(report?.creator?.member?.role),
+        role: labelizeRole(report?.creator?.member?.role),
         employee_id: report?.creator?.member?.employee_id,
       };
 
@@ -423,7 +423,7 @@ export default function ReportDetailsPage() {
                                         fontSize={"14px"}
                                         color={"#848484"}
                                       >
-                                        {LabelizeRole(creatorInfo.role) +
+                                        {labelizeRole(creatorInfo.role) +
                                           (creatorInfo?.employee_id
                                             ? " - " + creatorInfo.employee_id
                                             : "")}
@@ -534,7 +534,7 @@ export default function ReportDetailsPage() {
                                             fontSize={"14px"}
                                             color={"#848484"}
                                           >
-                                            {LabelizeRole(coCreator?.role) +
+                                            {labelizeRole(coCreator?.role) +
                                               " - " +
                                               coCreator?.employee_id}
                                           </Flex>
@@ -662,7 +662,7 @@ export default function ReportDetailsPage() {
                                           fontSize={"14px"}
                                           color={"#848484"}
                                         >
-                                          {LabelizeRole(assignee.role) +
+                                          {labelizeRole(assignee.role) +
                                             " - " +
                                             assignee.employee_id}
                                         </Flex>
@@ -823,7 +823,7 @@ export default function ReportDetailsPage() {
                                                 fontSize={"14px"}
                                                 color={"#848484"}
                                               >
-                                                {LabelizeRole(
+                                                {labelizeRole(
                                                   notifiedMember.role
                                                 ) +
                                                   " - " +

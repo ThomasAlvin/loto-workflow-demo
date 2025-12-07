@@ -8,7 +8,13 @@ import {
   Button,
   Checkbox,
   Flex,
+  Image,
   Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -16,45 +22,36 @@ import {
   Th,
   Thead,
   Tr,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   useDisclosure,
-  Image,
-  Spinner,
 } from "@chakra-ui/react";
-import tinycolor from "tinycolor2";
-import { useCallback, useEffect, useRef, useState } from "react";
-import formatString from "../../utils/formatString";
-import { FaChevronDown } from "react-icons/fa";
+import { useCallback, useEffect, useState } from "react";
 import {
   FaChevronCircleDown,
   FaChevronCircleUp,
+  FaChevronDown,
   FaFilter,
   FaUserAlt,
 } from "react-icons/fa";
+import tinycolor from "tinycolor2";
+import formatString from "../../utils/formatString";
 import ListEmptyState from "../ListEmptyState";
 
-import { useReactFlow } from "@xyflow/react";
-import { useDeleteContext } from "../../service/DeleteMultiLockAccessContext";
-import MemberGroupList from "../MemberGroupList";
-import { TbLineScan } from "react-icons/tb";
-import LabelizeRole from "../../utils/LabelizeRole";
-import { useSelector } from "react-redux";
-import WorkOrderDetailsFormQuestion from "./WorkOrderDetailsFormQuestion";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
-import StepDetailsDrawerStepInspectionForm from "./StepDetailsDrawerStepInspectionForm";
+import { debounce } from "lodash";
 import moment from "moment";
-import { FiZoomIn } from "react-icons/fi";
-import GetLockImageByModel from "../../utils/getLockImageByModel";
 import {
   BiCaretLeft,
   BiCaretRight,
   BiSkipNext,
   BiSkipPrevious,
 } from "react-icons/bi";
-import { debounce } from "lodash";
+import { FiZoomIn } from "react-icons/fi";
+import { TbLineScan } from "react-icons/tb";
+import getLockImageByModel from "../../utils/getLockImageByModel";
+import labelizeRole from "../../utils/labelizeRole";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import MemberGroupList from "../MemberGroupList";
+import StepDetailsDrawerStepInspectionForm from "./StepDetailsDrawerStepInspectionForm";
+import WorkOrderDetailsFormQuestion from "./WorkOrderDetailsFormQuestion";
 
 export default function StepDetailsDrawerSubmissions({
   selectedEditStep,
@@ -687,7 +684,7 @@ export default function StepDetailsDrawerSubmissions({
                               fontSize={"14px"}
                               alignItems={"center"}
                             >
-                              {LabelizeRole(
+                              {labelizeRole(
                                 submission?.machine_verified_by_member.role
                               ) +
                                 (submission?.machine_verified_by_member
@@ -1004,7 +1001,7 @@ export default function StepDetailsDrawerSubmissions({
                                   ).slice(0, 3)
                               ).map((val, index) => {
                                 const { bgColor, textColor, icon, text } =
-                                  TableStatusStyleMapper(val.status);
+                                  tableStatusStyleMapper(val.status);
                                 return (
                                   <Tr
                                     w={"100%"}
@@ -1032,7 +1029,7 @@ export default function StepDetailsDrawerSubmissions({
                                           >
                                             {val.lock.model ? (
                                               <Image
-                                                src={GetLockImageByModel(
+                                                src={getLockImageByModel(
                                                   val.lock.model
                                                 )}
                                               />
@@ -1154,7 +1151,7 @@ export default function StepDetailsDrawerSubmissions({
                                                   >
                                                     {val?.user.is_superadmin
                                                       ? "Super Admin"
-                                                      : LabelizeRole(
+                                                      : labelizeRole(
                                                           val?.user.member?.role
                                                         ) +
                                                         " - " +

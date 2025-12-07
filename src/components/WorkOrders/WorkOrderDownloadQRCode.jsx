@@ -1,8 +1,6 @@
-import { Button, Flex, Tooltip } from "@chakra-ui/react";
+import { Flex, Tooltip } from "@chakra-ui/react";
 import { QRCodeCanvas } from "qrcode.react";
 import { useRef } from "react";
-import { IoMdDownload } from "react-icons/io";
-import { MdFileDownload } from "react-icons/md";
 import DownloadQrIcon from "../Icons/DownloadQrIcon";
 
 export default function WorkOrderDownloadQRCode({ UID }) {

@@ -6,7 +6,6 @@ import {
   AccordionPanel,
   Avatar,
   Box,
-  Checkbox,
   Flex,
   Table,
   TableContainer,
@@ -14,28 +13,19 @@ import {
   Td,
   Th,
   Thead,
-  Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import { FaCogs, FaUserAlt } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import {
-  FaChevronDown,
-  FaRegBell,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
-import { BsGlobe2, BsQuestionCircle } from "react-icons/bs";
-import { TiClipboard } from "react-icons/ti";
-import { MdLockOutline } from "react-icons/md";
-import LabelizeRole from "../../utils/LabelizeRole";
+import { useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
+import { FaChevronDown, FaTriangleExclamation } from "react-icons/fa6";
+import ReactSelect from "react-select";
+import labelizeRole from "../../utils/labelizeRole";
 import WorkFlowStepBadges from "../CreateTemplate/WorkFlowStepBadges";
 import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
-import ReactSelect from "react-select";
 
-import WorkOrderDetailsStepInspectionForm from "../WorkOrders/WorkOrderDetailsStepInspectionForm";
-import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
-import ReactSelectMemberMultiValue from "../ReactSelectMemberMultiValue";
 import MemberGroupList from "../MemberGroupList";
+import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
+import WorkOrderDetailsStepInspectionForm from "../WorkOrders/WorkOrderDetailsStepInspectionForm";
 
 export default function SwitchRequestDetailStep({
   val,
@@ -52,7 +42,7 @@ export default function SwitchRequestDetailStep({
   const filteredMemberSelection = memberSelection?.filter((member) => {
     return (
       !val.work_order_step.assigned_members?.some(
-        (assignedMember) => assignedMember.UID === member.UID,
+        (assignedMember) => assignedMember.UID === member.UID
       ) && member.user.status === "verified"
     );
   });
@@ -60,8 +50,8 @@ export default function SwitchRequestDetailStep({
 
   const [openStates, setOpenStates] = useState(
     val?.work_order_step.work_order_step_machines?.map(() =>
-      machineOpenByDefault ? [0] : null,
-    ),
+      machineOpenByDefault ? [0] : null
+    )
   );
   const getCustomReactSelectStyles = (variant) => {
     const customReactSelectStyle = {
@@ -94,7 +84,7 @@ export default function SwitchRequestDetailStep({
           return val2 ? null : [0];
         }
         return val2;
-      }),
+      })
     );
   };
   // useEffect(() => {
@@ -186,7 +176,7 @@ export default function SwitchRequestDetailStep({
                       >
                         {requester?.super_admin?.id
                           ? "Super Admin"
-                          : LabelizeRole(requester?.role) +
+                          : labelizeRole(requester?.role) +
                             " - " +
                             requester?.employee_id}
                       </Flex>
@@ -246,7 +236,7 @@ export default function SwitchRequestDetailStep({
                       >
                         {val.new_assignee.user?.super_admin?.id
                           ? "Super Admin"
-                          : LabelizeRole(val.new_assignee?.role) +
+                          : labelizeRole(val.new_assignee?.role) +
                             " - " +
                             val.new_assignee?.employee_id}
                       </Flex>
@@ -336,7 +326,7 @@ export default function SwitchRequestDetailStep({
                       >
                         {val.suggested_assignee?.user_super_admin?.id
                           ? "Super Admin"
-                          : LabelizeRole(val.suggested_assignee?.role) +
+                          : labelizeRole(val.suggested_assignee?.role) +
                             " - " +
                             val.suggested_assignee?.employee_id}
                       </Flex>
@@ -437,7 +427,7 @@ export default function SwitchRequestDetailStep({
                   onBlur={async () => {
                     await formik.setFieldTouched(
                       `switchRequestSteps[${stepIndex}].new_assignee_UID`,
-                      true,
+                      true
                     );
                     formik.validateForm();
                   }}
@@ -537,7 +527,7 @@ export default function SwitchRequestDetailStep({
                               options={val?.options || val?.type?.options}
                             />
                           </Flex>
-                        ),
+                        )
                       )}
                     </Flex>
                     {/* <Flex>
@@ -757,7 +747,7 @@ export default function SwitchRequestDetailStep({
                                                           inspectionForm
                                                         }
                                                       />
-                                                    ),
+                                                    )
                                                   )}
                                                 </Flex>
                                               ) : (
@@ -792,7 +782,7 @@ export default function SwitchRequestDetailStep({
                                   </Tr>
                                 </>
                               );
-                            },
+                            }
                           )
                         )}
                       </Tbody>
@@ -854,7 +844,7 @@ export default function SwitchRequestDetailStep({
                             </Flex> */}
                           </Flex>
                         </Flex>
-                      ),
+                      )
                     )}
                   </Flex>
                 </Flex>
@@ -896,7 +886,7 @@ export default function SwitchRequestDetailStep({
                               </Flex>
                             </Flex>
                           </Flex>
-                        ),
+                        )
                       )}
                     </Flex>
                   </Flex>

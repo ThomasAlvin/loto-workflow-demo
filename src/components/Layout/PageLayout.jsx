@@ -1,9 +1,9 @@
-import { Box, Center, Flex, Spinner } from "@chakra-ui/react";
-import { useLoading } from "../../service/LoadingContext";
-import LoadingOverlay from "../LoadingOverlay";
-import { NotificationProvider } from "../../service/NotificationContext";
-import NavSidebar from "../NavSidebar";
+import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
+import { useLoading } from "../../service/LoadingContext";
+import { NotificationProvider } from "../../service/NotificationContext";
+import LoadingOverlay from "../LoadingOverlay";
+import NavSidebar from "../NavSidebar";
 
 export default function PageLayout({ children }) {
   const { loading, setLoading } = useLoading();

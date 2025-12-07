@@ -27,7 +27,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { IoMdSearch } from "react-icons/io";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "../api/api";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import EquipmentMachineMenu from "../components/EquipmentMachine/EquipmentMachineMenu";
 import { debounce } from "lodash";
 import ListEmptyState from "../components/ListEmptyState";
@@ -523,7 +523,7 @@ export default function EquipmentMachinesPage() {
               {equipmentMachines.length ? (
                 equipmentMachines.map((val, index) => {
                   const { bgColor, textColor, icon, text } =
-                    TableStatusStyleMapper(val.status); // Move this outside of JSX
+                    tableStatusStyleMapper(val.status); // Move this outside of JSX
 
                   return (
                     <Tr

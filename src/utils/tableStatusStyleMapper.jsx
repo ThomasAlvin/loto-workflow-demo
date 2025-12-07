@@ -45,7 +45,7 @@ import { RiDraftLine, RiSwapBoxFill, RiSwapBoxLine } from "react-icons/ri";
 import { TbCircleDashedCheck, TbClockX } from "react-icons/tb";
 import {} from "react-icons/tb";
 
-const TableStatusStyleMapper = (status) => {
+const tableStatusStyleMapper = (status) => {
   switch (status) {
     case "out_of_order":
       return {
@@ -375,4 +375,4 @@ const TableStatusStyleMapper = (status) => {
       };
   }
 };
-export default TableStatusStyleMapper;
+export default tableStatusStyleMapper;

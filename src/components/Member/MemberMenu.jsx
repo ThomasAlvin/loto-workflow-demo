@@ -1,41 +1,11 @@
-import React, { useState } from "react";
-import {
-  Flex,
-  useDisclosure,
-  Icon,
-  Divider,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Box,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  TableContainer,
-  Table,
-  TableCaption,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  Tfoot,
-  Tooltip,
-} from "@chakra-ui/react";
-import { FaEllipsisVertical, FaMagnifyingGlass } from "react-icons/fa6";
+import { Flex, Tooltip } from "@chakra-ui/react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
-import MemberDetailsModal from "./MemberDetailsModal";
-import Can from "../../utils/Can";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import { MdOutgoingMail } from "react-icons/md";
-import checkHasPermission from "../../utils/checkHasPermission";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import Can from "../../components/Can";
+import checkHasPermission from "../../utils/checkHasPermission";
 export default function MemberMenu({
   member,
   handleOpenMemberDetailsModal,
@@ -115,8 +85,8 @@ export default function MemberMenu({
               !hasManagePermissionByRole()
                 ? "Access is restricted"
                 : member.user.status === "verified"
-                  ? "Email already verified"
-                  : "Resend verification email"
+                ? "Email already verified"
+                : "Resend verification email"
             }
             color={"white"}
           >

@@ -1,66 +1,44 @@
+import { Flex, Icon, useToast } from "@chakra-ui/react";
 import {
-  Box,
-  Button,
-  Flex,
-  Icon,
-  Input,
-  Textarea,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
+  addEdge,
+  Background,
+  ReactFlow,
+  useOnSelectionChange,
+} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
 import {
   memo,
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
-import {
-  ReactFlow,
-  Controls,
-  Background,
-  useNodesState,
-  useEdgesState,
-  Handle,
-  Position,
-  useReactFlow,
-  addEdge,
-  useOnSelectionChange,
-  applyNodeChanges,
-} from "@xyflow/react";
-import "@xyflow/react/dist/style.css";
-import CustomReactFlowNode from "./CustomReactFlowNode";
-import { FaPlus } from "react-icons/fa";
-import { MdOutlineZoomInMap, MdOutlineZoomOutMap } from "react-icons/md";
-import { v4 as uuid } from "uuid";
-import CustomReactFlowControls from "./CustomReactFlowControls";
-import ReactFlowDragAndDropSidebar from "./CreateEditWorkOrderTemplate/ReactFlowDragAndDropSidebar";
-import defaultNodeSettings from "../constants/defaultNodeSettings";
-import computeNodeOrder from "../utils/computeNodeOrder";
-import getConnectedNodes from "../utils/getConnectedNodes";
-import { useDeleteContext } from "../service/DeleteMultiLockAccessContext";
-import CustomReactFlowEdge from "./CustomReactFlowEdge";
-import getConditionalEdge from "../utils/getConditionalEdge";
-import getConditionalNode from "../utils/getConditionalNode";
-import getConditionalStepValue from "../utils/getConditionalStepValue";
-import ConfirmationModal from "./ConfirmationModal";
-import deleteNodeValidator from "../utils/deleteNodeValidator";
-import ReactFlowTemplateDetailsSidebar from "./Templates/ReactFlowTemplateDetailsSidebar";
 import { IoMdClose } from "react-icons/io";
-import getLocalDescendantNodesById from "../utils/getLocalDescendantNodesById";
-import CustomConnectionLine from "./CustomConnectionLine";
-import findAncestorConditions from "../utils/findAncestorConditions";
-import reactFlowConnectValidation from "../utils/reactFlowConnectValidation";
-import { getAllowedLoopTargets } from "../utils/getAllowedLoopTargets";
-import { getAllowedLoopTargetsLatest } from "../utils/getAllowedLoopTargetsLatest";
+import { v4 as uuid } from "uuid";
+import defaultNodeSettings from "../constants/defaultNodeSettings";
 import { memoPropsComparator } from "../debugging/memoPropsComparator";
+import { useDeleteContext } from "../service/DeleteMultiLockAccessContext";
 import {
   ActionsContext,
   AllowedTargetsContext,
   UIContext,
 } from "../service/FlowProvider";
+import computeNodeOrder from "../utils/computeNodeOrder";
+import deleteNodeValidator from "../utils/deleteNodeValidator";
+import { getAllowedLoopTargetsLatest } from "../utils/getAllowedLoopTargetsLatest";
+import getConditionalEdge from "../utils/getConditionalEdge";
+import getConditionalNode from "../utils/getConditionalNode";
+import getConditionalStepValue from "../utils/getConditionalStepValue";
+import getConnectedNodes from "../utils/getConnectedNodes";
+import getLocalDescendantNodesById from "../utils/getLocalDescendantNodesById";
+import reactFlowConnectValidation from "../utils/reactFlowConnectValidation";
+import ReactFlowDragAndDropSidebar from "./CreateEditWorkOrderTemplate/ReactFlowDragAndDropSidebar";
+import CustomConnectionLine from "./CustomConnectionLine";
+import CustomReactFlowControls from "./CustomReactFlowControls";
+import CustomReactFlowEdge from "./CustomReactFlowEdge";
+import CustomReactFlowNode from "./CustomReactFlowNode";
+import ReactFlowTemplateDetailsSidebar from "./Templates/ReactFlowTemplateDetailsSidebar";
 const nodeTypes = {
   step: CustomReactFlowNode,
 };
@@ -99,7 +77,7 @@ function WorkFlowXyFlowMemo({
     useDeleteContext();
   const { setConnectingSourceId, connectingSourceId } = useContext(UIContext);
   const { allowedTargetIds, setAllowedTargetIds } = useContext(
-    AllowedTargetsContext,
+    AllowedTargetsContext
   );
 
   const toast = useToast();
@@ -131,7 +109,7 @@ function WorkFlowXyFlowMemo({
         sourceNode,
         targetNode,
         params.sourceHandle,
-        toast,
+        toast
       );
       if (!isValid) {
         return;
@@ -144,12 +122,12 @@ function WorkFlowXyFlowMemo({
         let reorderedNodes = computeNodeOrder(
           nodes,
           afterConnectionEdges,
-          nodes[0]?.id || null,
+          nodes[0]?.id || null
         );
         const localDescendant = getLocalDescendantNodesById(
           targetId,
           edges,
-          nodes,
+          nodes
         ).descendantNodes;
         const isSourceConditionalChild = sourceNode?.data?.condition_value
           ? true
@@ -163,7 +141,7 @@ function WorkFlowXyFlowMemo({
                 isEnd: false,
                 ...(isSourceConditionalChild &&
                 (localDescendant.some(
-                  (locDescNode) => nds.id === locDescNode.id,
+                  (locDescNode) => nds.id === locDescNode.id
                 ) ||
                   nds.id === params.target)
                   ? {
@@ -173,7 +151,7 @@ function WorkFlowXyFlowMemo({
                   : {}),
               },
             };
-          }),
+          })
         );
       } else if (params.sourceHandle === "loop-back") {
         setNodes(
@@ -190,11 +168,11 @@ function WorkFlowXyFlowMemo({
               };
             }
             return nds;
-          }),
+          })
         );
       }
     },
-    [nodes, edges],
+    [nodes, edges]
   );
 
   const onConnectStart = useCallback(
@@ -215,7 +193,7 @@ function WorkFlowXyFlowMemo({
       // setAllowedTargetIds(new Set(allowedTargets.map((n) => n.data.id)));
       setAllowedTargetIds(new Set(allowedTargets.map((n) => n.data.UID)));
     },
-    [nodes],
+    [nodes]
   );
 
   const onConnectEnd = useCallback(() => {
@@ -232,7 +210,7 @@ function WorkFlowXyFlowMemo({
       event.preventDefault();
 
       let dragData = JSON.parse(
-        event.dataTransfer.getData("application/reactflow"),
+        event.dataTransfer.getData("application/reactflow")
       );
       // switch id to UID
       dragData = { ...dragData, UID: uuid() };
@@ -275,7 +253,7 @@ function WorkFlowXyFlowMemo({
       const startNode = nodes.find((n) => n.data.isStart);
       const orderedNodes = startNode ? getConnectedNodes(startNode, edges) : [];
       const lastOrderedNode = nodes.find(
-        (nd) => nd.id === Array.from(orderedNodes).pop(),
+        (nd) => nd.id === Array.from(orderedNodes).pop()
       );
       formikSetValues((prevState) => {
         return {
@@ -337,7 +315,7 @@ function WorkFlowXyFlowMemo({
                 position,
                 // switch id to UID
                 dragData.UID,
-                conditionalDataUuid,
+                conditionalDataUuid
               )
             : []),
         ];
@@ -350,7 +328,7 @@ function WorkFlowXyFlowMemo({
                 ...node,
                 data: { ...node.data, isEnd: false },
               }
-            : node,
+            : node
         );
         // Add new node and conditional step if node has condition true
         updatedNodes = [
@@ -372,7 +350,7 @@ function WorkFlowXyFlowMemo({
                 position,
                 // switch id to UID
                 dragData.UID,
-                conditionalDataUuid,
+                conditionalDataUuid
               )
             : []),
         ];
@@ -381,7 +359,7 @@ function WorkFlowXyFlowMemo({
       updatedNodes = computeNodeOrder(
         updatedNodes,
         updatedEdges,
-        nodes.length === 0 ? newNodeUuid : updatedNodes[0].id,
+        nodes.length === 0 ? newNodeUuid : updatedNodes[0].id
       );
       // Calculate Node value after edge because edge is needed to determine node order
       console.log(updatedNodes);
@@ -389,7 +367,7 @@ function WorkFlowXyFlowMemo({
       setNodes(updatedNodes);
       setEdges(updatedEdges);
     },
-    [nodes, edges],
+    [nodes, edges]
   );
 
   const onInit = (instance) => {
@@ -400,7 +378,7 @@ function WorkFlowXyFlowMemo({
     (event, node) => {
       handleOpenEditStepModal({ ...node.data, nodeId: node.id });
     },
-    [handleOpenEditStepModal],
+    [handleOpenEditStepModal]
   );
   const handlePaneClick = useCallback(() => {
     editStepDisclosureOnClose();
@@ -412,7 +390,7 @@ function WorkFlowXyFlowMemo({
         strokeColor={connectingSourceId ? "#80d9bf" : "#B1B1B7"}
       />
     ),
-    [connectingSourceId],
+    [connectingSourceId]
   );
   // Escape full screen when esc is pressed
   useEffect(() => {
@@ -451,7 +429,7 @@ function WorkFlowXyFlowMemo({
           edges,
           openDeleteConfirm,
           toast,
-          deleteStep,
+          deleteStep
         );
 
         if (selectedEdges.length > 0) {
@@ -524,7 +502,7 @@ function WorkFlowXyFlowMemo({
         prev.map((node) => ({
           ...node,
           selected: selectedNodeIds.includes(node.id),
-        })),
+        }))
       );
 
       // 2. Edge selection ALWAYS disabled
@@ -532,7 +510,7 @@ function WorkFlowXyFlowMemo({
         prev.map((edge) => ({
           ...edge,
           selected: false, // <- critical
-        })),
+        }))
       );
     },
   });
@@ -662,7 +640,7 @@ function WorkFlowXyFlowMemo({
 
 const WorkFlowXyFlow = memo(
   WorkFlowXyFlowMemo,
-  memoPropsComparator("WorkFlowXyFlow"),
+  memoPropsComparator("WorkFlowXyFlow")
 );
 
 export default WorkFlowXyFlow;

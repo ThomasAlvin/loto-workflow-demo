@@ -9,7 +9,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Tooltip,
 } from "@chakra-ui/react";
 import { ImCheckmark } from "react-icons/im";
 
@@ -46,7 +45,7 @@ export default function ConfirmSubmitWorkOrderStepModal({
           () => {
             setSubmitScope(null);
             setOpenMachineIndexes(
-              workOrderStep?.work_order_step_machines?.map((_, index) => index),
+              workOrderStep?.work_order_step_machines?.map((_, index) => index)
             );
             setOpenMachineInspectionFormIndexes(
               workOrderStep?.work_order_step_machines?.map(
@@ -54,12 +53,12 @@ export default function ConfirmSubmitWorkOrderStepModal({
                   return machine.selected_inspection_forms.map(
                     (inspectionForm, inspectionFormIndex) => {
                       return inspectionFormIndex;
-                    },
+                    }
                   );
-                },
-              ),
+                }
+              )
             );
-          },
+          }
         )}
         gap={"10px"}
         background={"#dc143c"}

@@ -1,33 +1,15 @@
-import React, { useState } from "react";
-import {
-  Flex,
-  useDisclosure,
-  Divider,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Box,
-  Tooltip,
-  Spinner,
-} from "@chakra-ui/react";
-import { FaMagnifyingGlass } from "react-icons/fa6";
+import { Flex, Spinner, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { useState } from "react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
-import { IoMdDownload } from "react-icons/io";
-import Can from "../../utils/Can";
-import WorkOrderDownloadQRCode from "./WorkOrderDownloadQRCode";
-import { LuCopyPlus } from "react-icons/lu";
-import { BsQrCode, BsQrCodeScan } from "react-icons/bs";
-import DownloadQrIcon from "../Icons/DownloadQrIcon";
-import { TbFileDownload } from "react-icons/tb";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import { GrDocumentDownload } from "react-icons/gr";
-import { api } from "../../api/api";
-import SwalErrorMessages from "../SwalErrorMessages";
+import { LuCopyPlus } from "react-icons/lu";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { api } from "../../api/api";
+import Can from "../../components/Can";
+import SwalErrorMessages from "../SwalErrorMessages";
+import WorkOrderDownloadQRCode from "./WorkOrderDownloadQRCode";
 export default function WorkOrderMenu({
   pageModule,
   val,

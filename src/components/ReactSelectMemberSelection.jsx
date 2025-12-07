@@ -1,7 +1,6 @@
 import { Avatar, Flex } from "@chakra-ui/react";
 import { components } from "react-select";
-import LabelizeRole from "../utils/LabelizeRole";
-import { IoCheckmark } from "react-icons/io5";
+import labelizeRole from "../utils/labelizeRole";
 export default function ReactSelectMemberSelection(props) {
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
@@ -55,7 +54,7 @@ export default function ReactSelectMemberSelection(props) {
                     fontSize={"14px"}
                     color={props.isSelected ? "#dbdbdb" : "#848484"}
                   >
-                    {LabelizeRole(props.data.role)} - {props.data.employee_id}
+                    {labelizeRole(props.data.role)} - {props.data.employee_id}
                   </Flex>
                 </>
               ) : (

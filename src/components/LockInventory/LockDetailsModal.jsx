@@ -1,70 +1,48 @@
-import React, { useCallback, useEffect, useState } from "react";
 import {
-  Flex,
-  useDisclosure,
-  Divider,
-  ModalOverlay,
-  ModalContent,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Tooltip,
   Avatar,
-  TableContainer,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
+  Button,
   Center,
-  Spinner,
+  Divider,
+  Flex,
   Image,
+  Input,
   InputGroup,
   InputLeftElement,
-  Input,
   Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
-import {
-  FaClock,
-  FaClockRotateLeft,
-  FaKey,
-  FaMagnifyingGlass,
-  FaMapLocationDot,
-  FaPhone,
-} from "react-icons/fa6";
-import {
-  FaArrowsAlt,
-  FaEdit,
-  FaInfoCircle,
-  FaTag,
-  FaUserAlt,
-} from "react-icons/fa";
-import { IoIosLock, IoIosMail, IoMdSearch } from "react-icons/io";
-import { BsArrowsMove, BsBarChartFill, BsDpadFill } from "react-icons/bs";
-import { AiOutlineAppstore } from "react-icons/ai";
-import { MdEvent, MdLockOpen } from "react-icons/md";
-import LabelizeRole from "../../utils/LabelizeRole";
-import moment from "moment";
-import LabelizeAction from "../../utils/LabelizeAction";
-import ConvertTableToRoute from "../../utils/convertTableToRoute";
-import { useLocation, useNavigate } from "react-router-dom";
-import ListEmptyState from "../ListEmptyState";
-import { api } from "../../api/api";
-import Pagination from "../Pagination";
-import { IoBatteryHalf, IoLogInOutline } from "react-icons/io5";
-import { CgNotes } from "react-icons/cg";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 import { debounce } from "lodash";
+import moment from "moment";
+import { useCallback, useEffect, useState } from "react";
+import { BsDpadFill } from "react-icons/bs";
+import { CgNotes } from "react-icons/cg";
+import { FaEdit, FaInfoCircle, FaTag, FaUserAlt } from "react-icons/fa";
+import { FaClockRotateLeft, FaKey, FaMapLocationDot } from "react-icons/fa6";
+import { IoIosLock, IoMdSearch } from "react-icons/io";
+import { IoBatteryHalf } from "react-icons/io5";
 import { LuNfc } from "react-icons/lu";
-import ConvertDirectionalIcon from "../../utils/ConvertDirectionalIcon";
-import FormatString from "../../utils/formatString";
-import GetLockImageByModel from "../../utils/getLockImageByModel";
-import { RiFingerprint2Line } from "react-icons/ri";
-import { HiOutlineKey } from "react-icons/hi2";
-import { BiLockAlt } from "react-icons/bi";
+import { MdEvent } from "react-icons/md";
+import { useLocation, useNavigate } from "react-router-dom";
+import { api } from "../../api/api";
+import labelizeRole from "../../utils/labelizeRole";
+import formatString from "../../utils/formatString";
+import getLockImageByModel from "../../utils/getLockImageByModel";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import ListEmptyState from "../ListEmptyState";
+import Pagination from "../Pagination";
 
 export default function LockDetailsModal({
   selectedLockDetails,
@@ -144,7 +122,7 @@ export default function LockDetailsModal({
       };
     }
   }, [lockDetailsMenu, currentPage, searchInput]);
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
     selectedLockDetails?.status
   );
   return (
@@ -182,7 +160,7 @@ export default function LockDetailsModal({
                     {selectedLockDetails?.model ? (
                       <Image
                         borderRadius={"100%"}
-                        src={GetLockImageByModel(selectedLockDetails?.model)}
+                        src={getLockImageByModel(selectedLockDetails?.model)}
                       ></Image>
                     ) : (
                       <IoIosLock />
@@ -497,7 +475,7 @@ export default function LockDetailsModal({
                         {history.length ? (
                           history.map((val, index) => {
                             const { bgColor, textColor, icon, text } =
-                              TableStatusStyleMapper(val.status);
+                              tableStatusStyleMapper(val.status);
                             return (
                               <Tr
                                 w={"100%"}
@@ -573,7 +551,7 @@ export default function LockDetailsModal({
                                       <Flex fontSize={"14px"} color={"#848484"}>
                                         {val?.user?.is_superadmin
                                           ? "Super Admin"
-                                          : LabelizeRole(
+                                          : labelizeRole(
                                               val?.user?.member?.role
                                             ) +
                                             " - " +
@@ -613,7 +591,7 @@ export default function LockDetailsModal({
                                   px={"12px"}
                                   fontSize={"14px"}
                                 >
-                                  <Flex>{FormatString(val.method)}</Flex>
+                                  <Flex>{formatString(val.method)}</Flex>
                                 </Td>
                                 <Td
                                   borderBottomColor={"#bababa"}
@@ -623,7 +601,7 @@ export default function LockDetailsModal({
                                   px={"12px"}
                                   fontSize={"14px"}
                                 >
-                                  <Flex>{FormatString(val.method_info)}</Flex>
+                                  <Flex>{formatString(val.method_info)}</Flex>
                                 </Td>
                                 <Td
                                   borderBottomColor={"#bababa"}
@@ -785,12 +763,6 @@ export default function LockDetailsModal({
                                   <Flex alignItems={"center"}>
                                     <Flex fontSize={"14px"}>
                                       {passcode.name}
-                                    </Flex>
-                                    <Flex>&nbsp;&nbsp;-&nbsp;&nbsp;</Flex>
-                                    <Flex fontSize={"18px"}>
-                                      {ConvertDirectionalIcon(
-                                        passcode.directional
-                                      )}
                                     </Flex>
                                   </Flex>
                                 </Td>

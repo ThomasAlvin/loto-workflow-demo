@@ -9,24 +9,17 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { FaRegEdit } from "react-icons/fa";
-import { FaMagnifyingGlass } from "react-icons/fa6";
-import { IoCheckmark } from "react-icons/io5";
-import WorkFlowXyFlow from "../WorkFlowXyFlow";
 import {
   ReactFlowProvider,
   useEdgesState,
   useNodesState,
   useReactFlow,
 } from "@xyflow/react";
-import DeleteMultiLockAccessConfirmationModal from "../CreateEditWorkOrderTemplate/DeleteMultiLockAccessConfirmationModal";
-import { DeleteMultiLockAccessProvider } from "../../service/DeleteMultiLockAccessContext";
+import { useCallback, useEffect, useRef, useState } from "react";
 import convertStepsToXyFlowData from "../../utils/convertStepsToXyFlowData";
-import StepDetailsDrawerDetails from "../WorkOrders/StepDetailsDrawerDetails";
+import WorkFlowXyFlow from "../WorkFlowXyFlow";
 import TemplateStepDetailsDrawerDetails from "./TemplateStepDetailsDrawerDetails";
 
 function TemplateDetailsModalContent({

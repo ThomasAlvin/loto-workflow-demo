@@ -1,34 +1,20 @@
 import {
   Accordion,
   AccordionButton,
-  AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Button,
   Checkbox,
   Flex,
-  Icon,
-  Input,
   InputGroup,
-  InputRightElement,
-  Menu,
-  MenuButton,
-  MenuGroup,
-  MenuItem,
-  MenuList,
-  Select,
   Table,
   Tbody,
   Td,
   Textarea,
   Th,
   Thead,
-  Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import QuestionTypeIconMapper from "../../utils/QuestionTypeIconMapper";
-import { FaTriangleExclamation } from "react-icons/fa6";
-import { RxDragHandleDots2 } from "react-icons/rx";
+import questionTypeIconMapper from "../../utils/questionTypeIconMapper";
 
 export default function InspectionFormDetailsModalFormQuestions({
   val,
@@ -101,8 +87,8 @@ export default function InspectionFormDetailsModalFormQuestions({
                     borderRadius={"20px"}
                     p={"5px"}
                   >
-                    {QuestionTypeIconMapper(val.question_type) ||
-                      QuestionTypeIconMapper(val.type.title)}
+                    {questionTypeIconMapper(val.question_type) ||
+                      questionTypeIconMapper(val.type.title)}
                   </Flex>
                   <Flex>{val.question_type || val.type.title}</Flex>
                 </Flex>

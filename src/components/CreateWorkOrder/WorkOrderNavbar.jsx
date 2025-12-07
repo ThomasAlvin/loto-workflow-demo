@@ -1,14 +1,9 @@
 import { Box, Button, Divider, Flex, useDisclosure } from "@chakra-ui/react";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { IoSettingsOutline } from "react-icons/io5";
-import { BsQuestionCircle } from "react-icons/bs";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { RiDraftLine } from "react-icons/ri";
+import SaveChangesConfirmationModal from "../CreateEditWorkOrderTemplate/SaveChangesConfirmationModal";
 import SaveAsTemplateModal from "./SaveAsTemplateModal";
 import WorkOrderSaveAsDraftConfirmationModal from "./WorkOrderSaveAsDraftConfirmationModal";
-import { IoMdCheckmark } from "react-icons/io";
-import SaveChangesConfirmationModal from "../CreateEditWorkOrderTemplate/SaveChangesConfirmationModal";
-import { FaRegTrashAlt } from "react-icons/fa";
 export default function WorkOrderNavbar({
   formik,
   stage,

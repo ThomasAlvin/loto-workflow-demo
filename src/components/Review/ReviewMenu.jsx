@@ -1,39 +1,7 @@
-import React, { useState } from "react";
-import {
-  Flex,
-  useDisclosure,
-  Icon,
-  Divider,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Box,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  TableContainer,
-  Table,
-  TableCaption,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  Tfoot,
-  Tooltip,
-} from "@chakra-ui/react";
-import { FaEllipsisVertical, FaMagnifyingGlass } from "react-icons/fa6";
-import { FaRegEdit, FaRegTrashAlt, FaVoteYea } from "react-icons/fa";
+import { Flex, Tooltip } from "@chakra-ui/react";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { LuClipboardCopy } from "react-icons/lu";
 import { useLocation, useNavigate } from "react-router-dom";
-import Can from "../../utils/Can";
-import { LuClipboardCopy, LuVote } from "react-icons/lu";
-import { BsFileEarmarkText } from "react-icons/bs";
 export default function ReviewMenu({ status, UID }) {
   const nav = useNavigate();
   const location = useLocation(); // gives you { pathname, search, ... }

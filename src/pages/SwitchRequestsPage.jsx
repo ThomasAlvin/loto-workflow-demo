@@ -21,7 +21,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "../api/api";
 import { debounce } from "lodash";
 import ListEmptyState from "../components/ListEmptyState";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import moment from "moment";
 import SwitchRequestMenu from "../components/SwitchRequest/SwitchRequestMenu";
 import SwitchRequestDetailModal from "../components/SwitchRequest/SwitchRequestDetailModal";
@@ -337,7 +337,7 @@ export default function SwitchRequestsPage() {
             <Tbody>
               {switchRequest?.length ? (
                 switchRequest?.map((val, index) => {
-                  const statusTag = TableStatusStyleMapper(
+                  const statusTag = tableStatusStyleMapper(
                     "review-" + val.status
                   );
                   const requester = val.requester_super_admin?.id

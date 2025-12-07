@@ -1,48 +1,8 @@
-import React, { useState } from "react";
-import {
-  Flex,
-  useDisclosure,
-  Icon,
-  Divider,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Box,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  TableContainer,
-  Table,
-  TableCaption,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  Tfoot,
-  Tooltip,
-} from "@chakra-ui/react";
-import { FaEllipsisVertical, FaMagnifyingGlass } from "react-icons/fa6";
-import { LiaFileDownloadSolid } from "react-icons/lia";
-import {
-  FaFileDownload,
-  FaRegEdit,
-  FaRegTrashAlt,
-  FaShareSquare,
-} from "react-icons/fa";
-import TemplateDetailsModal from "./TemplateDetailsModal";
+import { Flex, Tooltip } from "@chakra-ui/react";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useLocation, useNavigate } from "react-router-dom";
-import Can from "../../utils/Can";
-import { PiShareFatFill } from "react-icons/pi";
-import { TbFileDownload } from "react-icons/tb";
-import { GrDocumentCsv, GrDocumentDownload } from "react-icons/gr";
-import { BsFiletypeCsv } from "react-icons/bs";
+import Can from "../../components/Can";
 export default function TemplateMenu({
   pageModule,
   handleOpenTemplateDetailsModal,

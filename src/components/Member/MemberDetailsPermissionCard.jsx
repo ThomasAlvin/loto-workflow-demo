@@ -1,8 +1,6 @@
-import { Checkbox, Flex, Switch, Tooltip } from "@chakra-ui/react";
-import { useState } from "react";
-import tinycolor from "tinycolor2";
+import { Checkbox, Flex } from "@chakra-ui/react";
+import { IoMdClose } from "react-icons/io";
 import formatString from "../../utils/formatString";
-import { IoMdClose, IoMdInformationCircleOutline } from "react-icons/io";
 
 export default function MemberDetailsPermissionCard({
   module,
@@ -46,17 +44,16 @@ export default function MemberDetailsPermissionCard({
               (isWorkOrderViewOwnedOrViewAll(module, permission)
                 ? isWorkOrderViewOwnedOrViewAll(module, permission)
                 : permission.permission === "view"
-                  ? "view_all"
-                  : permission.permission +
-                    (module.name === "members" &&
-                    permission.permission !== "view"
-                      ? "s"
-                      : "")) +
+                ? "view_all"
+                : permission.permission +
+                  (module.name === "members" && permission.permission !== "view"
+                    ? "s"
+                    : "")) +
                 "_" +
                 (module.name === "members" ? "" : module.name),
               true,
               true,
-              true,
+              true
             )}
           </Flex>
         </Flex>

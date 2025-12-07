@@ -35,7 +35,7 @@ import ImportListModal from "../components/ImportListModal";
 import MemberMenu from "../components/Member/MemberMenu";
 import moment from "moment";
 import SelectedActionBar from "../components/SelectedActionBar";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import RemoveMemberConfirmationModal from "../components/Member/RemoveMemberConfirmationModal";
 import MemberDetailsModal from "../components/Member/MemberDetailsModal";
 import SwalErrorMessages from "../components/SwalErrorMessages";
@@ -657,7 +657,7 @@ export default function MembersPage() {
                 {members.length ? (
                   members.map((val, index) => {
                     const { bgColor, textColor, icon, text } =
-                      TableStatusStyleMapper(val.user.status); // Move this outside of JSX
+                      tableStatusStyleMapper(val.user.status); // Move this outside of JSX
 
                     return (
                       <Tr

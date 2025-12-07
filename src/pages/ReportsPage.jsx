@@ -22,7 +22,7 @@ import { api } from "../api/api";
 import moment from "moment";
 import { debounce } from "lodash";
 import { LuCopy } from "react-icons/lu";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import ReportMenu from "../components/Report/ReportMenu";
 import ListEmptyState from "../components/ListEmptyState";
 import SwalErrorMessages from "../components/SwalErrorMessages";
@@ -363,7 +363,7 @@ export default function ReportsPage() {
               {reports.length ? (
                 reports.map((val, index) => {
                   const { bgColor, textColor, icon, text } =
-                    TableStatusStyleMapper(val.status);
+                    tableStatusStyleMapper(val.status);
                   return (
                     <Tr
                       onClick={() => {

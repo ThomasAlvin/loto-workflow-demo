@@ -1,10 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import {
-  BaseEdge,
-  EdgeLabelRenderer,
-  getBezierPath,
-  getSmoothStepPath,
-} from "@xyflow/react";
+import { BaseEdge, EdgeLabelRenderer, getSmoothStepPath } from "@xyflow/react";
 import defaultNodeSettings from "../constants/defaultNodeSettings";
 
 export default function CustomReactFlowEdge({

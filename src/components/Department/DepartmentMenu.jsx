@@ -1,9 +1,7 @@
-import React from "react";
 import { Flex, Tooltip } from "@chakra-ui/react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import Can from "../../utils/Can";
+import Can from "../../components/Can";
 export default function DepartmentMenu({
   UID,
   pageModule,

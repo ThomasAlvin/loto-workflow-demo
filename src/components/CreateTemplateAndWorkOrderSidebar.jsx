@@ -1,10 +1,10 @@
 import { Flex } from "@chakra-ui/react";
-import { IoCloseSharp } from "react-icons/io5";
+import { memo, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { FiChevronsLeft } from "react-icons/fi";
-import { memo, useState } from "react";
+import { IoCloseSharp } from "react-icons/io5";
+import generalStepsData from "../utils/generalStepsData";
 import StepModal from "./CreateTemplate/StepModal";
-import GeneralStepsData from "../utils/GeneralStepsData";
 function CreateTemplateAndWorkOrderSidebarMemo() {
   const [sidebarClosed, setSidebarClosed] = useState(true);
 
@@ -84,7 +84,7 @@ function CreateTemplateAndWorkOrderSidebarMemo() {
                     }}
                   >
                     <Flex flexDir={"column"} w={"100%"}>
-                      {GeneralStepsData?.map((val, index) => {
+                      {generalStepsData?.map((val, index) => {
                         return (
                           <Draggable
                             key={val.id}
@@ -175,6 +175,6 @@ function CreateTemplateAndWorkOrderSidebarMemo() {
   );
 }
 const CreateTemplateAndWorkOrderSidebar = memo(
-  CreateTemplateAndWorkOrderSidebarMemo,
+  CreateTemplateAndWorkOrderSidebarMemo
 );
 export default CreateTemplateAndWorkOrderSidebar;

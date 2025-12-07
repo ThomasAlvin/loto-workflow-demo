@@ -1,31 +1,14 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Button,
-  Flex,
-  Image,
-  Tooltip,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
-import emptyIllustration from "../../assets/images/emptyIllustration.6782cc2c8633a338fe7d-removebg.png";
-import ReactSelect from "react-select";
-import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
+import { Flex, useDisclosure } from "@chakra-ui/react";
+import { useState } from "react";
 
-import {
-  FaChevronLeft,
-  FaRegBell,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
-import { FaCogs, FaUserAlt } from "react-icons/fa";
 import { AiOutlineEye } from "react-icons/ai";
-import tinycolor from "tinycolor2";
-import { TiClipboard } from "react-icons/ti";
-import ConfirmSubmitWorkOrderStepModal from "./ConfirmSubmitWorkOrderStepModal";
+import { FaCogs } from "react-icons/fa";
+import { FaRegBell } from "react-icons/fa6";
 import { IoMdCheckmark } from "react-icons/io";
 import { LuNetwork } from "react-icons/lu";
+import { TiClipboard } from "react-icons/ti";
+import tinycolor from "tinycolor2";
+import ConfirmSubmitWorkOrderStepModal from "./ConfirmSubmitWorkOrderStepModal";
 export default function SubmitWorkOrderStepSideMenu({
   submitButtonLoading,
   submitWorkOrderStep,
@@ -120,8 +103,8 @@ export default function SubmitWorkOrderStepSideMenu({
                   val.isFinished
                     ? "#e1f5d5"
                     : highlightedIndex === taskIndex
-                      ? "#ededed"
-                      : "#ECEFF3"
+                    ? "#ededed"
+                    : "#ECEFF3"
                 }
                 onClick={() => {
                   hoverToStep(taskIndex);
@@ -129,7 +112,7 @@ export default function SubmitWorkOrderStepSideMenu({
                 cursor={"pointer"}
                 _hover={{
                   bg: tinycolor(
-                    highlightedIndex === taskIndex ? "#ededed" : "white",
+                    highlightedIndex === taskIndex ? "#ededed" : "white"
                   )
                     .darken(5)
                     .toString(),

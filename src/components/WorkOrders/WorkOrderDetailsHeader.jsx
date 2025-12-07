@@ -1,11 +1,11 @@
 import { Flex, Tooltip } from "@chakra-ui/react";
 import moment from "moment";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
-import { SlGlobe } from "react-icons/sl";
 import { IoWarning } from "react-icons/io5";
+import { SlGlobe } from "react-icons/sl";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 
 export default function WorkOrderDetailsHeader({ workOrder, variant }) {
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
     workOrder?.status
   );
   return (

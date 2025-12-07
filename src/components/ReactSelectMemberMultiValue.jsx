@@ -1,4 +1,4 @@
-import { Avatar, Flex, Tooltip } from "@chakra-ui/react";
+import { Avatar, Flex } from "@chakra-ui/react";
 import { FaUserAlt } from "react-icons/fa";
 import { components } from "react-select";
 

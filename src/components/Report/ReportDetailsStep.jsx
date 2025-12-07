@@ -1,11 +1,6 @@
 import { Flex } from "@chakra-ui/react";
-import { BsGlobe2 } from "react-icons/bs";
-import { FaCogs } from "react-icons/fa";
-import { FaRegBell } from "react-icons/fa6";
-import { MdLockOutline } from "react-icons/md";
-import { TiClipboard } from "react-icons/ti";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 import WorkFlowStepBadges from "../CreateTemplate/WorkFlowStepBadges";
-import TableStatusStyleMapper from "../../utils/TableStatusStyleMapper";
 
 export default function ReportDetailsStep({
   reportSteps,
@@ -14,8 +9,8 @@ export default function ReportDetailsStep({
   val,
   index,
 }) {
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
-    val?.status,
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
+    val?.status
   );
   return (
     <Flex

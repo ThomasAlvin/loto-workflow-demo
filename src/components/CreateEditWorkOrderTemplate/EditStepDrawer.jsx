@@ -38,7 +38,7 @@ import { useFormik, useFormikContext } from "formik";
 import * as Yup from "yup";
 import NonEditableStepModalFormQuestion from "./NonEditableStepModalFormQuestion";
 import EditStepQuestionsModal from "./EditStepQuestionsModal";
-import setAllFieldsTouched from "../../utils/SetAllFieldsTouched";
+import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
 import { useReactFlow } from "@xyflow/react";
 import { v4 as uuid } from "uuid";
 import StepDetailsDrawerAssignment from "./StepDetailsDrawerAssignment";
@@ -50,7 +50,7 @@ import getConditionalEdge from "../../utils/getConditionalEdge";
 import ConfirmationModal from "../ConfirmationModal";
 import computeNodeOrder from "../../utils/computeNodeOrder";
 import getDescendantNodesById from "../../utils/getDescendantNodesById";
-import LabelizeRole from "../../utils/LabelizeRole";
+import labelizeRole from "../../utils/labelizeRole";
 import { ActionsContext } from "../../service/FlowProvider";
 
 export default function EditStepDrawer({
@@ -1249,7 +1249,7 @@ export default function EditStepDrawer({
                                     <Flex color={"#848484"}>
                                       {filteredReviewer?.is_superadmin
                                         ? "Super Admin"
-                                        : LabelizeRole(filteredReviewer?.role) +
+                                        : labelizeRole(filteredReviewer?.role) +
                                           " - " +
                                           filteredReviewer?.employee_id}
                                     </Flex>

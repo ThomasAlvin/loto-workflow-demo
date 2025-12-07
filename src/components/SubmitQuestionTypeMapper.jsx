@@ -1,14 +1,10 @@
 import {
-  Avatar,
-  Button,
   Checkbox,
   Flex,
-  GridItem,
   Image,
   Input,
   Radio,
   RadioGroup,
-  Stack,
   Table,
   Tbody,
   Td,
@@ -17,22 +13,12 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { DatePicker } from "antd";
 import get from "lodash.get";
-import { AiOutlineWarning } from "react-icons/ai";
-import { FaFilePdf, FaFileWord, FaTag, FaUserAlt } from "react-icons/fa";
-import { FaRegClock, FaTriangleExclamation } from "react-icons/fa6";
-import { FiCheckCircle, FiZoomIn } from "react-icons/fi";
-import { ImCheckmark } from "react-icons/im";
-import { IoChatbubbleEllipsesOutline, IoClose } from "react-icons/io5";
-import { MdBrokenImage, MdOutlineBrokenImage } from "react-icons/md";
-import { RiDraftLine } from "react-icons/ri";
-import { TbClockX } from "react-icons/tb";
-import LabelizeRole from "./LabelizeRole";
-import moment from "moment";
-import GetLockImageByModel from "./GetLockImageByModel";
-import { DatePicker, Grid } from "antd";
-import { BiImageAdd } from "react-icons/bi";
 import { useRef, useState } from "react";
+import { BiImageAdd } from "react-icons/bi";
+import { FaFilePdf, FaFileWord } from "react-icons/fa";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import GetDateTimeType from "./GetDateTimeType";
 
 export default function SubmitQuestionTypeMapper({

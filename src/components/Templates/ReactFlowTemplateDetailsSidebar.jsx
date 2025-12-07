@@ -1,21 +1,13 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Slide,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { IoCloseSharp } from "react-icons/io5";
-import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
+import { Avatar, Box, Flex, useDisclosure } from "@chakra-ui/react";
 import { useReactFlow } from "@xyflow/react";
-import CustomReactFlowNodeGhost from "../CustomReactFlowNodeGhost";
-import ReactDOM from "react-dom";
+import moment from "moment";
 import { useRef, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
-import LabelizeRole from "../../utils/LabelizeRole";
-import moment from "moment";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import { FiChevronsRight } from "react-icons/fi";
+import { IoCloseSharp } from "react-icons/io5";
+import labelizeRole from "../../utils/labelizeRole";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import CustomReactFlowNodeGhost from "../CustomReactFlowNodeGhost";
 
 export default function ReactFlowTemplateDetailsSidebar({ templateDetails }) {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure({
@@ -28,19 +20,19 @@ export default function ReactFlowTemplateDetailsSidebar({ templateDetails }) {
   const creator = templateDetails.template_access.find(
     (user) => user.role === "owner"
   );
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
     templateDetails.status
   );
   const creatorInfo = creator?.super_admin
     ? {
         ...creator?.super_admin,
-        role: LabelizeRole("super_admin"),
+        role: labelizeRole("super_admin"),
       }
     : {
         ...creator?.member,
         first_name: creator?.member?.user.first_name,
         last_name: creator?.member?.user.last_name,
-        role: LabelizeRole(creator?.member?.role),
+        role: labelizeRole(creator?.member?.role),
         employee_id: creator?.member?.employee_id,
       };
   return (
@@ -209,7 +201,7 @@ export default function ReactFlowTemplateDetailsSidebar({ templateDetails }) {
                       </Flex>
                       <Flex fontSize={"14px"} color={"#848484"}>
                         {creatorInfo.role
-                          ? LabelizeRole(creatorInfo.role) +
+                          ? labelizeRole(creatorInfo.role) +
                             (creatorInfo?.employee_id
                               ? " - " + creatorInfo.employee_id
                               : "")

@@ -4,10 +4,7 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Avatar,
-  AvatarGroup,
   Box,
-  Checkbox,
   Flex,
   Table,
   TableContainer,
@@ -15,22 +12,17 @@ import {
   Td,
   Th,
   Thead,
-  Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import ReactSelect from "react-select";
-import { FaCogs, FaUserAlt } from "react-icons/fa";
 import { useState } from "react";
-import { FaChevronDown, FaRegBell } from "react-icons/fa6";
-import { TiClipboard } from "react-icons/ti";
-import { MdLockOutline } from "react-icons/md";
-import LabelizeRole from "../../utils/LabelizeRole";
+import { FaUserAlt } from "react-icons/fa";
+import { FaChevronDown } from "react-icons/fa6";
+import ReactSelect from "react-select";
+import labelizeRole from "../../utils/labelizeRole";
 import WorkFlowStepBadges from "../CreateTemplate/WorkFlowStepBadges";
 import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
 import MemberGroupList from "../MemberGroupList";
-import CreateWorkOrderDetailsStepInspectionForm from "../CreateWorkOrder/CreateWorkOrderDetailsStepInspectionForm";
 import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
-import ReactSelectMemberMultiValue from "../ReactSelectMemberMultiValue";
 import WorkOrderDetailsStepInspectionForm from "./WorkOrderDetailsStepInspectionForm";
 
 export default function SwitchAssigneeModalSelectedStep({
@@ -45,7 +37,7 @@ export default function SwitchAssigneeModalSelectedStep({
   const filteredMemberSelection = memberSelection.filter((member) => {
     return (
       !val.assigned_members?.some(
-        (assignedMember) => assignedMember.UID === member.UID,
+        (assignedMember) => assignedMember.UID === member.UID
       ) && member.user.status === "verified"
     );
   });
@@ -72,7 +64,7 @@ export default function SwitchAssigneeModalSelectedStep({
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
 
   const [openStates, setOpenStates] = useState(
-    val.work_order_step_machines?.map(() => [0]),
+    val.work_order_step_machines?.map(() => [0])
   );
   const toggleAccordion = (index) => {
     setOpenStates((prevStates) =>
@@ -81,7 +73,7 @@ export default function SwitchAssigneeModalSelectedStep({
           return val2 ? null : [0];
         }
         return val2;
-      }),
+      })
     );
   };
   console.log(openStates);
@@ -281,7 +273,7 @@ export default function SwitchAssigneeModalSelectedStep({
                           fontSize={"14px"}
                           color={"#848484"}
                         >
-                          {LabelizeRole(val.notify_to?.role)}
+                          {labelizeRole(val.notify_to?.role)}
                         </Flex>
                       </Flex>
                     </Flex>
@@ -415,7 +407,7 @@ export default function SwitchAssigneeModalSelectedStep({
                                                       inspectionForm
                                                     }
                                                   />
-                                                ),
+                                                )
                                               )}
                                             </Flex>
                                           ) : (
@@ -448,7 +440,7 @@ export default function SwitchAssigneeModalSelectedStep({
                                 </Td>
                               </Tr>
                             </>
-                          ),
+                          )
                         )}
                       </Tbody>
                     </Table>
@@ -548,7 +540,7 @@ export default function SwitchAssigneeModalSelectedStep({
                               </Flex>
                             </Flex>
                           </Flex>
-                        ),
+                        )
                       )}
                     </Flex>
                   </Flex>

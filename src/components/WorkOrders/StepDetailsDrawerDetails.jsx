@@ -8,6 +8,11 @@ import {
   Button,
   Checkbox,
   Flex,
+  Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Slide,
   Table,
   TableContainer,
@@ -16,44 +21,39 @@ import {
   Th,
   Thead,
   Tr,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   useDisclosure,
-  Image,
 } from "@chakra-ui/react";
-import tinycolor from "tinycolor2";
-import { useCallback, useEffect, useRef, useState } from "react";
-import formatString from "../../utils/formatString";
-import { FaChevronDown } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
 import {
   FaChevronCircleDown,
   FaChevronCircleUp,
+  FaChevronDown,
   FaFilter,
   FaFlag,
   FaUserAlt,
   FaUserCircle,
 } from "react-icons/fa";
+import tinycolor from "tinycolor2";
+import formatString from "../../utils/formatString";
 import ListEmptyState from "../ListEmptyState";
 
-import { IoMdClose } from "react-icons/io";
 import { useReactFlow } from "@xyflow/react";
-import { useDeleteContext } from "../../service/DeleteMultiLockAccessContext";
-import MemberGroupList from "../MemberGroupList";
-import { TbLineScan } from "react-icons/tb";
-import LabelizeRole from "../../utils/LabelizeRole";
-import { useSelector } from "react-redux";
-import WorkOrderDetailsFormQuestion from "./WorkOrderDetailsFormQuestion";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
-import ImageFocusOverlay from "../ImageFocusOverlay";
-import StepDetailsDrawerStepInspectionForm from "./StepDetailsDrawerStepInspectionForm";
-import Can from "../../utils/Can";
-import { TiWarning } from "react-icons/ti";
 import moment from "moment";
 import { FiZoomIn } from "react-icons/fi";
-import GetLockImageByModel from "../../utils/getLockImageByModel";
+import { IoMdClose } from "react-icons/io";
+import { TbLineScan } from "react-icons/tb";
+import { TiWarning } from "react-icons/ti";
+import { useSelector } from "react-redux";
+import { useDeleteContext } from "../../service/DeleteMultiLockAccessContext";
+import Can from "../../components/Can";
+import getLockImageByModel from "../../utils/getLockImageByModel";
+import labelizeRole from "../../utils/labelizeRole";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import ImageFocusOverlay from "../ImageFocusOverlay";
+import MemberGroupList from "../MemberGroupList";
+import StepDetailsDrawerStepInspectionForm from "./StepDetailsDrawerStepInspectionForm";
 import StepDetailsDrawerSubmissions from "./StepDetailsDrawerSubmissions";
+import WorkOrderDetailsFormQuestion from "./WorkOrderDetailsFormQuestion";
 
 export default function StepDetailsDrawerDetails({
   pageModule,
@@ -88,7 +88,7 @@ export default function StepDetailsDrawerDetails({
   const imageFocusDisclosure = useDisclosure();
 
   const userSelector = useSelector((state) => state.login.auth);
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
     selectedEditStep?.status
   );
   const editStepQuestionsDisclosure = useDisclosure();
@@ -733,7 +733,7 @@ export default function StepDetailsDrawerDetails({
                               fontSize={"14px"}
                               alignItems={"center"}
                             >
-                              {LabelizeRole(
+                              {labelizeRole(
                                 selectedEditStep?.machine_verified_by_member
                                   .role
                               ) +
@@ -1011,7 +1011,7 @@ export default function StepDetailsDrawerDetails({
                                   ).slice(0, 3)
                               ).map((val, index) => {
                                 const { bgColor, textColor, icon, text } =
-                                  TableStatusStyleMapper(val.status);
+                                  tableStatusStyleMapper(val.status);
                                 return (
                                   <Tr
                                     w={"100%"}
@@ -1038,7 +1038,7 @@ export default function StepDetailsDrawerDetails({
                                           >
                                             {val.lock.model ? (
                                               <Image
-                                                src={GetLockImageByModel(
+                                                src={getLockImageByModel(
                                                   val.lock.model
                                                 )}
                                               />
@@ -1139,7 +1139,7 @@ export default function StepDetailsDrawerDetails({
                                                   >
                                                     {val?.user.is_superadmin
                                                       ? "Super Admin"
-                                                      : LabelizeRole(
+                                                      : labelizeRole(
                                                           val?.user.member?.role
                                                         ) +
                                                         " - " +
@@ -1542,7 +1542,7 @@ export default function StepDetailsDrawerDetails({
                                   ).slice(0, 3)
                               ).map((val, index) => {
                                 const { bgColor, textColor, icon, text } =
-                                  TableStatusStyleMapper(val.status);
+                                  tableStatusStyleMapper(val.status);
                                 return (
                                   <Tr
                                     w={"100%"}
@@ -1570,7 +1570,7 @@ export default function StepDetailsDrawerDetails({
                                           >
                                             {val.lock.model ? (
                                               <Image
-                                                src={GetLockImageByModel(
+                                                src={getLockImageByModel(
                                                   val.lock.model
                                                 )}
                                               />
@@ -1692,7 +1692,7 @@ export default function StepDetailsDrawerDetails({
                                                   >
                                                     {val?.user.is_superadmin
                                                       ? "Super Admin"
-                                                      : LabelizeRole(
+                                                      : labelizeRole(
                                                           val?.user.member?.role
                                                         ) +
                                                         " - " +

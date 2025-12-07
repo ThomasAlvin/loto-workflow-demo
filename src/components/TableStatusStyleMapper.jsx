@@ -10,14 +10,11 @@ import {
   FaForward,
   FaLink,
   FaPlus,
-  FaUserAlt,
 } from "react-icons/fa";
-import { FaFilePen, FaRegClock, FaUsers } from "react-icons/fa6";
+import { FaFilePen, FaRegClock } from "react-icons/fa6";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
-import { ImCheckmark } from "react-icons/im";
 import {
   IoIosWarning,
-  IoMdArrowRoundForward,
   IoMdCheckmark,
   IoMdLock,
   IoMdUnlock,
@@ -33,19 +30,16 @@ import {
   LuMailWarning,
 } from "react-icons/lu";
 import {
-  MdBrokenImage,
   MdLogin,
   MdLogout,
   MdOutlineBrokenImage,
-  MdOutlineSwapHoriz,
   MdOutlineWifi,
   MdOutlineWifiOff,
 } from "react-icons/md";
-import { RiDraftLine, RiSwapBoxFill, RiSwapBoxLine } from "react-icons/ri";
-import { TbCircleDashedCheck, TbClockX } from "react-icons/tb";
-import {} from "react-icons/tb";
+import { RiDraftLine } from "react-icons/ri";
+import { TbClockX } from "react-icons/tb";
 
-const TableStatusStyleMapper = (status) => {
+const tableStatusStyleMapper = (status) => {
   switch (status) {
     case "out_of_order":
       return {
@@ -375,4 +369,4 @@ const TableStatusStyleMapper = (status) => {
       };
   }
 };
-export default TableStatusStyleMapper;
+export default tableStatusStyleMapper;

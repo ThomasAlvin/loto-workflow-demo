@@ -1,15 +1,5 @@
-import {
-  Box,
-  Button,
-  Center,
-  Divider,
-  Flex,
-  Spinner,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Center, Flex, Spinner } from "@chakra-ui/react";
 import formatString from "../../utils/formatString";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import { useState } from "react";
 import MemberDetailsPermissionCard from "./MemberDetailsPermissionCard";
 
 export default function MemberDetailsAccessibility({
@@ -55,7 +45,7 @@ export default function MemberDetailsAccessibility({
                       }
 
                       const accessibilityModule = accessibility?.modules?.find(
-                        (moduleValue) => moduleValue.name === module.name,
+                        (moduleValue) => moduleValue.name === module.name
                       );
                       let hasPermission =
                         !!accessibilityModule?.permissions?.find((perm) => {
@@ -68,7 +58,7 @@ export default function MemberDetailsAccessibility({
                               perm.permission === permission.permission &&
                               perm.permission === "manage"
                             );
-                          },
+                          }
                         );
                       }
 
@@ -86,7 +76,7 @@ export default function MemberDetailsAccessibility({
                 </Flex>
               ) : (
                 ""
-              ),
+              )
             )}
           </Flex>
         </Flex>

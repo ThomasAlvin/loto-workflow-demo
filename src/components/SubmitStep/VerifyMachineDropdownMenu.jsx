@@ -1,34 +1,9 @@
-import {
-  Box,
-  Button,
-  Center,
-  Collapse,
-  Flex,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Spinner,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useFormik } from "formik";
-import { useEffect, useRef, useState } from "react";
-import { AiOutlineCloudUpload } from "react-icons/ai";
-import { BsQrCode } from "react-icons/bs";
+import { Box, Button, Center, Flex, Input, Spinner } from "@chakra-ui/react";
 import QrScanner from "qr-scanner";
-import {
-  FaChevronDown,
-  FaFileCsv,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
+import { useRef, useState } from "react";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import { FiCheckCircle } from "react-icons/fi";
-import { GrPowerCycle } from "react-icons/gr";
-import { IoMdCheckmark } from "react-icons/io";
-import { IoWarning } from "react-icons/io5";
-import { LuUpload } from "react-icons/lu";
-import { MdKeyboardTab } from "react-icons/md";
-import tinycolor from "tinycolor2";
 
 export default function VerifyMachineDropdownMenu({ formik, machine }) {
   const fileInputRef = useRef();
@@ -126,20 +101,20 @@ export default function VerifyMachineDropdownMenu({ formik, machine }) {
     formik.errors.inputUID && formik.touched.inputUID
       ? true
       : formik.touched.inputUID
-        ? false
-        : null;
+      ? false
+      : null;
   const hasQrError =
     formik.errors.inputQrUID && formik.touched.inputQrUID
       ? true
       : formik.touched.inputQrUID
-        ? false
-        : null;
+      ? false
+      : null;
   const hasError =
     hasInputError || hasQrError
       ? true
       : hasInputError === false || hasQrError === false
-        ? false
-        : null;
+      ? false
+      : null;
 
   return (
     <Flex
@@ -512,9 +487,9 @@ export default function VerifyMachineDropdownMenu({ formik, machine }) {
                     hasInputError
                       ? "1px solid #dc143c"
                       : hasInputError === false &&
-                          formik.values.inputUID === formik.values.machineUID
-                        ? "1px solid #3D9666"
-                        : "1px solid #E2E8F0"
+                        formik.values.inputUID === formik.values.machineUID
+                      ? "1px solid #3D9666"
+                      : "1px solid #E2E8F0"
                   }
                   onBlur={formik.handleBlur}
                   onChange={(e) => {

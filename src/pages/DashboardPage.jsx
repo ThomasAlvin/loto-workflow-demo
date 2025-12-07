@@ -42,7 +42,7 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../api/api";
 import moment from "moment";
 import labelizeRole from "../utils/labelizeRole";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import { useNavigate } from "react-router-dom";
 import DashboardPageSkeleton from "../skeletons/DashboardPageSkeleton";
 import ListEmptyState from "../components/ListEmptyState";
@@ -673,7 +673,7 @@ export default function DashboardPage() {
                               employee_id: val?.creator?.member?.employee_id,
                             };
                         const { bgColor, textColor, icon, text } =
-                          TableStatusStyleMapper(val.status);
+                          tableStatusStyleMapper(val.status);
                         return (
                           <Tr fontSize={"14px"}>
                             <Td>
@@ -1054,7 +1054,7 @@ export default function DashboardPage() {
                     {dashboardData?.machines?.length ? (
                       dashboardData?.machines?.map((val) => {
                         const { bgColor, textColor, icon, text } =
-                          TableStatusStyleMapper(val.status);
+                          tableStatusStyleMapper(val.status);
                         return (
                           <Tr fontWeight={700} fontSize={"14px"}>
                             <Td>

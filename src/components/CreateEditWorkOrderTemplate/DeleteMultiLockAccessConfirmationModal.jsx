@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Divider,
   Flex,
@@ -19,13 +18,8 @@ import { useContext } from "react";
 export default function DeleteMultiLockAccessConfirmationModal() {
   const actionsRef = useContext(ActionsContext);
   const { deleteStep } = actionsRef.current;
-  const {
-    isOpen,
-    deleteTarget,
-    openDeleteConfirm,
-    closeDeleteConfirm,
-    modalDetails,
-  } = useDeleteContext();
+  const { isOpen, deleteTarget, closeDeleteConfirm, modalDetails } =
+    useDeleteContext();
   function deleteIndexes() {
     closeDeleteConfirm();
     deleteStep(deleteTarget);

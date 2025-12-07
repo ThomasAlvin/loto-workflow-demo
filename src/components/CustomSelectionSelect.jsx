@@ -6,10 +6,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -17,17 +13,10 @@ import {
   useDisclosure,
   useOutsideClick,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { useRef, useState } from "react";
 import { FaChevronDown, FaPlus } from "react-icons/fa6";
+import { IoMdInformationCircleOutline, IoMdSearch } from "react-icons/io";
 import { RiCloseFill } from "react-icons/ri";
-import {
-  IoMdClose,
-  IoMdCloseCircle,
-  IoMdInformationCircleOutline,
-  IoMdSearch,
-} from "react-icons/io";
-import { components } from "react-select";
 export default function CustomSelectionSelect({
   title,
   isLoading,
@@ -64,13 +53,13 @@ export default function CustomSelectionSelect({
                 (selected) =>
                   isArray
                     ? option.value.includes(selected.value) // Check overlap if option.value is an array
-                    : selected.value === option.value, // Direct match if option.value is a string
+                    : selected.value === option.value // Direct match if option.value is a string
               )
             : selectedOption !== option.value) // If selectedOption is a string, compare directly
         );
       });
   let hasExactSearch = !selection.filter(
-    (option) => option.label.toLowerCase() === searchTerm.toLowerCase(),
+    (option) => option.label.toLowerCase() === searchTerm.toLowerCase()
   ).length;
   if (hasExactSearch) {
     newOption = searchTerm;

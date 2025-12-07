@@ -1,7 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import { FaRegBell } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { IoNotificationsSharp } from "react-icons/io5";
 import { LuRefreshCw } from "react-icons/lu";
 import tinycolor from "tinycolor2";
 

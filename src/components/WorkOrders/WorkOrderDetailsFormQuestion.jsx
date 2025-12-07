@@ -1,26 +1,12 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionItem,
-  AccordionPanel,
-  Checkbox,
-  Flex,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
-import ResponseTypeMapper from "../../utils/ResponseTypeMapper";
-import QuestionTypeIconMapper from "../../utils/QuestionTypeIconMapper";
+import ResponseTypeMapper from "../../components/ResponseTypeMapper";
 import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
 
 export default function WorkOrderDetailsFormQuestion({
   val,
   index,
-  submissionIndex,
+  submisssionIndex,
   handleImageFocus,
 }) {
   return (

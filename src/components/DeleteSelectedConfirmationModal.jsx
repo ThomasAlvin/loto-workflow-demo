@@ -10,12 +10,10 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { FaRegTrashAlt } from "react-icons/fa";
-import formatString from "../utils/formatString";
-import checkHasPermission from "../utils/checkHasPermission";
 import { useSelector } from "react-redux";
+import checkHasPermission from "../utils/checkHasPermission";
 
 export default function DeleteSelectedConfirmationModal({
   variant,

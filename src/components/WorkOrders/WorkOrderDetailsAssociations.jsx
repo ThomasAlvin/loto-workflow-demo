@@ -1,18 +1,16 @@
 import { Avatar, Button, Flex, Image, Tooltip } from "@chakra-ui/react";
-import LabelizeRole from "../../utils/LabelizeRole";
 import {
-  FaRegEdit,
   FaTools,
   FaUser,
   FaUserAlt,
   FaUserEdit,
   FaUserTie,
 } from "react-icons/fa";
-import { FaRegBell, FaRegUser, FaUserPen, FaWrench } from "react-icons/fa6";
-import { MdImageNotSupported } from "react-icons/md";
+import { FaRegBell, FaWrench } from "react-icons/fa6";
 import { IoIosLock } from "react-icons/io";
 import { LuClipboardPen } from "react-icons/lu";
-import GetLockImageByModel from "../../utils/getLockImageByModel";
+import getLockImageByModel from "../../utils/getLockImageByModel";
+import labelizeRole from "../../utils/labelizeRole";
 
 export default function WorkOrderDetailsAssociation({
   variant,
@@ -23,12 +21,12 @@ export default function WorkOrderDetailsAssociation({
   const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const creatorInfo = workOrder?.creator?.is_superadmin
-    ? { ...workOrder?.creator, role: LabelizeRole("super_admin") }
+    ? { ...workOrder?.creator, role: labelizeRole("super_admin") }
     : {
         ...workOrder?.creator,
         first_name: workOrder?.creator?.first_name,
         last_name: workOrder?.creator?.last_name,
-        role: LabelizeRole(workOrder?.creator?.member?.role),
+        role: labelizeRole(workOrder?.creator?.member?.role),
         employee_id: workOrder?.creator?.member?.employee_id,
       };
   const uniqueRemindableAssigneesSet = new Set();
@@ -137,7 +135,7 @@ export default function WorkOrderDetailsAssociation({
                       (creatorInfo?.employee_id
                         ? " - " + creatorInfo.employee_id
                         : "")}
-                    {/* {LabelizeRole(assignee.role) + " - " + assignee.employee_id} */}
+                    {/* {labelizeRole(assignee.role) + " - " + assignee.employee_id} */}
                   </Flex>
                 </Flex>
               </Flex>
@@ -244,7 +242,7 @@ export default function WorkOrderDetailsAssociation({
                           alignItems={"center"}
                         >
                           {" "}
-                          {LabelizeRole(co_creator_member?.role) +
+                          {labelizeRole(co_creator_member?.role) +
                             " - " +
                             co_creator_member?.employee_id}
                         </Flex>
@@ -337,7 +335,7 @@ export default function WorkOrderDetailsAssociation({
                       alignItems={"center"}
                     >
                       {" "}
-                      {LabelizeRole(workOrder?.co_creator_member.role) +
+                      {labelizeRole(workOrder?.co_creator_member.role) +
                         " - " +
                         workOrder?.co_creator_member.employee_id}
                     </Flex>
@@ -498,7 +496,7 @@ export default function WorkOrderDetailsAssociation({
                         fontSize={"14px"}
                         alignItems={"center"}
                       >
-                        {LabelizeRole(assignee.role) +
+                        {labelizeRole(assignee.role) +
                           " - " +
                           assignee.employee_id}
                       </Flex>
@@ -667,7 +665,7 @@ export default function WorkOrderDetailsAssociation({
                       >
                         {notifiedMember.employee_id +
                           " - " +
-                          LabelizeRole(notifiedMember.role)}
+                          labelizeRole(notifiedMember.role)}
                       </Flex>
                     </Flex>
                   </Flex>
@@ -867,7 +865,7 @@ export default function WorkOrderDetailsAssociation({
                       <Flex color={"white"} fontSize={"20px"}>
                         {assignedLock.model ? (
                           <Image
-                            src={GetLockImageByModel(assignedLock.model)}
+                            src={getLockImageByModel(assignedLock.model)}
                           />
                         ) : (
                           <IoIosLock />
@@ -1007,7 +1005,7 @@ export default function WorkOrderDetailsAssociation({
                       >
                         {assignedReviewer.is_superadmin
                           ? "Super Admin"
-                          : LabelizeRole(assignedReviewer?.role) +
+                          : labelizeRole(assignedReviewer?.role) +
                             " - " +
                             assignedReviewer?.employee_id}
                       </Flex>

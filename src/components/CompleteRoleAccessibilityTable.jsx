@@ -1,31 +1,19 @@
 import {
-  Center,
-  Checkbox,
   Flex,
   Icon,
-  Spinner,
   Table,
   TableContainer,
   Tbody,
   Td,
   Th,
   Thead,
-  Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import formatString from "../utils/formatString";
-import { FaCheck, FaMinus } from "react-icons/fa";
-import ExampleModule from "../utils/ExampleModule";
-import {
-  IoMdCheckmark,
-  IoMdClose,
-  IoMdInformationCircleOutline,
-} from "react-icons/io";
-import DefaultRoleAccessibility from "../utils/DefaultRolesAccessibility";
-import DefaultRoles from "../utils/DefaultRoles";
-import ListEmptyState from "./ListEmptyState";
+import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 import starterGuideMemberAccessibility from "../constants/StarterGuideMemberAccessibility";
 import starterGuideMemberRoleAccessibilityValue from "../constants/StarterGuideMemberRoleAccessibilityValue";
+import defaultRoles from "../utils/defaultRoles";
+import formatString from "../utils/formatString";
 
 export default function CompleteRoleAccessibilityTable() {
   const isPermissionChecked = (role, moduleName, permissionName) => {
@@ -55,7 +43,7 @@ export default function CompleteRoleAccessibilityTable() {
               >
                 Modules
               </Th>
-              {DefaultRoles.map((val) => (
+              {defaultRoles.map((val) => (
                 <Th
                   w={"200px"}
                   px={"0px"}

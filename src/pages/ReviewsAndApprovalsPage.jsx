@@ -24,7 +24,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "../api/api";
 import { debounce } from "lodash";
 import ListEmptyState from "../components/ListEmptyState";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import ReviewMenu from "../components/Review/ReviewMenu";
 import moment from "moment";
 import formatString from "../utils/formatString";
@@ -313,10 +313,10 @@ export default function ReviewsAndApprovalsPage() {
             <Tbody>
               {reviews?.length ? (
                 reviews?.map((val, index) => {
-                  const statusTag = TableStatusStyleMapper(
+                  const statusTag = tableStatusStyleMapper(
                     "review-" + val.status
                   );
-                  const myResponseTag = TableStatusStyleMapper(
+                  const myResponseTag = tableStatusStyleMapper(
                     "review-" +
                       (isMultiAssign
                         ? val.work_order_reviewer?.work_order_reviewer_response

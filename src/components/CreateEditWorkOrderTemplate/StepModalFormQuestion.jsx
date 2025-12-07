@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import { v4 as uuid } from "uuid";
 import { memo, useCallback, useEffect, useRef } from "react";
-
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { RxDragHandleDots2 } from "react-icons/rx";

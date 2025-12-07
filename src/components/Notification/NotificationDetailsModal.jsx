@@ -11,15 +11,15 @@ import {
   ModalOverlay,
   Spinner,
 } from "@chakra-ui/react";
+import moment from "moment";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { GrMapLocation } from "react-icons/gr";
 import { HiWrenchScrewdriver } from "react-icons/hi2";
-import LabelizeRole from "../../utils/LabelizeRole";
-import moment from "moment";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import formatString from "../../utils/formatString";
-import GetNotificationLinkByEvent from "../../utils/GetNotificationLinkByEvent";
+import getNotificationLinkByEvent from "../../utils/getNotificationLinkByEvent";
+import labelizeRole from "../../utils/labelizeRole";
 
 export default function NotificationDetailsModal({
   val,
@@ -93,10 +93,10 @@ export default function NotificationDetailsModal({
                 {val?.type === "system"
                   ? "Digipas Technologies.Inc"
                   : val?.from_user?.is_superadmin
-                    ? LabelizeRole("super_admin")
-                    : val?.from_user?.member?.role
-                      ? LabelizeRole(val?.from_user?.member?.role)
-                      : "Role not found"}
+                  ? labelizeRole("super_admin")
+                  : val?.from_user?.member?.role
+                  ? labelizeRole(val?.from_user?.member?.role)
+                  : "Role not found"}
               </Flex>
             </Flex>
           </Flex>
@@ -150,9 +150,9 @@ export default function NotificationDetailsModal({
             </Flex>
           ) : (
             <>
-              {GetNotificationLinkByEvent(val.event, val.resource_UID) ? (
+              {getNotificationLinkByEvent(val.event, val.resource_UID) ? (
                 <Link
-                  to={GetNotificationLinkByEvent(val.event, val.resource_UID)}
+                  to={getNotificationLinkByEvent(val.event, val.resource_UID)}
                   onClick={() => {
                     onClose(); // Trigger your function
                   }}
@@ -176,7 +176,7 @@ export default function NotificationDetailsModal({
                       {formatString(
                         val?.event === "work_order_assigned"
                           ? "Assigned work order"
-                          : val.event,
+                          : val.event
                       )}{" "}
                       {val.resource_UID ? "" : "List"}
                     </Flex>

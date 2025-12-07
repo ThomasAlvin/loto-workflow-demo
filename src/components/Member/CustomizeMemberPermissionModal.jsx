@@ -1,15 +1,9 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionItem,
-  AccordionPanel,
   Box,
   Button,
   Center,
   Divider,
   Flex,
-  Input,
-  MenuItem,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,39 +12,13 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  Switch,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Textarea,
-  Th,
-  Thead,
   Tooltip,
-  Tr,
-  useDisclosure,
 } from "@chakra-ui/react";
-import ReactSelect from "react-select";
-import { FaChevronDown, FaPlus, FaTriangleExclamation } from "react-icons/fa6";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import { useEffect, useState } from "react";
-import WorkOrderDetailsFormQuestion from "../WorkOrders/WorkOrderDetailsFormQuestion";
-import { FaRegTrashAlt } from "react-icons/fa";
-import SwalErrorMessages from "../SwalErrorMessages";
-import {
-  IoIosInformation,
-  IoIosInformationCircle,
-  IoIosInformationCircleOutline,
-  IoMdInformationCircleOutline,
-  IoMdRefresh,
-} from "react-icons/io";
+import { useState } from "react";
+import { IoMdInformationCircleOutline, IoMdRefresh } from "react-icons/io";
 import tinycolor from "tinycolor2";
-import CustomizeMemberPermissionCard from "./CustomizeMemberPermissionCard";
 import formatString from "../../utils/formatString";
+import CustomizeMemberPermissionCard from "./CustomizeMemberPermissionCard";
 
 export default function CustomizeMemberPermissionModal({
   memberRole,
@@ -70,7 +38,7 @@ export default function CustomizeMemberPermissionModal({
   }
 
   const roleAccessibility = accessibilityOptions?.find(
-    (role) => role.name === memberRole,
+    (role) => role.name === memberRole
   );
   function permissionSwitchHandler(module, permission) {
     setCustomPermissions((prevState) => {
@@ -80,14 +48,14 @@ export default function CustomizeMemberPermissionModal({
           // Check if permission exists
 
           const permissionExists = prevModule.permissions.some(
-            (perm) => perm.permission === permission.permission,
+            (perm) => perm.permission === permission.permission
           );
 
           let updatedPermissions;
           if (permissionExists) {
             // Remove it
             updatedPermissions = prevModule.permissions.filter(
-              (perm) => perm.permission !== permission.permission,
+              (perm) => perm.permission !== permission.permission
             );
             // if (module.name === "work_orders") {
 
@@ -105,7 +73,7 @@ export default function CustomizeMemberPermissionModal({
               ];
 
               updatedPermissions = updatedPermissions.filter(
-                (perm) => !dependentPerms.includes(perm.permission),
+                (perm) => !dependentPerms.includes(perm.permission)
               );
             }
             if (
@@ -123,7 +91,7 @@ export default function CustomizeMemberPermissionModal({
             // Mutual exclusion
             if (module.name === "work_orders") {
               const hasWorkOrderManage = updatedPermissions.some(
-                (p) => p.permission === "manage",
+                (p) => p.permission === "manage"
               );
               if (!hasWorkOrderManage) {
                 updatedPermissions = [
@@ -134,14 +102,14 @@ export default function CustomizeMemberPermissionModal({
             }
             if (permission.permission === "view") {
               updatedPermissions = updatedPermissions.filter(
-                (p) => p.permission !== "view_assigned",
+                (p) => p.permission !== "view_assigned"
               );
               updatedPermissions = updatedPermissions.filter(
-                (p) => p.permission !== "view_owned",
+                (p) => p.permission !== "view_owned"
               );
             } else if (permission.permission === "view_owned") {
               updatedPermissions = updatedPermissions.filter(
-                (p) => p.permission !== "view_assigned",
+                (p) => p.permission !== "view_assigned"
               );
               if (
                 prevModule.name === "equipment_machines" ||
@@ -151,14 +119,14 @@ export default function CustomizeMemberPermissionModal({
                 removeManageWorkOrder = true;
               }
               updatedPermissions = updatedPermissions.filter(
-                (p) => p.permission !== "view",
+                (p) => p.permission !== "view"
               );
             } else if (permission.permission === "view_assigned") {
               updatedPermissions = updatedPermissions.filter(
-                (p) => p.permission !== "view_owned",
+                (p) => p.permission !== "view_owned"
               );
               updatedPermissions = updatedPermissions.filter(
-                (p) => p.permission !== "view",
+                (p) => p.permission !== "view"
               );
               if (
                 prevModule.name === "equipment_machines" ||
@@ -168,7 +136,7 @@ export default function CustomizeMemberPermissionModal({
                 removeManageWorkOrder = true;
               }
               updatedPermissions = updatedPermissions.filter(
-                (p) => p.permission !== "manage",
+                (p) => p.permission !== "manage"
               );
             }
 
@@ -182,23 +150,23 @@ export default function CustomizeMemberPermissionModal({
 
             if (needsView.includes(permission.permission)) {
               const hasViewOrViewOwned = updatedPermissions.some(
-                (p) => p.permission === "view" || p.permission === "view_owned",
+                (p) => p.permission === "view" || p.permission === "view_owned"
               );
 
               if (!hasViewOrViewOwned) {
                 updatedPermissions = updatedPermissions.filter(
-                  (p) => p.permission !== "view_assigned",
+                  (p) => p.permission !== "view_assigned"
                 );
 
                 if (
                   module.permissions.some(
-                    (modulePerm) => modulePerm.permission === "view_owned",
+                    (modulePerm) => modulePerm.permission === "view_owned"
                   )
                 ) {
                   updatedPermissions.push({ permission: "view_owned" });
                 } else if (
                   module.permissions.some(
-                    (modulePerm) => modulePerm.permission === "view",
+                    (modulePerm) => modulePerm.permission === "view"
                   )
                 ) {
                   updatedPermissions.push({ permission: "view" });
@@ -220,7 +188,7 @@ export default function CustomizeMemberPermissionModal({
         const permissionExists = prevState
           .find((prevModule) => prevModule.name === "work_orders")
           .permissions.some(
-            (perm) => perm.permission === permission.permission,
+            (perm) => perm.permission === permission.permission
           );
         console.log(permissionExists);
 
@@ -246,10 +214,10 @@ export default function CustomizeMemberPermissionModal({
                 ];
 
                 updatedPermissions = updatedPermissions.filter(
-                  (p) => p.permission !== "view_assigned",
+                  (p) => p.permission !== "view_assigned"
                 );
                 updatedPermissions = updatedPermissions.filter(
-                  (p) => p.permission !== "view_owned",
+                  (p) => p.permission !== "view_owned"
                 );
 
                 return {
@@ -277,8 +245,7 @@ export default function CustomizeMemberPermissionModal({
               .find((prevModule2) => prevModule2.name === "work_orders")
               .permissions.some(
                 (perm) =>
-                  perm.permission === "view" ||
-                  perm.permission === "view_owned",
+                  perm.permission === "view" || perm.permission === "view_owned"
               );
             //terakhir edit the work orders dibilang gk ad permission manage??
             console.log(prevState);
@@ -294,7 +261,7 @@ export default function CustomizeMemberPermissionModal({
                     p.permission === "view" ||
                     p.permission === "view_owned" ||
                     p.permission === "manage"
-                  ),
+                  )
               );
               console.log(updatedPermissions);
 
@@ -421,7 +388,7 @@ export default function CustomizeMemberPermissionModal({
                     <Button
                       onClick={() => {
                         setCustomPermissions(
-                          getNewRoleSettingsByRole(memberRole),
+                          getNewRoleSettingsByRole(memberRole)
                         );
                       }}
                       _hover={{
@@ -470,7 +437,7 @@ export default function CustomizeMemberPermissionModal({
                             }
 
                             const accessibilityModule = customPermissions.find(
-                              (moduleValue) => moduleValue.name === module.name,
+                              (moduleValue) => moduleValue.name === module.name
                             );
                             let hasPermission =
                               !!accessibilityModule?.permissions?.find(
@@ -478,7 +445,7 @@ export default function CustomizeMemberPermissionModal({
                                   return (
                                     perm.permission === permission.permission
                                   );
-                                },
+                                }
                               );
                             if (module === "work_orders") {
                               hasPermission =
@@ -489,7 +456,7 @@ export default function CustomizeMemberPermissionModal({
                                         permission.permission &&
                                       perm.permission === "manage"
                                     );
-                                  },
+                                  }
                                 );
                             }
 
@@ -511,7 +478,7 @@ export default function CustomizeMemberPermissionModal({
                       </Flex>
                     ) : (
                       ""
-                    ),
+                    )
                   )}
                 </Flex>
               </Flex>

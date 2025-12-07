@@ -13,20 +13,11 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
-
-import { MdOutlineDriveFolderUpload } from "react-icons/md";
-import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import SwalErrorMessages from "../SwalErrorMessages";
-import { useNavigate, useParams } from "react-router-dom";
-import { RiDraftLine } from "react-icons/ri";
-import { FaFlag } from "react-icons/fa6";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
-import LabelizeRole from "../../utils/LabelizeRole";
 import moment from "moment";
 import { FaCheck, FaUserAlt } from "react-icons/fa";
-import { filter } from "lodash";
+import { FaFlag } from "react-icons/fa6";
+import labelizeRole from "../../utils/labelizeRole";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 
 export default function ViewLatestReviewModal({ latestReview }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -79,7 +70,7 @@ export default function ViewLatestReviewModal({ latestReview }) {
             <Flex flexDir={"column"} gap={"10px"}>
               {latestReview.map((val, index) => {
                 const { bgColor, icon, textColor, text } =
-                  TableStatusStyleMapper(
+                  tableStatusStyleMapper(
                     "review-" + val.work_order_reviewer_response.status
                   );
                 const filteredReviewer = val.super_admin
@@ -140,7 +131,7 @@ export default function ViewLatestReviewModal({ latestReview }) {
                               <Flex fontSize={"14px"} color={"#848484"}>
                                 {filteredReviewer?.is_superadmin
                                   ? "Super Admin"
-                                  : LabelizeRole(filteredReviewer?.role) +
+                                  : labelizeRole(filteredReviewer?.role) +
                                     " - " +
                                     filteredReviewer?.employee_id}
                               </Flex>

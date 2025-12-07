@@ -15,15 +15,14 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { MdOutlineDriveFolderUpload } from "react-icons/md";
-import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import SwalErrorMessages from "../SwalErrorMessages";
-import { useNavigate, useParams } from "react-router-dom";
-import { RiDraftLine } from "react-icons/ri";
-import convertToFormData from "../../utils/ConvertToFormData";
 import { useReactFlow } from "@xyflow/react";
+import { RiDraftLine } from "react-icons/ri";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import { api } from "../../api/api";
+import convertToFormData from "../../utils/convertToFormData";
 import getConnectedNodes from "../../utils/getConnectedNodes";
+import SwalErrorMessages from "../SwalErrorMessages";
 
 export default function WorkOrderSaveAsDraftConfirmationModal({
   variant,
@@ -87,7 +86,7 @@ export default function WorkOrderSaveAsDraftConfirmationModal({
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
 
       Swal.fire({

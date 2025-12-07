@@ -1,21 +1,12 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Icon,
-  Tooltip,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Flex, Icon, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { useReactFlow } from "@xyflow/react";
 import { FaExpand, FaTrashAlt } from "react-icons/fa";
 import { FiZoomIn, FiZoomOut } from "react-icons/fi";
-import { IoIosLock, IoIosUnlock, IoMdClose } from "react-icons/io";
-import { LuLayoutGrid, LuNetwork } from "react-icons/lu";
+import { IoIosLock, IoIosUnlock } from "react-icons/io";
+import { LuLayoutGrid } from "react-icons/lu";
 import { MdOutlineZoomInMap, MdOutlineZoomOutMap } from "react-icons/md";
-import { useReactFlow } from "@xyflow/react";
-import getConnectedNodes from "../utils/getConnectedNodes";
-import { TbLayoutGrid } from "react-icons/tb";
-import ConfirmationModal from "./ConfirmationModal";
 import autoArrangeNodes from "../utils/autoArrangeNodes";
+import ConfirmationModal from "./ConfirmationModal";
 
 export default function CustomReactFlowControls({
   isFullScreen,

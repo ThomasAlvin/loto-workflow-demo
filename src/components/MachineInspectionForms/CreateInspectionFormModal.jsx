@@ -4,7 +4,6 @@ import {
   Divider,
   Flex,
   Input,
-  MenuItem,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,27 +12,20 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
-import CreatableSelect from "react-select/creatable";
-import {
-  FaMagnifyingGlass,
-  FaPlus,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import CreateInspectionFormModalFormQuestion from "./CreateInspectionFormModalFormQuestion";
-import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
 import { VscEmptyWindow } from "react-icons/vsc";
-import SwalErrorMessages from "../SwalErrorMessages";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as Yup from "yup";
+import { api } from "../../api/api";
+import convertToFormData from "../../utils/convertToFormData";
 import CustomSelectionSelect from "../CustomSelectionSelect";
-import convertToFormData from "../../utils/ConvertToFormData";
+import SwalErrorMessages from "../SwalErrorMessages";
+import CreateInspectionFormModalFormQuestion from "./CreateInspectionFormModalFormQuestion";
 
 export default function CreateInspectionFormModal({
   fetchInspectionForms,
@@ -102,12 +94,12 @@ export default function CreateInspectionFormModal({
                     .of(Yup.string().trim().required("Option cannot be empty")) // Each option must be a string
                     .min(
                       2,
-                      "At least two options are required for Multiple Choice",
+                      "At least two options are required for Multiple Choice"
                     )
                     .test("unique", "Options must be unique", (value) => {
                       if (!value) return true; // Skip if undefined, let required/min handle it
                       const trimmed = value.map((v) =>
-                        typeof v === "string" ? v.trim() : "",
+                        typeof v === "string" ? v.trim() : ""
                       );
                       const unique = new Set(trimmed);
                       return unique.size === trimmed.length;
@@ -118,15 +110,13 @@ export default function CreateInspectionFormModal({
                     then: () =>
                       Yup.array()
                         .of(
-                          Yup.string()
-                            .trim()
-                            .required("Option cannot be empty"),
+                          Yup.string().trim().required("Option cannot be empty")
                         ) // Each option must be a string
                         .min(1, "At least one option is required for Checkbox")
                         .test("unique", "Options must be unique", (value) => {
                           if (!value) return true; // Skip if undefined, let required/min handle it
                           const trimmed = value.map((v) =>
-                            typeof v === "string" ? v.trim() : "",
+                            typeof v === "string" ? v.trim() : ""
                           );
                           const unique = new Set(trimmed);
                           return unique.size === trimmed.length;
@@ -135,7 +125,7 @@ export default function CreateInspectionFormModal({
                   }),
               }),
             }),
-          }),
+          })
         ),
         formQuestionsSize: Yup.number().when("formQuestions", {
           is: (data) => {
@@ -144,7 +134,7 @@ export default function CreateInspectionFormModal({
           then: (schema) =>
             schema.required("At least one question is required"),
         }),
-      }),
+      })
     ),
     mode: "onTouched",
     reValidateMode: "onChange",

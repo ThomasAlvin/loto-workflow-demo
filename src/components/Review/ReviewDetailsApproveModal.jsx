@@ -15,11 +15,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import SwalErrorMessages from "../SwalErrorMessages";
 import { FiCheckCircle } from "react-icons/fi";
+import Swal from "sweetalert2";
 import tinycolor from "tinycolor2";
+import { api } from "../../api/api";
+import SwalErrorMessages from "../SwalErrorMessages";
 
 export default function ReviewDetailsApproveModal({
   fetchReviewDetails,

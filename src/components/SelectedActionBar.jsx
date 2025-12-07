@@ -1,5 +1,4 @@
-import { Button, Flex, Tooltip } from "@chakra-ui/react";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { Button, Flex } from "@chakra-ui/react";
 import DeleteSelectedConfirmationModal from "./DeleteSelectedConfirmationModal";
 
 export default function SelectedActionBar({

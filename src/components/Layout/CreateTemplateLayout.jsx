@@ -1,9 +1,8 @@
-import { Box, Center, Divider, Flex, Spinner } from "@chakra-ui/react";
-import CreateTemplateNavbar from "../CreateTemplate/CreateTemplateNavbar";
-import { useState } from "react";
+import { Flex } from "@chakra-ui/react";
 import { useLoading } from "../../service/LoadingContext";
-import LoadingOverlay from "../LoadingOverlay";
+import CreateTemplateNavbar from "../CreateTemplate/CreateTemplateNavbar";
 import CreateTemplateAndWorkOrderSidebar from "../CreateTemplateAndWorkOrderSidebar";
+import LoadingOverlay from "../LoadingOverlay";
 
 export default function CreateTemplateLayout({
   children,

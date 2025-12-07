@@ -1,35 +1,20 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Divider,
-  Flex,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
-import { FaArrowLeftLong, FaChevronUp } from "react-icons/fa6";
-import { MdFileDownload } from "react-icons/md";
+import { Box, Button, Divider, Flex } from "@chakra-ui/react";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   useLocation,
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { FaRegFilePdf, FaRegFileWord, FaSearch } from "react-icons/fa";
-import { api } from "../../api/api";
 import Swal from "sweetalert2";
-import SwalErrorMessages from "../SwalErrorMessages";
-import { FiCheckCircle, FiXCircle } from "react-icons/fi";
-import ReviewDetailsRejectModal from "../Review/ReviewDetailsRejectModal";
-import ReviewDetailsApproveModal from "../Review/ReviewDetailsApproveModal";
-import { useState } from "react";
-import { IoSearch } from "react-icons/io5";
+import { api } from "../../api/api";
 import checkHasPermission from "../../utils/checkHasPermission";
-import { useSelector } from "react-redux";
+import ReviewDetailsApproveModal from "../Review/ReviewDetailsApproveModal";
+import ReviewDetailsRejectModal from "../Review/ReviewDetailsRejectModal";
+import SwalErrorMessages from "../SwalErrorMessages";
 export default function WorkOrderDetailsNavbar({
   variant,
   workOrderReviewerStatus,

@@ -3,13 +3,10 @@ import {
   AccordionButton,
   AccordionItem,
   AccordionPanel,
-  Checkbox,
   Flex,
-  Textarea,
 } from "@chakra-ui/react";
 import { FaChevronDown } from "react-icons/fa";
-import ResponseTypeMapper from "../../utils/ResponseTypeMapper";
-import QuestionTypeIconMapper from "../../utils/QuestionTypeIconMapper";
+import ResponseTypeMapper from "../../components/ResponseTypeMapper";
 import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
 
 export default function CreateWorkOrderDetailsStepInspectionForm({
@@ -204,7 +201,7 @@ export default function CreateWorkOrderDetailsStepInspectionForm({
                                   borderRadius={"20px"}
                                   p={"5px"}
                                 >
-                                  {QuestionTypeIconMapper(
+                                  {questionTypeIconMapper(
                                     inspectionQuestion.question_type
                                   )}
                                 </Flex>

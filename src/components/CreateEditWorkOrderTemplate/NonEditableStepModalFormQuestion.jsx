@@ -14,7 +14,6 @@ function NonEditableStepModalFormQuestionMemo({
   formikErrorRefs,
   title,
   required,
-  accordionOpen,
   type,
   setStepDetails,
   index,

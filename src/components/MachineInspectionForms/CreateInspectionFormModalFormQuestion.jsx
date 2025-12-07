@@ -1,13 +1,11 @@
 import {
   Accordion,
   AccordionButton,
-  AccordionIcon,
   AccordionItem,
   AccordionPanel,
   Button,
   Checkbox,
   Flex,
-  Icon,
   Input,
   InputGroup,
   InputRightElement,
@@ -16,7 +14,6 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
-  Radio,
   Select,
   Table,
   Tbody,
@@ -27,33 +24,15 @@ import {
   Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import { v4 as uuid } from "uuid";
-import { memo, useRef, useState } from "react";
-import { PiTextTBold } from "react-icons/pi";
-import {
-  IoMdCheckboxOutline,
-  IoMdRadioButtonOn,
-  IoMdSettings,
-} from "react-icons/io";
-import { CiSliderHorizontal } from "react-icons/ci";
-import {
-  FaChevronDown,
-  FaChevronRight,
-  FaFilePdf,
-  FaFileWord,
-  FaLock,
-  FaPlus,
-  FaRegCalendar,
-  FaRegImage,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
-import { FaRegTrashAlt, FaUserAlt } from "react-icons/fa";
-import { RxDragHandleDots2 } from "react-icons/rx";
-import QuestionTypeIconMapper from "../../utils/QuestionTypeIconMapper";
+import { useState } from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { FaChevronRight, FaPlus, FaTriangleExclamation } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { LuCopyPlus } from "react-icons/lu";
-import { InputOptions, UnitOptions } from "../../utils/OptionsUtils";
-import FormQuestionAccordionPanel from "../FormQuestionAccordionPanel";
+import { RxDragHandleDots2 } from "react-icons/rx";
+import { v4 as uuid } from "uuid";
+import { InputOptions, UnitOptions } from "../../utils/optionsUtils";
+import questionTypeIconMapper from "../../utils/questionTypeIconMapper";
 
 function CreateInspectionFormModalFormQuestion({
   key,
@@ -91,7 +70,7 @@ function CreateInspectionFormModalFormQuestion({
           };
         }
         return item;
-      }),
+      })
     );
   }
 
@@ -114,7 +93,7 @@ function CreateInspectionFormModalFormQuestion({
           };
         }
         return item;
-      }),
+      })
     );
   }
 
@@ -130,7 +109,7 @@ function CreateInspectionFormModalFormQuestion({
           };
         }
         return item;
-      }),
+      })
     );
   }
 
@@ -150,7 +129,7 @@ function CreateInspectionFormModalFormQuestion({
           };
         }
         return item;
-      }),
+      })
       // { shouldValidate: true }
     );
   }
@@ -172,7 +151,7 @@ function CreateInspectionFormModalFormQuestion({
           };
         }
         return item;
-      }),
+      })
     );
     await trigger("formQuestions");
   }
@@ -295,7 +274,7 @@ function CreateInspectionFormModalFormQuestion({
                       borderRadius={"20px"}
                       p={"5px"}
                     >
-                      {QuestionTypeIconMapper(type.title)}
+                      {questionTypeIconMapper(type.title)}
                     </Flex>
                     <Flex>{type.title}</Flex>
                   </Flex>
@@ -322,7 +301,7 @@ function CreateInspectionFormModalFormQuestion({
                                   borderRadius={"20px"}
                                   p={"5px"}
                                 >
-                                  {QuestionTypeIconMapper(val2.title)}
+                                  {questionTypeIconMapper(val2.title)}
                                 </Flex>
                                 <Flex>{val2.title}</Flex>
                               </Flex>
@@ -567,7 +546,7 @@ function CreateInspectionFormModalFormQuestion({
                               </Flex>
                               <Flex>
                                 {Array.isArray(
-                                  errors?.formQuestions[index]?.type?.options,
+                                  errors?.formQuestions[index]?.type?.options
                                 )
                                   ? // Use find to get the first truthy value
                                     errors?.formQuestions[
@@ -593,13 +572,13 @@ function CreateInspectionFormModalFormQuestion({
 
                                 <Input
                                   {...register(
-                                    `formQuestions[${index}].type.options[${optionIndex}]`,
+                                    `formQuestions[${index}].type.options[${optionIndex}]`
                                   )}
                                   placeholder={"Option " + (optionIndex + 1)}
                                   color={"black"}
                                   onBlur={() => {
                                     trigger(
-                                      `formQuestions[${index}].type.options`,
+                                      `formQuestions[${index}].type.options`
                                     );
                                   }}
                                   variant={"flushed"}
@@ -670,7 +649,7 @@ function CreateInspectionFormModalFormQuestion({
                               </Flex>
                               <Flex>
                                 {Array.isArray(
-                                  errors?.formQuestions[index]?.type?.options,
+                                  errors?.formQuestions[index]?.type?.options
                                 )
                                   ? // Use find to get the first truthy value
                                     errors?.formQuestions[
@@ -695,14 +674,14 @@ function CreateInspectionFormModalFormQuestion({
                                 />
                                 <Input
                                   {...register(
-                                    `formQuestions[${index}].type.options[${optionIndex}]`,
+                                    `formQuestions[${index}].type.options[${optionIndex}]`
                                   )}
                                   placeholder={"Option " + (optionIndex + 1)}
                                   color={"black"}
                                   variant={"flushed"}
                                   onBlur={() => {
                                     trigger(
-                                      `formQuestions[${index}].type.options`,
+                                      `formQuestions[${index}].type.options`
                                     );
                                   }}
                                   // value={val}
@@ -773,7 +752,7 @@ function CreateInspectionFormModalFormQuestion({
                               </Flex>
                               <Flex>
                                 {Array.isArray(
-                                  errors.formQuestions[index]?.type?.options,
+                                  errors.formQuestions[index]?.type?.options
                                 )
                                   ? errors.formQuestions[
                                       index
@@ -894,7 +873,7 @@ function CreateInspectionFormModalFormQuestion({
                                         <Flex flexDir={"column"}>
                                           <Input
                                             {...register(
-                                              `formQuestions[${index}].type.options[${optionIndex}]`,
+                                              `formQuestions[${index}].type.options[${optionIndex}]`
                                             )}
                                             px={"10px"}
                                             placeholder={
@@ -902,7 +881,7 @@ function CreateInspectionFormModalFormQuestion({
                                             }
                                             onBlur={() => {
                                               trigger(
-                                                `formQuestions[${index}].type.options`,
+                                                `formQuestions[${index}].type.options`
                                               );
                                             }}
                                             color={"black"}

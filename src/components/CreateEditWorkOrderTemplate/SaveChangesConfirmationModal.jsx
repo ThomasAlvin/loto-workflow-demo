@@ -19,7 +19,7 @@ import SwalErrorMessages from "../SwalErrorMessages";
 import { api } from "../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import formatString from "../../utils/formatString";
-import convertToFormData from "../../utils/ConvertToFormData";
+import convertToFormData from "../../utils/convertToFormData";
 
 export default function SaveChangesConfirmationModal({
   module,
@@ -77,7 +77,7 @@ export default function SaveChangesConfirmationModal({
             ...(variant === "edit"
               ? {
                   access: moduleDetails.access.filter(
-                    (templateAccess) => templateAccess.role !== "owner",
+                    (templateAccess) => templateAccess.role !== "owner"
                   ),
                 }
               : {}),
@@ -97,16 +97,16 @@ export default function SaveChangesConfirmationModal({
             ? `template/${UID}?status=draft`
             : `template?status=draft`
           : module === "work_order"
-            ? variant === "edit"
-              ? `work-order/${UID}?status=draft`
-              : `work-order?status=draft`
-            : "",
+          ? variant === "edit"
+            ? `work-order/${UID}?status=draft`
+            : `work-order?status=draft`
+          : "",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
 
       Swal.fire({
@@ -195,13 +195,13 @@ export default function SaveChangesConfirmationModal({
                         module,
                         false,
                         true,
-                        false,
+                        false
                       )}`
                     : `You have made changes to the ${formatString(
                         module,
                         false,
                         true,
-                        false,
+                        false
                       )}. Exiting this page will permanently discard them`}
                 </Flex>
               </Flex>

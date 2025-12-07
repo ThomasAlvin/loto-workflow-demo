@@ -1,7 +1,7 @@
-import { Flex, Button, Image } from "@chakra-ui/react";
-import React, { useRef } from "react";
-import { MdFileDownload } from "react-icons/md";
+import { Button, Flex, Image } from "@chakra-ui/react";
 import { QRCodeCanvas } from "qrcode.react";
+import { useRef } from "react";
+import { MdFileDownload } from "react-icons/md";
 const QRCodeGenerator = ({ QRCodeValue, QrCodeFileName }) => {
   const QRcodeRef = useRef(null); // Reference to the QRCode container
 

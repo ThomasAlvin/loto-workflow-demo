@@ -1,7 +1,6 @@
-import { Box, Center, Divider, Flex, Spinner } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useLoading } from "../../service/LoadingContext";
 import LoadingOverlay from "../LoadingOverlay";
-import ReportDetailsNavbar from "../Report/ReportDetailsNavbar";
 import WorkOrderDetailsNavbar from "../WorkOrders/WorkOrderDetailsNavbar";
 
 export default function WorkOrderDetailsLayout({

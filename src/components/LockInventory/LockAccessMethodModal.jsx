@@ -1,29 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
 import {
-  Flex,
-  useDisclosure,
-  Divider,
-  ModalOverlay,
-  ModalContent,
   Button,
+  Divider,
+  Flex,
   Modal,
-  ModalHeader,
   ModalBody,
-  ModalFooter,
-  Image,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 
-import {
-  FaArrowsAlt,
-  FaEdit,
-  FaInfoCircle,
-  FaPlus,
-  FaTag,
-  FaUserAlt,
-} from "react-icons/fa";
-import { IoIosLock, IoIosMail, IoMdSearch } from "react-icons/io";
-import GetLockImageByModel from "../../utils/getLockImageByModel";
+import { FaPlus } from "react-icons/fa";
 
 export default function LockAccessMethodModal({ lockInput }) {
   const { isOpen, onClose, onOpen } = useDisclosure();

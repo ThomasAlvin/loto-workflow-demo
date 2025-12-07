@@ -1,10 +1,9 @@
-import React from "react";
 import { Flex, Tooltip } from "@chakra-ui/react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
-import Can from "../../utils/Can";
-import EquipmentMachineDownloadQRCode from "./EquipmentMachineDownloadQRCode";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { useLocation, useNavigate } from "react-router-dom";
+import Can from "../../components/Can";
+import EquipmentMachineDownloadQRCode from "./EquipmentMachineDownloadQRCode";
 export default function EquipmentMachineMenu({
   pageModule,
   val,

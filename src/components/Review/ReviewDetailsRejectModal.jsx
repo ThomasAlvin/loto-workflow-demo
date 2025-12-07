@@ -3,8 +3,6 @@ import {
   Button,
   Divider,
   Flex,
-  Input,
-  MenuItem,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -15,28 +13,15 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
-import CreatableSelect from "react-select/creatable";
-import {
-  FaFlag,
-  FaMagnifyingGlass,
-  FaPlus,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useFormik } from "formik";
+import { FaFlag, FaTriangleExclamation } from "react-icons/fa6";
+import { FiXCircle } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import tinycolor from "tinycolor2";
 import * as Yup from "yup";
 import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { VscEmptyWindow } from "react-icons/vsc";
 import SwalErrorMessages from "../SwalErrorMessages";
-import CustomSelectionSelect from "../CustomSelectionSelect";
-import { FiXCircle } from "react-icons/fi";
-import { IoCloseSharp } from "react-icons/io5";
-import { useFormik } from "formik";
-import tinycolor from "tinycolor2";
 
 export default function ReviewDetailsRejectModal({
   fetchReviewDetails,
@@ -178,8 +163,7 @@ export default function ReviewDetailsRejectModal({
                     justifyContent={"space-between"}
                   >
                     <Flex>
-                      You indicated that the following steps require
-                      attention.{" "}
+                      You indicated that the following steps require attention.{" "}
                     </Flex>
                   </Flex>
                 </Flex>

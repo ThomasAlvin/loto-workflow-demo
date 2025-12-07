@@ -22,7 +22,7 @@ import { FieldArray, FormikProvider } from "formik";
 import SelectLockAssignFormikProvider from "../CreateEditWorkOrderTemplate/SelectLockAssignFormikProvider";
 import { debounce } from "lodash";
 import ReactSelectMemberMultiValue from "../ReactSelectMemberMultiValue";
-import DynamicPropsComparator from "../../utils/DynamicPropsComparator";
+import dynamicPropsComparator from "../../utils/dynamicPropsComparator";
 import { TbLineScan } from "react-icons/tb";
 
 function StepDetailsDrawerAssignmentMemo({
@@ -962,7 +962,7 @@ function StepDetailsDrawerAssignmentMemo({
 }
 const StepDetailsDrawerAssignment = memo(
   StepDetailsDrawerAssignmentMemo,
-  DynamicPropsComparator
+  dynamicPropsComparator
 );
 
 // Export the memoized component

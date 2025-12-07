@@ -1,8 +1,8 @@
-import { Divider, Flex } from "@chakra-ui/react";
-import WorkOrderNavbar from "../CreateWorkOrder/WorkOrderNavbar";
-import LoadingOverlay from "../LoadingOverlay";
+import { Flex } from "@chakra-ui/react";
 import { useLoading } from "../../service/LoadingContext";
 import CreateTemplateAndWorkOrderSidebar from "../CreateTemplateAndWorkOrderSidebar";
+import WorkOrderNavbar from "../CreateWorkOrder/WorkOrderNavbar";
+import LoadingOverlay from "../LoadingOverlay";
 
 export default function CreateWorkOrderLayout({
   children,

@@ -16,15 +16,15 @@ import {
 } from "@chakra-ui/react";
 import { BiExport } from "react-icons/bi";
 
-import { LuDownload, LuUpload } from "react-icons/lu";
-import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useRef, useState } from "react";
-import { FaFileCsv, FaTriangleExclamation } from "react-icons/fa6";
-import { api } from "../api/api";
-import Swal from "sweetalert2";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import { FaFileCsv, FaTriangleExclamation } from "react-icons/fa6";
+import { LuUpload } from "react-icons/lu";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
+import { api } from "../api/api";
 
 export default function ImportListModal({
   variant,
@@ -64,7 +64,7 @@ export default function ImportListModal({
             if (!value) return false; // If no file is uploaded
             return value?.name?.endsWith(".csv"); // Validate file extension
           }),
-      }),
+      })
     ),
     mode: "onTouched",
     reValidateMode: "onChange",

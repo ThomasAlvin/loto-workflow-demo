@@ -1,6 +1,6 @@
 import { Flex, useDisclosure } from "@chakra-ui/react";
 import AddStepModal from "./AddStepModal";
-import GeneralStepsData from "../../utils/GeneralStepsData";
+import generalStepsData from "../../utils/generalStepsData";
 import StepModal from "../CreateTemplate/StepModal";
 import { IoCloseSharp } from "react-icons/io5";
 import { FiChevronsRight } from "react-icons/fi";
@@ -14,7 +14,7 @@ export default function ReactFlowDragAndDropSidebar({
   formikSetValues,
   variant,
 }) {
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure({
+  const { isOpen, onClose, onToggle } = useDisclosure({
     defaultIsOpen: true,
   });
   const nodeGhostRef = useRef();
@@ -117,7 +117,7 @@ export default function ReactFlowDragAndDropSidebar({
                 variant={variant}
               />
               <Flex px={"14px"} flexDir={"column"} gap={"16px"}>
-                {GeneralStepsData?.map((val, index) => {
+                {generalStepsData?.map((val, index) => {
                   return (
                     <Flex
                       cursor={"grab"}

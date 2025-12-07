@@ -1,43 +1,18 @@
 import {
   Avatar,
-  Box,
-  Button,
   Divider,
   Flex,
-  Grid,
-  GridItem,
-  Input,
-  MenuItem,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Tag,
-  TagLabel,
-  Textarea,
-  Tooltip,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
-import ReactSelect from "react-select";
-import CreatableSelect from "react-select/creatable";
-import {
-  FaMagnifyingGlass,
-  FaPlus,
-  FaRegUser,
-  FaTriangleExclamation,
-  FaWrench,
-} from "react-icons/fa6";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 import { FaBuilding, FaUserAlt } from "react-icons/fa";
-import LabelizeRole from "../../utils/LabelizeRole";
+import { FaRegUser } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import labelizeRole from "../../utils/labelizeRole";
 
 export default function DepartmentDetailsModal({
   selectedDepartmentDetails,
@@ -196,7 +171,7 @@ export default function DepartmentDetailsModal({
                                       val.user.last_name}
                                   </Flex>
                                   <Flex fontSize={"14px"} color={"#848484"}>
-                                    {LabelizeRole(val.role) +
+                                    {labelizeRole(val.role) +
                                       " - " +
                                       val.employee_id}
                                   </Flex>
@@ -208,7 +183,7 @@ export default function DepartmentDetailsModal({
                             </Flex>
                             <Divider borderColor={"#bababa"} m={0}></Divider>
                           </>
-                        ),
+                        )
                       )
                     ) : (
                       <Flex

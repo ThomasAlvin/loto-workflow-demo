@@ -1,10 +1,7 @@
 import {
-  Box,
   Button,
-  Checkbox,
   Divider,
   Flex,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -12,26 +9,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tooltip,
-  Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { FaRegEdit } from "react-icons/fa";
-import { FaMagnifyingGlass, FaTriangleExclamation } from "react-icons/fa6";
-import { ImCheckmark } from "react-icons/im";
-import moment from "moment";
+import { useState } from "react";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
-import { api } from "../../api/api";
 import Swal from "sweetalert2";
-import SwalErrorMessages from "../SwalErrorMessages";
 import tinycolor from "tinycolor2";
+import SwalErrorMessages from "../SwalErrorMessages";
 
 export default function NotificationMarkAllAsReadConfirmationModal({
   variant,

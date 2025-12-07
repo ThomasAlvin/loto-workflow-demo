@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import { Box, Flex, Spinner, Tooltip } from "@chakra-ui/react";
-import { FaEllipsisVertical, FaMagnifyingGlass } from "react-icons/fa6";
-import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { Flex, Spinner, Tooltip } from "@chakra-ui/react";
+import { useState } from "react";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 // import LockDetailsModal from "./LockDetailsModal";
-import { useLocation, useNavigate } from "react-router-dom";
-import ReportDownloadQRCode from "./ReportDownloadQRCode";
-import Can from "../../utils/Can";
-import { TbFileDownload } from "react-icons/tb";
 import { GrDocumentDownload } from "react-icons/gr";
-import { api } from "../../api/api";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { api } from "../../api/api";
 import SwalErrorMessages from "../SwalErrorMessages";
+import ReportDownloadQRCode from "./ReportDownloadQRCode";
 export default function ReportMenu({ reportUID, reportName, deleteReport }) {
   const nav = useNavigate();
   const location = useLocation();

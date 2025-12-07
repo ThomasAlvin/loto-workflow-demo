@@ -6,10 +6,10 @@ import {
   GridItem,
   Tooltip,
 } from "@chakra-ui/react";
-import { FaRegBell, FaUserAlt } from "react-icons/fa";
-import LabelizeRole from "../utils/LabelizeRole";
 import { memo, useState } from "react";
-import DynamicPropsComparator from "../utils/DynamicPropsComparator";
+import { FaRegBell, FaUserAlt } from "react-icons/fa";
+import dynamicPropsComparator from "../utils/dynamicPropsComparator";
+import labelizeRole from "../utils/labelizeRole";
 
 function MemberGroupList({
   memberArray,
@@ -29,16 +29,16 @@ function MemberGroupList({
   const modifiedMemberArray = isDataUserFirst
     ? memberArray.map((memArr) => ({ ...memArr.member, user: memArr }))
     : isReport
-      ? memberArray.map((memArr) => ({
-          ...memArr,
-          user: {
-            first_name: memArr.first_name,
-            last_name: memArr.last_name,
-            profile_image_url: memArr.profile_image_url,
-            is_superadmin: memArr?.is_superadmin,
-          },
-        }))
-      : memberArray;
+    ? memberArray.map((memArr) => ({
+        ...memArr,
+        user: {
+          first_name: memArr.first_name,
+          last_name: memArr.last_name,
+          profile_image_url: memArr.profile_image_url,
+          is_superadmin: memArr?.is_superadmin,
+        },
+      }))
+    : memberArray;
   const summarizedMember =
     showMore || !hasShowMore
       ? modifiedMemberArray
@@ -109,7 +109,7 @@ function MemberGroupList({
                     <Flex fontWeight={400} fontSize={"14px"} color={"#848484"}>
                       {member.user.is_superadmin
                         ? "Super Admin"
-                        : LabelizeRole(member?.role)}
+                        : labelizeRole(member?.role)}
                       {member?.employee_id ? " - " + member?.employee_id : ""}
                     </Flex>
                   </Flex>
@@ -196,4 +196,4 @@ function MemberGroupList({
     </Flex>
   );
 }
-export default memo(MemberGroupList, DynamicPropsComparator);
+export default memo(MemberGroupList, dynamicPropsComparator);

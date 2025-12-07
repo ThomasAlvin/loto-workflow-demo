@@ -1,5 +1,5 @@
 import { Box, Center, Flex, Image, Spinner } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineFileImage } from "react-icons/ai";
 
 export default function ImageFocusOverlay({

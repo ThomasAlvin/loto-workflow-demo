@@ -1,6 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import SubmitQuestionTypeMapper from "../../utils/SubmitQuestionTypeMapper";
-import { useRef, useState } from "react";
+import SubmitQuestionTypeMapper from "../../components/SubmitQuestionTypeMapper";
 
 export default function SubmitWorkOrderStepFormQuestions({
   formQuestionCounterIndex,

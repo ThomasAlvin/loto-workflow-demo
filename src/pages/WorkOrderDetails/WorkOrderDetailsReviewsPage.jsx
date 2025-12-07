@@ -16,7 +16,7 @@ import WorkOrderDetailsHeader from "../../components/WorkOrders/WorkOrderDetails
 import { FaCheck, FaFlag, FaRegBell, FaRegClock } from "react-icons/fa6";
 import labelizeRole from "../../utils/labelizeRole";
 import labelizeReviewType from "../../utils/labelizeReviewType";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 import moment from "moment";
 import { FaUserAlt } from "react-icons/fa";
 import { TbClockX } from "react-icons/tb";
@@ -77,7 +77,7 @@ export default function WorkOrderDetailsReviewsPage({
                   >
                     {workOrder?.latest_work_order_reviews?.map((val, index) => {
                       const { bgColor, textColor, text } =
-                        TableStatusStyleMapper("review-" + val.status);
+                        tableStatusStyleMapper("review-" + val.status);
                       const collectedReviews = [
                         ...(val?.work_order_reviewer_super_admin
                           ? [val.work_order_reviewer_super_admin]
@@ -427,7 +427,7 @@ export default function WorkOrderDetailsReviewsPage({
                                   <Flex flexDir={"column"} gap={"20px"}>
                                     {submittedReviews.map((val, index) => {
                                       const { bgColor, icon, textColor, text } =
-                                        TableStatusStyleMapper(
+                                        tableStatusStyleMapper(
                                           "review-" +
                                             val.work_order_reviewer_response
                                               .status

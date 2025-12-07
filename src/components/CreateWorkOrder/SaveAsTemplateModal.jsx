@@ -13,12 +13,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-
 import { MdOutlineDriveFolderUpload } from "react-icons/md";
 import { api } from "../../api/api";
 import Swal from "sweetalert2";
 import SwalErrorMessages from "../SwalErrorMessages";
-import convertToFormData from "../../utils/ConvertToFormData";
+import convertToFormData from "../../utils/convertToFormData";
 import { useReactFlow } from "@xyflow/react";
 import getConnectedNodes from "../../utils/getConnectedNodes";
 

@@ -1,6 +1,5 @@
-import { FaTriangleExclamation } from "react-icons/fa6";
 import ReactDOMServer from "react-dom/server";
-import React from "react";
+import { FaTriangleExclamation } from "react-icons/fa6";
 
 function SwalErrorMessagesComponent({ errorData }) {
   if (errorData) {
@@ -31,7 +30,7 @@ function SwalErrorMessagesComponent({ errorData }) {
 // Function to generate the HTML string dynamically
 function SwalErrorMessages(errorData) {
   return ReactDOMServer.renderToStaticMarkup(
-    <SwalErrorMessagesComponent errorData={errorData} />,
+    <SwalErrorMessagesComponent errorData={errorData} />
   );
 }
 

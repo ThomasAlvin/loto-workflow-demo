@@ -1,5 +1,4 @@
 import {
-  Accordion,
   Box,
   Button,
   Checkbox,
@@ -13,18 +12,17 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Switch,
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import Swal from "sweetalert2";
 import { useState } from "react";
-import { api } from "../../api/api";
+import { useForm } from "react-hook-form";
+import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import * as Yup from "yup";
+import { api } from "../../api/api";
 import SwalErrorMessages from "../SwalErrorMessages";
 
 export default function CreateWorkSiteModal({
@@ -58,7 +56,7 @@ export default function CreateWorkSiteModal({
         location: Yup.string()
           .trim()
           .required("Work site location is required"),
-      }),
+      })
     ),
     mode: "onTouched",
     reValidateMode: "onChange",

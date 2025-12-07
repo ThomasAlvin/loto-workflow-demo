@@ -15,22 +15,21 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
-import CreatableSelect from "react-select/creatable";
-import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import CreateInspectionFormModalFormQuestion from "./CreateInspectionFormModalFormQuestion";
-import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 import { FaRegEdit } from "react-icons/fa";
+import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
 import { VscEmptyWindow } from "react-icons/vsc";
-import SwalErrorMessages from "../SwalErrorMessages";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { v4 as uuid } from "uuid";
+import * as Yup from "yup";
+import { api } from "../../api/api";
+import convertToFormData from "../../utils/convertToFormData";
 import CustomSelectionSelect from "../CustomSelectionSelect";
-import convertToFormData from "../../utils/ConvertToFormData";
+import SwalErrorMessages from "../SwalErrorMessages";
+import CreateInspectionFormModalFormQuestion from "./CreateInspectionFormModalFormQuestion";
 
 export default function EditInspectionFormModal({
   inspectionForm,
@@ -107,12 +106,12 @@ export default function EditInspectionFormModal({
                     .of(Yup.string().trim().required("Option cannot be empty")) // Each option must be a string
                     .min(
                       2,
-                      "At least two options are required for Multiple Choice",
+                      "At least two options are required for Multiple Choice"
                     )
                     .test("unique", "Options must be unique", (value) => {
                       if (!value) return true; // Skip if undefined, let required/min handle it
                       const trimmed = value.map((v) =>
-                        typeof v === "string" ? v.trim() : "",
+                        typeof v === "string" ? v.trim() : ""
                       );
                       const unique = new Set(trimmed);
                       return unique.size === trimmed.length;
@@ -123,15 +122,13 @@ export default function EditInspectionFormModal({
                     then: () =>
                       Yup.array()
                         .of(
-                          Yup.string()
-                            .trim()
-                            .required("Option cannot be empty"),
+                          Yup.string().trim().required("Option cannot be empty")
                         ) // Each option must be a string
                         .min(1, "At least one option is required for Checkbox")
                         .test("unique", "Options must be unique", (value) => {
                           if (!value) return true; // Skip if undefined, let required/min handle it
                           const trimmed = value.map((v) =>
-                            typeof v === "string" ? v.trim() : "",
+                            typeof v === "string" ? v.trim() : ""
                           );
                           const unique = new Set(trimmed);
                           return unique.size === trimmed.length;
@@ -140,7 +137,7 @@ export default function EditInspectionFormModal({
                   }),
               }),
             }),
-          }),
+          })
         ),
         formQuestionsSize: Yup.number().when("formQuestions", {
           is: (data) => {
@@ -149,7 +146,7 @@ export default function EditInspectionFormModal({
           then: (schema) =>
             schema.required("At least one question is required"),
         }), // At least one question if forms is true
-      }),
+      })
     ),
     mode: "onTouched",
     reValidateMode: "onChange",
@@ -255,7 +252,7 @@ export default function EditInspectionFormModal({
           },
         })),
       },
-      { keepDefaultValues: true },
+      { keepDefaultValues: true }
     );
   }
 
@@ -284,7 +281,7 @@ export default function EditInspectionFormModal({
           },
         })),
       },
-      { keepDefaultValues: true },
+      { keepDefaultValues: true }
     );
   }, [inspectionForm]);
 

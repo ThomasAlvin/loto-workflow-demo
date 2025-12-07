@@ -12,7 +12,6 @@ import {
   Image,
   Menu,
   MenuButton,
-  MenuGroup,
   MenuItem,
   MenuList,
   Table,
@@ -26,55 +25,38 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import {
-  FaBan,
   FaChevronCircleDown,
   FaChevronCircleUp,
   FaChevronDown,
-  FaCogs,
   FaFilter,
   FaRegTrashAlt,
   FaUserAlt,
   FaUserCircle,
 } from "react-icons/fa";
-import { BsGlobe2 } from "react-icons/bs";
 
-import { memo, useState } from "react";
-import {
-  FaFlag,
-  FaMapLocationDot,
-  FaRegBell,
-  FaRegFlag,
-} from "react-icons/fa6";
-import WorkOrderDetailsFormQuestion from "./WorkOrderDetailsFormQuestion";
-import {
-  MdFilterListAlt,
-  MdLockOutline,
-  MdOutlineZoomOutMap,
-} from "react-icons/md";
-import { TiClipboard, TiWarning } from "react-icons/ti";
 import moment from "moment";
-import LabelizeRole from "../../utils/LabelizeRole";
+import { memo, useState } from "react";
+import { FaFlag, FaRegFlag } from "react-icons/fa6";
+import { TiWarning } from "react-icons/ti";
+import labelizeRole from "../../utils/labelizeRole";
+import WorkOrderDetailsFormQuestion from "./WorkOrderDetailsFormQuestion";
 
-import TableStatusStyleMapper from "../../utils/TableStatusStyleMapper";
-import AbortStepModal from "./AbortStepModal";
-import WorkOrderDetailsStepInspectionForm from "./WorkOrderDetailsStepInspectionForm";
-import Can from "../../utils/Can";
-import WorkFlowStepBadges from "../CreateTemplate/WorkFlowStepBadges";
-import { useSelector } from "react-redux";
-import DynamicPropsComparator from "../../utils/DynamicPropsComparator";
-import { Link } from "react-router-dom";
-import { IoIosLock } from "react-icons/io";
-import ListEmptyState from "../ListEmptyState";
-import tinycolor from "tinycolor2";
-import ImageFocusOverlay from "../ImageFocusOverlay";
 import { FiZoomIn } from "react-icons/fi";
-import { IoBanOutline } from "react-icons/io5";
-import formatString from "../../utils/formatString";
-import GetLockImageByModel from "../../utils/GetLockImageByModel";
-import checkHasPermission from "../../utils/checkHasPermission";
-import MemberGroupList from "../MemberGroupList";
+import { IoIosLock } from "react-icons/io";
 import { TbLineScan } from "react-icons/tb";
+import { useSelector } from "react-redux";
+import tinycolor from "tinycolor2";
+import Can from "../../components/Can";
+import dynamicPropsComparator from "../../utils/dynamicPropsComparator";
+import formatString from "../../utils/formatString";
+import getLockImageByModel from "../../utils/getLockImageByModel";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import WorkFlowStepBadges from "../CreateTemplate/WorkFlowStepBadges";
+import ImageFocusOverlay from "../ImageFocusOverlay";
+import ListEmptyState from "../ListEmptyState";
+import MemberGroupList from "../MemberGroupList";
 import StepDetailsDrawerSubmissions from "./StepDetailsDrawerSubmissions";
+import WorkOrderDetailsStepInspectionForm from "./WorkOrderDetailsStepInspectionForm";
 
 function WorkOrderDetailsStepMemo({
   variant,
@@ -98,7 +80,7 @@ function WorkOrderDetailsStepMemo({
   const userSelector = useSelector((state) => state.login.auth);
   const [showMore, setShowMore] = useState(false);
   const [openStates, setOpenStates] = useState(
-    val.work_order_step_machines.map(() => (machineOpenByDefault ? [0] : null)),
+    val.work_order_step_machines.map(() => (machineOpenByDefault ? [0] : null))
   );
   const [lockAccessFilter, setLockAccessFilter] = useState("");
   const [multiLockAccessFilter, setMultiLockAccessFilter] = useState("");
@@ -112,7 +94,7 @@ function WorkOrderDetailsStepMemo({
           return val2 ? null : [0];
         }
         return val2;
-      }),
+      })
     );
   };
   function handleImageFocus(imageURL) {
@@ -121,12 +103,12 @@ function WorkOrderDetailsStepMemo({
   }
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
 
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
-    val?.status,
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
+    val?.status
   );
   const multiLockAccessIds =
     val?.work_order_multi_lock_group?.work_order_multi_lock_group_items?.map(
-      (item) => item.lockId,
+      (item) => item.lockId
     ) || [];
   const lockAccessIds =
     val?.work_order_locks.map((item) => item.lock?.id) || [];
@@ -143,7 +125,7 @@ function WorkOrderDetailsStepMemo({
   }
   const userIsCurrentAssignee = isMultiAssign
     ? val.assigned_members.some(
-        (member) => member?.user?.email === userSelector.email,
+        (member) => member?.user?.email === userSelector.email
       )
     : val?.assigned_member?.user?.email === userSelector.email;
   const isRemindable = val.status === "ongoing" || val.status === "pending";
@@ -312,7 +294,7 @@ function WorkOrderDetailsStepMemo({
                         >
                           {val.assigned_members.employee_id +
                             " - " +
-                            LabelizeRole(val.assigned_members.role)}
+                            labelizeRole(val.assigned_members.role)}
                         </Flex>
                       </>
                     ) : (
@@ -418,7 +400,7 @@ function WorkOrderDetailsStepMemo({
                             >
                               {val.notified_members.employee_id +
                                 " - " +
-                                LabelizeRole(val.notified_members.role)}
+                                labelizeRole(val.notified_members.role)}
                             </Flex>
                           </>
                         ) : (
@@ -674,7 +656,7 @@ function WorkOrderDetailsStepMemo({
                                                           inspectionForm
                                                         }
                                                       />
-                                                    ),
+                                                    )
                                                   )}
                                                 </Flex>
                                               ) : (
@@ -709,7 +691,7 @@ function WorkOrderDetailsStepMemo({
                                   </Tr>
                                 </>
                               );
-                            },
+                            }
                           )
                         )}
                       </Tbody>
@@ -797,8 +779,8 @@ function WorkOrderDetailsStepMemo({
                             fontSize={"14px"}
                             alignItems={"center"}
                           >
-                            {LabelizeRole(
-                              val?.machine_verified_by_member.role,
+                            {labelizeRole(
+                              val?.machine_verified_by_member.role
                             ) +
                               (val?.machine_verified_by_member?.employee_id
                                 ? " - " +
@@ -1045,19 +1027,19 @@ function WorkOrderDetailsStepMemo({
                               ? lockAccessFilter
                                 ? filterByLockName(
                                     lockAccessFilter,
-                                    lockAccessAuditLogs,
+                                    lockAccessAuditLogs
                                   )
                                 : lockAccessAuditLogs
                               : (lockAccessFilter
                                   ? filterByLockName(
                                       lockAccessFilter,
-                                      lockAccessAuditLogs,
+                                      lockAccessAuditLogs
                                     )
                                   : lockAccessAuditLogs
                                 ).slice(0, 3)
                             ).map((val, index) => {
                               const { bgColor, textColor, icon, text } =
-                                TableStatusStyleMapper(val.status);
+                                tableStatusStyleMapper(val.status);
                               return (
                                 <Tr
                                   w={"100%"}
@@ -1081,8 +1063,8 @@ function WorkOrderDetailsStepMemo({
                                         <Flex color={"white"} fontSize={"20px"}>
                                           {val.lock.model ? (
                                             <Image
-                                              src={GetLockImageByModel(
-                                                val.lock.model,
+                                              src={getLockImageByModel(
+                                                val.lock.model
                                               )}
                                             />
                                           ) : (
@@ -1177,7 +1159,7 @@ function WorkOrderDetailsStepMemo({
                                         >
                                           {val?.user.is_superadmin
                                             ? "Super Admin"
-                                            : LabelizeRole(
+                                            : labelizeRole(
                                                 val?.user.member?.role
                                               ) +
                                               " - " +
@@ -1351,7 +1333,7 @@ function WorkOrderDetailsStepMemo({
                                     ?.filter(
                                       (itemResponses) =>
                                         itemResponses.work_order_stepId ===
-                                        val.id,
+                                        val.id
                                     )
                                     .map((responseImageURL) =>
                                       responseImageURL?.response_image_url?.map(
@@ -1359,7 +1341,7 @@ function WorkOrderDetailsStepMemo({
                                           <Flex
                                             onClick={() => {
                                               handleImageFocus(
-                                                IMGURL + responseURL,
+                                                IMGURL + responseURL
                                               );
                                             }}
                                             cursor={"pointer"}
@@ -1397,12 +1379,12 @@ function WorkOrderDetailsStepMemo({
                                               src={IMGURL + responseURL}
                                             ></Image>
                                           </Flex>
-                                        ),
-                                      ),
+                                        )
+                                      )
                                     )}
                                 </Flex>
                               </Flex>
-                            ),
+                            )
                           )
                         ) : (
                           <Flex color={"#848484"}>No locks assigned</Flex>
@@ -1563,7 +1545,7 @@ function WorkOrderDetailsStepMemo({
                                   </Flex>
                                 </Flex>
                               </MenuItem>
-                            ),
+                            )
                           )}
                         </MenuList>
                       </Menu>
@@ -1606,19 +1588,19 @@ function WorkOrderDetailsStepMemo({
                               ? multiLockAccessFilter
                                 ? filterByLockName(
                                     multiLockAccessFilter,
-                                    multiLockAccessAuditLogs,
+                                    multiLockAccessAuditLogs
                                   )
                                 : multiLockAccessAuditLogs
                               : (multiLockAccessFilter
                                   ? filterByLockName(
                                       multiLockAccessFilter,
-                                      multiLockAccessAuditLogs,
+                                      multiLockAccessAuditLogs
                                     )
                                   : multiLockAccessAuditLogs
                                 ).slice(0, 3)
                             ).map((val, index) => {
                               const { bgColor, textColor, icon, text } =
-                                TableStatusStyleMapper(val.status);
+                                tableStatusStyleMapper(val.status);
                               return (
                                 <Tr
                                   w={"100%"}
@@ -1642,8 +1624,8 @@ function WorkOrderDetailsStepMemo({
                                         <Flex color={"white"} fontSize={"20px"}>
                                           {val.lock.model ? (
                                             <Image
-                                              src={GetLockImageByModel(
-                                                val.lock.model,
+                                              src={getLockImageByModel(
+                                                val.lock.model
                                               )}
                                             />
                                           ) : (
@@ -1759,7 +1741,7 @@ function WorkOrderDetailsStepMemo({
                                         >
                                           {val?.user.is_superadmin
                                             ? "Super Admin"
-                                            : LabelizeRole(
+                                            : labelizeRole(
                                                 val?.user.member?.role
                                               ) +
                                               " - " +
@@ -1820,7 +1802,7 @@ function WorkOrderDetailsStepMemo({
                     {(multiLockAccessFilter
                       ? filterByLockName(
                           multiLockAccessFilter,
-                          multiLockAccessAuditLogs,
+                          multiLockAccessAuditLogs
                         )
                       : multiLockAccessAuditLogs
                     )?.length > 3 ? (
@@ -2021,6 +2003,6 @@ function WorkOrderDetailsStepMemo({
 
 const WorkOrderDetailsStep = memo(
   WorkOrderDetailsStepMemo,
-  DynamicPropsComparator,
+  dynamicPropsComparator
 );
 export default WorkOrderDetailsStep;

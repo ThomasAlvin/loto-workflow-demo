@@ -11,22 +11,17 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { FaUserAlt, FaUserCircle } from "react-icons/fa";
-import LabelizeRole from "../../utils/LabelizeRole";
-import ReactSelect from "react-select";
-import { useFormik } from "formik";
-import { api } from "../../api/api";
-import { useEffect, useRef, useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
 import { FaTriangleExclamation } from "react-icons/fa6";
-import Swal from "sweetalert2";
-import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
-import ReactSelectStepSelection from "../ReactSelectStepSelection";
+import { useSelector } from "react-redux";
+import ReactSelect from "react-select";
+import labelizeRole from "../../utils/labelizeRole";
 import MemberGroupList from "../MemberGroupList";
 import ReactSelectMemberMultiValue from "../ReactSelectMemberMultiValue";
+import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
+import ReactSelectStepSelection from "../ReactSelectStepSelection";
 import SwitchAssigneeModalSelectedStep from "./SwitchAssigneeModalSelectedStep";
-import { useSelector } from "react-redux";
 
 export default function SwitchAssigneeModal({
   workOrderSteps,
@@ -41,7 +36,7 @@ export default function SwitchAssigneeModal({
   const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const filteredMemberSelection = memberSelection.filter(
-    (member) => member?.user?.status === "verified",
+    (member) => member?.user?.status === "verified"
   );
   const filteredStepSelection = workOrderSteps
     ?.map((step, index) => ({
@@ -53,8 +48,8 @@ export default function SwitchAssigneeModal({
     .filter(
       (step) =>
         step?.assigned_members?.some(
-          (member) => member?.user?.email === userSelector.email,
-        ),
+          (member) => member?.user?.email === userSelector.email
+        )
       // (step) => stepDetails?.assigned_member?.id === step?.assigned_member?.id
     )
     .filter((step) => step?.status === "ongoing" || step?.status === "pending");
@@ -68,10 +63,10 @@ export default function SwitchAssigneeModal({
               ? "#dc143c"
               : "#039be5"
             : variant === "workOrderSteps"
-              ? formik.touched.workOrderSteps && formik.errors.workOrderSteps
-                ? "#dc143c"
-                : "#039be5"
-              : "", // Default case
+            ? formik.touched.workOrderSteps && formik.errors.workOrderSteps
+              ? "#dc143c"
+              : "#039be5"
+            : "", // Default case
         borderRadius: "0px",
         boxShadow: state.isFocused ? "0 0 3px rgba(3, 154, 229, 0.8)" : "none",
         "&:hover": {
@@ -81,10 +76,10 @@ export default function SwitchAssigneeModal({
                 ? "0 0 3px rgba(220, 20, 60, 1)"
                 : "0 0 3px rgba(3, 154, 229, 0.8)"
               : variant === "workOrderSteps"
-                ? formik.touched.workOrderSteps && formik.errors.workOrderSteps
-                  ? "0 0 3px rgba(220, 20, 60, 1)"
-                  : "0 0 3px rgba(3, 154, 229, 0.8)"
-                : "",
+              ? formik.touched.workOrderSteps && formik.errors.workOrderSteps
+                ? "0 0 3px rgba(220, 20, 60, 1)"
+                : "0 0 3px rgba(3, 154, 229, 0.8)"
+              : "",
           width: "100%",
         },
       }),
@@ -242,7 +237,7 @@ export default function SwitchAssigneeModal({
                               fontSize={"14px"}
                               color={"#848484"}
                             >
-                              {LabelizeRole(stepDetails.assigned_member.role)} -{" "}
+                              {labelizeRole(stepDetails.assigned_member.role)} -{" "}
                               {stepDetails.assigned_member.employee_id}
                             </Flex>
                           </>
@@ -325,7 +320,7 @@ export default function SwitchAssigneeModal({
                         const mainStep = formik.values.workOrderSteps.find(
                           (step) =>
                             step?.isMainMultiLockAccess === true &&
-                            step?.multiLockAccessGroup?.name === groupName,
+                            step?.multiLockAccessGroup?.name === groupName
                         );
                         const mainRequireLockImage =
                           mainStep?.multiLockAccessGroup?.require_lock_image ||

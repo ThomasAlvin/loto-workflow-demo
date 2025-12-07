@@ -1,5 +1,4 @@
 import { Flex, Spinner } from "@chakra-ui/react";
-import React from "react";
 import { useSelector } from "react-redux";
 
 export default function Loading() {

@@ -10,12 +10,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { TiWarning } from "react-icons/ti";
-import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import { useState } from "react";
 
 export default function SendReminderModal({
   sendReminder,
@@ -87,7 +82,7 @@ export default function SendReminderModal({
                 sendReminder(
                   selectedSendReminderMember.memberUID ||
                     selectedSendReminderMember.UID,
-                  selectedSendReminderMember.reminderRole,
+                  selectedSendReminderMember.reminderRole
                 )
               }
             >

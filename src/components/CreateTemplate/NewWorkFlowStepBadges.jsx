@@ -1,9 +1,9 @@
-import { Tooltip, Flex, Text, Box } from "@chakra-ui/react";
+import { Tooltip, Flex } from "@chakra-ui/react";
 import { BsGlobe2 } from "react-icons/bs";
-import { FaCogs, FaRegBell, FaUserLock } from "react-icons/fa";
+import { FaCogs, FaRegBell } from "react-icons/fa";
 import { FaLink } from "react-icons/fa6";
 import { LuNetwork } from "react-icons/lu";
-import { MdLockOutline, MdWeb, MdWebhook } from "react-icons/md";
+import { MdLockOutline, MdWebhook } from "react-icons/md";
 import { TiClipboard } from "react-icons/ti";
 
 export default function NewWorkFlowStepBadges({ val }) {

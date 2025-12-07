@@ -1,61 +1,49 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Flex,
-  useDisclosure,
-  Divider,
-  ModalOverlay,
-  ModalContent,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Tooltip,
   Avatar,
-  TableContainer,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
+  Button,
   Center,
-  Spinner,
+  Divider,
+  Flex,
+  Input,
   InputGroup,
   InputLeftElement,
-  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
+  Table,
+  TableContainer,
   Tag,
   TagLabel,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
-import {
-  FaClock,
-  FaEllipsis,
-  FaMagnifyingGlass,
-  FaMapLocationDot,
-  FaPhone,
-} from "react-icons/fa6";
-import { FaCog, FaEdit, FaUserAlt, FaUserCog } from "react-icons/fa";
-import { IoIosMail, IoMdSearch } from "react-icons/io";
-import { BsBarChartFill } from "react-icons/bs";
-import { AiOutlineAppstore } from "react-icons/ai";
-import { MdEvent } from "react-icons/md";
-import LabelizeRole from "../../utils/LabelizeRole";
-import moment from "moment";
-import LabelizeAction from "../../utils/LabelizeAction";
-import ConvertTableToRoute from "../../utils/convertTableToRoute";
-import { useLocation, useNavigate } from "react-router-dom";
-import ListEmptyState from "../ListEmptyState";
-import { api } from "../../api/api";
-import Pagination from "../Pagination";
-import { LuCircleEllipsis, LuClipboardPaste } from "react-icons/lu";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
-import { IoEllipsisHorizontalSharp, IoLocationSharp } from "react-icons/io5";
 import { debounce } from "lodash";
-import Can from "../../utils/Can";
-import CustomizeMemberPermissionCard from "./CustomizeMemberPermissionCard";
-import MemberDetailsAccessibility from "./MemberDetailsAccessibility";
-import UrlBasedPagination from "../UrlBasedPagination";
+import moment from "moment";
+import { useCallback } from "react";
+import { AiOutlineAppstore } from "react-icons/ai";
+import { BsBarChartFill } from "react-icons/bs";
+import { FaCog, FaEdit, FaUserAlt } from "react-icons/fa";
+import { FaClock, FaMapLocationDot, FaPhone } from "react-icons/fa6";
+import { IoIosMail, IoMdSearch } from "react-icons/io";
+import { LuClipboardPaste } from "react-icons/lu";
+import { MdEvent } from "react-icons/md";
+import { useLocation, useNavigate } from "react-router-dom";
+import Can from "../../components/Can";
+import LabelizeAction from "../../components/LabelizeAction";
+import labelizeRole from "../../utils/labelizeRole";
 import AssignedRoleMapper from "../../utils/assignedRoleMapper";
+import ConvertTableToRoute from "../../utils/convertTableToRoute";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import ListEmptyState from "../ListEmptyState";
+import Pagination from "../Pagination";
+import MemberDetailsAccessibility from "./MemberDetailsAccessibility";
 export default function MemberDetailsModal({
   pageModule,
   selectedMemberDetails,
@@ -221,7 +209,7 @@ export default function MemberDetailsModal({
                   </Flex>
                 </Flex>
                 <Flex color={"#848484"} fontSize={"16px"} fontWeight={400}>
-                  {LabelizeRole(
+                  {labelizeRole(
                     selectedMemberDetails?.role,
                     selectedMemberDetails.has_custom_permissions
                   ) +
@@ -478,7 +466,7 @@ export default function MemberDetailsModal({
                             selectedMemberDetails?.assigned_work_orders?.map(
                               (val) => {
                                 const { bgColor, textColor, icon, text } =
-                                  TableStatusStyleMapper(val.status);
+                                  tableStatusStyleMapper(val.status);
                                 return (
                                   <>
                                     <Tr fontSize={"14px"}>

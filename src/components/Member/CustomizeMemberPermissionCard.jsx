@@ -1,8 +1,7 @@
-import { Badge, Flex, Switch, Tooltip } from "@chakra-ui/react";
-import { useState } from "react";
+import { Flex, Switch, Tooltip } from "@chakra-ui/react";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 import tinycolor from "tinycolor2";
 import formatString from "../../utils/formatString";
-import { IoMdInformationCircleOutline } from "react-icons/io";
 
 export default function CustomizeMemberPermissionCard({
   module,
@@ -14,13 +13,13 @@ export default function CustomizeMemberPermissionCard({
   permissionSwitchHandler,
 }) {
   const hasViewOption = module.permissions.some(
-    (modulePerm) => modulePerm.permission === "view",
+    (modulePerm) => modulePerm.permission === "view"
   );
   const hasViewOwnedOption = module.permissions.some(
-    (modulePerm) => modulePerm.permission === "view_owned",
+    (modulePerm) => modulePerm.permission === "view_owned"
   );
   const hasViewAssignedOption = module.permissions.some(
-    (modulePerm) => modulePerm.permission === "view_assigned",
+    (modulePerm) => modulePerm.permission === "view_assigned"
   );
   function getTooltipDescription(permission) {
     let manageExtraDescription;
@@ -89,7 +88,7 @@ export default function CustomizeMemberPermissionCard({
             requirement?.module,
           true,
           true,
-          true,
+          true
         );
         return words; // module.name added once here
       })
@@ -126,19 +125,18 @@ export default function CustomizeMemberPermissionCard({
               (isWorkOrderViewOwnedOrViewAll(module, permission)
                 ? isWorkOrderViewOwnedOrViewAll(module, permission)
                 : permission.permission === "view"
-                  ? "view_all"
-                  : permission.permission +
-                    (module.name === "members" &&
-                    permission.permission !== "view"
-                      ? "s"
-                      : "")) +
+                ? "view_all"
+                : permission.permission +
+                  (module.name === "members" && permission.permission !== "view"
+                    ? "s"
+                    : "")) +
                 "_" +
                 (module.name === "members" && permission.permission !== "view"
                   ? ""
                   : module.name),
               true,
               true,
-              true,
+              true
             )}
           </Flex>
           {getTooltipDescription(permission.permission) ? (

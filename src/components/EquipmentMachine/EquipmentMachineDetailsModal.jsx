@@ -1,78 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react";
 import {
-  Flex,
-  useDisclosure,
-  Divider,
-  ModalOverlay,
-  ModalContent,
   Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Tooltip,
-  Avatar,
-  TableContainer,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  Center,
-  Spinner,
+  Divider,
+  Flex,
   Image,
-  InputGroup,
-  InputLeftElement,
-  Input,
-  Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Tag,
   TagLabel,
 } from "@chakra-ui/react";
-import {
-  FaClock,
-  FaClockRotateLeft,
-  FaHashtag,
-  FaKey,
-  FaMagnifyingGlass,
-  FaMapLocation,
-  FaMapLocationDot,
-  FaPhone,
-  FaScrewdriverWrench,
-} from "react-icons/fa6";
-import {
-  FaArrowsAlt,
-  FaEdit,
-  FaInfoCircle,
-  FaTag,
-  FaThLarge,
-  FaUserAlt,
-} from "react-icons/fa";
-import { IoIosLock, IoIosMail, IoMdSearch } from "react-icons/io";
-import { BsArrowsMove, BsBarChartFill, BsDpadFill } from "react-icons/bs";
-import { AiOutlineAppstore } from "react-icons/ai";
-import { MdEvent, MdLockOpen } from "react-icons/md";
-import LabelizeRole from "../../utils/LabelizeRole";
-import moment from "moment";
-import LabelizeAction from "../../utils/LabelizeAction";
-import ConvertTableToRoute from "../../utils/convertTableToRoute";
-import { useNavigate } from "react-router-dom";
-import ListEmptyState from "../ListEmptyState";
-import { api } from "../../api/api";
-import Pagination from "../Pagination";
-import { IoBatteryHalf, IoLogInOutline } from "react-icons/io5";
 import { CgNotes } from "react-icons/cg";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
-import { debounce } from "lodash";
-import ExportVisibleRow from "../../utils/ExportVisibleRow";
-import ExportAll from "../../utils/ExportAll";
-import { LuNfc } from "react-icons/lu";
-import ConvertDirectionalIcon from "../../utils/ConvertDirectionalIcon";
-import FormatString from "../../utils/formatString";
-import GetLockImageByModel from "../../utils/getLockImageByModel";
-import { RiFingerprint2Line } from "react-icons/ri";
-import { HiOutlineKey } from "react-icons/hi2";
-import { BiLockAlt } from "react-icons/bi";
+import { FaInfoCircle, FaTag, FaThLarge } from "react-icons/fa";
+import { FaHashtag, FaMapLocation, FaScrewdriverWrench } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 
 export default function EquipmentMachineDetailsModal({
   selectedEquipmentMachineDetails,
@@ -85,7 +29,7 @@ export default function EquipmentMachineDetailsModal({
   function handleCloseModal() {
     onClose();
   }
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
     selectedEquipmentMachineDetails?.status
   );
   return (

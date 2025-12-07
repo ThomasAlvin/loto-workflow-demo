@@ -25,11 +25,11 @@ import { api } from "../api/api";
 import { debounce } from "lodash";
 import ListEmptyState from "../components/ListEmptyState";
 import Swal from "sweetalert2";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import SelectedActionBar from "../components/SelectedActionBar";
 import DeleteLockConfirmationModal from "../components/LockInventory/DeleteLockConfirmationModal";
 import SwalErrorMessages from "../components/SwalErrorMessages";
-import GetLockImageByModel from "../utils/getLockImageByModel";
+import getLockImageByModel from "../utils/getLockImageByModel";
 import LockDetailsModal from "../components/LockInventory/LockDetailsModal";
 import formatString from "../utils/formatString";
 import UrlBasedPagination from "../components/UrlBasedPagination";
@@ -458,7 +458,7 @@ export default function LockInventoryPage() {
               {locks.length ? (
                 locks?.map((val, index) => {
                   const { bgColor, textColor, icon, text } =
-                    TableStatusStyleMapper(val.status);
+                    tableStatusStyleMapper(val.status);
                   return (
                     <Tr
                       onClick={() => {
@@ -507,7 +507,7 @@ export default function LockInventoryPage() {
                                       });
                                     });
                                   }}
-                                  src={GetLockImageByModel(val.model)}
+                                  src={getLockImageByModel(val.model)}
                                 ></Image>
                               ) : (
                                 <IoIosLock />

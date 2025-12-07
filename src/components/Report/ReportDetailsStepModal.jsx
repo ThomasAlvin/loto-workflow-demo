@@ -1,53 +1,26 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionItem,
-  AccordionPanel,
-  Avatar,
   Box,
-  Checkbox,
-  Divider,
   Flex,
   IconButton,
-  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tooltip,
-  Tr,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { SlGlobe } from "react-icons/sl";
+import { useEffect } from "react";
+import { FaGlobeAmericas } from "react-icons/fa";
 import {
   FaArrowLeft,
   FaArrowRight,
-  FaChevronDown,
   FaLocationDot,
   FaPhoneVolume,
 } from "react-icons/fa6";
-import moment from "moment";
-import { useEffect, useRef, useState } from "react";
-import { FaGlobeAmericas, FaUserAlt } from "react-icons/fa";
+import { SlGlobe } from "react-icons/sl";
 
-import { IoIosLock } from "react-icons/io";
-import LabelizeRole from "../../utils/LabelizeRole";
-import ResponseTypeMapper from "../../utils/ResponseTypeMapper";
-import ReportDetailsStepInspectionForm from "./ReportDetailsStepInspectionForm";
-import ListEmptyState from "../ListEmptyState";
-import TableStatusStyleMapper from "../../utils/TableStatusStyleMapper";
-import formatString from "../../utils/formatString";
-import GetLockImageByModel from "../../utils/GetLockImageByModel";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 import MemberGroupList from "../MemberGroupList";
-import { TbLineScan } from "react-icons/tb";
 import ReportDetailsStepSubmissions from "./ReportDetailsStepSubmissions";
 export default function ReportDetailsStepModal({
   report,
@@ -58,7 +31,7 @@ export default function ReportDetailsStepModal({
 }) {
   const multiLockAccessNames =
     selectedStep?.report_multi_lock_group?.report_multi_lock_group_items.map(
-      (item) => item.name,
+      (item) => item.name
     ) || [];
 
   const lockAccessIds =
@@ -72,10 +45,10 @@ export default function ReportDetailsStepModal({
   const lockAccessAuditLogs = selectedStep.report_step_audit_trails?.filter(
     (log) => {
       return lockAccessIds.includes(log.lock?.name);
-    },
+    }
   );
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
-    selectedStep?.status,
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
+    selectedStep?.status
   );
 
   const reportStepByStatus =
@@ -86,7 +59,7 @@ export default function ReportDetailsStepModal({
           (step) =>
             step.status === "completed" ||
             step.status === "cancelled" ||
-            step.status === "submitted",
+            step.status === "submitted"
         ) || []
       : report?.report_steps.filter((step) => step.status === "skipped") || [];
   function carouselHandler(direction) {
@@ -256,7 +229,7 @@ export default function ReportDetailsStepModal({
                               profile_image_url:
                                 assignedMember.profile_image_url,
                             },
-                          }),
+                          })
                         )}
                         hasShowMore={false}
                       />

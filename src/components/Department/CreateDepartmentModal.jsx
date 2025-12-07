@@ -4,7 +4,6 @@ import {
   Divider,
   Flex,
   Input,
-  MenuItem,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,23 +12,14 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
-import CreatableSelect from "react-select/creatable";
-import {
-  FaMagnifyingGlass,
-  FaPlus,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
-import { VscEmptyWindow } from "react-icons/vsc";
 import SwalErrorMessages from "../SwalErrorMessages";
 
 export default function CreateDepartmentModal({
@@ -58,7 +48,7 @@ export default function CreateDepartmentModal({
     resolver: yupResolver(
       Yup.object({
         name: Yup.string().trim().required("Name is required"),
-      }),
+      })
     ),
     mode: "onTouched",
     reValidateMode: "onChange",

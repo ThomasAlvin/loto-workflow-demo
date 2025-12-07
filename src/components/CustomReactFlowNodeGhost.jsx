@@ -1,12 +1,12 @@
 import { Flex } from "@chakra-ui/react";
 
 import "@xyflow/react/dist/style.css";
-import { TiClipboard } from "react-icons/ti";
+import { BsGlobe2 } from "react-icons/bs";
 import { FaCogs, FaLink, FaRegBell } from "react-icons/fa";
-import { MdLockOutline, MdWebhook } from "react-icons/md";
-import { BsDiamond, BsFillHexagonFill, BsGlobe2 } from "react-icons/bs";
-import NewWorkFlowStepBadges from "./CreateTemplate/NewWorkFlowStepBadges";
 import { LuNetwork } from "react-icons/lu";
+import { MdLockOutline, MdWebhook } from "react-icons/md";
+import { TiClipboard } from "react-icons/ti";
+import NewWorkFlowStepBadges from "./CreateTemplate/NewWorkFlowStepBadges";
 export default function CustomReactFlowNodeGhost({ data, nodeGhostRef }) {
   const badges = [
     data?.form && {
@@ -101,10 +101,10 @@ export default function CustomReactFlowNodeGhost({ data, nodeGhostRef }) {
             data?.isStart && data?.isEnd
               ? "#7059ff"
               : data?.isStart && !data?.isEnd
-                ? "#3D9666"
-                : data?.isEnd && !data?.isStart
-                  ? "#ffc06e"
-                  : "#848484"
+              ? "#3D9666"
+              : data?.isEnd && !data?.isStart
+              ? "#ffc06e"
+              : "#848484"
           }
           clipPath={
             isConditional ? "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" : ""
@@ -124,22 +124,22 @@ export default function CustomReactFlowNodeGhost({ data, nodeGhostRef }) {
               isConditional
                 ? ""
                 : data?.isStart && data?.isEnd
-                  ? "1px solid #7059ff"
-                  : data?.isStart && !data?.isEnd
-                    ? "1px solid #3D9666"
-                    : data?.isEnd && !data?.isStart
-                      ? "1px solid #ffc06e"
-                      : "1px solid #848484"
+                ? "1px solid #7059ff"
+                : data?.isStart && !data?.isEnd
+                ? "1px solid #3D9666"
+                : data?.isEnd && !data?.isStart
+                ? "1px solid #ffc06e"
+                : "1px solid #848484"
             }
             borderRadius={"3px"}
             background={
               data?.isStart && data?.isEnd
                 ? "#f4f2ff"
                 : data?.isStart && !data?.isEnd
-                  ? "#edffe3"
-                  : data?.isEnd && !data?.isStart
-                    ? "#fcffe3"
-                    : "white"
+                ? "#edffe3"
+                : data?.isEnd && !data?.isStart
+                ? "#fcffe3"
+                : "white"
             }
             textAlign={"center"}
             alignItems={"center"}

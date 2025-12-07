@@ -7,11 +7,9 @@ import {
   Flex,
   Textarea,
 } from "@chakra-ui/react";
-import { AiOutlineStar } from "react-icons/ai";
-import { FaChevronDown, FaLongArrowAltRight } from "react-icons/fa";
-import { RiArrowRightSLine } from "react-icons/ri";
-import ResponseTypeMapper from "../../utils/ResponseTypeMapper";
-import QuestionTypeIconMapper from "../../utils/QuestionTypeIconMapper";
+import { FaChevronDown } from "react-icons/fa";
+import questionTypeIconMapper from "../../utils/questionTypeIconMapper";
+import ResponseTypeMapper from "../../components/ResponseTypeMapper";
 
 export default function ReportDetailsStepInspectionForm({
   inspectionForm,
@@ -96,7 +94,7 @@ export default function ReportDetailsStepInspectionForm({
                       </Flex>
                       {/* <Flex bg={"#e0e0e0"} h={"1px"} w={"100%"}></Flex> */}
                     </>
-                  ),
+                  )
                 )}
               </Flex>
             ) : (
@@ -192,8 +190,8 @@ export default function ReportDetailsStepInspectionForm({
                                     borderRadius={"20px"}
                                     p={"5px"}
                                   >
-                                    {QuestionTypeIconMapper(
-                                      inspectionQuestion.question_type,
+                                    {questionTypeIconMapper(
+                                      inspectionQuestion.question_type
                                     )}
                                   </Flex>
                                   <Flex>
@@ -230,7 +228,7 @@ export default function ReportDetailsStepInspectionForm({
                         </AccordionItem>
                       </Accordion>
                     </Flex>
-                  ),
+                  )
                 )}
               </Flex>
             )}

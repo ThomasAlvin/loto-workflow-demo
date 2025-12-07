@@ -4,40 +4,32 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Avatar,
   Box,
-  Button,
   Checkbox,
   Flex,
   Input,
-  Switch,
   Table,
   TableContainer,
   Tbody,
   Td,
   Th,
   Thead,
-  Tooltip,
   Tr,
   useToast,
 } from "@chakra-ui/react";
-import ReactSelect, { components } from "react-select";
-import { FaCogs, FaUserAlt } from "react-icons/fa";
-import { memo, useCallback, useEffect, useState } from "react";
-import { FaPlus, FaRegBell, FaTriangleExclamation } from "react-icons/fa6";
-import { TiClipboard } from "react-icons/ti";
-import { MdLockOutline } from "react-icons/md";
+import ReactSelect from "react-select";
+import { memo, useCallback, useState } from "react";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import AssignMachine from "../CreateWorkOrder/AssignMachine";
 import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
 import WorkFlowStepBadges from "./WorkFlowStepBadges";
 import { FieldArray, FormikProvider } from "formik";
 import SelectLockAssignFormikProvider from "../CreateEditWorkOrderTemplate/SelectLockAssignFormikProvider";
-import { IoMdCheckmark, IoMdInformationCircleOutline } from "react-icons/io";
+import { IoMdCheckmark } from "react-icons/io";
 import { debounce } from "lodash";
 import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
 import ReactSelectMemberMultiValue from "../ReactSelectMemberMultiValue";
-import DynamicPropsComparator from "../../utils/DynamicPropsComparator";
 import { TbLineScan } from "react-icons/tb";
 
 function WorkFlowStepAssign({
@@ -59,7 +51,7 @@ function WorkFlowStepAssign({
   const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const toast = useToast();
   const [openAccordions, setOpenAccordions] = useState(
-    val.selectedMachines?.map((val, index) => index),
+    val.selectedMachines?.map((val, index) => index)
   );
 
   const hasError =
@@ -70,7 +62,7 @@ function WorkFlowStepAssign({
     formik.errors.workOrderSteps?.[index]?.work_order_locks?.some(
       (machine, lockIndex) =>
         formik.touched.workOrderSteps?.[index]?.work_order_locks?.[lockIndex] &&
-        formik.errors.workOrderSteps?.[index]?.work_order_locks?.[lockIndex],
+        formik.errors.workOrderSteps?.[index]?.work_order_locks?.[lockIndex]
     ) ||
     (formik.errors.workOrderSteps?.[index]?.multiLockAccessGroup
       ?.multiLockAccessGroupItems &&
@@ -80,7 +72,7 @@ function WorkFlowStepAssign({
         ?.multiLockAccessGroupItems === "string") ||
     (Array.isArray(
       formik.errors.workOrderSteps?.[index]?.multiLockAccessGroup
-        ?.multiLockAccessGroupItems,
+        ?.multiLockAccessGroupItems
     ) &&
       formik.errors.workOrderSteps[
         index
@@ -89,7 +81,7 @@ function WorkFlowStepAssign({
           formik.touched.workOrderSteps?.[index]?.multiLockAccessGroup
             ?.multiLockAccessGroupItems?.[lockIndex] &&
           formik.errors.workOrderSteps?.[index]?.multiLockAccessGroup
-            ?.multiLockAccessGroupItems?.[lockIndex],
+            ?.multiLockAccessGroupItems?.[lockIndex]
       )) ||
     (formik.errors.workOrderSteps?.[index]?.assigned_to &&
       formik.touched.workOrderSteps?.[index]?.assigned_to) ||
@@ -109,14 +101,14 @@ function WorkFlowStepAssign({
           ]?.selectedInspectionForms &&
           formik.errors.workOrderSteps?.[index]?.selectedMachines?.[
             machineIndex
-          ]?.selectedInspectionForms,
+          ]?.selectedInspectionForms
       ));
 
   const filteredLockSelection = lockSelection.filter(
     (lock) =>
       !val?.multiLockAccessGroup?.multiLockAccessGroupItems
         ?.map((lock) => lock.id)
-        .includes(lock.id),
+        .includes(lock.id)
   );
   const nav = useNavigate();
   const toggleAccordion = (index) => {
@@ -124,14 +116,14 @@ function WorkFlowStepAssign({
       (prev) =>
         prev.includes(index)
           ? prev.filter((i) => i !== index) // Close accordion if it's already open
-          : [...prev, index], // Open accordion if it's closed
+          : [...prev, index] // Open accordion if it's closed
     );
   };
 
   const getCustomReactSelectStyles = (
     variant,
     lockIndex,
-    selectedMachineIndex,
+    selectedMachineIndex
   ) => {
     const customReactSelectStyle = {
       control: (provided, state) => ({
@@ -149,69 +141,67 @@ function WorkFlowStepAssign({
                 "string"
               ? "#dc143c"
               : formik.values.workOrderSteps?.[index]?.selectedMachines?.length
-                ? "#bababa"
-                : "#039be5"
+              ? "#bababa"
+              : "#039be5"
             : variant === "assign"
-              ? (
+            ? (
+                isMultiAssign
+                  ? formik.errors.workOrderSteps?.[index]?.assigned_to &&
+                    formik.touched.workOrderSteps?.[index]?.assigned_to
+                  : formik.errors.workOrderSteps?.[index]?.assigned_to?.id &&
+                    formik.touched.workOrderSteps?.[index]?.assigned_to?.id
+              )
+              ? "#dc143c"
+              : (
                   isMultiAssign
-                    ? formik.errors.workOrderSteps?.[index]?.assigned_to &&
-                      formik.touched.workOrderSteps?.[index]?.assigned_to
-                    : formik.errors.workOrderSteps?.[index]?.assigned_to?.id &&
-                      formik.touched.workOrderSteps?.[index]?.assigned_to?.id
+                    ? formik.values.workOrderSteps?.[index]?.assigned_to?.length
+                    : formik.values.workOrderSteps?.[index]?.assigned_to?.id
                 )
-                ? "#dc143c"
-                : (
-                      isMultiAssign
-                        ? formik.values.workOrderSteps?.[index]?.assigned_to
-                            ?.length
-                        : formik.values.workOrderSteps?.[index]?.assigned_to?.id
-                    )
-                  ? "#bababa"
-                  : "#039be5"
-              : variant === "notify"
-                ? (
-                    isMultiAssign
-                      ? formik.errors.workOrderSteps?.[index]?.notify_to &&
-                        formik.touched.workOrderSteps?.[index]?.notify_to
-                      : formik.errors.workOrderSteps?.[index]?.notify_to?.id &&
-                        formik.touched.workOrderSteps?.[index]?.notify_to?.id
-                  )
-                  ? "#dc143c"
-                  : (
-                        isMultiAssign
-                          ? formik.values.workOrderSteps?.[index]?.notify_to
-                              ?.length
-                          : formik.values.workOrderSteps?.[index]?.notify_to?.id
-                      )
-                    ? "#bababa"
-                    : "#039be5"
-                : variant === "lock"
-                  ? formik.errors.workOrderSteps?.[index]?.work_order_locks?.[
-                      lockIndex
-                    ]?.id &&
-                    formik.touched.workOrderSteps?.[index]?.work_order_locks?.[
-                      lockIndex
-                    ]?.id
-                    ? "#dc143c"
-                    : formik.values.workOrderSteps?.[index]?.work_order_locks?.[
-                          lockIndex
-                        ]?.id
-                      ? "#bababa"
-                      : "#039be5"
-                  : variant === "inspectionForm"
-                    ? formik.errors.workOrderSteps?.[index]?.selectedMachines?.[
-                        selectedMachineIndex
-                      ]?.selectedInspectionForms &&
-                      formik.touched.workOrderSteps?.[index]
-                        ?.selectedMachines?.[selectedMachineIndex]
-                        ?.selectedInspectionForms
-                      ? "#dc143c"
-                      : formik.values.workOrderSteps?.[index]
-                            ?.selectedMachines?.[selectedMachineIndex]
-                            ?.selectedInspectionForms.length
-                        ? "#bababa"
-                        : "#039be5"
-                    : "", // Default case
+              ? "#bababa"
+              : "#039be5"
+            : variant === "notify"
+            ? (
+                isMultiAssign
+                  ? formik.errors.workOrderSteps?.[index]?.notify_to &&
+                    formik.touched.workOrderSteps?.[index]?.notify_to
+                  : formik.errors.workOrderSteps?.[index]?.notify_to?.id &&
+                    formik.touched.workOrderSteps?.[index]?.notify_to?.id
+              )
+              ? "#dc143c"
+              : (
+                  isMultiAssign
+                    ? formik.values.workOrderSteps?.[index]?.notify_to?.length
+                    : formik.values.workOrderSteps?.[index]?.notify_to?.id
+                )
+              ? "#bababa"
+              : "#039be5"
+            : variant === "lock"
+            ? formik.errors.workOrderSteps?.[index]?.work_order_locks?.[
+                lockIndex
+              ]?.id &&
+              formik.touched.workOrderSteps?.[index]?.work_order_locks?.[
+                lockIndex
+              ]?.id
+              ? "#dc143c"
+              : formik.values.workOrderSteps?.[index]?.work_order_locks?.[
+                  lockIndex
+                ]?.id
+              ? "#bababa"
+              : "#039be5"
+            : variant === "inspectionForm"
+            ? formik.errors.workOrderSteps?.[index]?.selectedMachines?.[
+                selectedMachineIndex
+              ]?.selectedInspectionForms &&
+              formik.touched.workOrderSteps?.[index]?.selectedMachines?.[
+                selectedMachineIndex
+              ]?.selectedInspectionForms
+              ? "#dc143c"
+              : formik.values.workOrderSteps?.[index]?.selectedMachines?.[
+                  selectedMachineIndex
+                ]?.selectedInspectionForms.length
+              ? "#bababa"
+              : "#039be5"
+            : "", // Default case
         borderRadius: "0px",
         boxShadow: state.isFocused ? "0 0 3px rgba(3, 154, 229, 0.8)" : "none",
         "&:hover": {
@@ -307,7 +297,7 @@ function WorkFlowStepAssign({
                           };
                         }
                         return val2;
-                      },
+                      }
                     ),
                 },
               };
@@ -332,7 +322,7 @@ function WorkFlowStepAssign({
             return { ...workStep, selectedMachines: tempArr };
           }
           return workStep;
-        },
+        }
       ),
     }));
 
@@ -358,7 +348,7 @@ function WorkFlowStepAssign({
                   return { ...val2, require_lock_image: checked };
                 }
                 return val2;
-              },
+              }
             ),
           };
         }
@@ -417,8 +407,8 @@ function WorkFlowStepAssign({
           hasError
             ? "0px 0px 3px rgba(220, 20, 60,1)"
             : isHighlightedIndex
-              ? "0px 0px 3px rgba(0, 145, 207,1)"
-              : "0px 0px 3px rgba(50, 50, 93,0.5)"
+            ? "0px 0px 3px rgba(0, 145, 207,1)"
+            : "0px 0px 3px rgba(50, 50, 93,0.5)"
         }
       >
         <AccordionButton
@@ -503,7 +493,7 @@ function WorkFlowStepAssign({
                       isMultiAssign
                         ? `workOrderSteps[${index}].assigned_to`
                         : `workOrderSteps[${index}].assigned_to.id`,
-                      true,
+                      true
                     );
                     formik.validateForm();
                   }, 0);
@@ -700,7 +690,7 @@ function WorkFlowStepAssign({
                           isMultiAssign
                             ? `workOrderSteps[${index}].notify_to`
                             : `workOrderSteps[${index}].notify_to.id`,
-                          true,
+                          true
                         );
                         formik.validateForm();
                       }, 0);
@@ -855,7 +845,7 @@ function WorkFlowStepAssign({
                             formik.validateForm();
                             formik.setFieldTouched(
                               `workOrderSteps[${index}].selectedMachines`,
-                              true,
+                              true
                             );
                           }, 0);
                         }}
@@ -887,7 +877,7 @@ function WorkFlowStepAssign({
                                 textDecoration={"underline"}
                                 onClick={() =>
                                   handleCallToAction(
-                                    "/equipment-machine/create",
+                                    "/equipment-machine/create"
                                   )
                                 }
                               >
@@ -1031,7 +1021,7 @@ function WorkFlowStepAssign({
                                   }
                                   formik={formik}
                                 />
-                              ),
+                              )
                             )
                           )}
                         </Tbody>
@@ -1098,7 +1088,7 @@ function WorkFlowStepAssign({
                                   };
                                 }
                                 return val;
-                              },
+                              }
                             ),
                           }));
                           push(lock);
@@ -1115,12 +1105,12 @@ function WorkFlowStepAssign({
                                       work_order_locks:
                                         val.work_order_locks.filter(
                                           (val3, indexWorkOrderLock) =>
-                                            indexWorkOrderLock !== lockIndex,
+                                            indexWorkOrderLock !== lockIndex
                                         ),
                                     };
                                   }
                                   return val2;
-                                },
+                                }
                               ),
                             };
                           });
@@ -1208,7 +1198,7 @@ function WorkFlowStepAssign({
                                     };
                                   }
                                   return val;
-                                },
+                                }
                               ),
                             }));
                             push(lock);
@@ -1227,14 +1217,13 @@ function WorkFlowStepAssign({
                                           multiLockAccessGroupItems:
                                             val.multiLockAccessGroup.multiLockAccessGroupItems.filter(
                                               (val3, indexWorkOrderLock) =>
-                                                indexWorkOrderLock !==
-                                                lockIndex,
+                                                indexWorkOrderLock !== lockIndex
                                             ),
                                         },
                                       };
                                     }
                                     return val2;
-                                  },
+                                  }
                                 ),
                               };
                             });
@@ -1316,7 +1305,7 @@ function WorkFlowStepAssign({
                         formik.validateForm();
                         formik.setFieldTouched(
                           `workOrderSteps[${index}].titleTriggerAPI`,
-                          true,
+                          true
                         );
                       }, 0);
                     }}
@@ -1326,8 +1315,8 @@ function WorkFlowStepAssign({
                       formik.touched.workOrderSteps?.[index]?.titleTriggerAPI
                         ? "1px solid #dc143c"
                         : formik.values.workOrderSteps?.[index]?.titleTriggerAPI
-                          ? "1px solid #bababa"
-                          : "1px solid #039be5"
+                        ? "1px solid #bababa"
+                        : "1px solid #039be5"
                     }
                   />
                   {formik.errors.workOrderSteps?.[index]?.titleTriggerAPI &&
@@ -1363,25 +1352,25 @@ function WorkFlowStepAssign({
 }
 const MemoizedStepModalFormQuestion = memo(
   WorkFlowStepAssign,
-  // DynamicPropsComparator
+  // dynamicPropsComparator
   (prevProps, nextProps) => {
     const prevWorkOrderStep = JSON.stringify(
-      prevProps.formik.errors?.workOrderSteps?.[prevProps.index],
+      prevProps.formik.errors?.workOrderSteps?.[prevProps.index]
     );
     const nextWorkOrderStep = JSON.stringify(
-      nextProps.formik.errors?.workOrderSteps?.[nextProps.index],
+      nextProps.formik.errors?.workOrderSteps?.[nextProps.index]
     );
     const prevTouched = JSON.stringify(
-      prevProps.formik.touched?.workOrderSteps?.[prevProps.index],
+      prevProps.formik.touched?.workOrderSteps?.[prevProps.index]
     );
     const nextTouched = JSON.stringify(
-      nextProps.formik.touched?.workOrderSteps?.[nextProps.index],
+      nextProps.formik.touched?.workOrderSteps?.[nextProps.index]
     );
     const prevValue = JSON.stringify(
-      prevProps.formik.values?.workOrderSteps?.[prevProps.index],
+      prevProps.formik.values?.workOrderSteps?.[prevProps.index]
     );
     const nextValue = JSON.stringify(
-      nextProps.formik.values?.workOrderSteps?.[nextProps.index],
+      nextProps.formik.values?.workOrderSteps?.[nextProps.index]
     );
     // return false;
     return (
@@ -1401,7 +1390,7 @@ const MemoizedStepModalFormQuestion = memo(
       (prevTouched || !prevTouched) === (nextTouched || !nextTouched) &&
       (prevValue || !prevValue) === (nextValue || !nextValue)
     );
-  },
+  }
 );
 
 // Export the memoized component

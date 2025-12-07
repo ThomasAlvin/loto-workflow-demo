@@ -1,38 +1,9 @@
-import React, { useState } from "react";
-import {
-  Flex,
-  useDisclosure,
-  Icon,
-  Divider,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Box,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  TableContainer,
-  Table,
-  TableCaption,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
-  Tfoot,
-  Tooltip,
-} from "@chakra-ui/react";
-import { FaEllipsisVertical, FaMagnifyingGlass } from "react-icons/fa6";
+import { Flex, Tooltip } from "@chakra-ui/react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import LockDetailsModal from "./LockDetailsModal";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import { useLocation, useNavigate } from "react-router-dom";
-import Can from "../../utils/Can";
+import Can from "../../components/Can";
+import LockDetailsModal from "./LockDetailsModal";
 import LockDownloadQRCode from "./LockDownloadQRCode";
 export default function LockMenu({
   val,

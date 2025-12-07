@@ -10,12 +10,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { TiWarning } from "react-icons/ti";
-import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import { useState } from "react";
 
 export default function AbortStepModal({
   abortStep,

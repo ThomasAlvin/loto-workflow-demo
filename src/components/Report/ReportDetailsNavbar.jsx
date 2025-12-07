@@ -4,26 +4,16 @@ import {
   ButtonGroup,
   Divider,
   Flex,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Spinner,
 } from "@chakra-ui/react";
-import { FaArrowLeftLong, FaChevronUp } from "react-icons/fa6";
-import { IoSettingsOutline } from "react-icons/io5";
-import { BsQuestionCircle } from "react-icons/bs";
-import { RiDraftLine } from "react-icons/ri";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdFileDownload } from "react-icons/md";
 
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { AddIcon, HamburgerIcon } from "@chakra-ui/icons";
-import { FaRegFilePdf, FaRegFileWord } from "react-icons/fa";
-import SwalErrorMessages from "../SwalErrorMessages";
-import Swal from "sweetalert2";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { api } from "../../api/api";
+import SwalErrorMessages from "../SwalErrorMessages";
 export default function ReportDetailsNavbar({
   generatePdf,
   reportUID,

@@ -1,11 +1,7 @@
 import { Box, Flex, Input, Select, Textarea } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import ReactSelect from "react-select";
-import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
-import { api } from "../../api/api";
-import CreatableSelect from "react-select/creatable";
-import QRCodeGenerator from "../LockInventory/QRCodeGenerator";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import CustomSelectionSelect from "../CustomSelectionSelect";
+import QRCodeGenerator from "../LockInventory/QRCodeGenerator";
 
 function CreateEquipmentMachinePageRightSide({
   isEdit,

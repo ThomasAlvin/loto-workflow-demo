@@ -1,10 +1,9 @@
 import { Avatar, Box, Flex } from "@chakra-ui/react";
-import { FaUserAlt } from "react-icons/fa";
 import moment from "moment";
-import LabelizeRole from "../../utils/LabelizeRole";
-import { HiWrenchScrewdriver } from "react-icons/hi2";
 import { useEffect, useState } from "react";
-import { FaUserGear } from "react-icons/fa6";
+import { FaUserAlt } from "react-icons/fa";
+import { HiWrenchScrewdriver } from "react-icons/hi2";
+import labelizeRole from "../../utils/labelizeRole";
 
 export default function WorkOrderDetailsAuditLog({
   from,
@@ -35,14 +34,14 @@ export default function WorkOrderDetailsAuditLog({
   const auditLogUser = val.first_name
     ? val
     : val?.superadmin?.first_name
-      ? val.superadmin
-      : {
-          ...val.member?.user,
-          role: val.member?.role,
-          employee_id: val.member?.employee_id,
-        };
+    ? val.superadmin
+    : {
+        ...val.member?.user,
+        role: val.member?.role,
+        employee_id: val.member?.employee_id,
+      };
   const [userImage, setUserImage] = useState(
-    IMGURL + auditLogUser.profile_image_url || "",
+    IMGURL + auditLogUser.profile_image_url || ""
   );
 
   useEffect(() => {
@@ -127,8 +126,8 @@ export default function WorkOrderDetailsAuditLog({
                 {val.type === "manual"
                   ? auditLogUser.first_name + " " + auditLogUser.last_name
                   : val.type === "system"
-                    ? "System"
-                    : ""}
+                  ? "System"
+                  : ""}
               </Flex>
             </Flex>
             <Flex
@@ -142,12 +141,12 @@ export default function WorkOrderDetailsAuditLog({
                 ? val.superadmin?.first_name ||
                   auditLogUser.role === "super_admin"
                   ? "Super Admin"
-                  : LabelizeRole(auditLogUser.role) +
+                  : labelizeRole(auditLogUser.role) +
                     " - " +
                     auditLogUser.employee_id
                 : val.type === "system"
-                  ? "Digipas Technologies.inc"
-                  : ""}
+                ? "Digipas Technologies.inc"
+                : ""}
             </Flex>
           </Flex>
         </Flex>
@@ -180,7 +179,7 @@ export default function WorkOrderDetailsAuditLog({
               <Flex
                 onClick={() =>
                   handleOpenSwitchRequestDetailModal(
-                    val.assignee_switch_request,
+                    val.assignee_switch_request
                   )
                 }
                 _hover={{ textDecor: "underline" }}

@@ -12,14 +12,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Switch,
   Textarea,
 } from "@chakra-ui/react";
-import { FaTriangleExclamation } from "react-icons/fa6";
-import Swal from "sweetalert2";
 import { useState } from "react";
-import { api } from "../../api/api";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import { api } from "../../api/api";
 import SwalErrorMessages from "../SwalErrorMessages";
 
 export default function EditWorkSiteModal({
@@ -62,8 +61,7 @@ export default function EditWorkSiteModal({
             payload: {
               ...userSelector,
               main_work_site: workSites.find(
-                (workSite) =>
-                  workSite.UID === editWorkSiteForm.getValues("UID"),
+                (workSite) => workSite.UID === editWorkSiteForm.getValues("UID")
               ),
             },
           });
@@ -72,9 +70,9 @@ export default function EditWorkSiteModal({
         abortControllerRef.current = new AbortController();
         fetchWorkSites(
           workSites.find(
-            (workSite) => workSite.UID === editWorkSiteForm.getValues("UID"),
+            (workSite) => workSite.UID === editWorkSiteForm.getValues("UID")
           ),
-          data.isDefault,
+          data.isDefault
         );
       })
       .catch((error) => {

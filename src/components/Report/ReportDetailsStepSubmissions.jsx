@@ -11,29 +11,27 @@ import {
   TableContainer,
   Tbody,
   Td,
-  Textarea,
   Th,
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { FaChevronDown } from "react-icons/fa6";
 import moment from "moment";
+import { FaChevronDown } from "react-icons/fa6";
 
 import { IoIosLock } from "react-icons/io";
-import ResponseTypeMapper from "../../utils/ResponseTypeMapper";
-import ReportDetailsStepInspectionForm from "./ReportDetailsStepInspectionForm";
-import ListEmptyState from "../ListEmptyState";
-import TableStatusStyleMapper from "../../utils/TableStatusStyleMapper";
-import formatString from "../../utils/formatString";
-import GetLockImageByModel from "../../utils/GetLockImageByModel";
-import MemberGroupList from "../MemberGroupList";
 import { TbLineScan } from "react-icons/tb";
-import QuestionTypeIconMapper from "../../utils/QuestionTypeIconMapper";
+import formatString from "../../utils/formatString";
+import getLockImageByModel from "../../utils/getLockImageByModel";
+import ResponseTypeMapper from "../../components/ResponseTypeMapper";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import ListEmptyState from "../ListEmptyState";
+import MemberGroupList from "../MemberGroupList";
+import ReportDetailsStepInspectionForm from "./ReportDetailsStepInspectionForm";
 export default function ReportDetailsStepSubmissions({ selectedStep }) {
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const multiLockAccessNames =
     selectedStep?.report_multi_lock_group?.report_multi_lock_group_items.map(
-      (item) => item.name,
+      (item) => item.name
     ) || [];
 
   const lockAccessIds =
@@ -47,7 +45,7 @@ export default function ReportDetailsStepSubmissions({ selectedStep }) {
   const lockAccessAuditLogs = selectedStep.report_step_audit_trails?.filter(
     (log) => {
       return lockAccessIds.includes(log.lock?.name);
-    },
+    }
   );
 
   return (
@@ -92,7 +90,7 @@ export default function ReportDetailsStepSubmissions({ selectedStep }) {
                     </Flex>
                     <Flex>
                       {moment(reportSubmission.finished_at).format(
-                        "MMMM Do YYYY, hh:mm A",
+                        "MMMM Do YYYY, hh:mm A"
                       )}
                     </Flex>
                   </Flex>
@@ -160,7 +158,7 @@ export default function ReportDetailsStepSubmissions({ selectedStep }) {
                 </Flex>
               </Flex>
             );
-          },
+          }
         )
       ) : (
         <Flex px={"20px"} w={"100%"} flexDir={"column"} gap={"20px"}>
@@ -299,7 +297,7 @@ function NotifySection({ selectedStep, submissionIndex, notifyAt }) {
                       last_name: assignedMember.last_name,
                       profile_image_url: assignedMember.profile_image_url,
                     },
-                  }),
+                  })
                 )}
                 hasShowMore={false}
               />
@@ -467,7 +465,7 @@ function MachineSection({ selectedStep, submissionIndex }) {
                                         submissionIndex={submissionIndex}
                                         inspectionForm={inspectionForm}
                                       />
-                                    ),
+                                    )
                                   )}
                                 </Flex>
                               ) : (
@@ -545,7 +543,7 @@ function MachineSection({ selectedStep, submissionIndex }) {
                   last_name: assignedMember.last_name,
                   profile_image_url: assignedMember.profile_image_url,
                 },
-              }),
+              })
             )}
             hasShowMore={false}
           />
@@ -634,7 +632,7 @@ function LockAccessSection({ selectedStep, submissionIndex }) {
                           >
                             <Flex color={"white"} fontSize={"20px"}>
                               {val.model ? (
-                                <Image src={GetLockImageByModel(val.model)} />
+                                <Image src={getLockImageByModel(val.model)} />
                               ) : (
                                 <IoIosLock />
                               )}
@@ -750,7 +748,7 @@ function LockAccessSection({ selectedStep, submissionIndex }) {
                   {lockAccessAuditLogs.length ? (
                     lockAccessAuditLogs.map((val, index) => {
                       const { bgColor, textColor, icon, text } =
-                        TableStatusStyleMapper(val.status);
+                        tableStatusStyleMapper(val.status);
                       return (
                         <Tr
                           onClick={() => {}}
@@ -775,8 +773,8 @@ function LockAccessSection({ selectedStep, submissionIndex }) {
                                 <Flex color={"white"} fontSize={"20px"}>
                                   {val.report_lock.model ? (
                                     <Image
-                                      src={GetLockImageByModel(
-                                        val.report_lock.model,
+                                      src={getLockImageByModel(
+                                        val.report_lock.model
                                       )}
                                     />
                                   ) : (
@@ -925,7 +923,7 @@ function MultiLockAccessSection({
               (
               {
                 selectedStep.report_multi_lock_group.report_multi_lock_group_items.filter(
-                  (groupItems) => groupItems.report_stepId === selectedStep.id,
+                  (groupItems) => groupItems.report_stepId === selectedStep.id
                 ).length
               }{" "}
               Locks Selected)&nbsp;
@@ -963,7 +961,7 @@ function MultiLockAccessSection({
                   selectedStep.report_multi_lock_group.report_multi_lock_group_items
                     .filter(
                       (groupItems) =>
-                        groupItems.report_stepId === selectedStep.id,
+                        groupItems.report_stepId === selectedStep.id
                     )
                     .map((val, index) => {
                       return (
@@ -1001,8 +999,8 @@ function MultiLockAccessSection({
                                 <Flex color={"white"} fontSize={"20px"}>
                                   {val.report_lock.model ? (
                                     <Image
-                                      src={GetLockImageByModel(
-                                        val.report_lock.model,
+                                      src={getLockImageByModel(
+                                        val.report_lock.model
                                       )}
                                     />
                                   ) : (
@@ -1057,7 +1055,7 @@ function MultiLockAccessSection({
           <Flex gap={"10px"} flexDir={"column"}>
             {selectedStep?.report_multi_lock_group.report_multi_lock_group_items
               .filter(
-                (groupItems) => groupItems.report_stepId === selectedStep.id,
+                (groupItems) => groupItems.report_stepId === selectedStep.id
               )
               .map((multiLock) => (
                 <Flex flexDir={"column"} gap={"10px"}>
@@ -1066,12 +1064,12 @@ function MultiLockAccessSection({
                   </Flex>
                   {multiLock.report_multi_lock_group_item_responses.filter(
                     (itemResponses) =>
-                      itemResponses.report_stepId === selectedStep.id,
+                      itemResponses.report_stepId === selectedStep.id
                   ).length ? (
                     multiLock.report_multi_lock_group_item_responses
                       .filter(
                         (itemResponses) =>
-                          itemResponses.report_stepId === selectedStep.id,
+                          itemResponses.report_stepId === selectedStep.id
                       )
                       .map((responseImageURL) => (
                         <>
@@ -1161,7 +1159,7 @@ function MultiLockAccessSection({
                 {multiLockAccessAuditLogs.length ? (
                   multiLockAccessAuditLogs.map((val, index) => {
                     const { bgColor, textColor, icon, text } =
-                      TableStatusStyleMapper(val.status);
+                      tableStatusStyleMapper(val.status);
                     return (
                       <Tr
                         onClick={() => {}}
@@ -1186,8 +1184,8 @@ function MultiLockAccessSection({
                               <Flex color={"white"} fontSize={"20px"}>
                                 {val.report_lock.model ? (
                                   <Image
-                                    src={GetLockImageByModel(
-                                      val.report_lock.model,
+                                    src={getLockImageByModel(
+                                      val.report_lock.model
                                     )}
                                   />
                                 ) : (

@@ -1,8 +1,4 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionItem,
-  AccordionPanel,
   Box,
   Button,
   Divider,
@@ -27,18 +23,17 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import ReactSelect from "react-select";
-import { FaChevronDown, FaPlus, FaTriangleExclamation } from "react-icons/fa6";
-import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
+import ReactSelect from "react-select";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import { useState } from "react";
-import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import WorkOrderDetailsFormQuestion from "../WorkOrders/WorkOrderDetailsFormQuestion";
+import convertToFormData from "../../utils/convertToFormData";
 import SwalErrorMessages from "../SwalErrorMessages";
-import convertToFormData from "../../utils/ConvertToFormData";
 
 export default function EditMachineCategoryModal({
   fetchMachineCategory,
@@ -60,7 +55,7 @@ export default function EditMachineCategoryModal({
       (prev) =>
         prev.includes(index)
           ? prev.filter((i) => i !== index) // Close accordion if it's already open
-          : [...prev, index], // Open accordion if it's closed
+          : [...prev, index] // Open accordion if it's closed
     );
   };
 
@@ -89,7 +84,7 @@ export default function EditMachineCategoryModal({
     resolver: yupResolver(
       Yup.object({
         name: Yup.string().trim().required("Name is required"),
-      }),
+      })
     ),
     mode: "onTouched",
     reValidateMode: "onChange",
@@ -98,8 +93,8 @@ export default function EditMachineCategoryModal({
   const filteredOptions = inspectionFormSelection.filter(
     (option) =>
       !watch("inspectionForm").some(
-        (selected) => selected.label === option.label,
-      ),
+        (selected) => selected.label === option.label
+      )
   );
 
   async function onSubmit(data) {
@@ -168,7 +163,7 @@ export default function EditMachineCategoryModal({
         id: form.id,
         label: form.name,
         value: form,
-      })),
+      }))
     );
   }
 
@@ -548,7 +543,7 @@ export default function EditMachineCategoryModal({
                                 </Tr> */}
                               </>
                             );
-                          },
+                          }
                         )
                       )}
                     </Tbody>

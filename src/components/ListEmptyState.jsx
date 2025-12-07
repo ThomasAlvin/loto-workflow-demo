@@ -30,10 +30,10 @@ export default function ListEmptyState({
                   size === "xs"
                     ? "120px"
                     : size === "sm"
-                      ? "150px"
-                      : size === "md"
-                        ? "200px"
-                        : "200px"
+                    ? "150px"
+                    : size === "md"
+                    ? "200px"
+                    : "200px"
                 }
                 src={emptyIllustration}
               ></Image>

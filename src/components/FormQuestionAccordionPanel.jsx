@@ -21,7 +21,7 @@ import {
 import { FaChevronRight, FaPlus } from "react-icons/fa";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
-import { UnitOptions } from "../utils/OptionsUtils";
+import { UnitOptions } from "../utils/optionsUtils";
 
 export default function FormQuestionAccordionPanel({
   type,
@@ -278,11 +278,11 @@ export default function FormQuestionAccordionPanel({
                       </Flex>
                       <Flex>
                         {Array.isArray(
-                          formikFormQuestionError[index]?.type?.options,
+                          formikFormQuestionError[index]?.type?.options
                         )
                           ? // Use find to get the first truthy value
                             formikFormQuestionError[index]?.type.options.find(
-                              (val) => val,
+                              (val) => val
                             ) || ""
                           : formikFormQuestionError[index]?.type?.options}
                       </Flex>
@@ -416,11 +416,11 @@ export default function FormQuestionAccordionPanel({
                       </Flex>
                       <Flex>
                         {Array.isArray(
-                          formikFormQuestionError[index]?.type?.options,
+                          formikFormQuestionError[index]?.type?.options
                         )
                           ? // Use find to get the first truthy value
                             formikFormQuestionError[index]?.type.options.find(
-                              (val) => val,
+                              (val) => val
                             ) || ""
                           : formikFormQuestionError[index]?.type?.options}
                       </Flex>
@@ -554,11 +554,11 @@ export default function FormQuestionAccordionPanel({
                       </Flex>
                       <Flex>
                         {Array.isArray(
-                          formikFormQuestionError[index]?.type?.options,
+                          formikFormQuestionError[index]?.type?.options
                         )
                           ? // Use find to get the first truthy value
                             formikFormQuestionError[index]?.type.options.find(
-                              (val) => val,
+                              (val) => val
                             ) || ""
                           : formikFormQuestionError[index]?.type?.options}
                       </Flex>

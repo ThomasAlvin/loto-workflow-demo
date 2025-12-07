@@ -1,5 +1,4 @@
 import { Flex, Input, Textarea, Tooltip } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { FaRegCircleQuestion, FaTriangleExclamation } from "react-icons/fa6";
 
 export default function WorkOrderDetailsInput({

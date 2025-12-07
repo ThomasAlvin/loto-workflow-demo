@@ -1,10 +1,5 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
   Avatar,
-  Box,
   Button,
   Divider,
   Flex,
@@ -16,22 +11,18 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import SwitchRequestDetailStep from "./SwitchRequestDetailStep";
-import tinycolor from "tinycolor2";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import { FaUserAlt } from "react-icons/fa";
-import LabelizeRole from "../../utils/LabelizeRole";
-import ReactSelect from "react-select";
-import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
-import { FaTriangleExclamation } from "react-icons/fa6";
-import Swal from "sweetalert2";
 import { useEffect, useRef, useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
+import tinycolor from "tinycolor2";
+import * as Yup from "yup";
 import { api } from "../../api/api";
+import labelizeRole from "../../utils/labelizeRole";
+import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 import SwalErrorMessages from "../SwalErrorMessages";
-import TableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
-import MemberGroupList from "../MemberGroupList";
-import setAllFieldsTouched from "../../utils/SetAllFieldsTouched";
+import SwitchRequestDetailStep from "./SwitchRequestDetailStep";
 export default function SwitchRequestDetailModal({
   abortControllerRef,
   fetchSwitchRequest,
@@ -46,7 +37,7 @@ export default function SwitchRequestDetailModal({
   // const filteredMemberSelection = memberSelection?.filter(
   //   (member) => member?.UID !== selectedSwitchRequest?.old_assignee?.UID
   // );
-  const statusTag = TableStatusStyleMapper(selectedSwitchRequest.status);
+  const statusTag = tableStatusStyleMapper(selectedSwitchRequest.status);
 
   const requester = selectedSwitchRequest?.requester_super_admin?.id
     ? selectedSwitchRequest?.requester_super_admin
@@ -336,7 +327,7 @@ export default function SwitchRequestDetailModal({
                       >
                         {selectedSwitchRequest?.requester_super_admin?.id
                           ? "Super Admin"
-                          : LabelizeRole(requester?.role) +
+                          : labelizeRole(requester?.role) +
                             " - " +
                             requester?.employee_id}
                       </Flex>
@@ -416,7 +407,7 @@ export default function SwitchRequestDetailModal({
                           fontSize={"14px"}
                           color={"#848484"}
                         >
-                          {LabelizeRole(
+                          {labelizeRole(
                             selectedSwitchRequest.old_assignee?.role
                           ) +
                             " - " +
@@ -529,7 +520,7 @@ export default function SwitchRequestDetailModal({
                           fontSize={"14px"}
                           color={"#848484"}
                         >
-                          {LabelizeRole(
+                          {labelizeRole(
                             selectedSwitchRequest.new_assignee?.role
                           ) +
                             " - " +

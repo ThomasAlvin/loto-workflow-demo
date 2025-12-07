@@ -1,9 +1,9 @@
-import { Checkbox, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { memo } from "react";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
 import ReactSelect from "react-select";
-import DynamicPropsComparator from "../../utils/DynamicPropsComparator";
+import dynamicPropsComparator from "../../utils/dynamicPropsComparator";
 
 function SelectAssignLockMemo({
   // formik,
@@ -45,7 +45,7 @@ function SelectAssignLockMemo({
                 formikValidateForm();
                 formikSetFieldTouched(
                   `workOrderSteps[${stepIndex}].multiLockAccessGroup.multiLockAccessGroupItems[${index}].id`,
-                  true,
+                  true
                 );
               }}
               styles={getCustomReactSelectStyles("lock", index)}
@@ -168,5 +168,5 @@ function SelectAssignLockMemo({
   );
 }
 // const SelectAssignLock = memo(SelectAssignLockMemo, () => false);
-const SelectAssignLock = memo(SelectAssignLockMemo, DynamicPropsComparator);
+const SelectAssignLock = memo(SelectAssignLockMemo, dynamicPropsComparator);
 export default SelectAssignLock;

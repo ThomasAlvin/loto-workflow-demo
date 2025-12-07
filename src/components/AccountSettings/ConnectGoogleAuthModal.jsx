@@ -19,7 +19,7 @@ import Swal from "sweetalert2";
 import { api } from "../../api/api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import setAllFieldsTouched from "../../utils/SetAllFieldsTouched";
+import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 

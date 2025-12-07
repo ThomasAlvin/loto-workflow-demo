@@ -27,7 +27,7 @@ import WorkOrderMenu from "../components/WorkOrders/WorkOrderMenu";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "../api/api";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import { debounce } from "lodash";
 import { IoMdSearch } from "react-icons/io";
 import ListEmptyState from "../components/ListEmptyState";
@@ -839,7 +839,7 @@ export default function WorkOrdersPage() {
                         employee_id: val?.creator?.member?.employee_id,
                       };
                   const { bgColor, textColor, icon, text } =
-                    TableStatusStyleMapper(val.status);
+                    tableStatusStyleMapper(val.status);
                   return (
                     <Tr
                       fontSize={"14px"}

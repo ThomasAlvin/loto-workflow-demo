@@ -7,9 +7,9 @@ import {
   MenuList,
   Portal,
 } from "@chakra-ui/react";
-import QuestionTypeIconMapper from "../../utils/QuestionTypeIconMapper";
+import questionTypeIconMapper from "../../utils/questionTypeIconMapper";
 import { memo } from "react";
-import { InputOptions } from "../../utils/OptionsUtils";
+import { InputOptions } from "../../utils/optionsUtils";
 
 function StepFormQuestionInputTypeMenu({
   type,
@@ -41,7 +41,7 @@ function StepFormQuestionInputTypeMenu({
             borderRadius={"20px"}
             p={"3px"}
           >
-            {QuestionTypeIconMapper(type.title)}
+            {questionTypeIconMapper(type.title)}
           </Flex>
           <Flex>{type.title}</Flex>
         </Flex>
@@ -72,7 +72,7 @@ function StepFormQuestionInputTypeMenu({
                             borderRadius={"20px"}
                             p={"5px"}
                           >
-                            {QuestionTypeIconMapper(val2.title)}
+                            {questionTypeIconMapper(val2.title)}
                           </Flex>
                           <Flex>{val2.title}</Flex>
                         </Flex>

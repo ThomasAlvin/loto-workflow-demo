@@ -1,37 +1,19 @@
 import {
   Box,
-  Button,
   Divider,
   Flex,
-  Input,
   MenuItem,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Tag,
   TagLabel,
-  Textarea,
-  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
-import ReactSelect from "react-select";
-import CreatableSelect from "react-select/creatable";
-import {
-  FaMagnifyingGlass,
-  FaPlus,
-  FaTriangleExclamation,
-  FaWrench,
-} from "react-icons/fa6";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import CreateInspectionFormModalFormQuestion from "./CreateInspectionFormModalFormQuestion";
+import { FaMagnifyingGlass, FaWrench } from "react-icons/fa6";
 import InspectionFormDetailsModalFormQuestions from "./InspectionFormDetailsModalFormQuestions";
 
 export default function InspectionFormDetailsModal({ inspectionForm }) {
@@ -167,7 +149,7 @@ export default function InspectionFormDetailsModal({ inspectionForm }) {
                           index={inspectionQuestionIndex}
                         />
                       );
-                    },
+                    }
                   )}
                 </Flex>
               </Flex>

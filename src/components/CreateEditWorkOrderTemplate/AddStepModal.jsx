@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import {
   Flex,
   useDisclosure,
@@ -21,47 +21,29 @@ import {
   Input,
   Textarea,
   Tooltip,
-  Select,
   Slider,
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
   SliderMark,
-  Menu,
-  MenuButton,
-  MenuList,
-  Switch,
 } from "@chakra-ui/react";
 import { FaTriangleExclamation } from "react-icons/fa6";
-import { FaChevronRight, FaPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { v4 as uuid } from "uuid";
-import {
-  IoAccessibility,
-  IoClose,
-  IoInformationCircle,
-  IoInformationCircleOutline,
-} from "react-icons/io5";
+import { IoAccessibility } from "react-icons/io5";
 import { GoPencil } from "react-icons/go";
 import * as Yup from "yup";
-import StepModalFormQuestion from "./StepModalFormQuestion";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { VscEmptyWindow } from "react-icons/vsc";
 import { useFormik } from "formik";
 import StepModalFormDraggable from "./StepModalFormDraggable";
-import {
-  IoMdInformationCircle,
-  IoMdInformationCircleOutline,
-} from "react-icons/io";
-import CustomSelectionSelect from "../CustomSelectionSelect";
-import ReactSelect from "react-select";
-import GetAlphabeticSequencing from "../../utils/GetAlphabeticSequencing";
-import DynamicPropsComparator from "../../utils/DynamicPropsComparator";
-import setAllFieldsTouched from "../../utils/SetAllFieldsTouched";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import dynamicPropsComparator from "../../utils/dynamicPropsComparator";
+import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
 import { useReactFlow } from "@xyflow/react";
 import computeNodeOrder from "../../utils/computeNodeOrder";
 import defaultNodeSettings from "../../constants/defaultNodeSettings";
 import getConnectedNodes from "../../utils/getConnectedNodes";
-import GeneralStepsData from "../../utils/GeneralStepsData";
 import getConditionalEdge from "../../utils/getConditionalEdge";
 import getConditionalNode from "../../utils/getConditionalNode";
 import getConditionalStepValue from "../../utils/getConditionalStepValue";
@@ -142,18 +124,16 @@ function AddStepModalMemo({
                     then: () =>
                       Yup.array()
                         .of(
-                          Yup.string()
-                            .trim()
-                            .required("Option cannot be empty"),
+                          Yup.string().trim().required("Option cannot be empty")
                         ) // Each option must be a string
                         .min(
                           2,
-                          "At least two options are required for Multiple Choice",
+                          "At least two options are required for Multiple Choice"
                         )
                         .test("unique", "Options must be unique", (value) => {
                           if (!value) return true; // Skip if undefined, let required/min handle it
                           const trimmed = value.map((v) =>
-                            typeof v === "string" ? v.trim() : "",
+                            typeof v === "string" ? v.trim() : ""
                           );
                           const unique = new Set(trimmed);
                           return unique.size === trimmed.length;
@@ -166,11 +146,11 @@ function AddStepModalMemo({
                             .of(
                               Yup.string()
                                 .trim()
-                                .required("Option cannot be empty"),
+                                .required("Option cannot be empty")
                             ) // Each option must be a string
                             .min(
                               1,
-                              "At least one option is required for Checkbox",
+                              "At least one option is required for Checkbox"
                             )
                             .test(
                               "unique",
@@ -178,17 +158,17 @@ function AddStepModalMemo({
                               (value) => {
                                 if (!value) return true; // Skip if undefined, let required/min handle it
                                 const trimmed = value.map((v) =>
-                                  typeof v === "string" ? v.trim() : "",
+                                  typeof v === "string" ? v.trim() : ""
                                 );
                                 const unique = new Set(trimmed);
                                 return unique.size === trimmed.length;
-                              },
+                              }
                             ), // At least 1 option required for Checkbox
                         otherwise: () => Yup.array().nullable(), // Options are not required for other types
                       }),
                   }),
                 }),
-              }),
+              })
             ),
           otherwise: () => Yup.array().nullable(), // Make it optional if forms is not true
         }),
@@ -220,7 +200,7 @@ function AddStepModalMemo({
         return new Yup.ValidationError(
           "Atleast 1 action is required",
           null,
-          "actions",
+          "actions"
         );
       }),
     onSubmit: () => {
@@ -324,7 +304,7 @@ function AddStepModalMemo({
                   value: "",
                 },
               ]
-            : [],
+            : []
         );
         break;
       case "multiLockAccess":
@@ -395,8 +375,8 @@ function AddStepModalMemo({
         createInitialStepInput(
           formik.values?.multiLockAccessGroup?.name,
           i + 1,
-          linkedStepDataUuid[i],
-        ),
+          linkedStepDataUuid[i]
+        )
       );
     }
 
@@ -435,7 +415,7 @@ function AddStepModalMemo({
     console.log(orderedNodes.size - 1);
 
     const lastOrderedNode = nodes.find(
-      (nd) => nd.id === Array.from(orderedNodes).pop(),
+      (nd) => nd.id === Array.from(orderedNodes).pop()
     );
 
     // Calculate Edge value first
@@ -505,7 +485,7 @@ function AddStepModalMemo({
             // newNodeUuid,
             // switch id to UID
             formik.values.UID,
-            conditionalDataUuid,
+            conditionalDataUuid
           )
         : []),
       ...linkedSteps.map((linkStep, linkStepIndex) => ({
@@ -531,7 +511,7 @@ function AddStepModalMemo({
     updatedNodes = computeNodeOrder(
       updatedNodes,
       updatedEdge,
-      getNodes().length === 0 ? newNodeUuid : updatedNodes[0].id,
+      getNodes().length === 0 ? newNodeUuid : updatedNodes[0].id
     );
     // Calculate Node value after edge because edge is needed to determine node order
 
@@ -638,7 +618,7 @@ function AddStepModalMemo({
                     };
                   }
                   return formQuestion;
-                },
+                }
               ),
             };
           });
@@ -1026,7 +1006,7 @@ function AddStepModalMemo({
                                                 formik={formik}
                                               />
                                             );
-                                          },
+                                          }
                                         )
                                       )}
                                       {provided.placeholder}
@@ -1694,6 +1674,6 @@ function AddStepModalMemo({
     </Flex>
   );
 }
-const AddStepModal = memo(AddStepModalMemo, DynamicPropsComparator);
+const AddStepModal = memo(AddStepModalMemo, dynamicPropsComparator);
 
 export default AddStepModal;

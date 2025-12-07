@@ -1,38 +1,4 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Button,
-  Checkbox,
-  Flex,
-  Icon,
-  Input,
-  Menu,
-  MenuButton,
-  MenuGroup,
-  MenuItem,
-  MenuList,
-  Select,
-} from "@chakra-ui/react";
-import { useState } from "react";
-import { PiTextTBold } from "react-icons/pi";
-import {
-  IoMdCheckboxOutline,
-  IoMdRadioButtonOn,
-  IoMdSettings,
-} from "react-icons/io";
-import { CiSliderHorizontal } from "react-icons/ci";
-import {
-  FaChevronDown,
-  FaFilePdf,
-  FaFileWord,
-  FaLock,
-  FaPlus,
-  FaRegCalendar,
-  FaRegImage,
-} from "react-icons/fa6";
+import { Flex } from "@chakra-ui/react";
 
 export default function TemplateDetailsFormQuestion({
   val,

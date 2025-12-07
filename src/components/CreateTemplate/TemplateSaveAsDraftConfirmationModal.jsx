@@ -14,12 +14,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-
-import { MdOutlineDriveFolderUpload } from "react-icons/md";
-import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import SwalErrorMessages from "../SwalErrorMessages";
-import { useNavigate, useParams } from "react-router-dom";
 import { RiDraftLine } from "react-icons/ri";
 
 export default function TemplateSaveAsDraftConfirmationModal({

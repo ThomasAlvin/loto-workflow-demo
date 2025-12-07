@@ -4,7 +4,6 @@ import {
   Divider,
   Flex,
   Input,
-  MenuItem,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,21 +12,12 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
-import CreatableSelect from "react-select/creatable";
-import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import * as Yup from "yup";
-import { api } from "../../api/api";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
-import { FaRegEdit } from "react-icons/fa";
-import { VscEmptyWindow } from "react-icons/vsc";
-import SwalErrorMessages from "../SwalErrorMessages";
 
 export default function EditDepartmentModal({
   editButtonLoading,
@@ -56,7 +46,7 @@ export default function EditDepartmentModal({
     resolver: yupResolver(
       Yup.object({
         name: Yup.string().trim().required("Name is required"),
-      }),
+      })
     ),
     mode: "onTouched",
     reValidateMode: "onChange",
@@ -69,7 +59,7 @@ export default function EditDepartmentModal({
         name: selectedEditDepartment.name,
         description: selectedEditDepartment.description,
       },
-      { keepDefaultValues: true },
+      { keepDefaultValues: true }
     );
   }
 
@@ -79,7 +69,7 @@ export default function EditDepartmentModal({
         name: selectedEditDepartment.name,
         description: selectedEditDepartment.description,
       },
-      { keepDefaultValues: true },
+      { keepDefaultValues: true }
     );
   }, [selectedEditDepartment]);
 
@@ -214,7 +204,7 @@ export default function EditDepartmentModal({
                   bgColor={"#dc143c"}
                   variant="ghost"
                   onClick={handleSubmit((data) =>
-                    editDepartment(data, selectedEditDepartment.UID),
+                    editDepartment(data, selectedEditDepartment.UID)
                   )}
                 >
                   Save

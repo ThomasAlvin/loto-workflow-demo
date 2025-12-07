@@ -15,9 +15,9 @@ import { useParams } from "react-router-dom";
 import { useLoading } from "../service/LoadingContext";
 import { api } from "../api/api";
 import { FaRegClock, FaUserAlt } from "react-icons/fa";
-import TableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import moment from "moment";
-import LabelizeRole from "../utils/labelizeRole";
+import labelizeRole from "../utils/labelizeRole";
 import { FaCheck, FaFlag } from "react-icons/fa6";
 import { TbClockX } from "react-icons/tb";
 import ReviewDetails404Page from "./ReviewDetails404Page";
@@ -68,7 +68,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
   const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const pageModule = "reviews";
 
-  const { bgColor, textColor, icon, text } = TableStatusStyleMapper(
+  const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
     workOrder?.work_order_reviewer.work_order_reviewer_response.status
   );
   const collectedReviews = [
@@ -712,7 +712,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
                                 <Flex fontSize={"14px"} color={"#848484"}>
                                   {mySubmissionRequester?.is_superadmin
                                     ? "Super Admin"
-                                    : LabelizeRole(
+                                    : labelizeRole(
                                         mySubmissionRequester?.role
                                       ) +
                                       " - " +
@@ -865,7 +865,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
                     <Flex flexDir={"column"} gap={"20px"}>
                       {submittedReviews.map((val, index) => {
                         const { bgColor, icon, textColor, text } =
-                          TableStatusStyleMapper(
+                          tableStatusStyleMapper(
                             "review-" + val.work_order_reviewer_response.status
                           );
                         const requester = val.super_admin
@@ -926,7 +926,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
                                       <Flex fontSize={"14px"} color={"#848484"}>
                                         {requester?.is_superadmin
                                           ? "Super Admin"
-                                          : LabelizeRole(requester?.role) +
+                                          : labelizeRole(requester?.role) +
                                             " - " +
                                             requester?.employee_id}
                                       </Flex>
@@ -1130,7 +1130,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
                                     </Flex>
 
                                     <Flex fontSize={"14px"} color={"#848484"}>
-                                      {LabelizeRole(requester.role) +
+                                      {labelizeRole(requester.role) +
                                         " - " +
                                         requester.employee_id}
                                     </Flex>
@@ -1236,7 +1236,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
                                     </Flex>
 
                                     <Flex fontSize={"14px"} color={"#848484"}>
-                                      {LabelizeRole(requester.role) +
+                                      {labelizeRole(requester.role) +
                                         " - " +
                                         requester.employee_id}
                                     </Flex>

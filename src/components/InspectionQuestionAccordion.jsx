@@ -3,31 +3,17 @@ import {
   AccordionButton,
   AccordionItem,
   AccordionPanel,
-  Button,
   Checkbox,
   Flex,
-  InputGroup,
-  InputRightElement,
-  Menu,
-  MenuButton,
-  MenuGroup,
-  MenuItem,
-  MenuList,
   Table,
   Tbody,
   Td,
-  Textarea,
   Th,
   Thead,
-  Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import { FaTriangleExclamation } from "react-icons/fa6";
-import { RxDragHandleDots2 } from "react-icons/rx";
-import QuestionTypeIconMapper from "../utils/QuestionTypeIconMapper";
-import { LuCopyPlus } from "react-icons/lu";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { memo } from "react";
+import questionTypeIconMapper from "../utils/questionTypeIconMapper";
 const InspectionQuestionAccordionMemo = ({
   question,
   type,
@@ -84,7 +70,7 @@ const InspectionQuestionAccordionMemo = ({
                   borderRadius={"20px"}
                   p={"5px"}
                 >
-                  {QuestionTypeIconMapper(type)}
+                  {questionTypeIconMapper(type)}
                 </Flex>
                 <Flex>{type}</Flex>
               </Flex>

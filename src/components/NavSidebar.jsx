@@ -1,123 +1,68 @@
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Avatar,
-  Badge,
   Box,
   Button,
   Center,
   Divider,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
   Icon,
   Image,
-  Input,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Slide,
   Spinner,
-  Text,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { CgTemplate } from "react-icons/cg";
+import { getAuth } from "firebase/auth";
 import "moment-timezone";
+import { useEffect, useRef, useState } from "react";
 import {
-  IoIosListBox,
-  IoIosLock,
-  IoIosPaper,
-  IoIosSwap,
-  IoMdClose,
-  IoMdSettings,
-} from "react-icons/io";
-import { api } from "../api/api";
-import logoEgeeTouch from "../assets/images/logo-egeetouch.png";
+  BsBuildingFill,
+  BsFillClipboard2CheckFill,
+  BsFilterRight,
+} from "react-icons/bs";
+import { CgTemplate } from "react-icons/cg";
 import {
-  FaArrowLeftLong,
+  FaChevronRight,
+  FaFileAlt,
+  FaRegCreditCard,
+  FaThLarge,
+  FaUserCog,
+} from "react-icons/fa";
+import {
   FaBook,
-  FaCaretLeft,
-  FaChevronLeft,
   FaClipboardList,
   FaGear,
   FaMapLocationDot,
   FaRegBellSlash,
-  FaScrewdriverWrench,
   FaWrench,
 } from "react-icons/fa6";
-import {
-  MdEmail,
-  MdOutlineEmail,
-  MdRepeatOn,
-  MdSpaceDashboard,
-  MdSwapHorizontalCircle,
-} from "react-icons/md";
-import { GrHistory } from "react-icons/gr";
-import {
-  FaBell,
-  FaBuilding,
-  FaCheckCircle,
-  FaChevronCircleLeft,
-  FaChevronRight,
-  FaDatabase,
-  FaFileAlt,
-  FaGlobeAmericas,
-  FaKey,
-  FaRegCreditCard,
-  FaThLarge,
-  FaUserCog,
-  FaUserPlus,
-} from "react-icons/fa";
 import { GoChecklist } from "react-icons/go";
-import { getAuth, signOut } from "firebase/auth";
-import { useEffect, useRef, useState } from "react";
-import {
-  IoChevronForward,
-  IoChevronForwardSharp,
-  IoHome,
-  IoMegaphone,
-  IoMenuSharp,
-  IoNotificationsSharp,
-  IoWarning,
-} from "react-icons/io5";
-import { TbCircleChevronRight } from "react-icons/tb";
-import { deleteToken, getToken } from "firebase/messaging";
-import { messaging, onMessage } from "../firebase/firebase";
-import { ImCog, ImPriceTag } from "react-icons/im";
-import { ChevronDownIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import labelizeRole from "../utils/labelizeRole";
-import { useNotifications } from "../service/NotificationContext";
-import NotificationMarkAllAsReadConfirmationModal from "./Notification/NotificationMarkAllAsReadConfirmationModal";
-import LogoutConfirmationModal from "./LogoutConfirmationModal";
-import { HiWrenchScrewdriver } from "react-icons/hi2";
-import {
-  BsBuilding,
-  BsBuildingFill,
-  BsBuildingFillAdd,
-  BsCreditCard2FrontFill,
-  BsFillClipboard2CheckFill,
-  BsFilterRight,
-} from "react-icons/bs";
+import { GrHistory } from "react-icons/gr";
 import { HiTemplate } from "react-icons/hi";
+import { HiWrenchScrewdriver } from "react-icons/hi2";
+import { IoIosListBox, IoIosLock, IoIosPaper, IoMdClose } from "react-icons/io";
+import { IoMenuSharp, IoNotificationsSharp, IoWarning } from "react-icons/io5";
+import { MdSpaceDashboard } from "react-icons/md";
 import { RiSwapBoxFill } from "react-icons/ri";
-import { RxGlobe } from "react-icons/rx";
-import Can from "../utils/Can";
-import NotificationDetailsModal from "./Notification/NotificationDetailsModal";
+import { TbCircleChevronRight } from "react-icons/tb";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { api } from "../api/api";
+import logoEgeeTouch from "../assets/images/logo-egeetouch.png";
+import { messaging, onMessage } from "../firebase/firebase";
+import { useNotifications } from "../service/NotificationContext";
+import Can from "../components/Can";
+import labelizeRole from "../utils/labelizeRole";
+import LogoutConfirmationModal from "./LogoutConfirmationModal";
+import NotificationDetailsModal from "./Notification/NotificationDetailsModal";
+import NotificationMarkAllAsReadConfirmationModal from "./Notification/NotificationMarkAllAsReadConfirmationModal";
 import SwalErrorMessages from "./SwalErrorMessages";
-import { AiOutlineMenu } from "react-icons/ai";
 export default function NavSidebar({ hideSidebar, setHideSidebar }) {
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
   const {
