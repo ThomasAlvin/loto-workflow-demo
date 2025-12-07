@@ -1,0 +1,182 @@
+const starterGuideMemberRoleAccessibilityValue = [
+  {
+    name: "admin",
+    modules: [
+      {
+        name: "dashboard",
+        permissions: [{ permission: "view" }],
+      },
+      {
+        name: "assigned_work_orders",
+        permissions: [{ permission: "full_access" }],
+      },
+      {
+        name: "work_sites",
+        permissions: [{ permission: "view" }],
+      },
+      {
+        name: "work_orders",
+        permissions: [{ permission: "manage_owned" }],
+      },
+      {
+        name: "reviews",
+        permissions: [
+          { permission: "view_assigned" },
+          { permission: "manage" },
+        ],
+      },
+      {
+        name: "switch_requests",
+        permissions: [{ permission: "view_owned" }, { permission: "manage" }],
+      },
+      {
+        name: "equipment_machines",
+        permissions: [{ permission: "view" }, { permission: "manage" }],
+      },
+      {
+        name: "templates",
+        permissions: [{ permission: "view_owned" }, { permission: "manage" }],
+      },
+      {
+        name: "members",
+        permissions: [
+          { permission: "view" },
+          { permission: "manage_admin" },
+          { permission: "manage_member" },
+          { permission: "manage_finance" },
+        ],
+      },
+      {
+        name: "lock_inventory",
+        permissions: [{ permission: "view" }, { permission: "manage" }],
+      },
+      {
+        name: "reports",
+        permissions: [{ permission: "view_assigned" }],
+      },
+      {
+        name: "activities",
+        permissions: [{ permission: "view_owned" }],
+      },
+      {
+        name: "subscription",
+        permissions: [],
+      },
+    ],
+  },
+  {
+    name: "member",
+    modules: [
+      {
+        name: "dashboard",
+        permissions: [],
+      },
+      {
+        name: "assigned_work_orders",
+        permissions: [{ permission: "full_access" }],
+      },
+      {
+        name: "work_sites",
+        permissions: [{ permission: "view" }],
+      },
+      {
+        name: "work_orders",
+        permissions: [],
+      },
+      {
+        name: "reviews",
+        permissions: [],
+      },
+      {
+        name: "switch_requests",
+        permissions: [],
+      },
+      {
+        name: "equipment_machines",
+        permissions: [{ permission: "view_assigned" }],
+      },
+      {
+        name: "templates",
+        permissions: [],
+      },
+      {
+        name: "members",
+        permissions: [],
+      },
+      {
+        name: "lock_inventory",
+        permissions: [{ permission: "view_assigned" }],
+      },
+      {
+        name: "reports",
+        permissions: [],
+      },
+      {
+        name: "activities",
+        permissions: [{ permission: "view_owned" }],
+      },
+      {
+        name: "subscription",
+        permissions: [],
+      },
+    ],
+  },
+  {
+    name: "finance",
+    modules: [
+      {
+        name: "dashboard",
+        permissions: [],
+      },
+      {
+        name: "assigned_work_orders",
+        permissions: [],
+      },
+      {
+        name: "work_sites",
+        permissions: [{ permission: "view" }],
+      },
+      {
+        name: "work_orders",
+        permissions: [],
+      },
+      {
+        name: "reviews",
+        permissions: [],
+      },
+      {
+        name: "switch_requests",
+        permissions: [],
+      },
+      {
+        name: "equipment_machines",
+        permissions: [],
+      },
+      {
+        name: "templates",
+        permissions: [],
+      },
+      {
+        name: "members",
+        permissions: [],
+      },
+      {
+        name: "lock_inventory",
+        permissions: [],
+      },
+      {
+        name: "reports",
+        permissions: [],
+      },
+      {
+        name: "activities",
+        permissions: [{ permission: "view_owned" }],
+      },
+      {
+        name: "subscription",
+        permissions: [{ permission: "full_access" }],
+      },
+    ],
+  },
+];
+export default starterGuideMemberRoleAccessibilityValue;

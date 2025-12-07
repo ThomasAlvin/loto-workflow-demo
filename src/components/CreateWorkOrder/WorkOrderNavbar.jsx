@@ -1,0 +1,138 @@
+import { Box, Button, Divider, Flex, useDisclosure } from "@chakra-ui/react";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { IoSettingsOutline } from "react-icons/io5";
+import { BsQuestionCircle } from "react-icons/bs";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { RiDraftLine } from "react-icons/ri";
+import SaveAsTemplateModal from "./SaveAsTemplateModal";
+import WorkOrderSaveAsDraftConfirmationModal from "./WorkOrderSaveAsDraftConfirmationModal";
+import { IoMdCheckmark } from "react-icons/io";
+import SaveChangesConfirmationModal from "../CreateEditWorkOrderTemplate/SaveChangesConfirmationModal";
+import { FaRegTrashAlt } from "react-icons/fa";
+export default function WorkOrderNavbar({
+  formik,
+  stage,
+  currentPage,
+  setCurrentPage,
+  hasChanged,
+  variant,
+  clearAll,
+}) {
+  const saveChangesDisclosure = useDisclosure();
+  const [searchParams] = useSearchParams();
+  const previousPage = searchParams.get("from");
+  const nav = useNavigate();
+  const location = useLocation();
+  function handleBackRedirect() {
+    if (currentPage === "assign") {
+      setCurrentPage("build");
+    } else {
+      if (hasChanged) {
+        saveChangesDisclosure.onOpen();
+      } else {
+        nav(`/work-order${location.search}`);
+      }
+    }
+  }
+
+  return (
+    <Flex position={"sticky"} flexDir={"column"}>
+      <Flex
+        position={"relative"}
+        px={"20px"}
+        gap={"20px"}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <Box
+          color={"crimson"}
+          position="absolute"
+          top="50%"
+          transform="translate(0%, -50%)"
+          left="20px"
+        >
+          <Flex
+            cursor={"pointer"}
+            onClick={handleBackRedirect}
+            alignItems={"center"}
+            gap={"20px"}
+          >
+            <Flex>
+              <FaArrowLeftLong />
+            </Flex>
+            <Flex>Back</Flex>
+          </Flex>
+        </Box>
+        <Flex
+          color={"#848484"}
+          justifyContent={"center"}
+          gap={"10px"}
+          fontWeight={700}
+          fontSize={"16px"}
+        >
+          <Button
+            _hover={{ bg: "#FFB0B0", color: "crimson" }}
+            width={"120px"}
+            h={"auto"}
+            justifyContent={"center"}
+            borderTopLeftRadius={"20px"}
+            borderTopRightRadius={"20px"}
+            borderBottomLeftRadius={"0px"}
+            borderBottomRightRadius={"0px"}
+            bg={stage === "build" ? "#FFB0B0" : ""}
+            color={stage === "build" ? "crimson" : "#848484"}
+            py={"20px"}
+            borderBottom={stage === "build" ? "crimson 2px solid" : ""}
+            onClick={() => setCurrentPage("build")}
+          >
+            1. Build
+          </Button>
+          {/* <Button
+            isDisabled={!(formik?.isValid ?? true)}
+            _hover={{ bg: "#FFB0B0", color: "crimson" }}
+            width={"120px"}
+            h={"auto"}
+            maxH={"auto"}
+            minH={"auto"}
+            justifyContent={"center"}
+            borderTopLeftRadius={"20px"}
+            borderTopRightRadius={"20px"}
+            borderBottomLeftRadius={"0px"}
+            borderBottomRightRadius={"0px"}
+            bg={stage === "assign" ? "#FFB0B0" : ""}
+            py={"20px"}
+            borderBottom={stage === "assign" ? "crimson 2px solid" : ""}
+            color={stage === "assign" ? "crimson" : "#848484"}
+            // onClick={() => setCurrentPage("assign")}
+            onClick={() => setCurrentPage("assign")}
+          >
+            2. Assign
+          </Button> */}
+        </Flex>
+      </Flex>
+      <Divider m={0} borderColor={"#848484"} />
+      <Flex
+        position={"sticky"}
+        top={0}
+        justify={"right"}
+        py={"8px"}
+        bg={"#FFE6E6"}
+        px={"20px"}
+        w={"100%"}
+        gap={"20px"}
+      >
+        <SaveAsTemplateModal workOrderDetails={formik.values} />
+        <WorkOrderSaveAsDraftConfirmationModal
+          variant={variant}
+          workOrderDetails={formik.values}
+        />
+      </Flex>
+      <SaveChangesConfirmationModal
+        module={"work_order"}
+        variant={variant}
+        saveChangesDisclosure={saveChangesDisclosure}
+        moduleDetails={formik.values}
+      />
+    </Flex>
+  );
+}
