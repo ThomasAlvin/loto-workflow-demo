@@ -65,7 +65,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
   const { flaggedSteps, setFlaggedSteps } = useContext(FlagContext);
 
   // const [flaggedSteps, setFlaggedSteps] = useState([]);
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const pageModule = "reviews";
 
   const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
@@ -188,65 +187,30 @@ function ReviewContent({ stepDetailsDisclosure }) {
                       // UID: stepSnapshot.UID,
                       work_order_form_questions:
                         stepSnapshot.work_order_form_question_snapshots,
-                      assigned_members: isMultiAssign
-                        ? stepSnapshot.work_order_step_assigned_member_snapshots.map(
-                            (assignedMember) => ({
-                              ...assignedMember,
-                              user: {
-                                first_name: assignedMember.first_name,
-                                last_name: assignedMember.last_name,
-                                profile_image_url:
-                                  assignedMember.profile_image_url,
-                              },
-                            })
-                          )
-                        : {
-                            ...stepSnapshot.work_order_step_assigned_member_snapshot,
+                      assigned_members:
+                        stepSnapshot.work_order_step_assigned_member_snapshots.map(
+                          (assignedMember) => ({
+                            ...assignedMember,
                             user: {
-                              first_name:
-                                stepSnapshot
-                                  .work_order_step_assigned_member_snapshot
-                                  .first_name,
-                              last_name:
-                                stepSnapshot
-                                  .work_order_step_assigned_member_snapshot
-                                  .last_name,
+                              first_name: assignedMember.first_name,
+                              last_name: assignedMember.last_name,
                               profile_image_url:
-                                stepSnapshot
-                                  .work_order_step_assigned_member_snapshot
-                                  .profile_image_url,
+                                assignedMember.profile_image_url,
                             },
-                          },
-                      notified_members: isMultiAssign
-                        ? stepSnapshot.work_order_step_notified_member_snapshots.map(
-                            (notifiedMember) => ({
-                              ...notifiedMember,
-                              user: {
-                                first_name: notifiedMember.first_name,
-                                last_name: notifiedMember.last_name,
-                                profile_image_url:
-                                  notifiedMember.profile_image_url,
-                              },
-                            })
-                          )
-                        : {
-                            ...stepSnapshot.work_order_step_notified_member_snapshot,
+                          })
+                        ),
+                      notified_members:
+                        stepSnapshot.work_order_step_notified_member_snapshots.map(
+                          (notifiedMember) => ({
+                            ...notifiedMember,
                             user: {
-                              first_name:
-                                stepSnapshot
-                                  .work_order_step_notified_member_snapshot
-                                  ?.first_name,
-                              last_name:
-                                stepSnapshot
-                                  .work_order_step_notified_member_snapshot
-                                  ?.last_name,
+                              first_name: notifiedMember.first_name,
+                              last_name: notifiedMember.last_name,
                               profile_image_url:
-                                stepSnapshot
-                                  .work_order_step_notified_member_snapshot
-                                  ?.profile_image_url,
+                                notifiedMember.profile_image_url,
                             },
-                          },
-
+                          })
+                        ),
                       work_order_multi_lock_group: {
                         ...stepSnapshot.work_order_multi_lock_group_snapshot,
                         work_order_multi_lock_group_items:
@@ -317,52 +281,32 @@ function ReviewContent({ stepDetailsDisclosure }) {
             console.log(step);
             console.log(uniqueAssignees);
             console.log(assigned_locks);
-            if (isMultiAssign) {
-              console.log(step);
-              console.log(assignees);
+            console.log(step);
+            console.log(assignees);
 
-              if (assignees.length) {
-                assignees.map((assignee) => {
-                  if (
-                    assignee?.email &&
-                    !uniqueAssigneesSet.has(assignee.email)
-                  ) {
-                    uniqueAssigneesSet.add(assignee.email);
-                    uniqueAssignees.push(assignee);
-                  }
-                });
-              }
-            } else {
-              if (
-                assignees?.email &&
-                !uniqueAssigneesSet.has(assignees.email)
-              ) {
-                uniqueAssigneesSet.add(assignees.email);
-                uniqueAssignees.push(assignees);
-              }
+            if (assignees.length) {
+              assignees.map((assignee) => {
+                if (
+                  assignee?.email &&
+                  !uniqueAssigneesSet.has(assignee.email)
+                ) {
+                  uniqueAssigneesSet.add(assignee.email);
+                  uniqueAssignees.push(assignee);
+                }
+              });
             }
 
             console.log(uniqueAssignees);
-            if (isMultiAssign) {
-              if (notifiedMembers.length) {
-                notifiedMembers.map((notifMember) => {
-                  if (
-                    notifMember?.email &&
-                    !uniqueNotifiedMembersSet.has(notifMember.email)
-                  ) {
-                    uniqueNotifiedMembersSet.add(notifMember.email);
-                    uniqueNotifiedMembers.push(notifMember);
-                  }
-                });
-              }
-            } else {
-              if (
-                notifiedMembers?.email &&
-                !uniqueNotifiedMembersSet.has(notifiedMembers.email)
-              ) {
-                uniqueNotifiedMembersSet.add(notifiedMembers.email);
-                uniqueNotifiedMembers.push(notifiedMembers);
-              }
+            if (notifiedMembers.length) {
+              notifiedMembers.map((notifMember) => {
+                if (
+                  notifMember?.email &&
+                  !uniqueNotifiedMembersSet.has(notifMember.email)
+                ) {
+                  uniqueNotifiedMembersSet.add(notifMember.email);
+                  uniqueNotifiedMembers.push(notifMember);
+                }
+              });
             }
 
             assigned_machines.map((assigned_machine) => {
@@ -390,9 +334,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
         setWorkOrder({
           ...reformedWorkOrder,
           creator: response.data.work_order.creator,
-          co_creator_members: isMultiAssign
-            ? response.data.work_order.co_creator_members
-            : response.data.work_order.co_creator_member,
+          co_creator_members: response.data.work_order.co_creator_members,
           assignees: uniqueAssignees,
           notifiedMembers: uniqueNotifiedMembers,
           assignedLocks: uniqueAssignedLocks,

@@ -20,7 +20,6 @@ import { DeleteMultiLockAccessProvider } from "../../service/DeleteMultiLockAcce
 
 export default function WorkOrderDetailsPage() {
   const pageModule = "work_orders";
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
   const abortControllerRef2 = useRef(new AbortController()); // Persistent controller
   const userSelector = useSelector((state) => state.login.auth);
@@ -101,61 +100,38 @@ export default function WorkOrderDetailsPage() {
 
     newWorkOrderData?.work_order_steps.map((step) => {
       // -X multi assign problem X-
-      const assignees = isMultiAssign
-        ? step.assigned_members
-        : step.assigned_member;
+      const assignees = step.assigned_members;
       // -X multi assign problem X-
-      const notifiedMembers = isMultiAssign
-        ? step.notified_members
-        : step.notified_member;
+      const notifiedMembers = step.notified_members;
       const assigned_machines = step.work_order_step_machines;
       const assigned_locks =
         step?.work_order_multi_lock_group?.work_order_multi_lock_group_items;
 
-      if (isMultiAssign) {
-        console.log(step);
-        console.log(assignees);
+      console.log(step);
+      console.log(assignees);
 
-        if (assignees.length) {
-          assignees.map((assignee) => {
-            if (
-              assignee?.user.email &&
-              !uniqueAssigneesSet.has(assignee.user.email)
-            ) {
-              uniqueAssigneesSet.add(assignee.user.email);
-              uniqueAssignees.push(assignee);
-            }
-          });
-        }
-      } else {
-        if (
-          assignees?.user.email &&
-          !uniqueAssigneesSet.has(assignees.user.email)
-        ) {
-          uniqueAssigneesSet.add(assignees.user.email);
-          uniqueAssignees.push(assignees);
-        }
+      if (assignees.length) {
+        assignees.map((assignee) => {
+          if (
+            assignee?.user.email &&
+            !uniqueAssigneesSet.has(assignee.user.email)
+          ) {
+            uniqueAssigneesSet.add(assignee.user.email);
+            uniqueAssignees.push(assignee);
+          }
+        });
       }
-      if (isMultiAssign) {
-        if (notifiedMembers.length) {
-          notifiedMembers.map((notifMember) => {
-            if (
-              notifMember?.user.email &&
-              !uniqueNotifiedMembersSet.has(notifMember.user.email)
-            ) {
-              uniqueNotifiedMembersSet.add(notifMember.user.email);
-              uniqueNotifiedMembers.push(notifMember);
-            }
-          });
-        }
-      } else {
-        if (
-          notifiedMembers?.user.email &&
-          !uniqueNotifiedMembersSet.has(notifiedMembers.user.email)
-        ) {
-          uniqueNotifiedMembersSet.add(notifiedMembers.user.email);
-          uniqueNotifiedMembers.push(notifiedMembers);
-        }
+
+      if (notifiedMembers.length) {
+        notifiedMembers.map((notifMember) => {
+          if (
+            notifMember?.user.email &&
+            !uniqueNotifiedMembersSet.has(notifMember.user.email)
+          ) {
+            uniqueNotifiedMembersSet.add(notifMember.user.email);
+            uniqueNotifiedMembers.push(notifMember);
+          }
+        });
       }
 
       assigned_machines.map((assigned_machine) => {

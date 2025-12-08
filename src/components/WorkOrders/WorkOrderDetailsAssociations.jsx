@@ -18,7 +18,6 @@ export default function WorkOrderDetailsAssociation({
   hasManagePermission,
   handleOpenSendReminder,
 }) {
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const creatorInfo = workOrder?.creator?.is_superadmin
     ? { ...workOrder?.creator, role: labelizeRole("super_admin") }
@@ -172,176 +171,76 @@ export default function WorkOrderDetailsAssociation({
               <Flex fontSize={"16px"}>
                 <FaUserEdit />
               </Flex>
-              {isMultiAssign ? (
-                <Flex>{workOrder?.co_creator_members.length}</Flex>
-              ) : (
-                <Flex>
-                  {workOrder?.co_creator_member?.user?.first_name ? 1 : 0}
-                </Flex>
-              )}
+              <Flex>{workOrder?.co_creator_members.length}</Flex>
             </Flex>
           </Flex>
           <Flex w={"100%"} flexDir={"column"} justify={"center"}>
-            {isMultiAssign ? (
-              workOrder?.co_creator_members.length ? (
-                workOrder?.co_creator_members.map((co_creator_member) => (
-                  <Flex
-                    cursor={"pointer"}
-                    _hover={{ bg: "#ededed" }}
-                    transition={"background-color 0.2s ease"}
-                    alignItems={"center"}
-                    p={"8px"}
-                    justify={"space-between"}
-                  >
-                    <Flex alignItems={"center"} gap={"10px"}>
-                      {co_creator_member?.user?.first_name ? (
-                        <Avatar
-                          outline={"1px solid #dc143c"}
-                          border={"2px solid white"}
-                          name={
-                            co_creator_member?.user?.first_name +
-                            " " +
-                            co_creator_member?.user?.last_name
-                          }
-                          src={
-                            co_creator_member?.user.profile_image_url
-                              ? IMGURL +
-                                co_creator_member?.user.profile_image_url
-                              : null
-                          }
-                        ></Avatar>
-                      ) : (
-                        <Flex
-                          outline={"1px solid #dc143c"}
-                          bg={"#bababa"}
-                          borderRadius={"100%"}
-                          justifyContent={"center"}
-                          alignItems={"center"}
-                          h={"48px"}
-                          w={"48px"}
-                          border={"2px solid white"}
-                        >
-                          <Flex color={"white"} fontSize={"24px"}>
-                            <FaUserAlt />
-                          </Flex>
-                        </Flex>
-                      )}
-
-                      <Flex flexDir={"column"}>
-                        <Flex alignItems={"center"} fontWeight={700}>
-                          <Flex>
-                            {co_creator_member?.user?.first_name +
-                              " " +
-                              co_creator_member?.user?.last_name}
-                          </Flex>
-                        </Flex>
-                        <Flex
-                          color={"#848484"}
-                          fontWeight={400}
-                          fontSize={"14px"}
-                          alignItems={"center"}
-                        >
-                          {" "}
-                          {labelizeRole(co_creator_member?.role) +
-                            " - " +
-                            co_creator_member?.employee_id}
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                ))
-              ) : (
+            {workOrder?.co_creator_members.length ? (
+              workOrder?.co_creator_members.map((co_creator_member) => (
                 <Flex
-                  w={"100%"}
-                  h={"80px"}
-                  justify={"center"}
-                  flexDir={"column"}
-                  gap={"5px"}
+                  cursor={"pointer"}
+                  _hover={{ bg: "#ededed" }}
+                  transition={"background-color 0.2s ease"}
+                  alignItems={"center"}
+                  p={"8px"}
+                  justify={"space-between"}
                 >
-                  <Flex
-                    fontSize={"16px"}
-                    fontWeight={700}
-                    justify={"center"}
-                    alignItems={"center"}
-                    color={"black"}
-                  >
-                    <Flex>No Co-Creator were assigned!</Flex>
-                  </Flex>
-                  <Flex
-                    justify={"center"}
-                    color={"#848484"}
-                    fontWeight={700}
-                    textAlign={"center"}
-                  >
-                    This work order has no assigned Co-Creator
-                  </Flex>
-                </Flex>
-              )
-            ) : workOrder?.co_creator_member?.user?.first_name ? (
-              <Flex
-                cursor={"pointer"}
-                _hover={{ bg: "#ededed" }}
-                transition={"background-color 0.2s ease"}
-                alignItems={"center"}
-                p={"8px"}
-                justify={"space-between"}
-              >
-                <Flex alignItems={"center"} gap={"10px"}>
-                  {workOrder?.co_creator_member?.user?.first_name ? (
-                    <Avatar
-                      outline={"1px solid #dc143c"}
-                      border={"2px solid white"}
-                      name={
-                        workOrder?.co_creator_member?.user?.first_name +
-                        " " +
-                        workOrder?.co_creator_member?.user?.last_name
-                      }
-                      src={
-                        workOrder?.co_creator_member?.user.profile_image_url
-                          ? IMGURL +
-                            workOrder?.co_creator_member?.user.profile_image_url
-                          : null
-                      }
-                    ></Avatar>
-                  ) : (
-                    <Flex
-                      outline={"1px solid #dc143c"}
-                      bg={"#bababa"}
-                      borderRadius={"100%"}
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      h={"48px"}
-                      w={"48px"}
-                      border={"2px solid white"}
-                    >
-                      <Flex color={"white"} fontSize={"24px"}>
-                        <FaUserAlt />
-                      </Flex>
-                    </Flex>
-                  )}
-
-                  <Flex flexDir={"column"}>
-                    <Flex alignItems={"center"} fontWeight={700}>
-                      <Flex>
-                        {workOrder?.co_creator_member?.user?.first_name +
+                  <Flex alignItems={"center"} gap={"10px"}>
+                    {co_creator_member?.user?.first_name ? (
+                      <Avatar
+                        outline={"1px solid #dc143c"}
+                        border={"2px solid white"}
+                        name={
+                          co_creator_member?.user?.first_name +
                           " " +
-                          workOrder?.co_creator_member?.user?.last_name}
+                          co_creator_member?.user?.last_name
+                        }
+                        src={
+                          co_creator_member?.user.profile_image_url
+                            ? IMGURL + co_creator_member?.user.profile_image_url
+                            : null
+                        }
+                      ></Avatar>
+                    ) : (
+                      <Flex
+                        outline={"1px solid #dc143c"}
+                        bg={"#bababa"}
+                        borderRadius={"100%"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        h={"48px"}
+                        w={"48px"}
+                        border={"2px solid white"}
+                      >
+                        <Flex color={"white"} fontSize={"24px"}>
+                          <FaUserAlt />
+                        </Flex>
                       </Flex>
-                    </Flex>
-                    <Flex
-                      color={"#848484"}
-                      fontWeight={400}
-                      fontSize={"14px"}
-                      alignItems={"center"}
-                    >
-                      {" "}
-                      {labelizeRole(workOrder?.co_creator_member.role) +
-                        " - " +
-                        workOrder?.co_creator_member.employee_id}
+                    )}
+
+                    <Flex flexDir={"column"}>
+                      <Flex alignItems={"center"} fontWeight={700}>
+                        <Flex>
+                          {co_creator_member?.user?.first_name +
+                            " " +
+                            co_creator_member?.user?.last_name}
+                        </Flex>
+                      </Flex>
+                      <Flex
+                        color={"#848484"}
+                        fontWeight={400}
+                        fontSize={"14px"}
+                        alignItems={"center"}
+                      >
+                        {" "}
+                        {labelizeRole(co_creator_member?.role) +
+                          " - " +
+                          co_creator_member?.employee_id}
+                      </Flex>
                     </Flex>
                   </Flex>
                 </Flex>
-              </Flex>
+              ))
             ) : (
               <Flex
                 w={"100%"}

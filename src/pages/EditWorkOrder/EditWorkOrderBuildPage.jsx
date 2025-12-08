@@ -60,7 +60,6 @@ export default function EditWorkOrderBuildPage({
   onEdgesChange,
 }) {
   const flowWrapperRef = useRef();
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const userSelector = useSelector((state) => state.login.auth);
   const editStepDisclosure = useDisclosure();
 
@@ -336,8 +335,8 @@ export default function EditWorkOrderBuildPage({
           };
         }),
         selectedMachines: [],
-        assigned_to: isMultiAssign ? [] : { id: "" },
-        notify_to: isMultiAssign ? [] : { id: "" },
+        assigned_to: [],
+        notify_to: [],
         requireVerifyMachine: false,
       })),
     };
@@ -485,8 +484,8 @@ export default function EditWorkOrderBuildPage({
             };
           }),
           selectedMachines: [],
-          assigned_to: isMultiAssign ? [] : { id: "" },
-          notify_to: isMultiAssign ? [] : { id: "" },
+          assigned_to: [],
+          notify_to: [],
           requireVerifyMachine: false,
         })),
       };
@@ -603,10 +602,7 @@ export default function EditWorkOrderBuildPage({
   }
 
   function coCreatorSelectHandler(member) {
-    formik.setFieldValue(
-      isMultiAssign ? "coCreatorMembers" : "coCreatorMember",
-      member
-    );
+    formik.setFieldValue("coCreatorMembers", member);
   }
   async function handleSubmit() {
     const errors = await formik.validateForm();
@@ -923,48 +919,27 @@ export default function EditWorkOrderBuildPage({
                         </Tooltip>
                       </Flex>
                       <Flex fontSize={"12px"} color={"#848484"}>
-                        {isMultiAssign ? (
-                          <Flex>
-                            Choose an admin to share full access of this work
-                            order.
-                          </Flex>
-                        ) : (
-                          <Flex>
-                            Choose a member to share full access of this work
-                            order.
-                          </Flex>
-                        )}
+                        <Flex>
+                          Choose an admin to share full access of this work
+                          order.
+                        </Flex>
                       </Flex>
                     </Flex>
                     <Flex gap={"10px"} alignItems={"center"}>
                       <Flex minW={"350px"} flexDir={"column"}>
                         <ReactSelect
                           // closeMenuOnSelect={false}
-                          isMulti={isMultiAssign}
+                          isMulti={true}
                           isSearchable
                           isClearable
                           onChange={(event) => {
                             coCreatorSelectHandler(event);
                           }}
-                          value={
-                            isMultiAssign
-                              ? formik.values.coCreatorMembers
-                              : formik.values.coCreatorMember
-                          }
-                          options={
-                            isMultiAssign
-                              ? coCreatorMemberSelection
-                              : memberSelection.filter((member) => {
-                                  return (
-                                    member.user.email !== userSelector.email
-                                  );
-                                })
-                          }
+                          value={formik.values.coCreatorMembers}
+                          options={coCreatorMemberSelection}
                           components={{
                             Option: ReactSelectMemberSelection,
-                            ...(isMultiAssign && {
-                              MultiValue: ReactSelectMemberMultiValue,
-                            }),
+                            MultiValue: ReactSelectMemberMultiValue,
                           }}
                           placeholder={"Select co-Creator (Optional)"}
                           noOptionsMessage={() => (
@@ -1110,17 +1085,10 @@ export default function EditWorkOrderBuildPage({
                     </Flex>
 
                     <Flex fontSize={"12px"} color={"#848484"}>
-                      {isMultiAssign ? (
-                        <Flex>
-                          Choose an admin to review the work order before
-                          initiating it.
-                        </Flex>
-                      ) : (
-                        <Flex>
-                          Choose a member to share full access of this work
-                          order.
-                        </Flex>
-                      )}
+                      <Flex>
+                        Choose an admin to review the work order before
+                        initiating it.
+                      </Flex>
                     </Flex>
                   </Flex>
 
@@ -1140,9 +1108,7 @@ export default function EditWorkOrderBuildPage({
                         options={getMemberOptions()}
                         components={{
                           Option: ReactSelectMemberSelection,
-                          ...(isMultiAssign && {
-                            MultiValue: ReactSelectMemberMultiValue,
-                          }),
+                          MultiValue: ReactSelectMemberMultiValue,
                           MultiValueRemove:
                             ReactSelectMemberFixedMultiValueRemove,
                         }}

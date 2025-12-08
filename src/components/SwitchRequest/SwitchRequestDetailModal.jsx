@@ -31,7 +31,6 @@ export default function SwitchRequestDetailModal({
   onClose,
   isOpen,
 }) {
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const [buttonLoading, setButtonLoading] = useState(false);
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   // const filteredMemberSelection = memberSelection?.filter(
@@ -338,85 +337,6 @@ export default function SwitchRequestDetailModal({
                   <Flex fontWeight={700}>Reassignment Reason : </Flex>
                   <Flex>{selectedSwitchRequest.reason}</Flex>
                 </Flex>
-                {/* <Flex flexDir={"column"}>
-                  <Box
-                    onClick={() => {
-                      console.log(formik);
-                    }}
-                    fontWeight={700}
-                    as="span"
-                    flex="1"
-                    textAlign="left"
-                  >
-                    Current Assignees :
-
-                  </Box>
-                  {isMultiAssign ? (
-                    <MemberGroupList
-                      memberArray={selectedSwitchRequest.old_assignee}
-                    />
-                  ) : (
-                    <Flex alignItems={"center"} gap={"10px"}>
-                      {selectedSwitchRequest.old_assignee?.user.first_name ? (
-                        <Avatar
-                          outline={"1px solid #dc143c"}
-                          border={"2px solid white"}
-                          name={
-                            selectedSwitchRequest.old_assignee?.user
-                              .first_name +
-                            " " +
-                            selectedSwitchRequest.old_assignee?.user.last_name
-                          }
-                          src={
-                            selectedSwitchRequest.old_assignee?.user
-                              .profile_image_url
-                              ? IMGURL +
-                                selectedSwitchRequest.old_assignee?.user
-                                  .profile_image_url
-                              : null
-                          }
-                        ></Avatar>
-                      ) : (
-                        <Flex
-                          outline={"1px solid #dc143c"}
-                          bg={"#bababa"}
-                          borderRadius={"100%"}
-                          justifyContent={"center"}
-                          alignItems={"center"}
-                          h={"48px"}
-                          w={"48px"}
-                          border={"2px solid white"}
-                        >
-                          <Flex color={"white"} fontSize={"24px"}>
-                            <FaUserAlt />
-                          </Flex>
-                        </Flex>
-                      )}
-
-                      <Flex flexDir={"column"}>
-                        <Flex>
-                          {selectedSwitchRequest.old_assignee
-                            ? selectedSwitchRequest.old_assignee?.user
-                                .first_name +
-                              " " +
-                              selectedSwitchRequest.old_assignee?.user.last_name
-                            : "-"}
-                        </Flex>
-                        <Flex
-                          fontWeight={400}
-                          fontSize={"14px"}
-                          color={"#848484"}
-                        >
-                          {labelizeRole(
-                            selectedSwitchRequest.old_assignee?.role
-                          ) +
-                            " - " +
-                            selectedSwitchRequest.old_assignee?.employee_id}
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  )}
-                </Flex> */}
 
                 {/* {selectedSwitchRequest.status === "pending" ? (
                   <Flex flexDir={"column"}>

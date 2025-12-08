@@ -33,7 +33,6 @@ export default function SwitchAssigneeModal({
   switchAssigneeDisclosure,
 }) {
   const userSelector = useSelector((state) => state.login.auth);
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const filteredMemberSelection = memberSelection.filter(
     (member) => member?.user?.status === "verified"
@@ -179,74 +178,7 @@ export default function SwitchAssigneeModal({
                   <Box fontWeight={700} as="span" flex="1" textAlign="left">
                     Current Assignees :
                   </Box>
-                  {isMultiAssign ? (
-                    <MemberGroupList
-                      memberArray={stepDetails.assigned_members}
-                    />
-                  ) : (
-                    <Flex alignItems={"center"} gap={"10px"}>
-                      {stepDetails.assigned_member?.user.first_name ? (
-                        <Avatar
-                          outline={"1px solid #dc143c"}
-                          border={"2px solid white"}
-                          name={
-                            stepDetails.assigned_member?.user.first_name +
-                            " " +
-                            stepDetails.assigned_member?.user.last_name
-                          }
-                          src={
-                            stepDetails.assigned_member?.user.profile_image_url
-                              ? IMGURL +
-                                stepDetails.assigned_member?.user
-                                  .profile_image_url
-                              : null
-                          }
-                        ></Avatar>
-                      ) : (
-                        <Flex
-                          outline={"1px solid #dc143c"}
-                          bg={"#bababa"}
-                          borderRadius={"100%"}
-                          justifyContent={"center"}
-                          alignItems={"center"}
-                          h={"48px"}
-                          w={"48px"}
-                          border={"2px solid white"}
-                        >
-                          <Flex color={"white"} fontSize={"24px"}>
-                            <FaUserAlt />
-                          </Flex>
-                        </Flex>
-                      )}
-                      <Flex
-                        flexDir={"column"}
-                        onClick={() => {
-                          console.log(formik);
-                          console.log(stepDetails);
-                        }}
-                      >
-                        {stepDetails.assigned_member ? (
-                          <>
-                            <Flex>
-                              {stepDetails.assigned_member?.user.first_name +
-                                " " +
-                                stepDetails.assigned_member?.user.last_name}
-                            </Flex>
-                            <Flex
-                              fontWeight={400}
-                              fontSize={"14px"}
-                              color={"#848484"}
-                            >
-                              {labelizeRole(stepDetails.assigned_member.role)} -{" "}
-                              {stepDetails.assigned_member.employee_id}
-                            </Flex>
-                          </>
-                        ) : (
-                          <Flex color={"#848484"}>Not assigned yet</Flex>
-                        )}
-                      </Flex>
-                    </Flex>
-                  )}
+                  <MemberGroupList memberArray={stepDetails.assigned_members} />
                 </Flex>
               )}
 

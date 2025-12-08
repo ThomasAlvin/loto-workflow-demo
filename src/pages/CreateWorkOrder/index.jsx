@@ -26,15 +26,12 @@ import autoArrangeNodes from "../../utils/autoArrangeNodes";
 import convertToFormData from "../../utils/convertToFormData";
 
 export default function CreateWorkOrderPage() {
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const initialWorkOrderDetails = {
     name: "",
     description: "",
     workOrderSteps: [],
     deadline_date_time: "",
-    ...(isMultiAssign
-      ? { coCreatorMembers: null } // plural when multi
-      : { coCreatorMember: null }), // singular when single
+    coCreatorMembers: null, // plural when multi // singular when single
     review: { type: "single", reviewers: [] },
   };
 
@@ -63,56 +60,33 @@ export default function CreateWorkOrderPage() {
       workOrderSteps: Yup.array()
         .of(
           Yup.object().shape({
-            assigned_to: isMultiAssign
-              ? Yup.array()
+            assigned_to: Yup.array()
+              .of(
+                Yup.object().shape({
+                  id: Yup.string()
+                    .trim()
+                    .required("This step requires an assigned member."),
+                })
+              )
+              .min(1, "Must assign at least 1 member"),
+            notify_to: Yup.array().when("notify", {
+              is: true,
+              then: (schema) =>
+                schema
                   .of(
                     Yup.object().shape({
                       id: Yup.string()
                         .trim()
-                        .required("This step requires an assigned member."),
+                        .required("Each notified member must have an ID."),
                     })
                   )
-                  .min(1, "Must assign at least 1 member")
-              : Yup.object().shape({
-                  id: Yup.string()
-                    .trim()
-                    .required("This step requires an assigned member."),
-                }),
+                  .min(
+                    1,
+                    "This step requires at least 1 member to be notified."
+                  ),
+              otherwise: (schema) => schema.notRequired(),
+            }),
 
-            notify_to: isMultiAssign
-              ? Yup.array().when("notify", {
-                  is: true,
-                  then: (schema) =>
-                    schema
-                      .of(
-                        Yup.object().shape({
-                          id: Yup.string()
-                            .trim()
-                            .required("Each notified member must have an ID."),
-                        })
-                      )
-                      .min(
-                        1,
-                        "This step requires at least 1 member to be notified."
-                      ),
-                  otherwise: (schema) => schema.notRequired(),
-                })
-              : Yup.object().shape({
-                  id: Yup.string()
-                    .trim()
-                    .test(
-                      "customValidation",
-                      "This step requires a member to be notified.",
-                      function (val) {
-                        const { parent, from } = this;
-                        const workOrderStep = from[1].value;
-                        if (workOrderStep && workOrderStep.notify) {
-                          return val && val.trim() !== "";
-                        }
-                        return true;
-                      }
-                    ),
-                }),
             selectedMachines: Yup.array().when("machine", {
               is: true,
               then: (schema) =>

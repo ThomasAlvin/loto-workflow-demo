@@ -30,7 +30,6 @@ import moment from "moment";
 import formatString from "../utils/formatString";
 import UrlBasedPagination from "../components/UrlBasedPagination";
 export default function ReviewsAndApprovalsPage() {
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const location = useLocation(); // gives you { pathname, search, ... }
 
   const pageModule = "reviews";
@@ -318,10 +317,8 @@ export default function ReviewsAndApprovalsPage() {
                   );
                   const myResponseTag = tableStatusStyleMapper(
                     "review-" +
-                      (isMultiAssign
-                        ? val.work_order_reviewer?.work_order_reviewer_response
-                            ?.status
-                        : val.work_order_reviewer.status)
+                      val.work_order_reviewer?.work_order_reviewer_response
+                        ?.status
                   );
                   const typeLabel =
                     val?.work_order_review?.type === "single" ||

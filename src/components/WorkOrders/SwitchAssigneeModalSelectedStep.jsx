@@ -60,7 +60,6 @@ export default function SwitchAssigneeModalSelectedStep({
     };
     return customReactSelectStyle;
   };
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
 
   const [openStates, setOpenStates] = useState(
@@ -236,48 +235,7 @@ export default function SwitchAssigneeModalSelectedStep({
                   <Box fontWeight={700} as="span" flex="1" textAlign="left">
                     Notified to :
                   </Box>
-                  {isMultiAssign ? (
-                    <MemberGroupList memberArray={val.notified_members} />
-                  ) : (
-                    <Flex alignItems={"center"} gap={"10px"}>
-                      <Flex
-                        onClick={() => {
-                          console.log(val);
-                        }}
-                      >
-                        blololsda
-                      </Flex>
-                      <Flex
-                        bg={"#bababa"}
-                        borderRadius={"100%"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        h={"40px"}
-                        w={"40px"}
-                        border={"2px solid white"}
-                      >
-                        <Flex color={"white"} fontSize={"20px"}>
-                          <FaUserAlt />
-                        </Flex>
-                      </Flex>
-                      <Flex flexDir={"column"}>
-                        <Flex>
-                          {val.notify_to
-                            ? val.notify_to?.user.first_name +
-                              " " +
-                              val.notify_to?.user.last_name
-                            : "-"}
-                        </Flex>
-                        <Flex
-                          fontWeight={400}
-                          fontSize={"14px"}
-                          color={"#848484"}
-                        >
-                          {labelizeRole(val.notify_to?.role)}
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  )}
+                  <MemberGroupList memberArray={val.notified_members} />
                 </Flex>
                 <Flex flexDir={"column"}>
                   <Box fontWeight={700} as="span" flex="1" textAlign="left">

@@ -39,7 +39,6 @@ function StepDetailsDrawerAssignmentMemo({
   assignRefs,
   handleCallToAction,
 }) {
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const toast = useToast();
   const [openAccordions, setOpenAccordions] = useState(
     editStepDrawerFormik.values?.selectedMachines?.map((val, index) => index)
@@ -69,11 +68,8 @@ function StepDetailsDrawerAssignmentMemo({
     const customReactSelectStyle = {
       control: (provided, state) => ({
         ...provided,
-        minHeight: isMultiAssign
-          ? variant === "notify" || variant === "assign"
-            ? "42px"
-            : "40px"
-          : "40px",
+        minHeight:
+          variant === "notify" || variant === "assign" ? "42px" : "40px",
         borderColor:
           variant === "machine"
             ? editStepDrawerFormik.errors?.selectedMachines &&
@@ -84,35 +80,17 @@ function StepDetailsDrawerAssignmentMemo({
               ? "#bababa"
               : "#039be5"
             : variant === "assign"
-            ? (
-                isMultiAssign
-                  ? editStepDrawerFormik.errors?.assigned_to &&
-                    editStepDrawerFormik.touched?.assigned_to
-                  : editStepDrawerFormik.errors?.assigned_to?.id &&
-                    editStepDrawerFormik.touched?.assigned_to?.id
-              )
+            ? editStepDrawerFormik.errors?.assigned_to &&
+              editStepDrawerFormik.touched?.assigned_to
               ? "#dc143c"
-              : (
-                  isMultiAssign
-                    ? editStepDrawerFormik.values?.assigned_to?.length
-                    : editStepDrawerFormik.values?.assigned_to?.id
-                )
+              : editStepDrawerFormik.values?.assigned_to?.length
               ? "#bababa"
               : "#039be5"
             : variant === "notify"
-            ? (
-                isMultiAssign
-                  ? editStepDrawerFormik.errors?.notify_to &&
-                    editStepDrawerFormik.touched?.notify_to
-                  : editStepDrawerFormik.errors?.notify_to?.id &&
-                    editStepDrawerFormik.touched?.notify_to?.id
-              )
+            ? editStepDrawerFormik.errors?.notify_to &&
+              editStepDrawerFormik.touched?.notify_to
               ? "#dc143c"
-              : (
-                  isMultiAssign
-                    ? editStepDrawerFormik.values?.notify_to?.length
-                    : editStepDrawerFormik.values?.notify_to?.id
-                )
+              : editStepDrawerFormik.values?.notify_to?.length
               ? "#bababa"
               : "#039be5"
             : variant === "lock"
@@ -177,12 +155,12 @@ function StepDetailsDrawerAssignmentMemo({
     if (type === "assign") {
       editStepDrawerFormik.setValues((prevState) => ({
         ...prevState,
-        assigned_to: isMultiAssign ? event || [] : event || { id: "" },
+        assigned_to: event || [],
       }));
     } else if (type === "notify") {
       editStepDrawerFormik.setValues((prevState) => ({
         ...prevState,
-        notify_to: isMultiAssign ? event || [] : event || { id: "" },
+        notify_to: event || [],
       }));
     } else if (type === "lock") {
       editStepDrawerFormik.setValues((prevState) => {
@@ -273,45 +251,25 @@ function StepDetailsDrawerAssignmentMemo({
         </Flex>
         <ReactSelect
           classNamePrefix={"react-select"}
-          isMulti={isMultiAssign}
+          isMulti={true}
           placeholder="Select members to assign"
           onBlur={() => {
             setTimeout(() => {
-              editStepDrawerFormik.setFieldTouched(
-                isMultiAssign ? `assigned_to` : `assigned_to.id`,
-                true
-              );
+              editStepDrawerFormik.setFieldTouched(`assigned_to`, true);
               editStepDrawerFormik.validateForm();
             }, 0);
           }}
           styles={getCustomReactSelectStyles("assign")}
           isSearchable
           isClearable
-          {...(isMultiAssign
-            ? { value: editStepDrawerFormik.values?.assigned_to }
-            : {
-                value: editStepDrawerFormik.values?.assigned_to?.id
-                  ? {
-                      value:
-                        editStepDrawerFormik.values.assigned_to?.id || null,
-                      label:
-                        editStepDrawerFormik.values?.assigned_to?.user
-                          ?.first_name +
-                        " " +
-                        editStepDrawerFormik.values?.assigned_to?.user
-                          ?.last_name,
-                    }
-                  : "",
-              })}
+          value={editStepDrawerFormik.values.assigned_to}
           onChange={(event) => {
             selectHandler(event, "assign");
           }}
           options={memberSelection}
           components={{
             Option: ReactSelectMemberSelection,
-            ...(isMultiAssign && {
-              MultiValue: ReactSelectMemberMultiValue,
-            }),
+            MultiValue: ReactSelectMemberMultiValue,
           }}
           noOptionsMessage={() => (
             <Flex
@@ -376,45 +334,25 @@ function StepDetailsDrawerAssignmentMemo({
             </Flex>
             <ReactSelect
               classNamePrefix={"react-select"}
-              isMulti={isMultiAssign}
+              isMulti={true}
               placeholder="Select members to notify"
               onBlur={() => {
                 setTimeout(() => {
-                  editStepDrawerFormik.setFieldTouched(
-                    isMultiAssign ? `notify_to` : `notify_to.id`,
-                    true
-                  );
+                  editStepDrawerFormik.setFieldTouched(`notify_to`, true);
                   editStepDrawerFormik.validateForm();
                 }, 0);
               }}
               styles={getCustomReactSelectStyles("notify")}
               isSearchable
               isClearable
-              {...(isMultiAssign
-                ? { value: editStepDrawerFormik.values?.notify_to }
-                : {
-                    value: editStepDrawerFormik.values?.notify_to?.id
-                      ? {
-                          value:
-                            editStepDrawerFormik.values.notify_to?.id || null,
-                          label:
-                            editStepDrawerFormik.values?.notify_to?.user
-                              ?.first_name +
-                            " " +
-                            editStepDrawerFormik.values?.notify_to?.user
-                              ?.last_name,
-                        }
-                      : "",
-                  })}
+              value={editStepDrawerFormik.values.notify_to}
               onChange={(event) => {
                 selectHandler(event, "notify");
               }}
               options={memberSelection}
               components={{
                 Option: ReactSelectMemberSelection,
-                ...(isMultiAssign && {
-                  MultiValue: ReactSelectMemberMultiValue,
-                }),
+                MultiValue: ReactSelectMemberMultiValue,
               }}
               noOptionsMessage={() => (
                 <Flex

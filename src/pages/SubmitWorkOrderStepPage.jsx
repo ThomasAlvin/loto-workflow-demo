@@ -55,7 +55,6 @@ import SubmitQuestionTypeMapper from "../components/SubmitQuestionTypeMapper";
 export default function SubmitWorkOrderStepPage() {
   const taskRefs = useRef([]);
   const location = useLocation();
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const [highlightedIndex, setHighlightedIndex] = useState(null);
   const userSelector = useSelector((state) => state.login.auth);
@@ -1138,95 +1137,12 @@ export default function SubmitWorkOrderStepPage() {
                                         >
                                           Notified Member
                                         </Flex>
-                                        {isMultiAssign ? (
-                                          <MemberGroupList
-                                            memberArray={
-                                              workOrderStep.notified_members
-                                            }
-                                            grayBg={false}
-                                          />
-                                        ) : (
-                                          <Flex
-                                            alignItems={"center"}
-                                            gap={"10px"}
-                                          >
-                                            {workOrderStep.notified_member?.user
-                                              ?.first_name ? (
-                                              <Avatar
-                                                outline={"1px solid #dc143c"}
-                                                border={"2px solid white"}
-                                                name={
-                                                  workOrderStep.notified_member
-                                                    ?.user?.first_name +
-                                                  " " +
-                                                  workOrderStep.notified_member
-                                                    ?.user?.last_name
-                                                }
-                                                src={
-                                                  workOrderStep.notified_member
-                                                    ?.user?.profile_image_url
-                                                    ? IMGURL +
-                                                      workOrderStep
-                                                        .notified_member?.user
-                                                        ?.profile_image_url
-                                                    : null
-                                                }
-                                              ></Avatar>
-                                            ) : (
-                                              <Flex
-                                                outline={"1px solid #dc143c"}
-                                                bg={"#bababa"}
-                                                borderRadius={"100%"}
-                                                justifyContent={"center"}
-                                                alignItems={"center"}
-                                                h={"48px"}
-                                                w={"48px"}
-                                                border={"2px solid white"}
-                                              >
-                                                <Flex
-                                                  color={"white"}
-                                                  fontSize={"24px"}
-                                                >
-                                                  <FaUserAlt />
-                                                </Flex>
-                                              </Flex>
-                                            )}
-
-                                            <Flex flexDir={"column"}>
-                                              <Flex
-                                                alignItems={"center"}
-                                                // fontWeight={700}
-                                              >
-                                                <Flex>
-                                                  {workOrderStep.notified_member
-                                                    ?.user?.first_name +
-                                                    " " +
-                                                    workOrderStep
-                                                      .notified_member?.user
-                                                      ?.last_name}
-                                                </Flex>
-                                              </Flex>
-                                              <Flex
-                                                color={"#848484"}
-                                                fontWeight={400}
-                                                fontSize={"14px"}
-                                                alignItems={"center"}
-                                              >
-                                                {labelizeRole(
-                                                  workOrderStep.notified_member
-                                                    ?.role
-                                                ) +
-                                                  (workOrderStep.notified_member
-                                                    ?.employee_id
-                                                    ? " - " +
-                                                      workOrderStep
-                                                        .notified_member
-                                                        .employee_id
-                                                    : "")}
-                                              </Flex>
-                                            </Flex>
-                                          </Flex>
-                                        )}
+                                        <MemberGroupList
+                                          memberArray={
+                                            workOrderStep.notified_members
+                                          }
+                                          grayBg={false}
+                                        />
                                       </Flex>
                                       <Flex flexDir={"column"} gap={"5px"}>
                                         <Box

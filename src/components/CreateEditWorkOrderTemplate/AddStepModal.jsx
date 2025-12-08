@@ -58,17 +58,16 @@ function AddStepModalMemo({
 }) {
   const { screenToFlowPosition, getNodes, getEdges, setNodes, setEdges } =
     useReactFlow();
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const formikErrorRefs = useRef([]);
   const modalUnsavedChanges = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const formik = useFormik({
     initialValues: {
       name: "",
-      assigned_to: isMultiAssign ? [] : { id: "" },
+      assigned_to: [],
       form: false,
       notify: false,
-      notify_to: isMultiAssign ? [] : { id: "" },
+      notify_to: [],
       machine: false,
       requireVerifyMachine: false,
       lockAccess: false,

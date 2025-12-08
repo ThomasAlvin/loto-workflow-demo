@@ -48,7 +48,6 @@ function WorkFlowStepAssign({
 }) {
   console.log("Step " + (index + 1) + " is Rerendered");
 
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const toast = useToast();
   const [openAccordions, setOpenAccordions] = useState(
     val.selectedMachines?.map((val, index) => index)
@@ -128,11 +127,8 @@ function WorkFlowStepAssign({
     const customReactSelectStyle = {
       control: (provided, state) => ({
         ...provided,
-        minHeight: isMultiAssign
-          ? variant === "notify" || variant === "assign"
-            ? "42px"
-            : "40px"
-          : "40px",
+        minHeight:
+          variant === "notify" || variant === "assign" ? "42px" : "40px",
         borderColor:
           variant === "machine"
             ? formik.errors.workOrderSteps?.[index]?.selectedMachines &&
@@ -144,35 +140,17 @@ function WorkFlowStepAssign({
               ? "#bababa"
               : "#039be5"
             : variant === "assign"
-            ? (
-                isMultiAssign
-                  ? formik.errors.workOrderSteps?.[index]?.assigned_to &&
-                    formik.touched.workOrderSteps?.[index]?.assigned_to
-                  : formik.errors.workOrderSteps?.[index]?.assigned_to?.id &&
-                    formik.touched.workOrderSteps?.[index]?.assigned_to?.id
-              )
+            ? formik.errors.workOrderSteps?.[index]?.assigned_to &&
+              formik.touched.workOrderSteps?.[index]?.assigned_to
               ? "#dc143c"
-              : (
-                  isMultiAssign
-                    ? formik.values.workOrderSteps?.[index]?.assigned_to?.length
-                    : formik.values.workOrderSteps?.[index]?.assigned_to?.id
-                )
+              : formik.values.workOrderSteps?.[index]?.assigned_to?.length
               ? "#bababa"
               : "#039be5"
             : variant === "notify"
-            ? (
-                isMultiAssign
-                  ? formik.errors.workOrderSteps?.[index]?.notify_to &&
-                    formik.touched.workOrderSteps?.[index]?.notify_to
-                  : formik.errors.workOrderSteps?.[index]?.notify_to?.id &&
-                    formik.touched.workOrderSteps?.[index]?.notify_to?.id
-              )
+            ? formik.errors.workOrderSteps?.[index]?.notify_to &&
+              formik.touched.workOrderSteps?.[index]?.notify_to
               ? "#dc143c"
-              : (
-                  isMultiAssign
-                    ? formik.values.workOrderSteps?.[index]?.notify_to?.length
-                    : formik.values.workOrderSteps?.[index]?.notify_to?.id
-                )
+              : formik.values.workOrderSteps?.[index]?.notify_to?.length
               ? "#bababa"
               : "#039be5"
             : variant === "lock"
@@ -255,7 +233,7 @@ function WorkFlowStepAssign({
           if (indexStep === index) {
             return {
               ...val,
-              assigned_to: isMultiAssign ? event || [] : event || { id: "" },
+              assigned_to: event || [],
             };
           }
           return val;
@@ -268,7 +246,7 @@ function WorkFlowStepAssign({
           if (indexStep === index) {
             return {
               ...val,
-              notify_to: isMultiAssign ? event || [] : event || { id: "" },
+              notify_to: event || [],
             };
           }
           return val;
@@ -484,15 +462,13 @@ function WorkFlowStepAssign({
                 <Flex>Select the members you want to assign this step to</Flex>
               </Flex> */}
               <ReactSelect
-                isMulti={isMultiAssign}
+                isMulti={true}
                 placeholder="Select the members you want to assign"
                 menuPortalTarget={document.body}
                 onBlur={() => {
                   setTimeout(() => {
                     formik.setFieldTouched(
-                      isMultiAssign
-                        ? `workOrderSteps[${index}].assigned_to`
-                        : `workOrderSteps[${index}].assigned_to.id`,
+                      `workOrderSteps[${index}].assigned_to`,
                       true
                     );
                     formik.validateForm();
@@ -501,28 +477,14 @@ function WorkFlowStepAssign({
                 styles={getCustomReactSelectStyles("assign")}
                 isSearchable
                 isClearable
-                {...(isMultiAssign
-                  ? { value: val?.assigned_to }
-                  : {
-                      value: val?.assigned_to?.id
-                        ? {
-                            value: val.assigned_to?.id || null,
-                            label:
-                              val?.assigned_to?.user?.first_name +
-                              " " +
-                              val?.assigned_to?.user?.last_name,
-                          }
-                        : "",
-                    })}
+                value={val?.assigned_to}
                 onChange={(event) => {
                   selectHandler(event, "assign");
                 }}
                 options={memberSelection}
                 components={{
                   Option: ReactSelectMemberSelection,
-                  ...(isMultiAssign && {
-                    MultiValue: ReactSelectMemberMultiValue,
-                  }),
+                  MultiValue: ReactSelectMemberMultiValue,
                 }}
                 noOptionsMessage={() => (
                   <Flex
@@ -562,9 +524,7 @@ function WorkFlowStepAssign({
                     <FaTriangleExclamation />
                   </Flex>
                   <Flex>
-                    {isMultiAssign
-                      ? formik.errors.workOrderSteps[index]?.assigned_to
-                      : formik.errors.workOrderSteps[index]?.assigned_to?.id}
+                    {formik.errors.workOrderSteps[index]?.assigned_to}
                   </Flex>
                 </Flex>
               ) : (
@@ -681,15 +641,13 @@ function WorkFlowStepAssign({
                     </Flex>
                   </Flex> */}
                   <ReactSelect
-                    isMulti={isMultiAssign}
+                    isMulti={true}
                     placeholder="Select the members you want to notify for this step"
                     menuPortalTarget={document.body}
                     onBlur={() => {
                       setTimeout(() => {
                         formik.setFieldTouched(
-                          isMultiAssign
-                            ? `workOrderSteps[${index}].notify_to`
-                            : `workOrderSteps[${index}].notify_to.id`,
+                          `workOrderSteps[${index}].notify_to`,
                           true
                         );
                         formik.validateForm();
@@ -698,28 +656,14 @@ function WorkFlowStepAssign({
                     styles={getCustomReactSelectStyles("notify")}
                     isSearchable
                     isClearable
-                    {...(isMultiAssign
-                      ? { value: val?.notify_to }
-                      : {
-                          value: val?.notify_to?.id
-                            ? {
-                                value: val.notify_to?.id || null,
-                                label:
-                                  val?.notify_to?.user?.first_name +
-                                  " " +
-                                  val?.notify_to?.user?.last_name,
-                              }
-                            : "",
-                        })}
+                    value={val?.notify_to}
                     onChange={(event) => {
                       selectHandler(event, "notify");
                     }}
                     options={memberSelection}
                     components={{
                       Option: ReactSelectMemberSelection,
-                      ...(isMultiAssign && {
-                        MultiValue: ReactSelectMemberMultiValue,
-                      }),
+                      MultiValue: ReactSelectMemberMultiValue,
                     }}
                     noOptionsMessage={() => (
                       <Flex
@@ -762,9 +706,7 @@ function WorkFlowStepAssign({
                         <FaTriangleExclamation />
                       </Flex>
                       <Flex>
-                        {isMultiAssign
-                          ? formik.errors.workOrderSteps[index]?.notify_to
-                          : formik.errors.workOrderSteps[index]?.notify_to?.id}
+                        {formik.errors.workOrderSteps[index]?.notify_to}
                       </Flex>
                     </Flex>
                   ) : (

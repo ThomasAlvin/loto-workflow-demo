@@ -29,7 +29,6 @@ import convertStepsToXyFlowData from "../../utils/convertStepsToXyFlowData";
 import autoArrangeNodes from "../../utils/autoArrangeNodes";
 
 export default function EditWorkOrderPage() {
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const initialWorkOrderDetails = {
     name: "",
     description: "",
@@ -82,56 +81,34 @@ export default function EditWorkOrderPage() {
       workOrderSteps: Yup.array()
         .of(
           Yup.object().shape({
-            assigned_to: isMultiAssign
-              ? Yup.array()
+            assigned_to: Yup.array()
+              .of(
+                Yup.object().shape({
+                  id: Yup.string()
+                    .trim()
+                    .required("This step requires an assigned member."),
+                })
+              )
+              .min(1, "Must assign at least 1 member"),
+
+            notify_to: Yup.array().when("notify", {
+              is: true,
+              then: (schema) =>
+                schema
                   .of(
                     Yup.object().shape({
                       id: Yup.string()
                         .trim()
-                        .required("This step requires an assigned member."),
+                        .required("Each notified member must have an ID."),
                     })
                   )
-                  .min(1, "Must assign at least 1 member")
-              : Yup.object().shape({
-                  id: Yup.string()
-                    .trim()
-                    .required("This step requires an assigned member."),
-                }),
+                  .min(
+                    1,
+                    "This step requires at least 1 member to be notified."
+                  ),
+              otherwise: (schema) => schema.notRequired(),
+            }),
 
-            notify_to: isMultiAssign
-              ? Yup.array().when("notify", {
-                  is: true,
-                  then: (schema) =>
-                    schema
-                      .of(
-                        Yup.object().shape({
-                          id: Yup.string()
-                            .trim()
-                            .required("Each notified member must have an ID."),
-                        })
-                      )
-                      .min(
-                        1,
-                        "This step requires at least 1 member to be notified."
-                      ),
-                  otherwise: (schema) => schema.notRequired(),
-                })
-              : Yup.object().shape({
-                  id: Yup.string()
-                    .trim()
-                    .test(
-                      "customValidation",
-                      "This step requires a member to be notified.",
-                      function (val) {
-                        const { parent, from } = this;
-                        const workOrderStep = from[1].value;
-                        if (workOrderStep && workOrderStep.notify) {
-                          return val && val.trim() !== "";
-                        }
-                        return true;
-                      }
-                    ),
-                }),
             selectedMachines: Yup.array().when("machine", {
               is: true,
               then: (schema) =>
@@ -589,29 +566,17 @@ export default function EditWorkOrderPage() {
                   )
                 ),
                 // -X multi assign problem X-
-                assigned_to: isMultiAssign
-                  ? step.assigned_members.map((assignedMember) => ({
-                      ...assignedMember,
-                      label:
-                        assignedMember?.user.first_name &&
+                assigned_to: step.assigned_members.map((assignedMember) => ({
+                  ...assignedMember,
+                  label:
+                    assignedMember?.user.first_name &&
+                    assignedMember?.user.last_name
+                      ? assignedMember?.user.first_name +
+                        " " +
                         assignedMember?.user.last_name
-                          ? assignedMember?.user.first_name +
-                            " " +
-                            assignedMember?.user.last_name
-                          : undefined,
-                      value: assignedMember?.id,
-                    }))
-                  : {
-                      ...step.assigned_member,
-                      label:
-                        step.assigned_member?.user.first_name &&
-                        step.assigned_member?.user.last_name
-                          ? step.assigned_member?.user.first_name +
-                            " " +
-                            step.assigned_member?.user.last_name
-                          : undefined,
-                      value: step.assigned_member?.id,
-                    },
+                      : undefined,
+                  value: assignedMember?.id,
+                })),
                 description: step.description,
                 form: !!step.form,
                 formQuestions: [
@@ -699,29 +664,17 @@ export default function EditWorkOrderPage() {
                 notificationMessage: step.notification_message || "",
                 notify: !!step.notify,
                 // -X multi assign problem X-
-                notify_to: isMultiAssign
-                  ? step.notified_members.map((notifiedMember) => ({
-                      ...notifiedMember,
-                      label:
-                        notifiedMember?.user.first_name &&
-                        notifiedMember?.user.last_name
-                          ? notifiedMember.user.first_name +
-                            " " +
-                            notifiedMember.user.last_name
-                          : "",
-                      value: notifiedMember?.id,
-                    }))
-                  : {
-                      ...step.notified_member,
-                      label:
-                        step.notified_member?.user.first_name &&
-                        step.notified_member?.user.last_name
-                          ? step.notified_member.user.first_name +
-                            " " +
-                            step.notified_member.user.last_name
-                          : "",
-                      value: step.notified_member?.id,
-                    },
+                notify_to: step.notified_members.map((notifiedMember) => ({
+                  ...notifiedMember,
+                  label:
+                    notifiedMember?.user.first_name &&
+                    notifiedMember?.user.last_name
+                      ? notifiedMember.user.first_name +
+                        " " +
+                        notifiedMember.user.last_name
+                      : "",
+                  value: notifiedMember?.id,
+                })),
                 selectedMachines: filteredValidMachines.machines || [],
                 work_order_locks: !!step.access_lock
                   ? step.work_order_locks.length > 0

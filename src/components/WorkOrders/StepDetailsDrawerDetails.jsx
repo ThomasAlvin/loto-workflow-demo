@@ -94,7 +94,6 @@ export default function StepDetailsDrawerDetails({
   const editStepQuestionsDisclosure = useDisclosure();
   const { screenToFlowPosition, setNodes, setEdges, getNodes, getEdges } =
     useReactFlow();
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const toggleAccordion = (index) => {
     setOpenStates((prevStates) =>
@@ -131,11 +130,9 @@ export default function StepDetailsDrawerDetails({
       return auditLog.lock.name === name;
     });
   }
-  const userIsCurrentAssignee = isMultiAssign
-    ? selectedEditStep.assigned_members.some(
-        (member) => member?.user?.email === userSelector.email
-      )
-    : selectedEditStep?.assigned_member?.user?.email === userSelector.email;
+  const userIsCurrentAssignee = selectedEditStep.assigned_members.some(
+    (member) => member?.user?.email === userSelector.email
+  );
   const isRemindable =
     selectedEditStep.status === "ongoing" ||
     selectedEditStep.status === "pending";

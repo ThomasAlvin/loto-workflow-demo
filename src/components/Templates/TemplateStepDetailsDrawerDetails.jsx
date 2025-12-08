@@ -19,7 +19,6 @@ export default function TemplateStepDetailsDrawerDetails({
   const editStepQuestionsDisclosure = useDisclosure();
   const { screenToFlowPosition, setNodes, setEdges, getNodes, getEdges } =
     useReactFlow();
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
   function unselectAll() {
     setNodes(getNodes().map((node) => ({ ...node, selected: false })));
     setEdges(getEdges().map((edge) => ({ ...edge, selected: false })));

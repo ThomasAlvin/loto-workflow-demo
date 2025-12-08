@@ -75,8 +75,6 @@ function WorkOrderDetailsStepMemo({
   handleOpenSendReminder,
   hasManagePermission,
 }) {
-  const isMultiAssign = import.meta.env.VITE_MULTI_ASSIGN === "true";
-
   const userSelector = useSelector((state) => state.login.auth);
   const [showMore, setShowMore] = useState(false);
   const [openStates, setOpenStates] = useState(
@@ -123,11 +121,9 @@ function WorkOrderDetailsStepMemo({
       return auditLog.lock.name === name;
     });
   }
-  const userIsCurrentAssignee = isMultiAssign
-    ? val.assigned_members.some(
-        (member) => member?.user?.email === userSelector.email
-      )
-    : val?.assigned_member?.user?.email === userSelector.email;
+  const userIsCurrentAssignee = val.assigned_members.some(
+    (member) => member?.user?.email === userSelector.email
+  );
   const isRemindable = val.status === "ongoing" || val.status === "pending";
   return (
     <Accordion
@@ -236,73 +232,13 @@ function WorkOrderDetailsStepMemo({
               <Box fontWeight={700} as="span" flex="1" textAlign="left">
                 Assigned to :
               </Box>
-              {isMultiAssign ? (
-                <MemberGroupList
-                  memberArray={val.assigned_members}
-                  hasManagePermission={hasManagePermission}
-                  handleOpenSendReminder={
-                    isRemindable ? handleOpenSendReminder : ""
-                  }
-                />
-              ) : (
-                <Flex alignItems={"center"} gap={"10px"}>
-                  {val.assigned_members?.user.first_name ? (
-                    <Avatar
-                      key={val.assigned_members.UID + "-" + val.UID}
-                      outline={"1px solid #dc143c"}
-                      border={"2px solid white"}
-                      name={
-                        val.assigned_members?.user.first_name +
-                        " " +
-                        val.assigned_members?.user.last_name
-                      }
-                      src={
-                        val.assigned_members?.user.profile_image_url
-                          ? IMGURL +
-                            val.assigned_members?.user.profile_image_url
-                          : null
-                      }
-                    ></Avatar>
-                  ) : (
-                    <Flex
-                      outline={"1px solid #dc143c"}
-                      bg={"#bababa"}
-                      borderRadius={"100%"}
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      h={"48px"}
-                      w={"48px"}
-                      border={"2px solid white"}
-                    >
-                      <Flex color={"white"} fontSize={"24px"}>
-                        <FaUserAlt />
-                      </Flex>
-                    </Flex>
-                  )}
-                  <Flex flexDir={"column"}>
-                    {val.assigned_members ? (
-                      <>
-                        <Flex>
-                          {val.assigned_members?.user.first_name +
-                            " " +
-                            val.assigned_members?.user.last_name}
-                        </Flex>
-                        <Flex
-                          fontWeight={400}
-                          fontSize={"14px"}
-                          color={"#848484"}
-                        >
-                          {val.assigned_members.employee_id +
-                            " - " +
-                            labelizeRole(val.assigned_members.role)}
-                        </Flex>
-                      </>
-                    ) : (
-                      <Flex color={"#848484"}>Not assigned yet</Flex>
-                    )}
-                  </Flex>
-                </Flex>
-              )}
+              <MemberGroupList
+                memberArray={val.assigned_members}
+                hasManagePermission={hasManagePermission}
+                handleOpenSendReminder={
+                  isRemindable ? handleOpenSendReminder : ""
+                }
+              />
             </Flex>
             {val?.submitted_by_user ? (
               <Flex flexDir={"column"} gap={"5px"}>
@@ -345,70 +281,11 @@ function WorkOrderDetailsStepMemo({
                   <Box fontWeight={700} as="span" flex="1" textAlign="left">
                     Notified to :
                   </Box>
-                  {isMultiAssign ? (
-                    <MemberGroupList
-                      memberArray={val.notified_members}
-                      hasManagePermission={hasManagePermission}
-                      // handleOpenSendReminder={handleOpenSendReminder}
-                    />
-                  ) : (
-                    <Flex alignItems={"center"} gap={"10px"}>
-                      {val.notified_members?.user.first_name ? (
-                        <Avatar
-                          outline={"1px solid #dc143c"}
-                          border={"2px solid white"}
-                          name={
-                            val.notified_members?.user.first_name +
-                            " " +
-                            val.notified_members?.user.last_name
-                          }
-                          src={
-                            val.notified_members?.user.profile_image_url
-                              ? IMGURL +
-                                val.notified_members?.user.profile_image_url
-                              : null
-                          }
-                        ></Avatar>
-                      ) : (
-                        <Flex
-                          outline={"1px solid #dc143c"}
-                          bg={"#bababa"}
-                          borderRadius={"100%"}
-                          justifyContent={"center"}
-                          alignItems={"center"}
-                          h={"48px"}
-                          w={"48px"}
-                          border={"2px solid white"}
-                        >
-                          <Flex color={"white"} fontSize={"24px"}>
-                            <FaUserAlt />
-                          </Flex>
-                        </Flex>
-                      )}
-                      <Flex flexDir={"column"}>
-                        {val.notified_members ? (
-                          <>
-                            <Flex>
-                              {val.notified_members?.user.first_name +
-                                " " +
-                                val.notified_members?.user.last_name}
-                            </Flex>
-                            <Flex
-                              fontWeight={400}
-                              fontSize={"14px"}
-                              color={"#848484"}
-                            >
-                              {val.notified_members.employee_id +
-                                " - " +
-                                labelizeRole(val.notified_members.role)}
-                            </Flex>
-                          </>
-                        ) : (
-                          <Flex color={"#848484"}>Not assigned yet</Flex>
-                        )}
-                      </Flex>
-                    </Flex>
-                  )}
+                  <MemberGroupList
+                    memberArray={val.notified_members}
+                    hasManagePermission={hasManagePermission}
+                    // handleOpenSendReminder={handleOpenSendReminder}
+                  />
                 </Flex>
               </>
             ) : (
