@@ -15,7 +15,7 @@ import { PiTextTBold } from "react-icons/pi";
 import { TbNumber123, TbListCheck } from "react-icons/tb";
 import { VscChecklist } from "react-icons/vsc";
 
-export default function QuestionTypeIconMapper(type) {
+export default function questionTypeIconMapper(type) {
   switch (type) {
     case "Text":
       return <PiTextTBold />;
