@@ -1,13 +1,13 @@
-import CheckRoleAuth from "./checkRoleAuth";
-import DefaultRoleAccessibility from "./DefaultRolesAccessibility";
+import checkRoleAuth from "./checkRoleAuth";
+import defaultRoleAccessibility from "./defaultRolesAccessibility";
 
 export default function getAccessibilityByRole(authData, isSubscriptionValid) {
   if (isSubscriptionValid) {
     if (authData?.member?.accessibility?.modules) {
       return authData?.member?.accessibility?.modules;
     } else {
-      const roleAccessibility = DefaultRoleAccessibility.find(
-        (r) => r.technicalName === CheckRoleAuth(authData)
+      const roleAccessibility = defaultRoleAccessibility.find(
+        (r) => r.technicalName === checkRoleAuth(authData)
       );
       return roleAccessibility ? roleAccessibility.modules : [];
     }

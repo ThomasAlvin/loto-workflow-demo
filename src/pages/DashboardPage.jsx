@@ -96,11 +96,10 @@ export default function DashboardPage() {
   async function fetchWorkSites() {
     setWorkSiteLoading(true);
     await api
-      .get(`work-sites/pagination`, {
-        signal: abortControllerRef2.current.signal,
-      })
+      .getWorkSites()
       .then((response) => {
         console.log(response.data);
+        console.log(response.data.data);
         setWorkSiteSelection(response.data.data);
       })
       .catch((error) => {
@@ -139,7 +138,7 @@ export default function DashboardPage() {
   async function fetchDashboardData() {
     setIsLoading(true);
     await api
-      .get(`dashboard`, { signal: abortControllerRef.current.signal })
+      .getDashboard()
       .then((response) => {
         console.log(response.data);
         setDashboardData(response.data);

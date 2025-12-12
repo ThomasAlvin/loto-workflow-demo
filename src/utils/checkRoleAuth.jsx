@@ -1,4 +1,4 @@
-export default function CheckRoleAuth(authData) {
+export default function checkRoleAuth(authData) {
   if (authData?.is_superadmin) {
     return "super_admin";
   } else {

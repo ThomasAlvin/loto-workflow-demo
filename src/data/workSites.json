@@ -1,0 +1,140 @@
+{
+  "current_page": 1,
+  "data": [
+    {
+      "id": 103,
+      "name": "Tests1 BISA",
+      "location": "YES",
+      "UID": "D0EBD27D-243C-4B54-A7F9-BFAEFE4B0FC3",
+      "super_adminId": 10,
+      "created_at": 1764928610000,
+      "updated_at": 1764928618000
+    },
+    {
+      "id": 102,
+      "name": "New Work Site 2",
+      "location": "True",
+      "UID": "83121A4C-0EA2-4AA0-91AA-C1C4811D61DD",
+      "super_adminId": 10,
+      "created_at": 1764915451000,
+      "updated_at": 1764915451000
+    },
+    {
+      "id": 101,
+      "name": "New Work Site",
+      "location": "Add City Hall",
+      "UID": "0E9D8BD4-949D-428D-BFAF-55CACC986BEB",
+      "super_adminId": 10,
+      "created_at": 1764915438000,
+      "updated_at": 1764915438000
+    },
+    {
+      "id": 80,
+      "name": "Malay",
+      "location": "Malay",
+      "UID": "FC82C6B8-1BBF-4CBA-9A1A-F93125B4743B",
+      "super_adminId": 10,
+      "created_at": 1748576037000,
+      "updated_at": 1748576065000
+    },
+    {
+      "id": 42,
+      "name": "Denmark",
+      "location": "Officer Street 23rd, Batam, Blazed City",
+      "UID": "17FF6D27-F6B0-4ABB-A29A-E7F64E2171E5",
+      "super_adminId": 10,
+      "created_at": 1743170775000,
+      "updated_at": 1764915392000
+    },
+    {
+      "id": 27,
+      "name": "Testing2",
+      "location": "Test Location",
+      "UID": "86804215-4799-4854-B2E1-FD1D25FDA622",
+      "super_adminId": 10,
+      "created_at": 1741565066000,
+      "updated_at": 1764668263000
+    },
+    {
+      "id": 26,
+      "name": "Philipines Work Site",
+      "location": "Philipine Street",
+      "UID": "94C80A66-9AC9-4412-B462-75438005D9A0",
+      "super_adminId": 10,
+      "created_at": 1741561600000,
+      "updated_at": 1741561600000
+    },
+    {
+      "id": 23,
+      "name": "Australia Work Site",
+      "location": "Australia",
+      "UID": "DA279118-99CF-4A50-AAEA-34FA689234A9",
+      "super_adminId": 10,
+      "created_at": 1741561417000,
+      "updated_at": 1741561417000
+    },
+    {
+      "id": 22,
+      "name": "Singapore Work Site",
+      "location": "Singapore Street",
+      "UID": "71974E63-482A-43B7-BD20-B1098EDFB41E",
+      "super_adminId": 10,
+      "created_at": 1741556796000,
+      "updated_at": 1741556796000
+    },
+    {
+      "id": 21,
+      "name": "America Work Site",
+      "location": "America Street",
+      "UID": "E1BE46C9-469C-4B2A-BF51-2D433D41E349",
+      "super_adminId": 10,
+      "created_at": 1741556760000,
+      "updated_at": 1741564794000
+    },
+    {
+      "id": 20,
+      "name": "Japan Work Site",
+      "location": "Japan, Tokyo City, Silver Koi Street",
+      "UID": "C04EC135-C8B7-4662-9F7D-A53BB8296D2A",
+      "super_adminId": 10,
+      "created_at": 1741556311000,
+      "updated_at": 1741556311000
+    },
+    {
+      "id": 5,
+      "name": "Main Work Site 2",
+      "location": "Main area 52",
+      "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+      "super_adminId": 10,
+      "created_at": 1740536125000,
+      "updated_at": 1764927808000
+    }
+  ],
+  "first_page_url": "http://127.0.0.1:8000/api/v2/work-sites/pagination?page=1",
+  "from": 1,
+  "last_page": 1,
+  "last_page_url": "http://127.0.0.1:8000/api/v2/work-sites/pagination?page=1",
+  "links": [
+    {
+      "url": null,
+      "label": "&laquo; Previous",
+      "active": false
+    },
+    {
+      "url": "http://127.0.0.1:8000/api/v2/work-sites/pagination?page=1",
+      "label": "1",
+      "active": true
+    },
+    {
+      "url": null,
+      "label": "Next &raquo;",
+      "active": false
+    }
+  ],
+  "next_page_url": null,
+  "path": "http://127.0.0.1:8000/api/v2/work-sites/pagination",
+  "per_page": 15,
+  "prev_page_url": null,
+  "to": 12,
+  "total": 12
+}

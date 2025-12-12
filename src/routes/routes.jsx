@@ -1,77 +1,69 @@
 import { lazy, Suspense } from "react";
 import { Outlet, Route } from "react-router-dom";
-import ProtectedPage from "./protectedPage.js";
+import ProtectedPage from "./protectedPage.jsx";
 import PageLayout from "../components/Layout/PageLayout.jsx";
 import ProcessingLoading from "../components/ProcessingLoading.jsx";
-import StarterGuideMemberPage from "../../pages/StarterGuideMemberPage.jsx";
-import DepartmentPage from "../../pages/DepartmentPage.jsx";
-import SwitchRequestsPage from "../../pages/SwitchRequestsPage.jsx";
-import AssignedWorkOrderPage from "../../pages/AssignedWorkOrderPage.jsx";
-import SubmitWorkOrderStepPage from "../../pages/SubmitWorkOrderStepPage.jsx";
-import NotFoundPage from "../../pages/NotFoundPage.jsx";
+import StarterGuideMemberPage from "../pages/StarterGuideMemberPage.jsx";
+import DepartmentPage from "../pages/DepartmentPage.jsx";
+import SwitchRequestsPage from "../pages/SwitchRequestsPage.jsx";
+import AssignedWorkOrderPage from "../pages/AssignedWorkOrderPage.jsx";
+import SubmitWorkOrderStepPage from "../pages/SubmitWorkOrderStepPage.jsx";
+import NotFoundPage from "../pages/NotFoundPage.jsx";
 
-const LoginPage = lazy(() => import("../../pages/LoginPage.jsx"));
+const LoginPage = lazy(() => import("../pages/LoginPage.jsx"));
 const ForgotPasswordPage = lazy(() =>
-  import("../../pages/ForgotPasswordPage.jsx")
+  import("../pages/ForgotPasswordPage.jsx")
 );
-const StarterGuidePage = lazy(() => import("../../pages/StarterGuidePage.jsx"));
-const NotificationPage = lazy(() => import("../../pages/NotificationPage.jsx"));
+const StarterGuidePage = lazy(() => import("../pages/StarterGuidePage.jsx"));
+const NotificationPage = lazy(() => import("../pages/NotificationPage.jsx"));
 const AccountSettingsPage = lazy(() =>
-  import("../../pages/AccountSettingsPage.jsx")
+  import("../pages/AccountSettingsPage.jsx")
 );
-const ActivitiesPage = lazy(() => import("../../pages/ActivitiesPage.jsx"));
-const WorkSitesPage = lazy(() => import("../../pages/WorkSitesPage.jsx"));
+const ActivitiesPage = lazy(() => import("../pages/ActivitiesPage.jsx"));
+const WorkSitesPage = lazy(() => import("../pages/WorkSitesPage.jsx"));
 const EquipmentMachinesPage = lazy(() =>
-  import("../../pages/EquipmentMachinesPage.jsx")
+  import("../pages/EquipmentMachinesPage.jsx")
 );
 const CreateEquipmentMachinePage = lazy(() =>
-  import("../../pages/CreateEquipmentMachinePage.jsx")
+  import("../pages/CreateEquipmentMachinePage.jsx")
 );
 const EditEquipmentMachinePage = lazy(() =>
-  import("../../pages/EditEquipmentMachinePage.jsx")
+  import("../pages/EditEquipmentMachinePage.jsx")
 );
 const MachineCategoryPage = lazy(() =>
-  import("../../pages/MachineCategoryPage.jsx")
+  import("../pages/MachineCategoryPage.jsx")
 );
 const InspectionFormPage = lazy(() =>
-  import("../../pages/InspectionFormPage.jsx")
+  import("../pages/InspectionFormPage.jsx")
 );
-const LockInventoryPage = lazy(() =>
-  import("../../pages/LockInventoryPage.jsx")
-);
-const EditLockPage = lazy(() => import("../../pages/EditLockPage.jsx"));
-const MembersPage = lazy(() => import("../../pages/MembersPage.jsx"));
-const CreateMemberPage = lazy(() => import("../../pages/CreateMemberPage.jsx"));
-const EditMemberPage = lazy(() => import("../../pages/EditMemberPage.jsx"));
-const TemplatesPage = lazy(() => import("../../pages/TemplatesPage.jsx"));
-const WorkOrdersPage = lazy(() => import("../../pages/WorkOrdersPage.jsx"));
-const ReportsPage = lazy(() => import("../../pages/ReportsPage.jsx"));
-const DashboardPage = lazy(() => import("../../pages/DashboardPage.jsx"));
+const LockInventoryPage = lazy(() => import("../pages/LockInventoryPage.jsx"));
+const EditLockPage = lazy(() => import("../pages/EditLockPage.jsx"));
+const MembersPage = lazy(() => import("../pages/MembersPage.jsx"));
+const CreateMemberPage = lazy(() => import("../pages/CreateMemberPage.jsx"));
+const EditMemberPage = lazy(() => import("../pages/EditMemberPage.jsx"));
+const TemplatesPage = lazy(() => import("../pages/TemplatesPage.jsx"));
+const WorkOrdersPage = lazy(() => import("../pages/WorkOrdersPage.jsx"));
+const ReportsPage = lazy(() => import("../pages/ReportsPage.jsx"));
+const DashboardPage = lazy(() => import("../pages/DashboardPage.jsx"));
 const CreateWorkOrderPage = lazy(() =>
-  import("../../pages/CreateWorkOrder/index.jsx")
+  import("../pages/CreateWorkOrder/index.jsx")
 );
 const EditWorkOrderPage = lazy(() =>
   import("../pages/EditWorkOrder/index.jsx")
 );
 const WorkOrderDetailsPage = lazy(() =>
-  import("../pages/WorkOrderDetails/index.js")
+  import("../pages/WorkOrderDetails/index.jsx")
 );
 const CreateTemplatePage = lazy(() =>
   import("../pages/CreateTemplate/index.jsx")
 );
-const EditTemplatePage = lazy(() =>
-  import("../../pages/EditTemplate/index.jsx")
-);
-const ReportDetailsPage = lazy(() =>
-  import("../../pages/ReportDetailsPage.jsx")
-);
+const EditTemplatePage = lazy(() => import("../pages/EditTemplate/index.jsx"));
+const ReportDetailsPage = lazy(() => import("../pages/ReportDetailsPage.jsx"));
 const ReviewsAndApprovalsPage = lazy(() =>
-  import("../../pages/ReviewsAndApprovalsPage.jsx")
+  import("../pages/ReviewsAndApprovalsPage.jsx")
 );
-const ReviewDetailsPage = lazy(() =>
-  import("../../pages/ReviewDetailsPage.jsx")
-);
-const newRoleSettingsRoutes = [
+const ReviewDetailsPage = lazy(() => import("../pages/ReviewDetailsPage.jsx"));
+const routes = [
   <Route
     key={"LoginPage"}
     path="/login"
@@ -592,4 +584,4 @@ const newRoleSettingsRoutes = [
   ></Route>,
   <Route path="*" element={<NotFoundPage />} />,
 ];
-export default newRoleSettingsRoutes;
+export default routes;

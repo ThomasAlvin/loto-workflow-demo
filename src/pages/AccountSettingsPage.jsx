@@ -46,7 +46,7 @@ export default function AccountSettingsPage() {
   const [QRCodeUrl, setQRCodeURL] = useState("");
   const paramsTab = searchParams.get("tab");
   const [tab, setTab] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [tableLoading, setTableLoading] = useState(false);
   const userSelector = useSelector((state) => state.login.auth);
   const [from, setFrom] = useState();
@@ -55,8 +55,6 @@ export default function AccountSettingsPage() {
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [storageUsage, setStorageUsage] = useState("");
-  const [subscription, setSubscription] = useState("");
-  const [subscriptionLoading, setSubscriptionLoading] = useState(false);
   const [selectedTFA, setSelectedTFA] = useState({
     label: "email verification",
     value: "email",
@@ -227,30 +225,18 @@ export default function AccountSettingsPage() {
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   }
-  function deleteImage(e) {
-    const id = e.target.id; // Get the selected file
-    if (id === "profile") {
-      setValue("profileImage", "");
-      setValue("deleteProfileImage", true);
-      setProfileImagePreview("");
-    } else if (id === "companyLogo") {
-      setValue("companyLogoImage", "");
-      setValue("deleteCompanyLogoImage", true);
-      setCompanyLogoImagePreview("");
-    }
+  function deleteImageProfile(e) {
+    const id = e.target.id;
+    setValue("profileImage", "");
+    setValue("deleteProfileImage", true);
+    setProfileImagePreview("");
   }
 
   async function submitEditAccount(data) {
     setButtonLoading(true);
-
     const formData = convertToFormData(data);
-
     await api
-      .post(`user/edit`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .testSubmit("Changes Saved Successfully")
       .then(async (response) => {
         Swal.fire({
           title: "Success!",
@@ -264,21 +250,6 @@ export default function AccountSettingsPage() {
             confirmButton: "swal2-custom-confirm-button",
           },
         });
-        dispatch({
-          type: "login",
-          payload: {
-            ...userSelector,
-            first_name: data.firstName,
-            last_name: data.lastName,
-            phone_number: data.phoneNumber,
-            profile_image_url: response.data.profile_image_url,
-          },
-        });
-        const newValues = {
-          ...data,
-          profileImage: "",
-        };
-        reset(newValues);
       })
       .catch((error) => {
         Swal.fire({
@@ -312,7 +283,7 @@ export default function AccountSettingsPage() {
     const { checked } = event.target;
     setTFASwitchLoading(true);
     await api
-      .post(`user/enable-or-disable-2fa`, { status: checked })
+      .testSubmit("")
       .then((response) => {
         dispatch({
           type: "login",
@@ -343,7 +314,9 @@ export default function AccountSettingsPage() {
   const submitDefaultTFA = async (method) => {
     setTFAButtonLoading(true);
     await api
-      .post(`user/set-default-2fa`, { type: method })
+      .testSubmit(
+        "Your default two-factor authentication method has been updated."
+      )
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -447,23 +420,6 @@ export default function AccountSettingsPage() {
       });
   }
 
-  async function fetchSubscription(controller) {
-    setSubscriptionLoading(true);
-    await api
-      .get(`subscription`, { signal: controller.signal })
-      .then((response) => {
-        setSubscription(response?.data?.subscription);
-        setStorageUsage(response?.data?.totalStorageUsage);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setSubscriptionLoading(false);
-        setLoading(false);
-      });
-  }
-
   async function cancelSubscriptionAtPeriodEnd() {
     setCancelSubscriptionButtonLoading(true);
     await api
@@ -553,7 +509,7 @@ export default function AccountSettingsPage() {
   async function deleteGoogle2FA() {
     setDeleteGoogle2FALoading(true);
     await api
-      .post(`user/delete-google-2fa`)
+      .testSubmit("Google Authenticator method has been deleted successfully.")
       .then((response) => {
         dispatch({
           type: "login",
@@ -631,14 +587,6 @@ export default function AccountSettingsPage() {
     JSON.stringify(companyInitial) !== JSON.stringify(companyCurrent);
 
   useEffect(() => {
-    const controller = new AbortController();
-    fetchSubscription(controller);
-
-    return () => {
-      controller.abort(); // Cleanup previous fetch request before new one starts
-    };
-  }, []);
-  useEffect(() => {
     if (
       paramsTab === "subscription" &&
       checkHasPermission(userSelector, pageModule, ["full_access"], ["guest"])
@@ -694,790 +642,98 @@ export default function AccountSettingsPage() {
           ["full_access"],
           ["guest"]
         ) ? (
-          subscriptionLoading ? (
-            <SubscriptionSettingsSkeleton />
-          ) : (
-            <Flex flexDir={"column"} w={"100%"} gap={"30px"} pb={"100px"}>
-              <Flex flexDir={"column"} gap={"10px"}>
-                <Flex flexDir={"column"}>
-                  <Flex color={"#dc143c"} fontSize={"20px"} fontWeight={700}>
-                    Current Plan
-                  </Flex>
-                  <Flex color={"#848484"}>
-                    Manage current plan and billing information.
-                  </Flex>
+          <Flex flexDir={"column"} w={"100%"} gap={"30px"} pb={"100px"}>
+            <Flex flexDir={"column"} gap={"10px"}>
+              <Flex flexDir={"column"}>
+                <Flex color={"#dc143c"} fontSize={"20px"} fontWeight={700}>
+                  Current Plan
                 </Flex>
+                <Flex color={"#848484"}>
+                  Manage current plan and billing information.
+                </Flex>
+              </Flex>
+              <Flex
+                bg={"#f8f9fa"}
+                boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
+                flexDir={"column"}
+                w={"50%"}
+              >
                 <Flex
-                  bg={"#f8f9fa"}
-                  boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
+                  w={"100%"}
                   flexDir={"column"}
-                  w={"50%"}
+                  border={"1px solid #bababa"}
                 >
                   <Flex
-                    w={"100%"}
                     flexDir={"column"}
-                    border={"1px solid #bababa"}
+                    borderRight={"1px solid #bababa"}
+                    borderBottom={"1px solid #bababa"}
+                    w={"100%"}
+                    p={"20px"}
+                    gap={"10px"}
+                    justify={"space-between"}
                   >
-                    <Flex
-                      flexDir={"column"}
-                      borderRight={"1px solid #bababa"}
-                      borderBottom={"1px solid #bababa"}
-                      w={"100%"}
-                      p={"20px"}
-                      gap={"10px"}
-                      justify={"space-between"}
-                    >
-                      <Flex color={"#848484"}>STATUS</Flex>
-                      <SubscriptionStatus subscription={subscription} />
-                      {/* <Flex
-                        w={"fit-content"}
-                        _hover={{ textDecor: "underline" }}
-                        color={"#dc143c"}
-                      >
-                        <Flex
-                          visibility={
-                            subscription.status ? "visible" : "hidden"
-                          }
-                          cursor={"pointer"}
-                          _hover={{ textDecor: "underline" }}
-                          onClick={handleOpenCancelSubscriptionModal}
-                        >
-                          Cancel subscription
-                        </Flex>
-                      </Flex> */}
-                    </Flex>
-                    <Flex
-                      flexDir={"column"}
-                      borderRight={"1px solid #bababa"}
-                      w={"100%"}
-                      p={"20px"}
-                      gap={"10px"}
-                      justify={"space-between"}
-                    >
-                      <Flex flexDir={"column"} gap={"10px"}>
-                        <Flex color={"#848484"}>STORAGE USAGE</Flex>
-                        <Flex flexDir={"column"}>
-                          <Flex flexDir={"column"}>
-                            <Flex
-                              justify={"space-between"}
-                              alignItems={"center"}
-                            >
-                              <Flex fontSize={"20px"} fontWeight={700}>
-                                {Math.trunc(
-                                  (storageUsage / 50 / 1024 / 1024 / 1024) *
-                                    100 *
-                                    100
-                                ) / 100}
-                                %
-                              </Flex>
-                              <Flex fontSize={"14px"} color={"#848484"}>
-                                {formatBytes(storageUsage)} / 50 GB
-                              </Flex>
-                            </Flex>
-
-                            <VStack align="stretch" spacing={4}>
-                              <Flex
-                                w="100%"
-                                h="12px"
-                                overflow="hidden"
-                                boxShadow="sm"
-                                bg={"#dedede"}
-                              >
-                                <Box
-                                  w={`${
-                                    (storageUsage / 50 / 1024 / 1024 / 1024) *
-                                    100
-                                  }%`}
-                                  bg={"#dc143c"}
-                                  transition="width 0.3s ease"
-                                />
-                              </Flex>
-                            </VStack>
-                          </Flex>
-                          <Flex fontSize={"14px"} color={"#848484"}>
-                            Can be upgraded from current plan
-                          </Flex>
-                        </Flex>
-                      </Flex>
-                    </Flex>
+                    <Flex color={"#848484"}>STATUS</Flex>
+                    <SubscriptionStatus
+                      subscription={{
+                        status: "active",
+                        current_period_end: 1911747599000,
+                      }}
+                    />
                   </Flex>
-                  {/* <Flex w={"100%"} border={"1px solid #bababa"}>
-                    <Flex
-                      flexDir={"column"}
-                      borderRight={"1px solid #bababa"}
-                      w={"50%"}
-                      p={"20px"}
-                      gap={"10px"}
-                      justify={"space-between"}
-                    >
-                      <Flex color={"#848484"}>PLAN</Flex>
+                  <Flex
+                    flexDir={"column"}
+                    borderRight={"1px solid #bababa"}
+                    w={"100%"}
+                    p={"20px"}
+                    gap={"10px"}
+                    justify={"space-between"}
+                  >
+                    <Flex flexDir={"column"} gap={"10px"}>
+                      <Flex color={"#848484"}>STORAGE USAGE</Flex>
                       <Flex flexDir={"column"}>
-                        <Flex fontSize={"24px"} fontWeight={700}>
-                          {subscription?.subscription_plan?.name
-                            ? subscription?.subscription_plan?.name
-                            : "No active subscription"}
+                        <Flex flexDir={"column"}>
+                          <Flex justify={"space-between"} alignItems={"center"}>
+                            <Flex fontSize={"20px"} fontWeight={700}>
+                              {Math.trunc(
+                                (storageUsage / 50 / 1024 / 1024 / 1024) *
+                                  100 *
+                                  100
+                              ) / 100}
+                              %
+                            </Flex>
+                            <Flex fontSize={"14px"} color={"#848484"}>
+                              {formatBytes(storageUsage)} / 50 GB
+                            </Flex>
+                          </Flex>
+
+                          <VStack align="stretch" spacing={4}>
+                            <Flex
+                              w="100%"
+                              h="12px"
+                              overflow="hidden"
+                              boxShadow="sm"
+                              bg={"#dedede"}
+                            >
+                              <Box
+                                w={`${
+                                  (storageUsage / 50 / 1024 / 1024 / 1024) * 100
+                                }%`}
+                                bg={"#dc143c"}
+                                transition="width 0.3s ease"
+                              />
+                            </Flex>
+                          </VStack>
                         </Flex>
                         <Flex fontSize={"14px"} color={"#848484"}>
-                          {subscription?.subscription_plan?.name
-                            ? `Includes up to 10 users, 100 padlocks, and 5 layers of
-                          multi approval and 50GB Storage`
-                            : "No Subscription Selected"}
+                          Can be upgraded from current plan
                         </Flex>
                       </Flex>
-
-                      <Flex
-                        w={"fit-content"}
-                        _hover={{ textDecor: "underline" }}
-                        color={"#dc143c"}
-                      >
-                        <Link to={"/subscription-plan"}>
-                          {subscription?.subscription_plan?.name
-                            ? "Switch plan"
-                            : "Activate subscription"}
-                        </Link>
-                      </Flex>
-                    </Flex>
-                    <Flex
-                      flexDir={"column"}
-                      borderRight={"1px solid #bababa"}
-                      w={"50%"}
-                      p={"20px"}
-                      gap={"10px"}
-                      justify={"space-between"}
-                    >
-                      <Flex color={"#848484"}>BILLING CYCLE</Flex>
-                      <Flex flexDir={"column"}>
-                        <Flex fontSize={"24px"} fontWeight={700}>
-                          {subscription?.billing_interval
-                            ? capitalizeFirst(subscription?.billing_interval)
-                            : "No active subscription"}
-                        </Flex>
-
-                        <Flex
-                          fontSize={"14px"}
-                          alignItems={"center"}
-                          color={"#848484"}
-                        >
-                          <Flex>
-                            {subscription?.billing_interval
-                              ? "Switch to annual for"
-                              : "No Subscription Selected"}
-                            &nbsp;
-                          </Flex>
-                          <Tag
-                            visibility={
-                              subscription?.billing_interval
-                                ? "visible"
-                                : "hidden"
-                            }
-                            fontSize={"14px"}
-                            bg={"#E2FDE2"}
-                            color={"#28a745"}
-                          >
-                            $
-                            {subscription?.billing_interval == "monthly"
-                              ? subscription?.subscription_plan
-                                  ?.amount_monthly + " / Month"
-                              : subscription?.subscription_plan?.amount_yearly +
-                                " / Year"}
-                          </Tag>
-                        </Flex>
-                      </Flex>
-
-                      <Flex
-                        w={"fit-content"}
-                        _hover={{ textDecor: "underline" }}
-                        color={"#dc143c"}
-                      >
-                        <Link to={"/subscription-plan"}>
-                          {subscription?.billing_interval
-                            ? "Switch to annual plan"
-                            : "Activate Subscription"}
-                        </Link>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                  <Flex
-                    w={"100%"}
-                    border={"1px solid #bababa"}
-                    borderTop={"none"}
-                  >
-                    <Flex
-                      flexDir={"column"}
-                      borderRight={"1px solid #bababa"}
-                      w={"50%"}
-                      p={"20px"}
-                      gap={"10px"}
-                      justify={"space-between"}
-                    >
-                      <Flex color={"#848484"}>BILLING DATE</Flex>
-                      <Flex gap={"30px"} alignItems={"center"}>
-                        <Flex fontWeight={700} flexDir={"column"}>
-                          <Flex color={"#dc143c"}>Last Billing</Flex>
-                          <Flex fontSize={"24px"}>
-                            {subscription?.current_period_start
-                              ? moment(
-                                  subscription?.current_period_start
-                                ).format("MMM D, YYYY")
-                              : "-"}
-                          </Flex>
-                        </Flex>
-                        <Flex fontSize={"24px"} color={"#848484"}>
-                          <BsArrows />
-                        </Flex>
-                        <Flex fontWeight={700} flexDir={"column"}>
-                          <Flex color={"#dc143c"}>Upcoming Billing</Flex>
-                          <Flex fontSize={"24px"}>
-                            {subscription?.current_period_end
-                              ? moment(subscription?.current_period_end).format(
-                                  "MMM D, YYYY"
-                                )
-                              : "-"}
-                          </Flex>
-                        </Flex>
-                      </Flex>
-                      <Flex
-                        visibility={
-                          subscription?.current_period_end
-                            ? "visible"
-                            : "hidden"
-                        }
-                        w={"fit-content"}
-                        _hover={{ textDecor: "underline" }}
-                        color={"#dc143c"}
-                      >
-                        <Flex
-                          cursor={"pointer"}
-                          onClick={() =>
-                            window.open(
-                              subscription?.user?.billing_history[0]
-                                .hosted_invoice_url || "#",
-                              "_blank",
-                              "noopener,noreferrer"
-                            )
-                          }
-                        >
-                          Download invoice
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                    <Flex
-                      flexDir={"column"}
-                      borderRight={"1px solid #bababa"}
-                      w={"50%"}
-                      p={"20px"}
-                      gap={"10px"}
-                      justify={"space-between"}
-                    >
-                      <Flex color={"#848484"}>STATUS</Flex>
-                      <SubscriptionStatus subscription={subscription} />
-                      <Flex
-                        w={"fit-content"}
-                        _hover={{ textDecor: "underline" }}
-                        color={"#dc143c"}
-                      >
-                        <Flex
-                          visibility={
-                            subscription.status ? "visible" : "hidden"
-                          }
-                          cursor={"pointer"}
-                          _hover={{ textDecor: "underline" }}
-                          onClick={handleOpenCancelSubscriptionModal}
-                        >
-                          Cancel subscription
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                  <Flex
-                    w={"100%"}
-                    border={"1px solid #bababa"}
-                    borderTop={"none"}
-                  >
-                    <Flex
-                      flexDir={"column"}
-                      borderRight={"1px solid #bababa"}
-                      w={"50%"}
-                      p={"20px"}
-                      gap={"12px"}
-                      // justify={"space-between"}
-                    >
-                      <Flex color={"#848484"}>PAYMENT METHOD</Flex>
-
-                      {subscription.last4_card ? (
-                        <Flex justify={"space-between"} alignItems={"center"}>
-                          <Flex alignItems={"center"} gap={"20px"}>
-                            <Flex
-                              p={"5px"}
-                              boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                            >
-                              <Image h={"32px"} src={VisaLogo} />
-                            </Flex>
-                            <Flex flexDir={"column"}>
-                              <Flex fontSize={"12px"}>
-                                <LuAsterisk />
-                                <LuAsterisk />
-                                <LuAsterisk />
-                                <LuAsterisk />
-                                &nbsp; &nbsp; &nbsp;
-                                <LuAsterisk />
-                                <LuAsterisk />
-                                <LuAsterisk />
-                                <LuAsterisk />
-                                &nbsp; &nbsp; &nbsp;
-                                <LuAsterisk />
-                                <LuAsterisk />
-                                <LuAsterisk />
-                                <LuAsterisk />
-                                &nbsp; &nbsp; &nbsp;
-                                <Flex
-                                  fontSize={"14px"}
-                                  letterSpacing={"4px"}
-                                  fontWeight={700}
-                                >
-                                  {subscription?.last4_card}
-                                </Flex>
-                              </Flex>
-                              <Flex color={"#848484"} fontSize={"14px"}>
-                                Expiry in {subscription?.expired}
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                      ) : (
-                        <Flex flexDir={"column"}>
-                          <Flex alignItems={"center"} gap={"20px"}>
-                            <Flex>
-                              <Flex
-                                fontSize={"36px"}
-                                p={"12px"}
-                                bg={"#ededed"}
-                                borderRadius={"full"}
-                                color={"#848484"}
-                              >
-                                <FaRegCreditCard />
-                              </Flex>
-                            </Flex>
-                            <Flex flexDir={"column"}>
-                              <Flex fontWeight={700}>No Payment Setup</Flex>
-                              <Flex color={"#848484"} fontSize={"14px"}>
-                                Subscribe to a plan first to add and manage your
-                                payment method.
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                      )}
-
-                      <Flex
-                        w={"fit-content"}
-                        _hover={{ textDecor: "underline" }}
-                        color={"#dc143c"}
-                      >
-                        <Flex
-                          visibility={
-                            subscription.status ? "visible" : "hidden"
-                          }
-                          cursor={"pointer"}
-                          _hover={{ textDecor: "underline" }}
-                          onClick={changePaymentMethod}
-                        >
-                          Manage payment method
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                    <Flex
-                      flexDir={"column"}
-                      borderRight={"1px solid #bababa"}
-                      w={"50%"}
-                      p={"20px"}
-                      gap={"10px"}
-                      justify={"space-between"}
-                    >
-                      <Flex flexDir={"column"} gap={"10px"}>
-                        <Flex color={"#848484"}>STORAGE USAGE</Flex>
-                        <Flex flexDir={"column"}>
-                          <Flex flexDir={"column"}>
-                            <Flex
-                              justify={"space-between"}
-                              alignItems={"center"}
-                            >
-                              <Flex fontSize={"20px"} fontWeight={700}>
-                                {Math.trunc(
-                                  (storageUsage / 50 / 1024 / 1024 / 1024) *
-                                    100 *
-                                    100
-                                ) / 100}
-                                %
-                              </Flex>
-                              <Flex fontSize={"14px"} color={"#848484"}>
-                                {formatBytes(storageUsage)} / 50 GB
-                              </Flex>
-                            </Flex>
-
-                            <VStack align="stretch" spacing={4}>
-                              <Flex
-                                w="100%"
-                                h="12px"
-                                overflow="hidden"
-                                boxShadow="sm"
-                                bg={"#dedede"}
-                              >
-                                <Box
-                                  w={`${
-                                    (storageUsage / 50 / 1024 / 1024 / 1024) *
-                                    100
-                                  }%`}
-                                  bg={"#dc143c"}
-                                  transition="width 0.3s ease"
-                                />
-                              </Flex>
-                            </VStack>
-                          </Flex>
-                          <Flex fontSize={"14px"} color={"#848484"}>
-                            Can be upgraded from current plan
-                          </Flex>
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Flex> */}
-                </Flex>
-              </Flex>
-
-              {/* <Flex
-                w={"50%"}
-                flexDir={"column"}
-                gap={"10px"}
-                justify={"space-between"}
-              >
-                <Flex flexDir={"column"}>
-                  <Flex color={"#dc143c"} fontSize={"20px"} fontWeight={700}>
-                    Storage Usage
-                  </Flex>
-                  <Flex color={"#848484"}>
-                    Manage payment method and billing information.
-                  </Flex>
-                </Flex>
-                <Flex flexDir={"column"}>
-                  <Flex justify={"space-between"} alignItems={"center"}>
-                    <Flex fontSize={"20px"} fontWeight={700}>
-                      33%
-                    </Flex>
-                    <Flex fontSize={"14px"} color={"#848484"}>
-                      24GB / 500GB
-                    </Flex>
-                  </Flex>
-
-                  <VStack align="stretch" spacing={4}>
-                    <Flex
-                      w="100%"
-                      h="12px"
-                      overflow="hidden"
-                      boxShadow="sm"
-                      bg={"#ededed"}
-                    >
-                      {storageUsage.map((item, index) => (
-                        <Box
-                          key={index}
-                          w={`${(item.byte / 500 / 1024 / 1024 / 1024) * 100}%`}
-                          bg={item.color}
-                          transition="width 0.3s ease"
-                        />
-                      ))}
-                    </Flex>
-                  </VStack>
-                </Flex>
-                <Flex flexDir={"column"} gap={"10px"}>
-                  {storageUsage.map((item, index) => (
-                    <Flex
-                      key={index}
-                      fontSize={"14px"}
-                      color={"#848484"}
-                      alignItems={"center"}
-                      justify={"space-between"}
-                    >
-                      <Flex alignItems={"center"} gap={"10px"}>
-                        <Flex h={"16px"} w={"16px"} bg={item.color}></Flex>
-                        <Flex color={"black"} fontWeight={700}>
-                          {item.label}
-                        </Flex>
-                      </Flex>
-                      <Flex>7.34 GB</Flex>
-                    </Flex>
-                  ))}
-                </Flex>
-              </Flex>
-              <Flex flexDir={"column"} gap={"10px"}>
-                <Flex justify={"space-between"} alignItems={"center"}>
-                  <Flex flexDir={"column"}>
-                    <Flex color={"#dc143c"} fontSize={"20px"} fontWeight={700}>
-                      Payment Method
-                    </Flex>
-                    <Flex color={"#848484"}>
-                      Manage payment method and billing information.
                     </Flex>
                   </Flex>
                 </Flex>
-                {subscription.last4_card ? (
-                  <Flex justify={"space-between"} alignItems={"center"}>
-                    <Flex alignItems={"center"} gap={"20px"}>
-                      <Flex
-                        p={"5px"}
-                        boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                      >
-                        <Image h={"32px"} src={VisaLogo} />
-                      </Flex>
-                      <Flex flexDir={"column"}>
-                        <Flex fontSize={"12px"}>
-                          <LuAsterisk />
-                          <LuAsterisk />
-                          <LuAsterisk />
-                          <LuAsterisk />
-                          &nbsp; &nbsp; &nbsp;
-                          <LuAsterisk />
-                          <LuAsterisk />
-                          <LuAsterisk />
-                          <LuAsterisk />
-                          &nbsp; &nbsp; &nbsp;
-                          <LuAsterisk />
-                          <LuAsterisk />
-                          <LuAsterisk />
-                          <LuAsterisk />
-                          &nbsp; &nbsp; &nbsp;
-                          <Flex
-                            fontSize={"14px"}
-                            letterSpacing={"4px"}
-                            fontWeight={700}
-                          >
-                            {subscription?.last4_card}
-                          </Flex>
-                        </Flex>
-                        <Flex color={"#848484"} fontSize={"14px"}>
-                          Expiry in {subscription?.expired}
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                    <Flex>
-                      <Button
-                        bg={"white"}
-                        color={"#dc143c"}
-                        h={"32px"}
-                        fontSize={"14px"}
-                        px={"10px"}
-                        _hover={{ bg: "#dc143c", color: "white" }}
-                        border={"1px solid #dc143c"}
-                        onClick={() => {
-                          changePaymentMethod();
-                        }}
-                      >
-                        Manage
-                      </Button>
-                    </Flex>
-                  </Flex>
-                ) : (
-                  <Flex flexDir={"column"}>
-                    <Flex alignItems={"center"} gap={"20px"}>
-                      <Flex>
-                        <Flex
-                          fontSize={"36px"}
-                          p={"12px"}
-                          bg={"#ededed"}
-                          borderRadius={"full"}
-                          color={"#848484"}
-                        >
-                          <FaRegCreditCard />
-                        </Flex>
-                      </Flex>
-                      <Flex flexDir={"column"}>
-                        <Flex fontWeight={700}>No Payment Setup</Flex>
-                        <Flex color={"#848484"} fontSize={"14px"}>
-                          Subscribe to a plan first to add and manage your
-                          payment method.
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                )}
-              </Flex> */}
-              {/* <Flex flexDir={"column"} gap={"10px"}>
-                <Flex justify={"space-between"} alignItems={"center"}>
-                  <Flex flexDir={"column"}>
-                    <Flex color={"#dc143c"} fontSize={"20px"} fontWeight={700}>
-                      Billing History
-                    </Flex>
-
-                    <Flex color={"#848484"}>
-                      View your past payments and invoices.
-                    </Flex>
-                  </Flex>
-                  <Flex>
-                    <Button
-                      h={"32px"}
-                      color={"#dc143c"}
-                      bg={"white"}
-                      fontSize={"14px"}
-                      px={"10px"}
-                      border={"1px solid #dc143c"}
-                    >
-                      <Flex alignItems={"center"} gap={"5px"}>
-                        <Flex>
-                          <IoMdDownload />
-                        </Flex>
-                        <Flex>Download All</Flex>
-                      </Flex>
-                    </Button>
-                  </Flex>
-                </Flex>
-                <Flex position={"relative"}>
-                  <TableContainer
-                    w={"100%"}
-                    boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                  >
-                    <Table variant="simple">
-                      <Thead bg={"#ECEFF3"}>
-                        <Tr>
-                          <Th
-                            borderBottomColor={"#bababa"}
-                            fontWeight={700}
-                            fontSize={"12px"}
-                            w={"55%"}
-                          >
-                            Invoice
-                          </Th>
-                          <Th
-                            borderBottomColor={"#bababa"}
-                            fontWeight={700}
-                            fontSize={"12px"}
-                            w={"15%"}
-                          >
-                            Amount
-                          </Th>
-
-                          <Th
-                            borderBottomColor={"#bababa"}
-                            fontWeight={700}
-                            fontSize={"12px"}
-                            w={"15%"}
-                          >
-                            Date
-                          </Th>
-                          <Th
-                            borderBottomColor={"#bababa"}
-                            fontWeight={700}
-                            fontSize={"12px"}
-                            w={"10%"}
-                          >
-                            Status
-                          </Th>
-                          <Th
-                            borderBottomColor={"#bababa"}
-                            fontWeight={700}
-                            fontSize={"12px"}
-                            w={"5%"}
-                          >
-                            Download
-                          </Th>
-                        </Tr>
-                      </Thead>
-                      <Tbody>
-                        {subscription?.user?.billing_history.length ? (
-                          subscription?.user?.billing_history?.map(
-                            (billing, index) => (
-                              <Tr fontSize={"14px"}>
-                                <Td
-                                  borderBottomColor={"#bababa"}
-                                  fontWeight={700}
-                                >
-                                  {billing.plan} Plan -{" "}
-                                  {moment(billing?.webhook_delivered_at).format(
-                                    "MMM YYYY"
-                                  )}
-                                </Td>
-
-                                <Td
-                                  borderBottomColor={"#bababa"}
-                                  color={"#292D3F"}
-                                  fontWeight={700}
-                                >
-                                  {billing.currency} ${billing.amount}
-                                </Td>
-                                <Td
-                                  borderBottomColor={"#bababa"}
-                                  color={"#292D3F"}
-                                  fontWeight={700}
-                                >
-                                  {moment(billing?.webhook_delivered_at).format(
-                                    "Do MMMM YYYY"
-                                  )}
-                                </Td>
-                                <Td
-                                  borderBottomColor={"#bababa"}
-                                  color={"#292D3F"}
-                                  fontWeight={700}
-                                >
-                                  {capitalizeFirst(billing.status)}
-                                </Td>
-                                <Td
-                                  borderBottomColor={"#bababa"}
-                                  color={"#292D3F"}
-                                  fontWeight={700}
-                                >
-                                  <Flex justify={"center"}>
-                                    <Tooltip
-                                      hasArrow
-                                      placement={"top"}
-                                      label="Download QR Code"
-                                      aria-label="A tooltip"
-                                      bg={"#28A745"}
-                                      color={"white"}
-                                    >
-                                      <Flex
-                                        color={"#28A745"}
-                                        justify={"center"}
-                                        fontSize={"20px"}
-                                        onClick={() =>
-                                          window.open(
-                                            billing?.hosted_invoice_url || "#",
-                                            "_blank",
-                                            "noopener,noreferrer"
-                                          )
-                                        }
-                                        cursor={"pointer"}
-                                      >
-                                        <IoMdDownload />
-                                      </Flex>
-                                    </Tooltip>
-                                  </Flex>
-                                </Td>
-                              </Tr>
-                            )
-                          )
-                        ) : (
-                          <ListEmptyState
-                            colSpan={5}
-                            header1={"No billing history found."}
-                            header2={
-                              "Subscribe to our plans to begin tracking them."
-                            }
-                            // linkText={"Subscribe to our plans"}
-                          />
-                        )}
-                      </Tbody>
-                    </Table>
-                  </TableContainer>
-                </Flex>
-                <Pagination
-                  setCurrentPage={setCurrentPage}
-                  totalPages={totalPages}
-                  currentPage={currentPage}
-                  from={from}
-                  rows={rows}
-                  handleChange={handleChange}
-                  showing={showing}
-                />
-              </Flex> */}
+              </Flex>
             </Flex>
-          )
+          </Flex>
         ) : (
           <Flex w={"100%"} gap={"30px"} pb={"60px"}>
             <Flex w={"65%"} flexDir={"column"} gap={"20px"}>
@@ -1569,7 +825,7 @@ export default function AccountSettingsPage() {
                         border={"1px solid #dc143c"}
                         color={"#dc143c"}
                         px={"8px"}
-                        onClick={deleteImage}
+                        onClick={deleteImageProfile}
                       >
                         <Flex gap={"5px"} alignItems={"center"}>
                           <Flex>
@@ -2014,229 +1270,8 @@ export default function AccountSettingsPage() {
                       </Flex>
                     </Flex>
                   </Flex>
-                  {/* </Collapse> */}
                 </Flex>
               </Flex>
-              {/* -X Hide for production */}
-              {/* {userSelector.role === "super_admin" && (
-                <>
-                  <Flex w={"100%"} bg={"#ededed"} h={"1px"}></Flex>
-                  <Flex flexDir={"column"} gap={"20px"}>
-                    <Flex position={"relative"} flexDir={"column"} gap={"10px"}>
-                      <Flex flexDir={"column"}>
-                        <Flex
-                          color={"#dc143c"}
-                          fontSize={"20px"}
-                          fontWeight={700}
-                        >
-                          Company Profile (
-                          <Box as="span" color={"#848484"}>
-                            Optional
-                          </Box>
-                          )
-                        </Flex>
-                        <Flex fontSize={"14px"} color={"#848484"}>
-                          * This information will be used in reports, invoices,
-                          and emails when needed.
-                        </Flex>
-                      </Flex>
-                      <Flex justify={"space-between"} alignItems={"center"}>
-                        <Flex gap={"10px"} alignItems={"center"}>
-                          <Flex
-                            borderRadius={"100%"}
-                            border={"2px solid #dc143c"}
-                          >
-                            <Flex
-                              background={
-                                companyLogoImagePreview ? "" : "#A0AEC0"
-                              }
-                              justifyContent={"center"}
-                              alignItems={"center"}
-                              h={"60px"}
-                              w={"60px"}
-                              borderRadius={"100%"}
-                              border={"3px solid white"}
-                            
-                            >
-                              <Flex color={"white"} fontSize={"28px"}>
-                                {companyLogoImagePreview ? (
-                                  <Avatar
-                                    outline={"1px solid #dc143c"}
-                                    cursor={"pointer"}
-                                    onClick={handleCompanyInputClick}
-                                    size={"lg"}
-                                    color={"black"}
-                                    bg={
-                                      companyLogoImagePreview
-                                        ? "white"
-                                        : "gray.400"
-                                    }
-                                    src={companyLogoImagePreview}
-                                    border={"2px solid white"}
-                                  />
-                                ) : (
-                                  <MdWork />
-                                )}
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                          <Flex flexDir={"column"}>
-                            <Flex fontWeight={700} alignItems={"center"}>
-                              <Flex>Company Logo&nbsp;</Flex>
-                              <Flex
-                                fontSize={"14px"}
-                                fontWeight={400}
-                                color={"#848484"}
-                              >
-                                ( Max 2 MB ){" "}
-                              </Flex>
-                            </Flex>
-                            <Flex fontSize={"14px"}>
-                              <Flex color={"#848484"}>JPG, PNG, JPEG Only</Flex>
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                        <Input
-                          id="companyLogo"
-                          ref={(e) => {
-                            companyImageInputRef.current = e;
-                          }}
-                          onChange={(e) => {
-                            handleFileChange(e);
-                          }}
-                          display={"none"}
-                          type="file"
-                          accept="image/png, image/jpeg"
-                        ></Input>
-
-                        <Flex gap={"10px"}>
-                          <Button
-                            fontSize={"14px"}
-                            h={"28px"}
-                            bg={"#dc143c"}
-                            color={"white"}
-                            px={"8px"}
-                            onClick={handleCompanyInputClick}
-                          >
-                            Upload New Picture
-                          </Button>
-                          <Button
-                            id="companyLogo"
-                            fontSize={"14px"}
-                            h={"28px"}
-                            bg={"white"}
-                            border={"1px solid #dc143c"}
-                            color={"#dc143c"}
-                            px={"8px"}
-                            onClick={deleteImage}
-                          >
-                            Delete
-                          </Button>
-                        </Flex>
-                      </Flex>
-                    </Flex>
-
-                    <Flex gap={"10px"} flexDir={"column"}>
-                      <Flex w={"100%"} flexDir={"column"}>
-                        <Flex
-                          w={"100%"}
-                          position={"relative"}
-                          pb={"20px"}
-                          flexDir={"column"}
-                        >
-                          <Flex flexDir={"column"}>
-                            <Box
-                              fontWeight={700}
-                              as="span"
-                              flex="1"
-                              textAlign="left"
-                            >
-                              Company Name
-                            </Box>
-                            <Flex
-                              textAlign={"center"}
-                              fontSize={"14px"}
-                              color={"#848484"}
-                              justifyContent={"space-between"}
-                            >
-                              <Flex>Enter your company's name.</Flex>
-                            </Flex>
-                          </Flex>
-                          <Flex>
-                            <Input
-                              {...register("companyName")}
-                              placeholder="Company Name"
-                            ></Input>
-                          </Flex>
-                        </Flex>
-                      </Flex>
-
-                      <Flex justify={"end"} alignItems={"center"} gap={"20px"}>
-                        {isCompanyDetailsChanged ? (
-                          <ChangesDetectedWarning />
-                        ) : (
-                          ""
-                        )}
-                        <Button
-                          isLoading={buttonLoading}
-                          fontSize={"14px"}
-                          h={"32px"}
-                          px={"8px"}
-                          gap={"5px"}
-                          color={"white"}
-                          bg={"#dc143c"}
-                          onClick={submitCompanyProfile}
-                        >
-                          <Flex fontSize={"18px"}>
-                            <HiMiniPencilSquare />
-                          </Flex>
-                          <Flex>Save Company</Flex>
-                        </Button>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </>
-              )}
-              <Flex w={"100%"} bg={"#ededed"} h={"1px"}></Flex>
-              <Flex flexDir={"column"} gap={"10px"}>
-                <Flex color={"#dc143c"} fontSize={"20px"} fontWeight={700}>
-                  Preferences
-                </Flex>
-                <Flex flexDir={"column"} gap={"20px"}>
-                  <Flex alignItems={"center"} justify={"space-between"}>
-                    <Flex flexDir={"column"}>
-                      <Flex fontWeight={700}>Language</Flex>
-                      <Flex color={"#848484"}>English (United States)</Flex>
-                    </Flex>
-                    <Button
-                      border={"1px solid #dc143c"}
-                      color={"#dc143c"}
-                      bg={"white"}
-                      h={"32px"}
-                      px={"8px"}
-                      fontSize={"14px"}
-                    >
-                      Change
-                    </Button>
-                  </Flex>
-                  <Flex alignItems={"center"} justify={"space-between"}>
-                    <Flex flexDir={"column"}>
-                      <Flex fontWeight={700}>Theme</Flex>
-                      <Flex color={"#848484"}>Default </Flex>
-                    </Flex>
-                    <Button
-                      border={"1px solid #dc143c"}
-                      color={"#dc143c"}
-                      bg={"white"}
-                      h={"32px"}
-                      px={"8px"}
-                      fontSize={"14px"}
-                    >
-                      Change
-                    </Button>
-                  </Flex>
-                </Flex>
-              </Flex> */}
             </Flex>
             <Flex h={"100%"} w={"1px"} bg={"#ededed"}></Flex>
             <Flex w={"35%"} flexDir={"column"} gap={"20px"}>
@@ -2258,33 +1293,6 @@ export default function AccountSettingsPage() {
                 </Flex>
                 <ChangePasswordModal />
               </Flex>
-              {/* 
-              <Flex
-                bg={"#f8f9fa"}
-                p={"20px"}
-                boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                flexDir={"column"}
-                gap={"10px"}
-              >
-                <Flex flexDir={"column"}>
-                  <Flex color={"#dc143c"} fontSize={"20px"} fontWeight={700}>
-                    Delete Account
-                  </Flex>
-                  <Flex fontSize={"14px"} color={"#848484"}>
-                    Permanently delete your account, along with all associated
-                    data. This action cannot be undone.
-                  </Flex>
-                </Flex>
-                <Button
-                  h={"32px"}
-                  bg={"white"}
-                  border={"1px solid #dc143c"}
-                  color={"#dc143c"}
-                  px={"8px"}
-                >
-                  Delete Account
-                </Button>
-              </Flex> */}
             </Flex>
           </Flex>
         )}

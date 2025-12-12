@@ -19,7 +19,6 @@ import {
 } from "@chakra-ui/react";
 import { IoCheckmarkSharp, IoInformationCircle } from "react-icons/io5";
 import { IoMdLock } from "react-icons/io";
-import { ref, uploadBytes } from "firebase/storage";
 import { LuNetwork } from "react-icons/lu";
 import SubmitWorkOrderStepNavbar from "../components/SubmitStep/SubmitWorkOrderStepNavbar";
 import {
@@ -43,7 +42,6 @@ import SwalErrorMessages from "../components/SwalErrorMessages";
 import { get } from "lodash";
 import { FiCheckCircle } from "react-icons/fi";
 import SubmitWorkOrderStepFormQuestions from "../components/SubmitStep/SubmitWorkOrderStepFormQuestions";
-import { storage } from "../firebase/firebase";
 import { useSelector } from "react-redux";
 import labelizeRole from "../utils/labelizeRole";
 import MemberGroupList from "../components/MemberGroupList";
@@ -418,27 +416,7 @@ export default function SubmitWorkOrderStepPage() {
         setLoading(false);
       });
   }
-  async function uploadImage(file, machineDetails) {
-    if (!file) return;
 
-    if (machineDetails) {
-      const storageRef = ref(
-        storage,
-        `media/superadmin/${userSelector.main_work_site.superadmin.UID}/workOrder/${UID}/workOrderStep/${stepUID}/response/machines/${machineDetails.machineUID}/inspection-forms/${machineDetails.inspectionFormUID}/image/${file.name}`
-      );
-      const snapshot = await uploadBytes(storageRef, file);
-
-      return `media/superadmin/${userSelector.main_work_site.superadmin.UID}/workOrder/${UID}/workOrderStep/${stepUID}/response/machines/${machineDetails.machineUID}/inspection-forms/${machineDetails.inspectionFormUID}/image/${file.name}`;
-    } else {
-      const storageRef = ref(
-        storage,
-        `media/superadmin/${userSelector.main_work_site.superadmin.UID}/workOrder/${UID}/workOrderStep/${stepUID}/response/image/${file.name}`
-      );
-      const snapshot = await uploadBytes(storageRef, file);
-
-      return `media/superadmin/${userSelector.main_work_site.superadmin.UID}/workOrder/${UID}/workOrderStep/${stepUID}/response/image/${file.name}`;
-    }
-  }
   function applyCompletedInspectionForms(response) {
     console.log(response);
     console.log(workOrder);
@@ -543,8 +521,6 @@ export default function SubmitWorkOrderStepPage() {
                 ...val,
                 response: Array.isArray(val.response)
                   ? val.response
-                  : val.response instanceof File
-                  ? [await uploadImage(val.response)]
                   : [val.response],
               };
             })
@@ -628,14 +604,6 @@ export default function SubmitWorkOrderStepPage() {
                       ...inspectionQuestion,
                       response: Array.isArray(inspectionQuestion.response)
                         ? inspectionQuestion.response
-                        : inspectionQuestion.response instanceof File
-                        ? [
-                            await uploadImage(inspectionQuestion.response, {
-                              machineUID: machine.workOrderMachineUID,
-                              inspectionFormUID:
-                                machine.workOrderInspectionFormUID,
-                            }),
-                          ]
                         : [inspectionQuestion.response],
                     };
                   }

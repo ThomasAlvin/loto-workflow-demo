@@ -12,16 +12,10 @@ export default function SubscriptionStatus({ subscription }) {
         switch (subscription.status) {
           case "active":
             return (
-              // <Flex fontSize={"14px"} alignItems={"center"} color={"#848484"}>
-              //   If you cancel now, you can still access your subscription until{" "}
-              //   {moment(subscription?.current_period_end).format(
-              //     "MMMM D, YYYY"
-              //   )}
-              // </Flex>
               <Flex fontSize={"14px"} alignItems={"center"} color={"#848484"}>
-                Your free trial ends on{" "}
+                Your free trial ends on
                 {moment(subscription?.current_period_end).format(
-                  "MMMM D, YYYY",
+                  "MMMM D, YYYY"
                 )}
               </Flex>
             );
@@ -31,7 +25,7 @@ export default function SubscriptionStatus({ subscription }) {
                 Your subscription has been canceled, but you'll continue to have
                 access until
                 {moment(subscription?.current_period_end).format(
-                  "MMMM D, YYYY",
+                  "MMMM D, YYYY"
                 )}
               </Flex>
             );
@@ -41,7 +35,7 @@ export default function SubscriptionStatus({ subscription }) {
                 Your subscription is past due. If payment isn’t completed soon,
                 access may be restricted.
                 {moment(subscription?.current_period_end).format(
-                  "MMMM D, YYYY",
+                  "MMMM D, YYYY"
                 )}
               </Flex>
             );
@@ -51,7 +45,7 @@ export default function SubscriptionStatus({ subscription }) {
                 Your payment has failed multiple times, and your subscription is
                 now unpaid. Update your billing information to restore access.
                 {moment(subscription?.current_period_end).format(
-                  "MMMM D, YYYY",
+                  "MMMM D, YYYY"
                 )}
               </Flex>
             );

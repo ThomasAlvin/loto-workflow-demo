@@ -13,11 +13,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ImExit } from "react-icons/im";
+import { useSelector } from "react-redux";
 
 export default function LogoutConfirmationModal({
   buttonLoading,
   logoutFunction,
 }) {
+  const userSelector = useSelector((state) => state.login.auth);
+
   function handleCloseModal() {
     onClose();
   }
@@ -46,6 +49,9 @@ export default function LogoutConfirmationModal({
             gap={"10px"}
             alignItems={"center"}
             color={"#dc143c"}
+            onClick={() => {
+              console.log(userSelector);
+            }}
           >
             Logout from account?
           </ModalHeader>

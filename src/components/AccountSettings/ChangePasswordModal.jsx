@@ -26,8 +26,6 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { api } from "../../api/api";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
-import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
-import { auth } from "../../firebase/firebase";
 import { IoWarning } from "react-icons/io5";
 import SwalErrorMessages from "../SwalErrorMessages";
 import tinycolor from "tinycolor2";
@@ -76,37 +74,25 @@ export default function ChangePasswordModal() {
           .matches(/[0-9]/, "Password must contain one number")
           .matches(
             /[!@#$%^&*(),.?":{}|<>]/,
-            "Password must contain one symbol",
+            "Password must contain one symbol"
           ),
         confirmNewPassword: Yup.string()
           .trim()
           .required("Confirmation password is required")
           .oneOf([Yup.ref("newPassword")], "Passwords must match"),
-      }),
+      })
     ),
     mode: "onTouched",
     reValidateMode: "onChange",
   });
 
   async function submitChangePassword(data) {
-    const user = auth.currentUser;
-    const credential = EmailAuthProvider.credential(
-      userSelector.email,
-      data.oldPassword,
-    );
     try {
       setButtonLoading(true);
       setErrorMessage("");
-      // await reauthenticateWithCredential(user, credential);
       await api
-        .post(`user/change-password`, data)
+        .testSubmit("Password changed successfully")
         .then(async (response) => {
-          const credential = EmailAuthProvider.credential(
-            userSelector.email,
-            data.newPassword,
-          );
-          await reauthenticateWithCredential(user, credential);
-
           Swal.fire({
             title: "Success!",
             text: response.data.message,
@@ -119,7 +105,6 @@ export default function ChangePasswordModal() {
               confirmButton: "swal2-custom-confirm-button",
             },
           });
-
           onClose();
         })
         .catch((error) => {
@@ -145,7 +130,7 @@ export default function ChangePasswordModal() {
       setErrorMessage("Old password is incorrect");
       console.error(
         "Reauthentication failed or password change failed:",
-        error.message,
+        error.message
       );
     }
   }

@@ -14,20 +14,19 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useCallback } from "react";
-import { onAuthStateChanged, signInWithCustomToken } from "firebase/auth";
-import { auth } from "../firebase/firebase";
 import { api } from "../api/api";
-import { Trans } from "@lingui/react";
-import { i18n, activateLocale } from "../i18n";
-import { I18nProvider } from "@lingui/react";
 import { IoWarning } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaTriangleExclamation } from "react-icons/fa6";
-import { getId, getInstallations } from "firebase/installations";
 import moment from "moment";
+import checkRoleAuth from "../utils/checkRoleAuth";
+import { v4 as uuid } from "uuid";
+import { LuCopy } from "react-icons/lu";
+import copyToClipboard from "../utils/copyToClipboard";
+import getAccessibilityByRole from "../utils/getAccessibilityByRole";
 
 export default function LoginPage() {
   const [seePassword, setSeePassword] = useState(false);
@@ -42,10 +41,11 @@ export default function LoginPage() {
     setValue,
     register,
     handleSubmit,
+    getValues,
     setFocus,
     formState: { errors, isSubmitting },
   } = useForm({
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: "test@gmail.com", password: "Test@123" },
     resolver: yupResolver(
       Yup.object().shape({
         email: Yup.string()
@@ -63,46 +63,38 @@ export default function LoginPage() {
     localStorage.getItem("locale") || navigator.language.split("-")[0]
   );
 
-  const hasNotificationSupport =
-    "serviceWorker" in navigator && "PushManager" in window ? true : false;
-
-  const changeLanguage = (newLocale) => {
-    activateLocale(newLocale);
-    setLocale(newLocale);
-  };
-
   async function handleLogin() {
-    const loginInput = login;
-
+    const loginInput = getValues();
+    localStorage.setItem("isLoggedIn", true);
     dispatch({ type: "startLoading" });
     // setButtonLoading(true);
 
-    let installationId = null;
-
-    const installations = getInstallations();
-    installationId = await getId(installations);
-
     await api
-      .post(`user/login`, {
-        ...loginInput,
-        installationId: installationId,
-      })
+      .login(loginInput)
       .then(async (response) => {
-        const { customToken, user, token, type_default } = response.data;
+        console.log(response);
 
-        if (token) {
-          dispatch({ type: "stopLoading" });
-          nav(`/login/verify?token=${token}`);
-          return;
-        }
-        if (!hasNotificationSupport) {
-          localStorage.setItem("showNotificationWarning", "true");
-        }
-        if (customToken) {
-          const userCredential = await signInWithCustomToken(auth, customToken);
-          const firebaseUser = userCredential.user;
-          const refreshedIdToken = await firebaseUser.getIdToken(true); // Force refresh
-        }
+        const userAuthData = response.data.user;
+        const isSubscriptionValid =
+          userAuthData?.main_work_site?.superadmin?.subscriptions?.status ===
+          "active";
+        console.log(userAuthData);
+
+        dispatch({
+          type: "login",
+          payload: {
+            ...userAuthData,
+            role: checkRoleAuth(userAuthData),
+            uuid: uuid(),
+            subscription: userAuthData.subscriptions,
+            current_work_site: userAuthData.main_work_site,
+            permissions: getAccessibilityByRole(
+              userAuthData,
+              isSubscriptionValid
+            ),
+            is_subscription_valid: isSubscriptionValid,
+          },
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -133,82 +125,12 @@ export default function LoginPage() {
   const nav = useNavigate();
   function inputHandler(input) {
     const { value, id } = input.target;
-    const tempobject = { ...login };
-    tempobject[id] = value;
-    setLogin(tempobject);
     setValue(id, value);
   }
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (Notification.permission === "default") {
-        // Minta izin notifikasi saat user login
-        Notification.requestPermission().then((permission) => {
-          if (permission === "granted") {
-            // console.log("Notification permission granted.");
-          } else {
-            // console.warn("Notification permission denied.");
-          }
-        });
-      } else if (Notification.permission === "granted") {
-        // console.log("Notification permission already granted.");
-      } else {
-        // console.warn("User has denied notifications.");
-      }
-    });
-  }, []);
 
   return (
     <>
       <Center flexDir={"column"} gap={"10px"} h={"100vh"} w={"100%"}>
-        {!hasNotificationSupport ? (
-          <Flex
-            w={"100%"}
-            position={"fixed"}
-            top={"0"}
-            py={"4px"}
-            bg={"#fff0bd"}
-            color={"#ff9b0d"}
-            justify={"space-between"}
-            pr={"20px"}
-            alignItems={"center"}
-          >
-            <Flex
-              w={"100%"}
-              justify={"center"}
-              alignItems={"center"}
-              gap={"3px"}
-            >
-              <Flex fontSize={"20px"}>
-                <IoWarning />
-              </Flex>
-              <Box as="span" fontWeight={700}>
-                Warning :
-              </Box>
-              &nbsp;Our real time notification system is disabled in some
-              browsers such as :&nbsp;
-              <Box as="span" fontWeight={700}>
-                Safari, Internet Explorer (IE11 and earlier), and older versions
-                of Microsoft Edge.
-              </Box>
-            </Flex>
-            {/* <Flex
-              borderRadius={"100%"}
-              cursor={"pointer"}
-              p={"2px"}
-              _hover={{ bg: "#ffe075" }}
-              fontSize={"20px"}
-              onClick={() => {
-                setShowNotifWarning("");
-                localStorage.removeItem("showNotificationWarning");
-              }}
-            >
-              <IoMdClose />
-            </Flex> */}
-          </Flex>
-        ) : (
-          ""
-        )}
         <Center flexDir={"column"} gap={"80px"}>
           <Center flexDir={"column"}>
             <Center gap={"12px"} flexDir={"column"}>
@@ -223,11 +145,14 @@ export default function LoginPage() {
                     fontSize={"32px"}
                     fontWeight={"700"}
                     color={"#dc143c"}
+                    onClick={() => {
+                      console.log(userSelector);
+                    }}
                   >
-                    <Trans id="login.welcome" />
+                    Welcome Admin!
                   </Center>
                   <Center color={"#848484"} fontSize={"12px"}>
-                    <Trans id="login.subtitle" />
+                    Login with email and password
                   </Center>
                 </Flex>
                 <Center flexDir={"column"} px={"20px"}>
@@ -237,7 +162,7 @@ export default function LoginPage() {
                       fontSize={"12px"}
                       onKeyDown={handleKeyPress}
                       bgColor={"#fafafa"}
-                      placeholder={i18n._("login.emailPlaceholder")}
+                      placeholder={"Email"}
                       pl={"15px"}
                       onChange={inputHandler}
                       id="email"
@@ -269,7 +194,7 @@ export default function LoginPage() {
                         onChange={inputHandler}
                         fontSize={"12px"}
                         type={seePassword ? "text" : "password"}
-                        placeholder={i18n._("login.passwordPlaceholder")}
+                        placeholder={"Password"}
                       ></Input>
                       <InputRightElement width={"2.5rem"} h={"100%"}>
                         <IconButton
@@ -317,7 +242,7 @@ export default function LoginPage() {
                         nav("/forgot-password");
                       }}
                     >
-                      <Trans id="login.forgotPassword" />
+                      Forgot Password?{" "}
                     </Flex>
                   </Flex>
                   <Button
@@ -330,23 +255,9 @@ export default function LoginPage() {
                     bgColor={"#dc143c"}
                     onClick={handleSubmit(handleLogin)}
                   >
-                    <Trans id="login.button" />
+                    Login{" "}
                   </Button>
                 </Center>
-                <Flex pt={"30px"} fontSize={"14px"} color={"#848484"}>
-                  <Trans id="login.noAccount" />
-                  &nbsp;
-                  <Box
-                    cursor={"pointer"}
-                    fontWeight={400}
-                    color={"#dc143c"}
-                    as="span"
-                    _hover={{ color: "#b80d2f", textDecor: "underline" }}
-                    onClick={() => nav("/request-demo")}
-                  >
-                    <Trans id="login.signUp" />
-                  </Box>
-                </Flex>
               </Center>
               <Center
                 className="loginpage-border"
@@ -361,7 +272,8 @@ export default function LoginPage() {
                   textAlign={"center"}
                   px={2}
                 >
-                  <Trans id="login.contactSupervisor" />
+                  If you forgot your password and email, please contact your
+                  supervisor{" "}
                 </Flex>
               </Center>
               <Center></Center>
@@ -369,16 +281,7 @@ export default function LoginPage() {
           </Center>
         </Center>
         <Center color={"blackAlpha.700"} gap={"20px"}>
-          {/* <Flex fontSize={"13px"}>English</Flex> */}
-          <Flex fontSize={"13px"}>
-            <I18nProvider i18n={i18n}>
-              {locale === "en" ? (
-                <Link onClick={() => changeLanguage("jp")}>English</Link>
-              ) : (
-                <Link onClick={() => changeLanguage("en")}>日本語</Link>
-              )}
-            </I18nProvider>
-          </Flex>
+          <Flex fontSize={"13px"}>English</Flex>
           <Flex fontSize={"13px"}>
             © {moment().format("YYYY")} Digipas Technologies
           </Flex>

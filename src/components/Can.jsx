@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import checkHasPermission from "./checkHasPermission";
+import checkHasPermission from "../utils/checkHasPermission";
 
 export default function Can({ children, module, permission, roles }) {
   const userSelector = useSelector((state) => state.login.auth);

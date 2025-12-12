@@ -17,7 +17,6 @@ import {
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { getAuth } from "firebase/auth";
 import "moment-timezone";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -55,7 +54,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { api } from "../api/api";
 import logoEgeeTouch from "../assets/images/logo-egeetouch.png";
-import { messaging, onMessage } from "../firebase/firebase";
 import { useNotifications } from "../service/NotificationContext";
 import Can from "../components/Can";
 import labelizeRole from "../utils/labelizeRole";
@@ -76,7 +74,6 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
     markAllAsRead,
     fetchNotification,
   } = useNotifications();
-  const auth = getAuth();
 
   const announcementArray = [
     {
@@ -433,52 +430,10 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
       .filter(Boolean);
   }
 
-  function listenForNotifications() {
-    try {
-      const unsubscribe = onMessage(messaging, (payload) => {
-        const newNotification = JSON.parse(payload.data.data);
-
-        setNotifications((prevState) => [newNotification, ...prevState]);
-
-        setNotificationsPagination((prevState) => {
-          console.log(prevState);
-
-          if (
-            prevState.currentPage == 1 &&
-            (prevState.data.length <= prevState.rows ||
-              prevState.rows === "All")
-          ) {
-            const updatedData = [newNotification, ...prevState.data];
-            if (updatedData.length > prevState.rows) {
-              updatedData.pop();
-            }
-            return {
-              ...prevState,
-              data: updatedData,
-              showing: {
-                current:
-                  prevState.showing.current >= 10
-                    ? prevState.showing.current
-                    : prevState.showing.current + 1,
-                total: prevState.showing.total + 1,
-              },
-            };
-          } else {
-            return prevState;
-          }
-        });
-
-        setNewNotificationsCount((prevCount) => prevCount + 1);
-      });
-      return unsubscribe;
-    } catch (error) {
-      console.warn("Notification denied or error:", error);
-    }
-  }
-
   async function logout() {
     try {
       setButtonLoading(true);
+      await api.logout();
       dispatch({ type: "logout" });
     } catch (error) {
       setButtonLoading(false);
@@ -592,12 +547,8 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
   }
   useEffect(() => {
     fetchAndLoadNotifications();
-    const unsubscribe = listenForNotifications();
     return () => {
       abortControllerRef.current.abort(); // Cleanup on unmount
-      if (unsubscribe) {
-        unsubscribe();
-      }
     };
   }, []);
 

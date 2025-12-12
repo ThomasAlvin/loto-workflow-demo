@@ -24,10 +24,10 @@ import { IoChatbubbleEllipsesOutline, IoClose } from "react-icons/io5";
 import { MdBrokenImage, MdOutlineBrokenImage } from "react-icons/md";
 import { RiDraftLine } from "react-icons/ri";
 import { TbClockX } from "react-icons/tb";
-import labelizeRole from "./labelizeRole";
+import labelizeRole from "../utils/labelizeRole";
 import moment from "moment";
-import getLockImageByModel from "./getLockImageByModel";
-import GetDateTimeType from "./GetDateTimeType";
+import getLockImageByModel from "../utils/getLockImageByModel";
+import getDateTimeType from "../utils/getDateTimeType";
 
 export default function ResponseTypeMapper({
   type,
@@ -91,7 +91,7 @@ export default function ResponseTypeMapper({
       );
 
     case "Date & Time":
-      let type = GetDateTimeType(include_date, include_time);
+      let type = getDateTimeType(include_date, include_time);
 
       return submissions?.[submissionIndex]?.response?.[0] ? (
         <Flex wordBreak={"break-word"} flexDir={"column"}>

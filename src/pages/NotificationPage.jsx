@@ -97,9 +97,7 @@ export default function NotificationPage() {
   async function fetchWorkSites() {
     setWorkSiteLoading(true);
     await api
-      .get(`work-sites/pagination`, {
-        signal: abortControllerRef2.current.signal,
-      })
+      .getWorkSites()
       .then((response) => {
         setWorkSiteSelection(response.data.data);
       })
@@ -218,7 +216,7 @@ export default function NotificationPage() {
   async function deleteNotification(UID) {
     setDeleteButtonLoading(true);
     await api
-      .delete(`notification/${UID}`)
+      .testSubmit("Notification successfully deleted")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -232,9 +230,6 @@ export default function NotificationPage() {
             confirmButton: "swal2-custom-confirm-button",
           },
         });
-        abortControllerRef.current.abort(); // Cancel any previous request
-        abortControllerRef.current = new AbortController();
-        fetchAndLoadNotifications();
       })
       .catch((error) => {
         Swal.fire({
@@ -259,11 +254,7 @@ export default function NotificationPage() {
   async function deleteSelected() {
     setDeleteSelectedButtonLoading(true);
     await api
-      .delete(`notification`, {
-        data: {
-          selectedUID: selectedUID,
-        },
-      })
+      .testSubmit("Notification successfully deleted")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -278,9 +269,6 @@ export default function NotificationPage() {
           },
         });
         setSelectedUID([]);
-        abortControllerRef.current.abort(); // Cancel any previous request
-        abortControllerRef.current = new AbortController();
-        fetchAndLoadNotifications();
       })
       .catch((error) => {
         Swal.fire({

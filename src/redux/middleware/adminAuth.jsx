@@ -1,9 +1,4 @@
-import { signOut } from "firebase/auth";
 import { api } from "../../api/api";
-import { auth, messaging } from "../../firebase/firebase";
-import { getToken, deleteToken } from "firebase/messaging";
-import GetFcmToken from "../../utils/GetFcmToken";
-import { disconnectEcho } from "../../pusher/echo";
 
 const init = {
   id: "",
@@ -17,30 +12,9 @@ const init = {
   permissions: [],
 };
 
-async function logout() {
-  try {
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    const currentToken = await GetFcmToken();
-    if (!isSafari) {
-      await deleteToken(messaging);
-    }
-    try {
-      await api.post(`user/logout`, { tokenFCM: currentToken });
-
-      disconnectEcho();
-      await signOut(auth);
-    } catch (error) {
-      console.error("Error logging out from API:", error);
-      disconnectEcho();
-      await signOut(auth);
-    }
-    return init;
-  } catch (error) {
-    console.error("Error logging out or deleting FCM token:", error);
-  }
-}
-
 function adminReducer(state = init, action) {
+  console.log(action);
+
   if (action.type === "login") {
     return {
       ...state,
@@ -66,14 +40,14 @@ function adminReducer(state = init, action) {
       login_loading: false,
     };
   } else if (action.type === "reset") {
-    disconnectEcho();
     return init;
   } else if (action.type === "startLoading") {
     return { ...init, login_loading: true };
   } else if (action.type === "stopLoading") {
     return { ...init, login_loading: false };
   } else if (action.type === "logout") {
-    logout();
+    localStorage.removeItem("isLoggedIn");
+    return init;
   }
 
   return state;

@@ -4,8 +4,8 @@ import { api } from "../api/api";
 import Loading from "../components/Loading";
 import { v4 as uuid } from "uuid";
 import { useToast } from "@chakra-ui/react";
-import CheckRoleAuth from "../../utils/checkRoleAuth";
-import getAccessibilityByRole from "../../utils/getAccessibilityByRole";
+import checkRoleAuth from "../utils/checkRoleAuth";
+import getAccessibilityByRole from "../utils/getAccessibilityByRole";
 export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
   // const nav = useNavigate();
@@ -14,10 +14,13 @@ export default function AuthProvider({ children }) {
   const userSelector = useSelector((state) => state.login.auth);
 
   async function initializeAuth() {
+    const user = localStorage.getItem("isLoggedIn");
+    console.log(user);
+
     if (user) {
       try {
         const authData = await api
-          .get("user/auth")
+          .getAuth()
           .then((res) => res.data.user)
           .catch((error) => {
             toast({
@@ -30,21 +33,22 @@ export default function AuthProvider({ children }) {
               isClosable: true,
             });
           });
+        console.log(authData);
         const currentWorkSite = userSelector?.current_work_site;
+        dispatch({ type: "stopLoading" });
         dispatch({
           type: "login",
           payload: {
             ...authData,
-            role: CheckRoleAuth(authData),
-            current_work_site: currentWorkSite,
+            role: checkRoleAuth(authData),
             uuid: uuid(),
             subscription: authData.subscriptions,
             current_work_site: currentWorkSite || authData.main_work_site,
-            permissions: getAccessibilityByRole(authData, isSubscriptionValid),
-            is_subscription_valid: isSubscriptionValid,
+            permissions: getAccessibilityByRole(authData, true),
+            is_subscription_valid: true,
           },
         });
-        dispatch({ type: "stopLoading" });
+        console.log("WATAFAKKKKKKKKK");
       } catch (err) {
         console.log("Error during authentication:", err);
         dispatch({

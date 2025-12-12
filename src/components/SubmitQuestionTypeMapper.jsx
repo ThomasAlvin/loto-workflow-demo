@@ -14,12 +14,12 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { DatePicker } from "antd";
-import get from "lodash.get";
 import { useRef, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { FaFilePdf, FaFileWord } from "react-icons/fa";
 import { FaTriangleExclamation } from "react-icons/fa6";
-import GetDateTimeType from "./GetDateTimeType";
+import getDateTimeType from "../utils/getDateTimeType";
+import { get } from "lodash";
 
 export default function SubmitQuestionTypeMapper({
   type,
@@ -67,7 +67,7 @@ export default function SubmitQuestionTypeMapper({
     }
   };
   function getDateTimePickerFormat() {
-    let type = GetDateTimeType(include_date, include_time);
+    let type = getDateTimeType(include_date, include_time);
 
     if (type === "date") {
       return {
