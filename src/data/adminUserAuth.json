@@ -1,0 +1,348 @@
+{
+  "id": 12,
+  "first_name": "Natalie",
+  "last_name": "Arden",
+  "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+  "email": "testAdmin@gmail.com",
+  "phone_number": null,
+  "phone_country": null,
+  "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+  "work_orders_created_count": 0,
+  "is_superadmin": 0,
+  "is_trial": 1,
+  "is_2fa_enabled": 0,
+  "two_factor_type_default": null,
+  "is_valid_2fa": 0,
+  "status": "verified",
+  "last_verification_email_sent_at": 1740536250000,
+  "last_login": 1765634016000,
+  "main_work_siteId": 5,
+  "created_at": 1740536250000,
+  "updated_at": 1765634016000,
+  "pending_email": null,
+  "is_ongoing_change_email": 0,
+  "member": {
+    "id": 5,
+    "userId": 12,
+    "super_adminId": 10,
+    "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+    "has_custom_permissions": 1,
+    "role": "admin",
+    "departmentId": 3,
+    "employee_id": "234-005",
+    "accessibilityId": 271,
+    "created_at": 1740536916000,
+    "updated_at": 1765555329000,
+    "accessibility": {
+      "id": 271,
+      "name": "admin",
+      "super_adminId": 10,
+      "memberId": 5,
+      "created_at": 1764747313000,
+      "updated_at": 1764823253000,
+      "modules": [
+        {
+          "id": 24935,
+          "name": "dashboard",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24848,
+              "permission": "view",
+              "moduleId": 24935,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24936,
+          "name": "work_sites",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24849,
+              "permission": "view",
+              "moduleId": 24936,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24937,
+          "name": "work_orders",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24850,
+              "permission": "view_owned",
+              "moduleId": 24937,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24851,
+              "permission": "manage",
+              "moduleId": 24937,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24938,
+          "name": "equipment_machines",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24852,
+              "permission": "view",
+              "moduleId": 24938,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24853,
+              "permission": "manage",
+              "moduleId": 24938,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24939,
+          "name": "members",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24854,
+              "permission": "view",
+              "moduleId": 24939,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24855,
+              "permission": "manage_admin",
+              "moduleId": 24939,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24856,
+              "permission": "manage_member",
+              "moduleId": 24939,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24857,
+              "permission": "manage_finance",
+              "moduleId": 24939,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24940,
+          "name": "lock_inventory",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24858,
+              "permission": "view",
+              "moduleId": 24940,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24859,
+              "permission": "manage",
+              "moduleId": 24940,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24941,
+          "name": "templates",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24860,
+              "permission": "view_owned",
+              "moduleId": 24941,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24861,
+              "permission": "manage",
+              "moduleId": 24941,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24942,
+          "name": "assigned_work_orders",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24862,
+              "permission": "full_access",
+              "moduleId": 24942,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24943,
+          "name": "reviews",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24863,
+              "permission": "view_assigned",
+              "moduleId": 24943,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24864,
+              "permission": "manage",
+              "moduleId": 24943,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24944,
+          "name": "switch_requests",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24865,
+              "permission": "view_owned",
+              "moduleId": 24944,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24866,
+              "permission": "manage",
+              "moduleId": 24944,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24945,
+          "name": "reports",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24867,
+              "permission": "view_assigned",
+              "moduleId": 24945,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24946,
+          "name": "activities",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24868,
+              "permission": "view_owned",
+              "moduleId": 24946,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24947,
+          "name": "subscription",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": []
+        }
+      ]
+    }
+  },
+  "main_work_site": {
+    "id": 5,
+    "name": "Main Work Site",
+    "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+    "location": "Main Work Site Street",
+    "super_adminId": 10,
+    "superadmin": {
+      "id": 10,
+      "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+      "subscriptions": {
+        "UID": "0EFD2AD3-FC4B-48C2-88EC-CB683574BF8C",
+        "cancelled_at": null,
+        "max_members": 100,
+        "max_locks": 0,
+        "max_admins": 100,
+        "status": "active",
+        "current_period_end": 1911747599000,
+        "userId": 10,
+        "subscription_planId": 1,
+        "billing_interval": "monthly"
+      }
+    }
+  },
+  "subscriptions": null,
+  "version": "1.2.195"
+}

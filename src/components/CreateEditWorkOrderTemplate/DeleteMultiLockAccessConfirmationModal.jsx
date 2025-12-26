@@ -41,9 +41,6 @@ export default function DeleteMultiLockAccessConfirmationModal() {
           gap={"10px"}
           alignItems={"center"}
           color={"#dc143c"}
-          onClick={() => {
-            console.log(deleteTarget);
-          }}
         >
           <IoMdWarning /> {modalDetails.header}
         </ModalHeader>

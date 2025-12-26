@@ -11,6 +11,7 @@ export default function CreateTemplateLayout({
   setCurrentPage,
   stage,
   hasSidebar,
+  hasUnconnectedNode,
   templateDetails,
   submitTemplate,
   templateStatus,
@@ -18,8 +19,6 @@ export default function CreateTemplateLayout({
   variant,
 }) {
   const { loading, setLoading } = useLoading();
-  console.log(formik);
-
   return (
     <>
       <Flex w={"100%"} flexDir={"column"} height={"100vh"}>
@@ -31,6 +30,7 @@ export default function CreateTemplateLayout({
               stage={stage}
               formik={formik}
               templateDetails={templateDetails}
+              hasUnconnectedNode={hasUnconnectedNode}
               hasChanged={hasChanged}
               submitTemplate={submitTemplate}
               templateStatus={templateStatus}

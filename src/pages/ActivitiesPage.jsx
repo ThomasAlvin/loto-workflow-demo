@@ -15,7 +15,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { FaUserAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { api } from "../api/api";
 import labelizeRole from "../utils/labelizeRole";
@@ -26,7 +26,7 @@ import Pagination from "../components/Pagination";
 import moment from "moment";
 import convertTableToRoute from "../utils/convertTableToRoute";
 import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
-
+import ActivitiesDescription from "../components/ActivitiesDescription";
 export default function ActivitiesPage() {
   const nav = useNavigate();
   const [from, setFrom] = useState();
@@ -34,7 +34,7 @@ export default function ActivitiesPage() {
   const [showing, setShowing] = useState(0);
   const [totalPages, setTotalPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const [activities, setActivities] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [tableLoading, setTableLoading] = useState(true);
@@ -50,14 +50,10 @@ export default function ActivitiesPage() {
     }, 1000),
     []
   );
-  async function fetchActivities(controller) {
+  async function fetchActivities() {
     setTableLoading(true);
     await api
-      .get(
-        `activity/pagination?search=${searchInput}&page=${currentPage}
-          &rows=${rows}`,
-        { signal: controller.signal }
-      )
+      .getActivitiesPagination()
       .then((response) => {
         setActivities(response.data.data);
         setFrom(response.data.from);
@@ -140,7 +136,6 @@ export default function ActivitiesPage() {
           <Table variant="simple">
             <Thead bg={"#ECEFF3"}>
               <Tr>
-                {/* <Th borderBottomColor={"#bababa"}>No</Th> */}
                 <Th borderBottomColor={"#bababa"}>Date & Time</Th>
                 <Th borderBottomColor={"#bababa"}>User</Th>
                 <Th borderBottomColor={"#bababa"}>IP Address</Th>
@@ -153,22 +148,17 @@ export default function ActivitiesPage() {
                 activities.map((val, index) => {
                   const { bgColor, icon, textColor, text } =
                     tableStatusStyleMapper(val.action);
+                  const navigationLink = convertTableToRoute(
+                    val.table_name,
+                    val.resource_UID
+                  );
                   return (
                     <Tr w={"100%"} bg={index % 2 ? "white" : "#f8f9fa"}>
-                      {/* <Td borderBottomColor={"#bababa"} fontWeight={700}>
-                        {index + from}.
-                      </Td> */}
                       <Td borderBottomColor={"#bababa"} color={"#848484"}>
                         {moment(val.created_at).format("MMM DD YYYY, hh:mm A")}
                       </Td>
                       <Td borderBottomColor={"#bababa"}>
                         <Flex alignItems={"center"} gap={"10px"}>
-                          {/* <Flex
-                              bg={"#848484"}
-                              w={"40px"}
-                              h={"40px"}
-                              borderRadius={"100px"}
-                            ></Flex> */}
                           {val.first_name ? (
                             <Avatar
                               outline={"1px solid #dc143c"}
@@ -176,7 +166,7 @@ export default function ActivitiesPage() {
                               name={val.first_name + " " + val.last_name}
                               src={
                                 val.profile_image_url
-                                  ? IMGURL + val.profile_image_url
+                                  ? val.profile_image_url
                                   : null
                               }
                             ></Avatar>
@@ -236,48 +226,21 @@ export default function ActivitiesPage() {
                         whiteSpace="normal" // Allow text to break
                         wordBreak="break-word"
                       >
-                        <Flex
-                          w={"fit-content"}
-                          cursor={
-                            val.action === "delete"
-                              ? ""
-                              : convertTableToRoute(
-                                  val.table_name,
-                                  val.resource_UID
-                                )
-                              ? "pointer"
-                              : "default"
-                          }
-                          _hover={
-                            val.action === "delete"
-                              ? ""
-                              : convertTableToRoute(
-                                  val.table_name,
-                                  val.resource_UID
-                                )
-                              ? { color: "#dc143c" }
-                              : {}
-                          }
-                          onClick={
-                            val.action === "delete"
-                              ? ""
-                              : () => {
-                                  convertTableToRoute(
-                                    val.table_name,
-                                    val.resource_UID
-                                  )
-                                    ? nav(
-                                        convertTableToRoute(
-                                          val.table_name,
-                                          val.resource_UID
-                                        )
-                                      )
-                                    : "";
-                                }
-                          }
-                        >
-                          {val.description}
-                        </Flex>
+                        {navigationLink ? (
+                          <Link to={navigationLink}>
+                            <ActivitiesDescription
+                              action={val.action}
+                              description={val.description}
+                              navigationLink={navigationLink}
+                            />
+                          </Link>
+                        ) : (
+                          <ActivitiesDescription
+                            action={val.action}
+                            description={val.description}
+                            navigationLink={navigationLink}
+                          />
+                        )}
                       </Td>
                     </Tr>
                   );

@@ -56,11 +56,7 @@ export default function DepartmentMenu({
           <Tooltip
             hasArrow
             placement={"top"}
-            label={
-              membersCount
-                ? "Delete disabled: There's exisiting members"
-                : "Delete"
-            }
+            label={membersCount ? "Contains members" : "Delete"}
             aria-label="A tooltip"
             background={membersCount ? "#848484" : "crimson"}
             color={"white"}

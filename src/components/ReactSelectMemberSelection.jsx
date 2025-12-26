@@ -2,7 +2,6 @@ import { Avatar, Flex } from "@chakra-ui/react";
 import { components } from "react-select";
 import labelizeRole from "../utils/labelizeRole";
 export default function ReactSelectMemberSelection(props) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <>
       <components.Option {...props}>
@@ -21,7 +20,7 @@ export default function ReactSelectMemberSelection(props) {
                 }
                 src={
                   props.data?.user.profile_image_url
-                    ? IMGURL + props.data?.user.profile_image_url
+                    ? props.data?.user.profile_image_url
                     : null
                 }
               ></Avatar>

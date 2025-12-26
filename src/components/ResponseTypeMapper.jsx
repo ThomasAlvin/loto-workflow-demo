@@ -39,10 +39,7 @@ export default function ResponseTypeMapper({
   include_date,
   include_time,
   handleImageFocus,
-  isPDF,
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
-
   switch (type) {
     case "Multiple Choice":
       return (
@@ -156,7 +153,7 @@ export default function ResponseTypeMapper({
               onClick={
                 handleImageFocus
                   ? () => {
-                      handleImageFocus(IMGURL + val);
+                      handleImageFocus(val);
                     }
                   : ""
               }
@@ -197,7 +194,7 @@ export default function ResponseTypeMapper({
                 bg={"#f5f5f5"}
                 h={"100px"}
                 boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                src={val ? (isPDF ? val : IMGURL + val) : ""}
+                src={val ? val : ""}
               ></Image>
             </Flex>
           ))}
@@ -429,10 +426,7 @@ export default function ResponseTypeMapper({
               <Image
                 w={"100%"}
                 h={"100%"}
-                src={
-                  IMGURL +
-                  submissions?.[submissionIndex]?.response[0].main_image_url
-                }
+                src={submissions?.[submissionIndex]?.response[0].main_image_url}
               ></Image>
             </Flex>
             <Flex
@@ -461,38 +455,6 @@ export default function ResponseTypeMapper({
                   {submissions?.[submissionIndex]?.response[0].serial_number}{" "}
                 </Flex>
               </Flex>
-              {/* <Flex gap={"10px"}>
-                <Flex
-                  borderRadius={"10px"}
-                  fontSize={"14px"}
-                  px={"8px"}
-                  py={"2px"}
-                  color={"#3d9666"}
-                  alignItems={"center"}
-                  gap={"5px"}
-                  bg={"#DBF6CB"}
-                >
-                  <Flex>
-                    <FaTag />
-                  </Flex>
-                  <Flex>Machine ID: Machine-001</Flex>
-                </Flex>
-                <Flex
-                  borderRadius={"10px"}
-                  fontSize={"14px"}
-                  px={"8px"}
-                  py={"2px"}
-                  color={"#3d9666"}
-                  alignItems={"center"}
-                  gap={"5px"}
-                  bg={"#DBF6CB"}
-                >
-                  <Flex>
-                    <FaTag />
-                  </Flex>
-                  <Flex>Machine ID: Machine-001</Flex>
-                </Flex>
-              </Flex> */}
             </Flex>
           </Flex>
         </Flex>
@@ -519,7 +481,6 @@ export default function ResponseTypeMapper({
                   submissions?.[submissionIndex]?.response[0]?.user.last_name
                 }
                 src={
-                  IMGURL +
                   submissions?.[submissionIndex]?.response[0]?.user
                     ?.profile_image_url
                 }

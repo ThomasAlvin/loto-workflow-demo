@@ -145,8 +145,6 @@ export default function DepartmentPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -162,10 +160,7 @@ export default function DepartmentPage() {
   async function fetchDepartments() {
     setTableLoading(true);
     await api
-      .get(
-        `department/pagination?search=${searchFilter}&page=${currentPage}&rows=${rows}`,
-        { signal: abortControllerRef.current.signal }
-      )
+      .getDepartmentsPagination()
       .then((response) => {
         setDepartments(response.data.data);
         setFrom(response.data.from);
@@ -187,7 +182,7 @@ export default function DepartmentPage() {
   async function deleteDepartment(UID) {
     setDeleteButtonLoading(true);
     await api
-      .delete(`department/${UID}`)
+      .testSubmit("Department deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
           prevState.filter((selUID) => selUID !== UID)
@@ -231,11 +226,7 @@ export default function DepartmentPage() {
   async function deleteSelected() {
     setDeleteSelectedButtonLoading(true);
     await api
-      .delete(`department`, {
-        data: {
-          selectedUID: selectedUID,
-        },
-      })
+      .testSubmit("department deleted successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -276,7 +267,7 @@ export default function DepartmentPage() {
   async function editDepartment(data, UID) {
     setEditButtonLoading(true);
     await api
-      .post(`department/${UID}`, data)
+      .testSubmit("Changes saved successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",

@@ -37,7 +37,6 @@ import AssignedWorkOrderMenu from "../components/AssignedWorkOrders/AssignedWork
 import { useSelector } from "react-redux";
 import formatString from "../utils/formatString";
 import assignedRoleMapper from "../utils/assignedRoleMapper";
-import { useWorkOrderListener } from "../hooks/useWorkOrderListener";
 import CustomToast from "../components/CustomToast";
 import UrlBasedPagination from "../components/UrlBasedPagination";
 import { FaMapLocationDot } from "react-icons/fa6";
@@ -50,7 +49,7 @@ export default function AssignedWorkOrdersPage() {
   const userSelector = useSelector((state) => state.login.auth);
   const toast = useToast();
   const nav = useNavigate();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const workSiteUID = userSelector.current_work_site?.id;
   const [from, setFrom] = useState(0);
   const [showing, setShowing] = useState(0);
@@ -85,8 +84,6 @@ export default function AssignedWorkOrdersPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -96,7 +93,6 @@ export default function AssignedWorkOrdersPage() {
           params.delete(key);
         }
       });
-      console.log(params.toString());
 
       return params;
     });
@@ -160,13 +156,7 @@ export default function AssignedWorkOrdersPage() {
     setTableLoading(true);
     const localAbortController = abortControllerRef.current;
     await api
-      .get(
-        `assigned-work-order/pagination?search=${searchFilter}&page=${currentPage}&status=${statusFilter}
-      &rows=${rows}`,
-        {
-          signal: abortControllerRef.current.signal,
-        }
-      )
+      .getAssignedWorkOrdersPagination()
       .then((response) => {
         setWorkOrders(response.data.data);
         setFrom(response.data.from);
@@ -245,7 +235,6 @@ export default function AssignedWorkOrdersPage() {
   }
   const handleChange = (e) => {
     const { value, id } = e.target;
-    console.log(value);
 
     if (id === "row") {
       const newTotalPages = Math.ceil(showing?.total / value);
@@ -288,11 +277,6 @@ export default function AssignedWorkOrdersPage() {
         validCounter++;
       }
     }
-    console.log(searchFilter);
-    console.log(statusFilter);
-    console.log(newWorkOrder);
-    console.log(totalCounter);
-    console.log(validCounter);
 
     return totalCounter === validCounter;
   }
@@ -351,7 +335,6 @@ export default function AssignedWorkOrdersPage() {
         {
           const newWorkOrder = pusherData.workOrder;
           const matchFilter = checkNewWorkOrderByFilter(newWorkOrder);
-          console.log(matchFilter);
 
           if (matchFilter && newWorkOrder.status === "completed") {
             setWorkOrders((prevState) => [
@@ -462,35 +445,10 @@ export default function AssignedWorkOrdersPage() {
         break;
     }
   }
-  useWorkOrderListener(
-    `awo.user.${userSelector.id}.ws.${workSiteUID}`,
-    {
-      onCreated: (pusherData) => {
-        return handlePusherData("onCreated", pusherData);
-      },
-      onUpdated: (pusherData) => {
-        return handlePusherData("onUpdated", pusherData);
-      },
-      onDeleted: (pusherData) => {
-        return handlePusherData("onDeleted", pusherData);
-      },
-      onGroupDeleted: (pusherData) => {
-        return handlePusherData("onGroupDeleted", pusherData);
-      },
-    },
-    [searchFilter, statusFilter, rows, workOrders]
-  );
   return (
     <Flex w={"100%"} flexDir={"column"} px={"30px"} py={"20px"} gap={"20px"}>
       <Flex flexDir={"column"}>
-        <Flex
-          onClick={() => {
-            console.log(workOrders);
-          }}
-          fontSize={"28px"}
-          color={"#dc143c"}
-          fontWeight={700}
-        >
+        <Flex fontSize={"28px"} color={"#dc143c"} fontWeight={700}>
           Assigned Work Order List
         </Flex>
       </Flex>
@@ -669,8 +627,7 @@ export default function AssignedWorkOrdersPage() {
                   const currentStep =
                     val.work_order_steps[val.current_step - 1];
                   const disableResponse =
-                    (currentStep?.access_lock ||
-                      currentStep?.multi_access_lock) &&
+                    currentStep?.multi_access_lock &&
                     currentAssignee?.some(
                       (curAssignee) =>
                         curAssignee.user?.email === userSelector.email
@@ -850,7 +807,7 @@ export default function AssignedWorkOrdersPage() {
                               }
                               src={
                                 creatorInfo?.profile_image_url
-                                  ? IMGURL + creatorInfo?.profile_image_url
+                                  ? creatorInfo?.profile_image_url
                                   : null
                               }
                             ></Avatar>
@@ -963,8 +920,7 @@ export default function AssignedWorkOrdersPage() {
                                           src={
                                             assignedMember?.user
                                               .profile_image_url
-                                              ? IMGURL +
-                                                assignedMember?.user
+                                              ? assignedMember?.user
                                                   .profile_image_url
                                               : null
                                           }
@@ -1141,9 +1097,6 @@ export default function AssignedWorkOrdersPage() {
                             <Flex
                               position={"relative"}
                               fontWeight={700}
-                              onClick={() => {
-                                console.log(val);
-                              }}
                               color={
                                 // val.is_overdue ? "#dc143c" : "black"
                                 val.status === "overdue" || val.is_overdue
@@ -1151,7 +1104,6 @@ export default function AssignedWorkOrdersPage() {
                                   : "black"
                               }
                             >
-                              {/* {val?.is_overdue ? ( */}
                               {val.status === "overdue" || val.is_overdue ? (
                                 <Tooltip
                                   label={

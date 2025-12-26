@@ -35,16 +35,7 @@ export default function ReactFlowDragAndDropSidebar({
 
     event.dataTransfer.setDragImage(ghost, width / 2, height / 2);
   };
-  //   const onDragStart = (event, val) => {
-  //   const ghost = nodeGhostRef.current;
-  //   console.log(ghost);
-  //   if (!ghost) return;
-  //   console.log(ghost);
 
-  //   const width = ghost.offsetWidth;
-  //   const height = ghost.offsetHeight;
-  //   event.dataTransfer.setDragImage(ghost, width / 2, height / 2);
-  // };
   return (
     <Flex h={"100%"} position={"relative"}>
       <Flex position={"relative"} overflow={"hidden"}>
@@ -72,15 +63,7 @@ export default function ReactFlowDragAndDropSidebar({
               fontWeight={700}
               fontSize={"20px"}
             >
-              <Flex
-                color={"#dc134c"}
-                onClick={() => {
-                  console.log("Nodes", getNodes());
-                  console.log("Edges", getEdges());
-                }}
-              >
-                General Steps
-              </Flex>
+              <Flex color={"#dc134c"}>General Steps</Flex>
               <Flex cursor={"pointer"} onClick={onClose} fontSize={"20px"}>
                 <IoCloseSharp />
               </Flex>

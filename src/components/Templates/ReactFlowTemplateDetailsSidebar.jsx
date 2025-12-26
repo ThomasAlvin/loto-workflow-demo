@@ -13,7 +13,7 @@ export default function ReactFlowTemplateDetailsSidebar({ templateDetails }) {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure({
     defaultIsOpen: true,
   });
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const nodeGhostRef = useRef();
   const [ghostData, setGhostData] = useState({});
   const { getEdges, getNodes } = useReactFlow();
@@ -62,16 +62,7 @@ export default function ReactFlowTemplateDetailsSidebar({ templateDetails }) {
               fontWeight={700}
               fontSize={"20px"}
             >
-              <Flex
-                color={"#dc134c"}
-                onClick={() => {
-                  console.log("Nodes", getNodes());
-                  console.log("Edges", getEdges());
-                  console.log(templateDetails);
-                }}
-              >
-                Template Details
-              </Flex>
+              <Flex color={"#dc134c"}>Template Details</Flex>
               <Flex cursor={"pointer"} onClick={onClose} fontSize={"20px"}>
                 <IoCloseSharp />
               </Flex>
@@ -164,7 +155,7 @@ export default function ReactFlowTemplateDetailsSidebar({ templateDetails }) {
                         }
                         src={
                           creatorInfo?.profile_image_url
-                            ? IMGURL + creatorInfo?.profile_image_url
+                            ? creatorInfo?.profile_image_url
                             : null
                         }
                       ></Avatar>
@@ -240,7 +231,7 @@ export default function ReactFlowTemplateDetailsSidebar({ templateDetails }) {
               </Flex>
               <Flex flexDir={"column"}>
                 <Box fontWeight={700} as="span" flex="1" textAlign="left">
-                  Last Published :
+                  Created At :
                 </Box>
                 <Flex
                   flexDir={"column"}
@@ -248,7 +239,7 @@ export default function ReactFlowTemplateDetailsSidebar({ templateDetails }) {
                   justifyContent={"space-between"}
                 >
                   <Flex color={"#848484"}>
-                    {moment(templateDetails.updated_at).format(
+                    {moment(templateDetails.created_at).format(
                       "YYYY-MM-DD hh:mm A"
                     )}
                   </Flex>

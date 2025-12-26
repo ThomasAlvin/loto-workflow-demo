@@ -35,7 +35,7 @@ export default function ReportDetailsPage() {
   const reportDetailsRef = useRef(null);
   const { loading, setLoading } = useLoading();
   const { UID } = useParams();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const [report, setReport] = useState();
   const [selectedStep, setSelectedStep] = useState(1);
   const [fetchError, setFetchError] = useState(false);
@@ -44,17 +44,7 @@ export default function ReportDetailsPage() {
     selectedStep?.report_multi_lock_group?.report_multi_lock_group_items.map(
       (item) => item.name
     ) || [];
-  const lockAccessIds =
-    selectedStep?.report_locks?.map((item) => item.name) || [];
-  const multiLockAccessAuditLogs =
-    selectedStep.report_step_audit_trails?.filter((log) => {
-      return multiLockAccessNames.includes(log.lock?.name);
-    });
-  const lockAccessAuditLogs = selectedStep.report_step_audit_trails?.filter(
-    (log) => {
-      return lockAccessIds.includes(log.lock?.name);
-    }
-  );
+
   const creatorInfo = report?.creator?.is_superadmin
     ? { ...report?.creator, role: labelizeRole("super_admin") }
     : {
@@ -120,7 +110,7 @@ export default function ReportDetailsPage() {
   async function fetchReportDetails(controller) {
     setLoading(true);
     await api
-      .get(`report/${UID}`, { signal: controller.signal })
+      .getReportDetails(UID)
       .then((response) => {
         const uniqueAssigneesSet = new Set();
         const uniqueAssignees = [];
@@ -223,13 +213,7 @@ export default function ReportDetailsPage() {
               >
                 <Flex flexDir={"column"}>
                   <Flex fontSize={"20px"}>Work Order Report</Flex>
-                  <Flex
-                    onClick={() => {
-                      console.log(report);
-                    }}
-                    fontSize={"32px"}
-                    fontWeight={700}
-                  >
+                  <Flex fontSize={"32px"} fontWeight={700}>
                     {report?.name}
                   </Flex>
                   <Flex color={"#848484"} fontWeight={700}>
@@ -254,8 +238,6 @@ export default function ReportDetailsPage() {
                     level="L" // Error correction level (L, M, Q, H)
                   />
                   <Image w={"80px"} src={logoEgeeTouchRed}></Image>
-
-                  {/* <SlGlobe /> */}
                 </Flex>
               </Flex>
             </Flex>
@@ -391,8 +373,7 @@ export default function ReportDetailsPage() {
                                         }
                                         src={
                                           creatorInfo.profile_image_url
-                                            ? IMGURL +
-                                              creatorInfo.profile_image_url
+                                            ? creatorInfo.profile_image_url
                                             : null
                                         }
                                       ></Avatar>
@@ -499,8 +480,7 @@ export default function ReportDetailsPage() {
                                             }
                                             src={
                                               coCreator?.profile_image_url
-                                                ? IMGURL +
-                                                  coCreator?.profile_image_url
+                                                ? coCreator?.profile_image_url
                                                 : null
                                             }
                                           ></Avatar>
@@ -621,8 +601,7 @@ export default function ReportDetailsPage() {
                                           }
                                           src={
                                             assignee.profile_image_url
-                                              ? IMGURL +
-                                                assignee.profile_image_url
+                                              ? assignee.profile_image_url
                                               : null
                                           }
                                         ></Avatar>
@@ -788,8 +767,7 @@ export default function ReportDetailsPage() {
                                                 }
                                                 src={
                                                   notifiedMember.profile_image_url
-                                                    ? IMGURL +
-                                                      notifiedMember.profile_image_url
+                                                    ? notifiedMember.profile_image_url
                                                     : null
                                                 }
                                               ></Avatar>
@@ -866,9 +844,7 @@ export default function ReportDetailsPage() {
                           justify={"center"}
                         >
                           <Flex border={"1px solid #bababa"}>
-                            <Image
-                              src={IMGURL + report?.flow_chart_images?.[0]}
-                            />
+                            <Image src={report?.flow_chart_images?.[0]} />
                           </Flex>
                         </Flex>
                       </Flex>

@@ -102,11 +102,7 @@ export default function EditMachineCategoryModal({
     const formData = convertToFormData(data);
 
     await api
-      .post(`machine-category/${val.UID}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .testSubmit("Machine category saved successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -397,13 +393,7 @@ export default function EditMachineCategoryModal({
                             const isOpen = openAccordions.includes(index); // Check if this accordion is open
                             return (
                               <>
-                                <Tr
-                                // cursor={"pointer"}
-                                // bg={"#f9f9f9"}
-                                // onClick={() => toggleAccordion(index)} // Toggle open/close on click
-                                // _hover={{ background: "#ededed" }}
-                                // transition={"background ease-in-out 0.1s"}
-                                >
+                                <Tr>
                                   <Td fontWeight={700} px={"12px"}>
                                     {index + 1}.
                                   </Td>
@@ -435,112 +425,6 @@ export default function EditMachineCategoryModal({
                                     </Flex>
                                   </Td>
                                 </Tr>
-                                {/* <Tr>
-                                  <Td
-                                    borderX={"1px solid #EDF2F7"}
-                                    colSpan={7}
-                                    p={0}
-                                  >
-                                    <Accordion
-                                      index={isOpen ? 0 : -1}
-                                      allowMultiple
-                                    >
-                                      <AccordionItem>
-                                        <AccordionButton
-                                          display={"none"}
-                                          p={0}
-                                        ></AccordionButton>
-                                        <AccordionPanel px={"10px"} py={"10px"}>
-                                          <Flex flexDir={"column"} gap={"10px"}>
-                                            <Flex alignItems={"center"}>
-                                              <Flex fontWeight={700}>
-                                                Inspection Form :
-                                              </Flex>
-                                            </Flex>
-                                            <Flex
-                                              fontSize={"14px"}
-                                              flexDir={"column"}
-                                              w={"100%"}
-                                            >
-                                              <Flex
-                                                bg={"#F8F9FA"}
-                                                w={"100%"}
-                                                color={"#848484"}
-                                                fontSize={"14px"}
-                                                shadow={
-                                                  "0px 0px 3px rgba(50,50,93,0.5)"
-                                                }
-                                              >
-                                                <Flex
-                                                  borderRight={
-                                                    "#E2E8F0 1px solid"
-                                                  }
-                                                  px={"10px"}
-                                                  py={"5px"}
-                                                  w={"50%"}
-                                                >
-                                                  Question
-                                                </Flex>
-
-                                                <Flex
-                                                  borderRight={
-                                                    "#E2E8F0 1px solid"
-                                                  }
-                                                  px={"10px"}
-                                                  py={"5px"}
-                                                  w={"25%"}
-                                                >
-                                                  Type of response
-                                                </Flex>
-                                                <Flex
-                                                  px={"10px"}
-                                                  py={"5px"}
-                                                  w={"25%"}
-                                                >
-                                                  Setup
-                                                </Flex>
-                                              </Flex>
-                                              {selectedMachine.value
-                                                .inspection_questions.length ? (
-                                                selectedMachine.value.inspection_questions.map(
-                                                  (inspectionQuestion, idx) => (
-                                                    <WorkOrderDetailsFormQuestion
-                                                      val={inspectionQuestion}
-                                                      index={idx}
-                                                    />
-                                                  )
-                                                )
-                                              ) : (
-                                                <Flex
-                                                  w={"100%"}
-                                                  justifyContent={"center"}
-                                                  py={"40px"}
-                                                  boxShadow={
-                                                    "0px 0px 3px rgba(50,50,93,0.5)"
-                                                  }
-                                                  flexDir={"column"}
-                                                  alignItems={"center"}
-                                                >
-                                                  <Flex
-                                                    color={"#dc143c"}
-                                                    fontWeight={700}
-                                                  >
-                                                    No questions assigned!
-                                                  </Flex>
-                                                  <Flex color={"#848484"}>
-                                                    There are no assigned
-                                                    inspection questions for
-                                                    this machine.
-                                                  </Flex>
-                                                </Flex>
-                                              )}
-                                            </Flex>
-                                          </Flex>
-                                        </AccordionPanel>
-                                      </AccordionItem>
-                                    </Accordion>
-                                  </Td>
-                                </Tr> */}
                               </>
                             );
                           }

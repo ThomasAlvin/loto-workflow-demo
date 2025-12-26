@@ -39,9 +39,12 @@ export default function StepDetailsDrawerStepInspectionForm({
               pr={"16px"}
             >
               <Flex fontWeight={700} alignItems={"center"} gap={"10px"}>
-                <Flex h={"9px"} w={"9px"} bg={"#c92445"} borderRadius={"100%"}>
-                  {/* <FaLongArrowAltRight /> */}
-                </Flex>
+                <Flex
+                  h={"9px"}
+                  w={"9px"}
+                  bg={"#c92445"}
+                  borderRadius={"100%"}
+                ></Flex>
                 <Flex>
                   {inspectionForm?.work_order_step_inspection_form?.name ||
                     inspectionForm?.work_order_step_inspection_form
@@ -103,7 +106,6 @@ export default function StepDetailsDrawerStepInspectionForm({
                         />
                       </Flex>
                     </Flex>
-                    {/* <Flex bg={"#e0e0e0"} h={"1px"} w={"100%"}></Flex> */}
                   </>
                 ))}
               </Flex>

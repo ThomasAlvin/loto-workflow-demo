@@ -1,0 +1,2397 @@
+[
+  {
+    "memberUID": "MAJTCGFB168-675A-401C-B4C5-43CBA0276A9D",
+    "accessibility": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": []
+        },
+        {
+          "name": "assigned_work_orders",
+          "permissions": [
+            {
+              "permission": "full_access"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "view"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": []
+        },
+        {
+          "name": "reviews",
+          "permissions": []
+        },
+        {
+          "name": "switch_requests",
+          "permissions": []
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "templates",
+          "permissions": []
+        },
+        {
+          "name": "members",
+          "permissions": []
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": []
+        },
+        {
+          "name": "activities",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            }
+          ]
+        },
+        {
+          "name": "subscription",
+          "permissions": []
+        }
+      ]
+    },
+    "RBACRole": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit work sites"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all equipment/machines"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view equipment/machines that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete equipment/machines including their inspection forms and categories",
+              "requirement": [
+                {
+                  "module": "equipment_machines",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all members"
+            },
+            {
+              "permission": "manage_admin",
+              "description": "Grant access to create/edit/delete admins",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_member",
+              "description": "Grant access to create/edit/delete members",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_finance",
+              "description": "Grant access to create/edit/delete finances",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all locks"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view locks that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete locks",
+              "requirement": [
+                {
+                  "module": "lock_inventory",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": [
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view reports for work orders assigned to the user."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "memberUID": "YQTEGDBC85-A017-45A7-96D6-C83E361A4A16",
+    "accessibility": {
+      "id": 272,
+      "name": "admin",
+      "super_adminId": 10,
+      "memberId": 157,
+      "created_at": 1765158923000,
+      "updated_at": 1765158923000,
+      "modules": [
+        {
+          "id": 24922,
+          "name": "dashboard",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24827,
+              "permission": "view",
+              "moduleId": 24922,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24923,
+          "name": "work_sites",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24828,
+              "permission": "view",
+              "moduleId": 24923,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24924,
+          "name": "work_orders",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24829,
+              "permission": "view_owned",
+              "moduleId": 24924,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            },
+            {
+              "id": 24830,
+              "permission": "manage",
+              "moduleId": 24924,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24925,
+          "name": "equipment_machines",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24831,
+              "permission": "view",
+              "moduleId": 24925,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            },
+            {
+              "id": 24832,
+              "permission": "manage",
+              "moduleId": 24925,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24926,
+          "name": "members",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24833,
+              "permission": "view",
+              "moduleId": 24926,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            },
+            {
+              "id": 24834,
+              "permission": "manage_admin",
+              "moduleId": 24926,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            },
+            {
+              "id": 24835,
+              "permission": "manage_member",
+              "moduleId": 24926,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            },
+            {
+              "id": 24836,
+              "permission": "manage_finance",
+              "moduleId": 24926,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24927,
+          "name": "lock_inventory",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24837,
+              "permission": "view",
+              "moduleId": 24927,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            },
+            {
+              "id": 24838,
+              "permission": "manage",
+              "moduleId": 24927,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24928,
+          "name": "templates",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24839,
+              "permission": "view_owned",
+              "moduleId": 24928,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            },
+            {
+              "id": 24840,
+              "permission": "manage",
+              "moduleId": 24928,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24929,
+          "name": "assigned_work_orders",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24841,
+              "permission": "full_access",
+              "moduleId": 24929,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24930,
+          "name": "reviews",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24842,
+              "permission": "view_assigned",
+              "moduleId": 24930,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            },
+            {
+              "id": 24843,
+              "permission": "manage",
+              "moduleId": 24930,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24931,
+          "name": "switch_requests",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24844,
+              "permission": "view_owned",
+              "moduleId": 24931,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            },
+            {
+              "id": 24845,
+              "permission": "manage",
+              "moduleId": 24931,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24932,
+          "name": "reports",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24846,
+              "permission": "view_assigned",
+              "moduleId": 24932,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24933,
+          "name": "activities",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": [
+            {
+              "id": 24847,
+              "permission": "view_owned",
+              "moduleId": 24933,
+              "created_at": 1765553831000,
+              "updated_at": 1765553831000
+            }
+          ]
+        },
+        {
+          "id": 24934,
+          "name": "subscription",
+          "description": null,
+          "accessibilityId": 272,
+          "created_at": 1765553831000,
+          "updated_at": 1765553831000,
+          "permissions": []
+        }
+      ]
+    },
+    "RBACRole": {
+      "name": "admin",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view the main dashboard interface"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit work sites"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": [
+            {
+              "permission": "view"
+            },
+            {
+              "permission": "view_owned"
+            },
+            {
+              "permission": "manage"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all equipment/machines"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view equipment/machines that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete equipment/machines including their inspection forms and categories",
+              "requirement": [
+                {
+                  "module": "equipment_machines",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all members"
+            },
+            {
+              "permission": "manage_admin",
+              "description": "Grant access to create/edit/delete admins",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_member",
+              "description": "Grant access to create/edit/delete members",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_finance",
+              "description": "Grant access to create/edit/delete finances",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all locks"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view locks that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete locks",
+              "requirement": [
+                {
+                  "module": "lock_inventory",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "memberUID": "MJARYCX2-2511-4693-A3D1-1C665D9E5140",
+    "accessibility": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": []
+        },
+        {
+          "name": "assigned_work_orders",
+          "permissions": [
+            {
+              "permission": "full_access"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "view"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": []
+        },
+        {
+          "name": "reviews",
+          "permissions": []
+        },
+        {
+          "name": "switch_requests",
+          "permissions": []
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "templates",
+          "permissions": []
+        },
+        {
+          "name": "members",
+          "permissions": []
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": []
+        },
+        {
+          "name": "activities",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            }
+          ]
+        },
+        {
+          "name": "subscription",
+          "permissions": []
+        }
+      ]
+    },
+    "RBACRole": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit work sites"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all equipment/machines"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view equipment/machines that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete equipment/machines including their inspection forms and categories",
+              "requirement": [
+                {
+                  "module": "equipment_machines",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all members"
+            },
+            {
+              "permission": "manage_admin",
+              "description": "Grant access to create/edit/delete admins",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_member",
+              "description": "Grant access to create/edit/delete members",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_finance",
+              "description": "Grant access to create/edit/delete finances",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all locks"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view locks that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete locks",
+              "requirement": [
+                {
+                  "module": "lock_inventory",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": [
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view reports for work orders assigned to the user."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "memberUID": "BBVGHCN1E-BB12-4F6C-AFFD-6DA2FB4FCABF",
+    "accessibility": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": []
+        },
+        {
+          "name": "assigned_work_orders",
+          "permissions": [
+            {
+              "permission": "full_access"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "view"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": []
+        },
+        {
+          "name": "reviews",
+          "permissions": []
+        },
+        {
+          "name": "switch_requests",
+          "permissions": []
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "templates",
+          "permissions": []
+        },
+        {
+          "name": "members",
+          "permissions": []
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": []
+        },
+        {
+          "name": "activities",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            }
+          ]
+        },
+        {
+          "name": "subscription",
+          "permissions": []
+        }
+      ]
+    },
+    "RBACRole": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit work sites"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all equipment/machines"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view equipment/machines that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete equipment/machines including their inspection forms and categories",
+              "requirement": [
+                {
+                  "module": "equipment_machines",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all members"
+            },
+            {
+              "permission": "manage_admin",
+              "description": "Grant access to create/edit/delete admins",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_member",
+              "description": "Grant access to create/edit/delete members",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_finance",
+              "description": "Grant access to create/edit/delete finances",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all locks"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view locks that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete locks",
+              "requirement": [
+                {
+                  "module": "lock_inventory",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": [
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view reports for work orders assigned to the user."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "memberUID": "C9CEE168-9641-43E7-870F-BDCMJMHNAD9A8",
+    "accessibility": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": []
+        },
+        {
+          "name": "assigned_work_orders",
+          "permissions": [
+            {
+              "permission": "full_access"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "view"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": []
+        },
+        {
+          "name": "reviews",
+          "permissions": []
+        },
+        {
+          "name": "switch_requests",
+          "permissions": []
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "templates",
+          "permissions": []
+        },
+        {
+          "name": "members",
+          "permissions": []
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": []
+        },
+        {
+          "name": "activities",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            }
+          ]
+        },
+        {
+          "name": "subscription",
+          "permissions": []
+        }
+      ]
+    },
+    "RBACRole": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit work sites"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all equipment/machines"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view equipment/machines that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete equipment/machines including their inspection forms and categories",
+              "requirement": [
+                {
+                  "module": "equipment_machines",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all members"
+            },
+            {
+              "permission": "manage_admin",
+              "description": "Grant access to create/edit/delete admins",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_member",
+              "description": "Grant access to create/edit/delete members",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_finance",
+              "description": "Grant access to create/edit/delete finances",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all locks"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view locks that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete locks",
+              "requirement": [
+                {
+                  "module": "lock_inventory",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": [
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view reports for work orders assigned to the user."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "memberUID": "E8BCE72E-F7F9-49KSJ-A78A-FEAA10E2752C",
+    "accessibility": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": []
+        },
+        {
+          "name": "assigned_work_orders",
+          "permissions": [
+            {
+              "permission": "full_access"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "view"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": []
+        },
+        {
+          "name": "reviews",
+          "permissions": []
+        },
+        {
+          "name": "switch_requests",
+          "permissions": []
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "templates",
+          "permissions": []
+        },
+        {
+          "name": "members",
+          "permissions": []
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": []
+        },
+        {
+          "name": "activities",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            }
+          ]
+        },
+        {
+          "name": "subscription",
+          "permissions": []
+        }
+      ]
+    },
+    "RBACRole": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit work sites"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all equipment/machines"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view equipment/machines that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete equipment/machines including their inspection forms and categories",
+              "requirement": [
+                {
+                  "module": "equipment_machines",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all members"
+            },
+            {
+              "permission": "manage_admin",
+              "description": "Grant access to create/edit/delete admins",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_member",
+              "description": "Grant access to create/edit/delete members",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_finance",
+              "description": "Grant access to create/edit/delete finances",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all locks"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view locks that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete locks",
+              "requirement": [
+                {
+                  "module": "lock_inventory",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": [
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view reports for work orders assigned to the user."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "memberUID": "FB63F7CE-C6ED-09MJ-85F0-D52C65A30560",
+    "accessibility": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": []
+        },
+        {
+          "name": "assigned_work_orders",
+          "permissions": [
+            {
+              "permission": "full_access"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "view"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": []
+        },
+        {
+          "name": "reviews",
+          "permissions": []
+        },
+        {
+          "name": "switch_requests",
+          "permissions": []
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "templates",
+          "permissions": []
+        },
+        {
+          "name": "members",
+          "permissions": []
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": []
+        },
+        {
+          "name": "activities",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            }
+          ]
+        },
+        {
+          "name": "subscription",
+          "permissions": []
+        }
+      ]
+    },
+    "RBACRole": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit work sites"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all equipment/machines"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view equipment/machines that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete equipment/machines including their inspection forms and categories",
+              "requirement": [
+                {
+                  "module": "equipment_machines",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all members"
+            },
+            {
+              "permission": "manage_admin",
+              "description": "Grant access to create/edit/delete admins",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_member",
+              "description": "Grant access to create/edit/delete members",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_finance",
+              "description": "Grant access to create/edit/delete finances",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all locks"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view locks that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete locks",
+              "requirement": [
+                {
+                  "module": "lock_inventory",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": [
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view reports for work orders assigned to the user."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "memberUID": "YHX7687-D70B-4B5D-A321-92DF782BB6EE",
+    "accessibility": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": []
+        },
+        {
+          "name": "assigned_work_orders",
+          "permissions": [
+            {
+              "permission": "full_access"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "view"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": []
+        },
+        {
+          "name": "reviews",
+          "permissions": []
+        },
+        {
+          "name": "switch_requests",
+          "permissions": []
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "templates",
+          "permissions": []
+        },
+        {
+          "name": "members",
+          "permissions": []
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": []
+        },
+        {
+          "name": "activities",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            }
+          ]
+        },
+        {
+          "name": "subscription",
+          "permissions": []
+        }
+      ]
+    },
+    "RBACRole": {
+      "name": "member",
+      "modules": [
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit work sites"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all equipment/machines"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view equipment/machines that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete equipment/machines including their inspection forms and categories",
+              "requirement": [
+                {
+                  "module": "equipment_machines",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all members"
+            },
+            {
+              "permission": "manage_admin",
+              "description": "Grant access to create/edit/delete admins",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_member",
+              "description": "Grant access to create/edit/delete members",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_finance",
+              "description": "Grant access to create/edit/delete finances",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all locks"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view locks that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete locks",
+              "requirement": [
+                {
+                  "module": "lock_inventory",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": [
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view reports for work orders assigned to the user."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "memberUID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+    "accessibility": {
+      "id": 271,
+      "name": "admin",
+      "super_adminId": 10,
+      "memberId": 5,
+      "created_at": 1764747313000,
+      "updated_at": 1764823253000,
+      "modules": [
+        {
+          "id": 24935,
+          "name": "dashboard",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24848,
+              "permission": "view",
+              "moduleId": 24935,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24936,
+          "name": "work_sites",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24849,
+              "permission": "view",
+              "moduleId": 24936,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24937,
+          "name": "work_orders",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24850,
+              "permission": "view_owned",
+              "moduleId": 24937,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24851,
+              "permission": "manage",
+              "moduleId": 24937,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24938,
+          "name": "equipment_machines",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24852,
+              "permission": "view",
+              "moduleId": 24938,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24853,
+              "permission": "manage",
+              "moduleId": 24938,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24939,
+          "name": "members",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24854,
+              "permission": "view",
+              "moduleId": 24939,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24855,
+              "permission": "manage_admin",
+              "moduleId": 24939,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24856,
+              "permission": "manage_member",
+              "moduleId": 24939,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24857,
+              "permission": "manage_finance",
+              "moduleId": 24939,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24940,
+          "name": "lock_inventory",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24858,
+              "permission": "view",
+              "moduleId": 24940,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24859,
+              "permission": "manage",
+              "moduleId": 24940,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24941,
+          "name": "templates",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24860,
+              "permission": "view_owned",
+              "moduleId": 24941,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24861,
+              "permission": "manage",
+              "moduleId": 24941,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24942,
+          "name": "assigned_work_orders",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24862,
+              "permission": "full_access",
+              "moduleId": 24942,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24943,
+          "name": "reviews",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24863,
+              "permission": "view_assigned",
+              "moduleId": 24943,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24864,
+              "permission": "manage",
+              "moduleId": 24943,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24944,
+          "name": "switch_requests",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24865,
+              "permission": "view_owned",
+              "moduleId": 24944,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            },
+            {
+              "id": 24866,
+              "permission": "manage",
+              "moduleId": 24944,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24945,
+          "name": "reports",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24867,
+              "permission": "view_assigned",
+              "moduleId": 24945,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24946,
+          "name": "activities",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": [
+            {
+              "id": 24868,
+              "permission": "view_owned",
+              "moduleId": 24946,
+              "created_at": 1765555329000,
+              "updated_at": 1765555329000
+            }
+          ]
+        },
+        {
+          "id": 24947,
+          "name": "subscription",
+          "description": null,
+          "accessibilityId": 271,
+          "created_at": 1765555329000,
+          "updated_at": 1765555329000,
+          "permissions": []
+        }
+      ]
+    },
+    "RBACRole": {
+      "name": "admin",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view the main dashboard interface"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit work sites"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": [
+            {
+              "permission": "view"
+            },
+            {
+              "permission": "view_owned"
+            },
+            {
+              "permission": "manage"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all equipment/machines"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view equipment/machines that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete equipment/machines including their inspection forms and categories",
+              "requirement": [
+                {
+                  "module": "equipment_machines",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all members"
+            },
+            {
+              "permission": "manage_admin",
+              "description": "Grant access to create/edit/delete admins",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_member",
+              "description": "Grant access to create/edit/delete members",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_finance",
+              "description": "Grant access to create/edit/delete finances",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all locks"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view locks that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete locks",
+              "requirement": [
+                {
+                  "module": "lock_inventory",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "memberUID": "134314D6-7CBC-4C56-8962-2F9B22D8D398",
+    "accessibility": {
+      "name": "admin",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": [
+            {
+              "permission": "view"
+            }
+          ]
+        },
+        {
+          "name": "assigned_work_orders",
+          "permissions": [
+            {
+              "permission": "full_access"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "view"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            },
+            {
+              "permission": "manage"
+            }
+          ]
+        },
+        {
+          "name": "reviews",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            },
+            {
+              "permission": "manage"
+            }
+          ]
+        },
+        {
+          "name": "switch_requests",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            },
+            {
+              "permission": "manage"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view"
+            },
+            {
+              "permission": "manage"
+            }
+          ]
+        },
+        {
+          "name": "templates",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            },
+            {
+              "permission": "manage"
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view"
+            },
+            {
+              "permission": "manage_admin"
+            },
+            {
+              "permission": "manage_member"
+            },
+            {
+              "permission": "manage_finance"
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view"
+            },
+            {
+              "permission": "manage"
+            }
+          ]
+        },
+        {
+          "name": "reports",
+          "permissions": [
+            {
+              "permission": "view_assigned"
+            }
+          ]
+        },
+        {
+          "name": "activities",
+          "permissions": [
+            {
+              "permission": "view_owned"
+            }
+          ]
+        },
+        {
+          "name": "subscription",
+          "permissions": []
+        }
+      ]
+    },
+    "RBACRole": {
+      "name": "admin",
+      "modules": [
+        {
+          "name": "dashboard",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view the main dashboard interface"
+            }
+          ]
+        },
+        {
+          "name": "work_sites",
+          "permissions": [
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit work sites"
+            }
+          ]
+        },
+        {
+          "name": "work_orders",
+          "permissions": [
+            {
+              "permission": "view"
+            },
+            {
+              "permission": "view_owned"
+            },
+            {
+              "permission": "manage"
+            }
+          ]
+        },
+        {
+          "name": "equipment_machines",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all equipment/machines"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view equipment/machines that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete equipment/machines including their inspection forms and categories",
+              "requirement": [
+                {
+                  "module": "equipment_machines",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "members",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all members"
+            },
+            {
+              "permission": "manage_admin",
+              "description": "Grant access to create/edit/delete admins",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_member",
+              "description": "Grant access to create/edit/delete members",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            },
+            {
+              "permission": "manage_finance",
+              "description": "Grant access to create/edit/delete finances",
+              "requirement": [
+                {
+                  "module": "members",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock_inventory",
+          "permissions": [
+            {
+              "permission": "view",
+              "description": "Grant access to view all locks"
+            },
+            {
+              "permission": "view_assigned",
+              "description": "Grant access to view locks that is assigned to the user"
+            },
+            {
+              "permission": "manage",
+              "description": "Grant access to create/edit/delete locks",
+              "requirement": [
+                {
+                  "module": "lock_inventory",
+                  "permission": "view"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

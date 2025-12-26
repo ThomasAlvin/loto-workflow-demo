@@ -1,0 +1,31 @@
+{
+  "machineCategory": [
+    {
+      "id": 100,
+      "name": "CNC Machine",
+      "work_sitesId": 5,
+      "description": null,
+      "UID": "9F3C3741-233C-4D99-8FAD-04F74738D28B",
+      "created_at": 1765562724000,
+      "updated_at": 1765562724000
+    },
+    {
+      "id": 99,
+      "name": "Hydraulic Press",
+      "work_sitesId": 5,
+      "description": null,
+      "UID": "38D7EFA5-8538-43A8-B997-3E193875DEA6",
+      "created_at": 1765560787000,
+      "updated_at": 1765560787000
+    },
+    {
+      "id": 98,
+      "name": "Electrical Panel",
+      "work_sitesId": 5,
+      "description": null,
+      "UID": "ACEEB6EB-E48E-4D93-8E12-38566987CA08",
+      "created_at": 1765560444000,
+      "updated_at": 1765560444000
+    }
+  ]
+}

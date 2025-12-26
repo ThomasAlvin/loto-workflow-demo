@@ -22,7 +22,6 @@ export default function MemberDetailsAccessibility({
       ) : (
         <Flex flexDir={"column"} gap={"20px"}>
           <Flex flexDir={"column"} gap={"20px"}>
-            {/* {Array.from({ length: 3 }).map((module, index) => ( */}
             {accessibilityRBAC?.modules?.map((module, index) =>
               module.permissions.length ? (
                 <Flex flexDir={"column"} gap={"10px"}>
@@ -37,7 +36,6 @@ export default function MemberDetailsAccessibility({
                     </Flex>
                   </Flex>
                   <Flex flexDir={"column"} borderY={"1px solid #bababa"}>
-                    {/* {Array.from({ length: 3 }).map((_, index2) => ( */}
                     {module.permissions.map((permission, index2) => {
                       if (!accessibility) {
                         console.warn("Member role not found");

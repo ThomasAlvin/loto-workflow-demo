@@ -28,11 +28,12 @@ export default function ConnectGoogleAuthModal({
   refreshQrCode,
   QRLoading,
   QRCodeUrl,
+  isOpen,
+  onClose,
+  handleOpenConnectGoogleAuth,
 }) {
   const submitButtonRef = useRef();
-  const dispatch = useDispatch();
   const userSelector = useSelector((state) => state.login.auth);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const formik = useFormik({
@@ -47,16 +48,11 @@ export default function ConnectGoogleAuthModal({
       submitGoogleAuth();
     },
   });
-  const handleOpen = (e) => {
-    e.stopPropagation();
-    refreshQrCode();
-    onOpen();
-  };
 
   async function submitGoogleAuth() {
     setButtonLoading(true);
     await api
-      .post(`user/verify-google-2fa`, { otp: formik.values.OTPInput })
+      .testSubmit("Google authenticator verified successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -68,13 +64,6 @@ export default function ConnectGoogleAuthModal({
             content: "swal2-custom-content",
             actions: "swal2-custom-actions",
             confirmButton: "swal2-custom-confirm-button",
-          },
-        });
-        dispatch({
-          type: "login",
-          payload: {
-            ...userSelector,
-            is_valid_2fa: 1,
           },
         });
         handleCloseModal();
@@ -124,7 +113,7 @@ export default function ConnectGoogleAuthModal({
         fontSize={"14px"}
         h={"28px"}
         bg={"white"}
-        onClick={isDisabled ? "" : handleOpen}
+        onClick={isDisabled ? "" : handleOpenConnectGoogleAuth}
         border={"1px solid #dc143c"}
         color={"#dc143c"}
         px={"8px"}

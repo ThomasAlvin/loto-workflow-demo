@@ -1,0 +1,203 @@
+[
+  {
+    "memberUID": "MAJTCGFB168-675A-401C-B4C5-43CBA0276A9D",
+    "current_page": 1,
+    "data": [],
+    "from": null,
+    "last_page": 1,
+    "per_page": 10,
+    "to": null,
+    "total": 0
+  },
+  {
+    "memberUID": "YQTEGDBC85-A017-45A7-96D6-C83E361A4A16",
+    "current_page": 1,
+    "data": [],
+    "from": null,
+    "last_page": 1,
+    "per_page": 10,
+    "to": null,
+    "total": 0
+  },
+  {
+    "memberUID": "MJARYCX2-2511-4693-A3D1-1C665D9E5140",
+    "current_page": 1,
+    "data": [],
+    "from": null,
+    "last_page": 1,
+    "per_page": 10,
+    "to": null,
+    "total": 0
+  },
+  {
+    "memberUID": "BBVGHCN1E-BB12-4F6C-AFFD-6DA2FB4FCABF",
+    "current_page": 1,
+    "data": [],
+    "from": null,
+    "last_page": 1,
+    "per_page": 10,
+    "to": null,
+    "total": 0
+  },
+  {
+    "memberUID": "C9CEE168-9641-43E7-870F-BDCMJMHNAD9A8",
+    "current_page": 1,
+    "data": [],
+    "from": null,
+    "last_page": 1,
+    "per_page": 10,
+    "to": null,
+    "total": 0
+  },
+  {
+    "memberUID": "E8BCE72E-F7F9-49KSJ-A78A-FEAA10E2752C",
+    "current_page": 1,
+    "data": [],
+    "from": null,
+    "last_page": 1,
+    "per_page": 10,
+    "to": null,
+    "total": 0
+  },
+  {
+    "memberUID": "FB63F7CE-C6ED-09MJ-85F0-D52C65A30560",
+    "current_page": 1,
+    "data": [],
+    "from": null,
+    "last_page": 1,
+    "per_page": 10,
+    "to": null,
+    "total": 0
+  },
+  {
+    "memberUID": "YHX7687-D70B-4B5D-A321-92DF782BB6EE",
+    "current_page": 1,
+    "data": [],
+    "from": null,
+    "last_page": 1,
+    "per_page": 10,
+    "to": null,
+    "total": 0
+  },
+  {
+    "memberUID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+    "current_page": 1,
+    "data": [
+      {
+        "id": 8998,
+        "first_name": "Natalie",
+        "last_name": "Arden",
+        "email": "testAdmin@gmail.com",
+        "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+        "role": "admin",
+        "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+        "employee_id": "234-005",
+        "action": "create",
+        "table_name": "reports",
+        "resource_UID": "EB1E4259-0D5A-463E-9746-9971DBEFE1A6",
+        "work_sitesId": 5,
+        "UID": "AE1E5B81-6125-4A65-964A-7D4E4EBE7D09",
+        "ip_address": "127.0.0.1",
+        "description": "Created a new report named CNC Machine Maintenance by Natalie Arden",
+        "created_at": 1765634235000,
+        "updated_at": 1765634235000,
+        "work_site": {
+          "id": 5,
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "name": "Main Work Site",
+          "location": "Main Work Site Street"
+        }
+      },
+      {
+        "id": 8996,
+        "first_name": "Natalie",
+        "last_name": "Arden",
+        "email": "testAdmin@gmail.com",
+        "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+        "role": "admin",
+        "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+        "employee_id": "234-005",
+        "action": "login",
+        "table_name": "users",
+        "resource_UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+        "work_sitesId": 5,
+        "UID": "27A6BD0A-EB43-43CE-95B4-CD1C3C4A6926",
+        "ip_address": "127.0.0.1",
+        "description": "User Natalie Arden has logged in.",
+        "created_at": 1765634017000,
+        "updated_at": 1765634017000,
+        "work_site": {
+          "id": 5,
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "name": "Main Work Site",
+          "location": "Main Work Site Street"
+        }
+      },
+      {
+        "id": 8903,
+        "first_name": "Natalie",
+        "last_name": "Arden",
+        "email": "testAdmin@gmail.com",
+        "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+        "role": "admin",
+        "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+        "employee_id": "234-005",
+        "action": "create",
+        "table_name": "reports",
+        "resource_UID": "9A9C338F-CD28-47FC-BEA4-AE85FA289156",
+        "work_sitesId": 5,
+        "UID": "1050C39B-1C0D-48DE-9B46-EF94B19C53DD",
+        "ip_address": "127.0.0.1",
+        "description": "Created a new report named TEST BG by Natalie Arden",
+        "created_at": 1765558248000,
+        "updated_at": 1765558248000,
+        "work_site": {
+          "id": 5,
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "name": "Main Work Site",
+          "location": "Main Work Site Street"
+        }
+      },
+      {
+        "id": 8893,
+        "first_name": "Natalie",
+        "last_name": "Arden",
+        "email": "testAdmin@gmail.com",
+        "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+        "role": "admin",
+        "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+        "employee_id": "234-005",
+        "action": "login",
+        "table_name": "users",
+        "resource_UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+        "work_sitesId": 5,
+        "UID": "FE4D33C2-47DF-414B-8575-21A310F0637D",
+        "ip_address": "127.0.0.1",
+        "description": "User Natalie Arden has logged in.",
+        "created_at": 1765555288000,
+        "updated_at": 1765555288000,
+        "work_site": {
+          "id": 5,
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "name": "Main Work Site",
+          "location": "Main Work Site Street"
+        }
+      }
+    ],
+    "from": 1,
+    "last_page": 1,
+    "per_page": 10,
+    "to": 4,
+    "total": 4
+  },
+  {
+    "memberUID": "134314D6-7CBC-4C56-8962-2F9B22D8D398",
+    "current_page": 1,
+    "data": [],
+    "from": null,
+    "last_page": 1,
+    "per_page": 10,
+    "to": null,
+    "total": 0
+  }
+]

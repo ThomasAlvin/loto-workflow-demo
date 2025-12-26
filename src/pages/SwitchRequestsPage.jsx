@@ -67,7 +67,6 @@ export default function SwitchRequestsPage() {
 
   const isIndeterminate = checkedOnPage.length > 0 && !allChecked;
 
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const debouncedSearch = useCallback(
     debounce((value) => {
       if (searchFilter === value) {
@@ -86,8 +85,6 @@ export default function SwitchRequestsPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -109,13 +106,8 @@ export default function SwitchRequestsPage() {
     const localAbortController = abortControllerRef.current;
 
     await api
-      .get(
-        `work-order/request-switch-assignee/pagination?search=${searchFilter}&status=${statusFilter}&page=${currentPage}&rows=${rows}`,
-        { signal: abortControllerRef.current.signal }
-      )
+      .getSwitchRequestPagination()
       .then((response) => {
-        console.log(response.data);
-
         setSwitchRequest(response.data.data);
         setFrom(response.data.from);
         setTotalPages(response.data.last_page);
@@ -137,7 +129,7 @@ export default function SwitchRequestsPage() {
   }
   async function fetchMembers(controller) {
     await api
-      .get(`member`, { signal: controller.signal })
+      .getMembers()
       .then((response) => {
         setMemberSelection(
           response.data.members.map((val) => ({
@@ -163,8 +155,6 @@ export default function SwitchRequestsPage() {
   function handleOpenSwitchRequestDetailModal(UID) {
     switchRequestDetailDisclosure.onOpen();
     const filteredSwitchRequest = switchRequest.find((val) => val.UID === UID);
-    console.log(filteredSwitchRequest);
-
     setSelectedSwitchRequest(filteredSwitchRequest);
   }
 
@@ -271,12 +261,6 @@ export default function SwitchRequestsPage() {
                   fontWeight={700}
                   fontSize={"12px"}
                 >
-                  {/* <Checkbox
-                    bg={"white"}
-                    isChecked={allChecked}
-                    isIndeterminate={isIndeterminate}
-                    onChange={handleCheckAll}
-                  ></Checkbox> */}
                   No
                 </Th>
                 <Th
@@ -413,7 +397,7 @@ export default function SwitchRequestsPage() {
                               }
                               src={
                                 requester?.profile_image_url
-                                  ? IMGURL + requester?.profile_image_url
+                                  ? requester?.profile_image_url
                                   : null
                               }
                             ></Avatar>
@@ -529,7 +513,7 @@ export default function SwitchRequestsPage() {
                 <ListEmptyState
                   colSpan={6}
                   header1={"No approvals found."}
-                  header2={"No pending approvals at the moment."}
+                  header2={"No pending requests at the moment."}
                 />
               )}
             </Tbody>

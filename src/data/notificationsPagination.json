@@ -1,0 +1,1471 @@
+{
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": 29680,
+        "from_userId": null,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "system",
+        "UID": "6E814795-535C-44DB-92D6-FB934D91E53E",
+        "event": "report",
+        "action": "create",
+        "resource_UID": "EB1E4259-0D5A-463E-9746-9971DBEFE1A6",
+        "title": "Report Created for Work Order",
+        "message": "A report has been created for the work order \"CNC Machine Maintenance\" by Natalie Arden.",
+        "is_read": 0,
+        "created_at": 1765634234000,
+        "updated_at": 1765634234000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29675,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "4742E7CD-4E23-4801-8FDA-ABF4C2446B73",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Work Order \"LXH/WS01/121325/151\" has been completed",
+        "message": "All steps in the work order \"CNC Machine Maintenance\" have been completed.",
+        "is_read": 0,
+        "created_at": 1765634221000,
+        "updated_at": 1765634221000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29670,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "F89D56FF-2008-4BFF-9E71-9DADD74FD428",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Step Completed in Work Order",
+        "message": "The step \"Completion & Documentation\" in the work order \"CNC Machine Maintenance\" has been completed by Natalie Arden. Please review the work order for further updates.",
+        "is_read": 0,
+        "created_at": 1765634221000,
+        "updated_at": 1765634221000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29669,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "C35F0BF6-666D-4E65-AE71-A2C4CBB16F5D",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Step Completed in Work Order",
+        "message": "The step \"Maintenance Work\" in the work order \"CNC Machine Maintenance\" has been completed by Natalie Arden. Please review the work order for further updates.",
+        "is_read": 0,
+        "created_at": 1765634196000,
+        "updated_at": 1765634196000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29667,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "168CEF9B-68EC-4BD5-81E2-2A22DB545326",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Step Completed in Work Order",
+        "message": "The step \"Pre-Maintenance Inspection\" in the work order \"CNC Machine Maintenance\" has been completed by Natalie Arden. Please review the work order for further updates.",
+        "is_read": 0,
+        "created_at": 1765634136000,
+        "updated_at": 1765634136000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29665,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "3CFAE9F3-940D-4453-95FC-806529E07F66",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Step Completed in Work Order",
+        "message": "The step \"Safety Equipment Check\" in the work order \"CNC Machine Maintenance\" has been completed by Natalie Arden. Please review the work order for further updates.",
+        "is_read": 0,
+        "created_at": 1765634120000,
+        "updated_at": 1765634120000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29663,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "DD6114B6-44C5-4885-AE80-8D638C0084D6",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Step Completed in Work Order",
+        "message": "The step \"Power Isolation\" in the work order \"CNC Machine Maintenance\" has been completed by Natalie Arden. Please review the work order for further updates.",
+        "is_read": 0,
+        "created_at": 1765634104000,
+        "updated_at": 1765634104000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29659,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 42,
+        "type": "manual",
+        "UID": "A29DFB69-E571-48B1-AAB7-032A3B542305",
+        "event": "work_order",
+        "action": "delete",
+        "resource_UID": "687ABEED-33EC-4697-949A-428EC55CA77D",
+        "title": "Work Order Deleted",
+        "message": "The work order \"CRES\" has been deleted by Adrian Cole",
+        "is_read": 0,
+        "created_at": 1765634059000,
+        "updated_at": 1765634059000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 42,
+          "name": "Denmark Work Site",
+          "location": "Officer Street 23rd, Batam, Blazed City",
+          "UID": "17FF6D27-F6B0-4ABB-A29A-E7F64E2171E5",
+          "super_adminId": 10,
+          "created_at": 1743170775000,
+          "updated_at": 1765566715000
+        }
+      },
+      {
+        "id": 29657,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "6FA55B09-0AA8-443B-A552-8F8F0844B4B6",
+        "event": "template",
+        "action": "create",
+        "resource_UID": "C8520DA7-80D9-494A-8E3E-2A35496495ED",
+        "title": "Template Created",
+        "message": "A new template named \"CNC Machine Maintenance\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765565559000,
+        "updated_at": 1765565559000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29654,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "C86BB206-8A25-433D-80D7-B2DEC38BC7B9",
+        "event": "template",
+        "action": "create",
+        "resource_UID": "0CF1C7AD-4968-47EC-BA2F-189B8F6CDA77",
+        "title": "Template Created",
+        "message": "A new template named \"Electrical Panel Lockout Check\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765565082000,
+        "updated_at": 1765565082000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      }
+    ],
+    "from": 1,
+    "last_page": 3,
+    "per_page": 10,
+    "to": 10,
+    "total": 23,
+    "new_notification_count": 23,
+    "new_notification_count_by_worksite": [
+      {
+        "work_site_name": "Main Work Site",
+        "work_siteId": 5,
+        "new_notif_count": 22,
+        "latest_notification_id": 29680,
+        "to_user": null,
+        "from_user": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "work_site_name": "Denmark Work Site",
+        "work_siteId": 42,
+        "new_notif_count": 1,
+        "latest_notification_id": 29659,
+        "to_user": null,
+        "from_user": null,
+        "work_site": {
+          "id": 42,
+          "name": "Denmark Work Site",
+          "location": "Officer Street 23rd, Batam, Blazed City",
+          "UID": "17FF6D27-F6B0-4ABB-A29A-E7F64E2171E5",
+          "super_adminId": 10,
+          "created_at": 1743170775000,
+          "updated_at": 1765566715000
+        }
+      }
+    ],
+    "all_notifications": [
+      {
+        "id": 29680,
+        "from_userId": null,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "system",
+        "UID": "6E814795-535C-44DB-92D6-FB934D91E53E",
+        "event": "report",
+        "action": "create",
+        "resource_UID": "EB1E4259-0D5A-463E-9746-9971DBEFE1A6",
+        "title": "Report Created for Work Order",
+        "message": "A report has been created for the work order \"CNC Machine Maintenance\" by Natalie Arden.",
+        "is_read": 0,
+        "created_at": 1765634234000,
+        "updated_at": 1765634234000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29675,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "4742E7CD-4E23-4801-8FDA-ABF4C2446B73",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Work Order \"LXH/WS01/121325/151\" has been completed",
+        "message": "All steps in the work order \"CNC Machine Maintenance\" have been completed.",
+        "is_read": 0,
+        "created_at": 1765634221000,
+        "updated_at": 1765634221000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29670,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "F89D56FF-2008-4BFF-9E71-9DADD74FD428",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Step Completed in Work Order",
+        "message": "The step \"Completion & Documentation\" in the work order \"CNC Machine Maintenance\" has been completed by Natalie Arden. Please review the work order for further updates.",
+        "is_read": 0,
+        "created_at": 1765634221000,
+        "updated_at": 1765634221000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29669,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "C35F0BF6-666D-4E65-AE71-A2C4CBB16F5D",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Step Completed in Work Order",
+        "message": "The step \"Maintenance Work\" in the work order \"CNC Machine Maintenance\" has been completed by Natalie Arden. Please review the work order for further updates.",
+        "is_read": 0,
+        "created_at": 1765634196000,
+        "updated_at": 1765634196000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29667,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "168CEF9B-68EC-4BD5-81E2-2A22DB545326",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Step Completed in Work Order",
+        "message": "The step \"Pre-Maintenance Inspection\" in the work order \"CNC Machine Maintenance\" has been completed by Natalie Arden. Please review the work order for further updates.",
+        "is_read": 0,
+        "created_at": 1765634136000,
+        "updated_at": 1765634136000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29665,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "3CFAE9F3-940D-4453-95FC-806529E07F66",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Step Completed in Work Order",
+        "message": "The step \"Safety Equipment Check\" in the work order \"CNC Machine Maintenance\" has been completed by Natalie Arden. Please review the work order for further updates.",
+        "is_read": 0,
+        "created_at": 1765634120000,
+        "updated_at": 1765634120000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29663,
+        "from_userId": 12,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "DD6114B6-44C5-4885-AE80-8D638C0084D6",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Step Completed in Work Order",
+        "message": "The step \"Power Isolation\" in the work order \"CNC Machine Maintenance\" has been completed by Natalie Arden. Please review the work order for further updates.",
+        "is_read": 0,
+        "created_at": 1765634104000,
+        "updated_at": 1765634104000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 12,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "is_superadmin": 0,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "member": {
+            "userId": 12,
+            "role": "admin",
+            "employee_id": "234-005"
+          }
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29659,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 42,
+        "type": "manual",
+        "UID": "A29DFB69-E571-48B1-AAB7-032A3B542305",
+        "event": "work_order",
+        "action": "delete",
+        "resource_UID": "687ABEED-33EC-4697-949A-428EC55CA77D",
+        "title": "Work Order Deleted",
+        "message": "The work order \"CRES\" has been deleted by Adrian Cole",
+        "is_read": 0,
+        "created_at": 1765634059000,
+        "updated_at": 1765634059000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 42,
+          "name": "Denmark Work Site",
+          "location": "Officer Street 23rd, Batam, Blazed City",
+          "UID": "17FF6D27-F6B0-4ABB-A29A-E7F64E2171E5",
+          "super_adminId": 10,
+          "created_at": 1743170775000,
+          "updated_at": 1765566715000
+        }
+      },
+      {
+        "id": 29657,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "6FA55B09-0AA8-443B-A552-8F8F0844B4B6",
+        "event": "template",
+        "action": "create",
+        "resource_UID": "C8520DA7-80D9-494A-8E3E-2A35496495ED",
+        "title": "Template Created",
+        "message": "A new template named \"CNC Machine Maintenance\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765565559000,
+        "updated_at": 1765565559000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29654,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "C86BB206-8A25-433D-80D7-B2DEC38BC7B9",
+        "event": "template",
+        "action": "create",
+        "resource_UID": "0CF1C7AD-4968-47EC-BA2F-189B8F6CDA77",
+        "title": "Template Created",
+        "message": "A new template named \"Electrical Panel Lockout Check\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765565082000,
+        "updated_at": 1765565082000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29653,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "53E7A3C3-D6DB-404E-AA37-AC23ECFCE714",
+        "event": "work_order",
+        "action": "create",
+        "resource_UID": "E9828163-6317-4F2F-B5D1-5BC0B296F1FE",
+        "title": "Work Order Drafted: LXH/WS01/121325/152",
+        "message": "A new work order named \"Hydraulic Press Startup and Operation\" has been drafted by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765564595000,
+        "updated_at": 1765564595000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29648,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "A2DB479B-62C1-4528-8E06-46049A30DF83",
+        "event": "work_order",
+        "action": "create",
+        "resource_UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+        "title": "Work Order Created: LXH/WS01/121325/151",
+        "message": "A new work order named \"CNC Machine Maintenance\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765563735000,
+        "updated_at": 1765563735000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29647,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "D58E7556-DD34-4264-96DE-A20919C47926",
+        "event": "inspection_form",
+        "action": "update",
+        "resource_UID": "7260612C-42BD-4ABE-879D-88425CBFA3A7",
+        "title": "Inspection Form Updated",
+        "message": "The inspection form named \"CNC Machine Inspection\" has been updated by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765562893000,
+        "updated_at": 1765562893000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29646,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "A20EC720-6D48-424C-A62C-BE1B567CA700",
+        "event": "inspection_form",
+        "action": "create",
+        "resource_UID": "7260612C-42BD-4ABE-879D-88425CBFA3A7",
+        "title": "Inspection Form Created",
+        "message": "A new inspection form named \"CNC Machine Inspection\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765562886000,
+        "updated_at": 1765562886000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29645,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "6C348563-B27B-4BB1-B0B3-0DFBB65F801B",
+        "event": "machine",
+        "action": "create",
+        "resource_UID": "6E875133-FE11-4EBF-9E5C-2A0DB177DE17",
+        "title": "Machine Created",
+        "message": "A new machine named \"CNC Machine\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765562724000,
+        "updated_at": 1765562724000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29643,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "0B9D6AB7-FA07-424A-B6FD-FE23469961EE",
+        "event": "work_order",
+        "action": "create",
+        "resource_UID": "24E3FE6E-A440-40B7-A47B-A2C955D43D1B",
+        "title": "Work Order Created: LXH/WS01/121325/150",
+        "message": "A new work order named \"Example Machine QR Scan\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765560906000,
+        "updated_at": 1765560906000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29642,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "FE9F7211-8ADF-43C9-929C-8F5364FDA1DE",
+        "event": "inspection_form",
+        "action": "create",
+        "resource_UID": "CF84F85E-1B49-4F6F-BDA3-27DA426F1C29",
+        "title": "Inspection Form Created",
+        "message": "A new inspection form named \"Hydraulic Press Maintenance\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765560853000,
+        "updated_at": 1765560853000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29641,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "7167CB22-017A-4700-9280-EAA23CD9A462",
+        "event": "machine",
+        "action": "create",
+        "resource_UID": "055CD6C8-2594-417C-BFE3-E530955F1D6A",
+        "title": "Machine Created",
+        "message": "A new machine named \"Hydraulic Press\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765560787000,
+        "updated_at": 1765560787000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29640,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "E0A219C5-54B6-4A24-8C00-08A42B7BAC74",
+        "event": "work_order",
+        "action": "delete",
+        "resource_UID": "13CA9102-E7E8-4A70-A8C0-E9129A5786B0",
+        "title": "Work Order Deleted",
+        "message": "The work order \"LOTO General Work Flow\" has been deleted by Adrian Cole",
+        "is_read": 0,
+        "created_at": 1765560612000,
+        "updated_at": 1765560612000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29633,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "B4111543-6E4D-42B4-9F02-F0FEBA69ED36",
+        "event": "work_order",
+        "action": "update",
+        "resource_UID": "UJHNGB5B-6078-4302-B318-EEBF2CA34363",
+        "title": "Work Order Updated",
+        "message": "The work order named \"Electrical Panel Lockout Check\" has been updated by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765560599000,
+        "updated_at": 1765560599000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29629,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "BDF0AFF0-CD14-4A33-BD0A-FE97D65ACE24",
+        "event": "inspection_form",
+        "action": "create",
+        "resource_UID": "52618CE7-C27A-477C-9D22-B446702BB779",
+        "title": "Inspection Form Created",
+        "message": "A new inspection form named \"Electrical Panel Maintenance Inspection\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765560566000,
+        "updated_at": 1765560566000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29628,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "EBDAA0A5-8C61-416A-8524-42D05D193A5A",
+        "event": "machine",
+        "action": "create",
+        "resource_UID": "91840FC5-E638-455C-B8E5-8D5765422120",
+        "title": "Machine Created",
+        "message": "A new machine named \"Electrical Panel B-2898\" has been created by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765560444000,
+        "updated_at": 1765560444000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      },
+      {
+        "id": 29627,
+        "from_userId": 10,
+        "to_userId": 10,
+        "work_siteId": 5,
+        "type": "manual",
+        "UID": "98D61778-FF90-47F2-938B-07B2ED5DC15D",
+        "event": "work_order",
+        "action": "create",
+        "resource_UID": "UJHNGB5B-6078-4302-B318-EEBF2CA34363",
+        "title": "Work Order Drafted: LXH/WS01/121325/149",
+        "message": "A new work order named \"Electrical Panel Lockout Check\" has been drafted by Adrian Cole.",
+        "is_read": 0,
+        "created_at": 1765560300000,
+        "updated_at": 1765560300000,
+        "is_new": true,
+        "to_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "from_user": {
+          "id": 10,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "is_superadmin": 1,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "member": null
+        },
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        }
+      }
+    ]
+  }
+}

@@ -72,14 +72,10 @@ export default function LoginPage() {
     await api
       .login(loginInput)
       .then(async (response) => {
-        console.log(response);
-
         const userAuthData = response.data.user;
         const isSubscriptionValid =
           userAuthData?.main_work_site?.superadmin?.subscriptions?.status ===
           "active";
-        console.log(userAuthData);
-
         dispatch({
           type: "login",
           payload: {
@@ -145,9 +141,6 @@ export default function LoginPage() {
                     fontSize={"32px"}
                     fontWeight={"700"}
                     color={"#dc143c"}
-                    onClick={() => {
-                      console.log(userSelector);
-                    }}
                   >
                     Welcome Admin!
                   </Center>

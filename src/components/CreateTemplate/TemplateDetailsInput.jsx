@@ -18,6 +18,11 @@ export default function TemplateDetailsInput({
   useEffect(() => {
     setDetailsInput(templateDetails);
   }, [templateDetails]);
+  useEffect(() => {
+    if (templateTitleInputRef.current) {
+      templateTitleInputRef.current.value = detailsInput.name ?? "";
+    }
+  }, [detailsInput.name]);
   return (
     <Flex flexDir={"column"} gap={"20px"}>
       <Flex
@@ -45,6 +50,7 @@ export default function TemplateDetailsInput({
         <Flex flexDir={"column"}>
           <Input
             ref={templateTitleInputRef}
+            name="name"
             border={
               formik.touched.name && formik.errors.name
                 ? "1px solid crimson"

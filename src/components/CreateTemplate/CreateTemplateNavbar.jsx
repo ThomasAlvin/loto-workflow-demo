@@ -9,13 +9,12 @@ export default function CreateTemplateNavbar({
   stage,
   formik,
   templateDetails,
+  hasUnconnectedNode,
   hasChanged,
   submitTemplate,
   templateStatus,
   variant,
 }) {
-  console.log(formik);
-
   const saveChangesDisclosure = useDisclosure();
   const [searchParams] = useSearchParams();
   const location = useLocation();
@@ -87,7 +86,7 @@ export default function CreateTemplateNavbar({
             1. Build
           </Button>
           <Button
-            isDisabled={!(formik?.isValid ?? true)}
+            isDisabled={!formik?.isValid || hasUnconnectedNode}
             _hover={{ bg: "#FFB0B0", color: "crimson" }}
             width={"120px"}
             h={"auto"}

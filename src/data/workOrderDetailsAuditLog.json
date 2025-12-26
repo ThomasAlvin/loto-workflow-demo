@@ -1,0 +1,885 @@
+[
+  {
+    "workOrderUID": "E9828163-6317-4F2F-B5D1-5BC0B296F1FE",
+    "current_page": 1,
+    "data": [
+      {
+        "id": 792,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 100,
+        "memberId": null,
+        "super_adminId": 10,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Created Work Order: "
+          },
+          {
+            "type": "bold",
+            "text": "\"Hydraulic Press Startup and Operation\""
+          }
+        ],
+        "created_at": 1765564596000,
+        "updated_at": 1765564596000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": null,
+        "superadmin": {
+          "id": 10,
+          "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg"
+        },
+        "assignee_switch_request": null
+      }
+    ],
+    "from": 1,
+    "last_page": 1,
+    "per_page": 10,
+    "to": 1,
+    "total": 1
+  },
+  {
+    "workOrderUID": "DE70512B-7B06-4859-80D2-7700D694A051",
+    "current_page": 1,
+    "data": [
+      {
+        "id": 800,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 99,
+        "memberId": 5,
+        "super_adminId": null,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "created a new report titled "
+          },
+          {
+            "type": "bold",
+            "text": "\"CNC Machine Maintenance\""
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        "created_at": 1765634235000,
+        "updated_at": 1765634235000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": {
+          "id": 5,
+          "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+          "role": "admin",
+          "employee_id": "234-005",
+          "userId": 12,
+          "user": {
+            "id": 12,
+            "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+            "first_name": "Natalie",
+            "last_name": "Arden",
+            "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+          }
+        },
+        "superadmin": null,
+        "assignee_switch_request": null
+      },
+      {
+        "id": 799,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 99,
+        "memberId": 5,
+        "super_adminId": null,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "has "
+          },
+          {
+            "type": "bold",
+            "text": "completed "
+          },
+          {
+            "type": "text",
+            "text": "the work order named: "
+          },
+          {
+            "type": "bold",
+            "text": "\"CNC Machine Maintenance\""
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        "created_at": 1765634221000,
+        "updated_at": 1765634221000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": {
+          "id": 5,
+          "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+          "role": "admin",
+          "employee_id": "234-005",
+          "userId": 12,
+          "user": {
+            "id": 12,
+            "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+            "first_name": "Natalie",
+            "last_name": "Arden",
+            "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+          }
+        },
+        "superadmin": null,
+        "assignee_switch_request": null
+      },
+      {
+        "id": 798,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 99,
+        "memberId": 5,
+        "super_adminId": null,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Step "
+          },
+          {
+            "type": "bold",
+            "text": "\"Completion & Documentation\""
+          },
+          {
+            "type": "text",
+            "text": " was "
+          },
+          {
+            "type": "bold",
+            "text": "completed"
+          },
+          {
+            "type": "text",
+            "text": " by "
+          },
+          {
+            "type": "bold",
+            "text": "Natalie Arden"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        "created_at": 1765634221000,
+        "updated_at": 1765634221000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": {
+          "id": 5,
+          "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+          "role": "admin",
+          "employee_id": "234-005",
+          "userId": 12,
+          "user": {
+            "id": 12,
+            "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+            "first_name": "Natalie",
+            "last_name": "Arden",
+            "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+          }
+        },
+        "superadmin": null,
+        "assignee_switch_request": null
+      },
+      {
+        "id": 797,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 99,
+        "memberId": 5,
+        "super_adminId": null,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Step "
+          },
+          {
+            "type": "bold",
+            "text": "\"Maintenance Work\""
+          },
+          {
+            "type": "text",
+            "text": " was "
+          },
+          {
+            "type": "bold",
+            "text": "completed"
+          },
+          {
+            "type": "text",
+            "text": " by "
+          },
+          {
+            "type": "bold",
+            "text": "Natalie Arden"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        "created_at": 1765634196000,
+        "updated_at": 1765634196000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": {
+          "id": 5,
+          "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+          "role": "admin",
+          "employee_id": "234-005",
+          "userId": 12,
+          "user": {
+            "id": 12,
+            "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+            "first_name": "Natalie",
+            "last_name": "Arden",
+            "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+          }
+        },
+        "superadmin": null,
+        "assignee_switch_request": null
+      },
+      {
+        "id": 796,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 99,
+        "memberId": 5,
+        "super_adminId": null,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Inspection Form "
+          },
+          {
+            "type": "bold",
+            "text": "\"CNC Machine Inspection\""
+          },
+          {
+            "type": "text",
+            "text": " for Machine "
+          },
+          {
+            "type": "bold",
+            "text": "\"CNC Machine\""
+          },
+          {
+            "type": "text",
+            "text": " in Step "
+          },
+          {
+            "type": "bold",
+            "text": "\"Maintenance Work\""
+          },
+          {
+            "type": "text",
+            "text": " has been answered by "
+          },
+          {
+            "type": "bold",
+            "text": "Natalie Arden"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        "created_at": 1765634192000,
+        "updated_at": 1765634192000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": {
+          "id": 5,
+          "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+          "role": "admin",
+          "employee_id": "234-005",
+          "userId": 12,
+          "user": {
+            "id": 12,
+            "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+            "first_name": "Natalie",
+            "last_name": "Arden",
+            "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+          }
+        },
+        "superadmin": null,
+        "assignee_switch_request": null
+      },
+      {
+        "id": 795,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 99,
+        "memberId": 5,
+        "super_adminId": null,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Step "
+          },
+          {
+            "type": "bold",
+            "text": "\"Pre-Maintenance Inspection\""
+          },
+          {
+            "type": "text",
+            "text": " was "
+          },
+          {
+            "type": "bold",
+            "text": "completed"
+          },
+          {
+            "type": "text",
+            "text": " by "
+          },
+          {
+            "type": "bold",
+            "text": "Natalie Arden"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        "created_at": 1765634136000,
+        "updated_at": 1765634136000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": {
+          "id": 5,
+          "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+          "role": "admin",
+          "employee_id": "234-005",
+          "userId": 12,
+          "user": {
+            "id": 12,
+            "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+            "first_name": "Natalie",
+            "last_name": "Arden",
+            "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+          }
+        },
+        "superadmin": null,
+        "assignee_switch_request": null
+      },
+      {
+        "id": 794,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 99,
+        "memberId": 5,
+        "super_adminId": null,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Step "
+          },
+          {
+            "type": "bold",
+            "text": "\"Safety Equipment Check\""
+          },
+          {
+            "type": "text",
+            "text": " was "
+          },
+          {
+            "type": "bold",
+            "text": "completed"
+          },
+          {
+            "type": "text",
+            "text": " by "
+          },
+          {
+            "type": "bold",
+            "text": "Natalie Arden"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        "created_at": 1765634120000,
+        "updated_at": 1765634120000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": {
+          "id": 5,
+          "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+          "role": "admin",
+          "employee_id": "234-005",
+          "userId": 12,
+          "user": {
+            "id": 12,
+            "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+            "first_name": "Natalie",
+            "last_name": "Arden",
+            "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+          }
+        },
+        "superadmin": null,
+        "assignee_switch_request": null
+      },
+      {
+        "id": 793,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 99,
+        "memberId": 5,
+        "super_adminId": null,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Step "
+          },
+          {
+            "type": "bold",
+            "text": "\"Power Isolation\""
+          },
+          {
+            "type": "text",
+            "text": " was "
+          },
+          {
+            "type": "bold",
+            "text": "completed"
+          },
+          {
+            "type": "text",
+            "text": " by "
+          },
+          {
+            "type": "bold",
+            "text": "Natalie Arden"
+          },
+          {
+            "type": "text",
+            "text": "."
+          }
+        ],
+        "created_at": 1765634104000,
+        "updated_at": 1765634104000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": {
+          "id": 5,
+          "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+          "role": "admin",
+          "employee_id": "234-005",
+          "userId": 12,
+          "user": {
+            "id": 12,
+            "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+            "first_name": "Natalie",
+            "last_name": "Arden",
+            "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+          }
+        },
+        "superadmin": null,
+        "assignee_switch_request": null
+      },
+      {
+        "id": 791,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 99,
+        "memberId": null,
+        "super_adminId": 10,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Updated status of Work Order: "
+          },
+          {
+            "type": "bold",
+            "text": "\"CNC Machine Maintenance\""
+          },
+          {
+            "type": "text",
+            "text": " to "
+          },
+          {
+            "type": "bold",
+            "text": "Ongoing"
+          }
+        ],
+        "created_at": 1765563736000,
+        "updated_at": 1765563736000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": null,
+        "superadmin": {
+          "id": 10,
+          "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg"
+        },
+        "assignee_switch_request": null
+      },
+      {
+        "id": 790,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 99,
+        "memberId": null,
+        "super_adminId": 10,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Created Work Order: "
+          },
+          {
+            "type": "bold",
+            "text": "\"CNC Machine Maintenance\""
+          }
+        ],
+        "created_at": 1765563736000,
+        "updated_at": 1765563736000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": null,
+        "superadmin": {
+          "id": 10,
+          "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg"
+        },
+        "assignee_switch_request": null
+      }
+    ],
+    "from": 1,
+    "last_page": 1,
+    "per_page": 10,
+    "to": 10,
+    "total": 10
+  },
+  {
+    "workOrderUID": "24E3FE6E-A440-40B7-A47B-A2C955D43D1B",
+    "current_page": 1,
+    "data": [
+      {
+        "id": 789,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 98,
+        "memberId": null,
+        "super_adminId": 10,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Updated status of Work Order: "
+          },
+          {
+            "type": "bold",
+            "text": "\"Example Machine QR Scan\""
+          },
+          {
+            "type": "text",
+            "text": " to "
+          },
+          {
+            "type": "bold",
+            "text": "Ongoing"
+          }
+        ],
+        "created_at": 1765560907000,
+        "updated_at": 1765560907000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": null,
+        "superadmin": {
+          "id": 10,
+          "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg"
+        },
+        "assignee_switch_request": null
+      },
+      {
+        "id": 788,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 98,
+        "memberId": null,
+        "super_adminId": 10,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Created Work Order: "
+          },
+          {
+            "type": "bold",
+            "text": "\"Example Machine QR Scan\""
+          }
+        ],
+        "created_at": 1765560907000,
+        "updated_at": 1765560907000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": null,
+        "superadmin": {
+          "id": 10,
+          "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg"
+        },
+        "assignee_switch_request": null
+      }
+    ],
+    "from": 1,
+    "last_page": 1,
+    "per_page": 10,
+    "to": 2,
+    "total": 2
+  },
+  {
+    "workOrderUID": "UJHNGB5B-6078-4302-B318-EEBF2CA34363",
+    "current_page": 1,
+    "data": [
+      {
+        "id": 787,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 97,
+        "memberId": null,
+        "super_adminId": 10,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Updated Work Order status from "
+          },
+          {
+            "type": "bold",
+            "text": "\"draft\""
+          },
+          {
+            "type": "text",
+            "text": " to "
+          },
+          {
+            "type": "bold",
+            "text": "\"ongoing\""
+          }
+        ],
+        "created_at": 1765560600000,
+        "updated_at": 1765560600000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": null,
+        "superadmin": {
+          "id": 10,
+          "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg"
+        },
+        "assignee_switch_request": null
+      },
+      {
+        "id": 786,
+        "action": "update",
+        "type": "manual",
+        "work_sitesId": 5,
+        "work_orderId": 97,
+        "memberId": null,
+        "super_adminId": 10,
+        "ip_address": "127.0.0.1",
+        "change": [
+          {
+            "type": "text",
+            "text": "Created Work Order: "
+          },
+          {
+            "type": "bold",
+            "text": "\"Electrical Panel Lockout Check\""
+          }
+        ],
+        "created_at": 1765560301000,
+        "updated_at": 1765560301000,
+        "assignee_switch_requestId": null,
+        "work_site": {
+          "id": 5,
+          "name": "Main Work Site",
+          "location": "Main Work Site Street",
+          "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+          "super_adminId": 10,
+          "created_at": 1740536125000,
+          "updated_at": 1765566704000
+        },
+        "member": null,
+        "superadmin": {
+          "id": 10,
+          "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg"
+        },
+        "assignee_switch_request": null
+      }
+    ],
+    "from": 1,
+    "last_page": 1,
+    "per_page": 10,
+    "to": 2,
+    "total": 2
+  }
+]

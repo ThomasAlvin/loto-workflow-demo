@@ -25,7 +25,6 @@ export default function MemberMenu({
   return (
     <Flex justify={"center"}>
       <Flex gap={"15px"} fontSize={"20px"} justify={"space-between"}>
-        {/* <MemberDetailsModal member={member} /> */}
         <Tooltip
           hasArrow
           placement={"top"}

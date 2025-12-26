@@ -38,14 +38,12 @@ export default function ImageFocusOverlay({
       onClick={handleCloseImageFocus}
     >
       <Box position="relative" bg={"white"}>
-        {/* Show Loading Spinner while image is loading */}
         {imageLoading && !URLError && (
           <Center w="100%" h="100%">
             <Spinner size="xl" color="white" />
           </Center>
         )}
 
-        {/* Show Fallback if Image Fails to Load */}
         {URLError && (
           <Center
             w="200px"
@@ -69,7 +67,6 @@ export default function ImageFocusOverlay({
           </Center>
         )}
 
-        {/* Image */}
         <Image
           display={URLError || imageLoading ? "none" : "block"}
           onLoad={() => setImageLoading(false)}

@@ -1,4 +1,12 @@
-import { Center, Flex, Tooltip, useDisclosure } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Flex,
+  Image,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
+import WorkOrderDetailsLayout from "../../components/Layout/WorkOrderDetailsLayout";
 import { LuClipboardPaste } from "react-icons/lu";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
@@ -12,6 +20,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import WorkFlowXyFlow from "../../components/WorkFlowXyFlow";
 import { useEdgesState, useNodesState, useReactFlow } from "@xyflow/react";
+import { DeleteMultiLockAccessProvider } from "../../service/DeleteMultiLockAccessContext";
+import defaultNodeSettings from "../../constants/defaultNodeSettings";
 import StepDetailsDrawerDetails from "../../components/WorkOrders/StepDetailsDrawerDetails";
 import convertStepsToXyFlowData from "../../utils/convertStepsToXyFlowData";
 import FlowProvider from "../../service/FlowProvider";
@@ -57,7 +67,11 @@ export default function WorkOrderDetailsOverviewPage({
       memberUIDs: stepDetails.isRequest
         ? Yup.array().nullable().notRequired()
         : Yup.array()
-            .of(Yup.string().trim().required("Assignee ID is required"))
+            .of(
+              Yup.object().shape({
+                value: Yup.string().trim().required("Assignee UID is required"),
+              })
+            )
             .min(1, "Must assign at least 1 assignee"),
       reason: Yup.string()
         .trim()
@@ -74,7 +88,9 @@ export default function WorkOrderDetailsOverviewPage({
         stepDetails.UID,
         requestSwitchAssigneeFormik.values.requestSwitchAssigneeMemberUID,
         requestSwitchAssigneeFormik.values.workOrderSteps,
-        requestSwitchAssigneeFormik.values.memberUIDs,
+        requestSwitchAssigneeFormik.values.memberUIDs.map(
+          (member) => member.UID
+        ),
         requestSwitchAssigneeFormik.values.reason,
         handleSwitchAssigneeModalClose,
         stepDetails?.isRequest
@@ -103,6 +119,11 @@ export default function WorkOrderDetailsOverviewPage({
             value: stepDetails.UID,
           },
         ],
+        memberUIDs: stepDetails?.assigned_members?.map((member) => ({
+          label: member.user.first_name + " " + member.user.last_name,
+          value: member.id,
+          ...member,
+        })),
       }));
       switchAssigneeDisclosure.onOpen();
     },
@@ -119,8 +140,6 @@ export default function WorkOrderDetailsOverviewPage({
       if (!stepDetailsDisclosure.isOpen) {
         setSelectedEditStepTab("overview");
       }
-      console.log(selectedStep);
-
       setSelectedEditStep({
         ...selectedStep,
         index: workOrder.work_order_steps.findIndex(
@@ -131,16 +150,11 @@ export default function WorkOrderDetailsOverviewPage({
     },
     [workOrder?.work_order_steps]
   );
-  // why use useeffect here and not do it in index.jsx,
-  // its because index yg harus cover overviewpage with reactflowprovider so we can use fitView
   useEffect(() => {
-    console.log(workOrder?.work_order_steps);
     async function convertStepToFlow() {
       const xyFlowData = await convertStepsToXyFlowData(
         workOrder?.work_order_steps
       );
-      console.log(xyFlowData);
-
       setNodes(xyFlowData?.nodes);
       setEdges(xyFlowData?.edges);
       fitView({
@@ -189,11 +203,6 @@ export default function WorkOrderDetailsOverviewPage({
                       alignItems={"center"}
                     >
                       <Flex
-                        onClick={() => {
-                          console.log("workOrder", workOrder);
-                          console.log("nodes", nodes);
-                          console.log("edges", edges);
-                        }}
                         fontSize={"20px"}
                         fontWeight={700}
                         color={"#dc143c"}
@@ -201,25 +210,6 @@ export default function WorkOrderDetailsOverviewPage({
                         Steps
                       </Flex>
                       <Flex gap={"10px"}>
-                        {/* <Tooltip hasArrow label="Skipped Steps" placement="top">
-                        <Flex
-                          color={"#dc143c"}
-                          borderRadius={"20px"}
-                          gap={"5px"}
-                          fontSize={"14px"}
-                          alignItems={"center"}
-                          // bg={"#f8f9fa"}
-                          px={"12px"}
-                          py={"5px"}
-                          boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                          // border={"1px solid #bababa"}
-                        >
-                          <Flex>
-                            <IoCloseSharp fontSize={"18px"} />
-                          </Flex>
-                          <Flex>{workOrder?.skipped_step_count}</Flex>
-                        </Flex>
-                      </Tooltip> */}
                         <Tooltip
                           hasArrow
                           label="Cancelled Steps"
@@ -293,17 +283,11 @@ export default function WorkOrderDetailsOverviewPage({
                       </Flex>
                     </Flex>
 
-                    {/* Checkpoint kemarin where u want to create the display for wo details using react flow */}
                     <Flex flexDir={"column"} w={"100%"}>
                       <WorkFlowXyFlow
                         editStepDisclosureOnClose={
                           stepDetailsDisclosure.onClose
                         }
-                        // deleteEdges={deleteEdges}
-                        // handleDownload={handleDownload}
-                        // flowWrapperRef={flowWrapperRef}
-                        // nextAlphabeticalSequence={nextAlphabeticalSequence}
-                        // formikSetValues={formik.setValues}
                         handleOpenEditStepModal={handleOpenStepDrawer}
                         nodes={nodes}
                         setNodes={setNodes}
@@ -315,7 +299,6 @@ export default function WorkOrderDetailsOverviewPage({
                         editable={false}
                       />
                     </Flex>
-                    {/* <Flex>lol</Flex> */}
                     {workOrder?.work_order_steps.length ? (
                       <Flex
                         flexDir={"column"}

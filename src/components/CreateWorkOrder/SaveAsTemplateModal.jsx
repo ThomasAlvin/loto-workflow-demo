@@ -57,11 +57,7 @@ export default function SaveAsTemplateModal({ workOrderDetails }) {
     const formData = convertToFormData(formDataObject);
 
     await api
-      .post(`template?status=${status}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .testSubmit("Work flow saved as template successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",

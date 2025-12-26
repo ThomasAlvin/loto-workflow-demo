@@ -10,10 +10,7 @@ export default function WorkOrderDetailsAuditLog({
   index,
   val,
   handleOpenSwitchRequestDetailModal,
-  isPDF = false,
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
-
   function formatCustomDate(dateString) {
     const date = moment(dateString);
     const formattedDate = date.format("DD MMM YYYY, HH:mm");
@@ -41,27 +38,8 @@ export default function WorkOrderDetailsAuditLog({
         employee_id: val.member?.employee_id,
       };
   const [userImage, setUserImage] = useState(
-    IMGURL + auditLogUser.profile_image_url || ""
+    auditLogUser.profile_image_url || ""
   );
-
-  useEffect(() => {
-    if (isPDF) {
-      if (!auditLogUser.profile_image_url) return;
-
-      const url = `${IMGURL}${auditLogUser.profile_image_url}&format=base64`;
-
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.base64) {
-            setUserImage(data.base64); // "data:image/jpeg;base64,..."
-          }
-        })
-        .catch((err) => {
-          console.error("Failed to fetch base64 image:", err);
-        });
-    }
-  }, [auditLogUser.profile_image_url]);
   return (
     <>
       <Flex gap={"10px"} alignItems={"center"}>
@@ -75,7 +53,6 @@ export default function WorkOrderDetailsAuditLog({
           alignItems={"center"}
           gap={"10px"}
         >
-          {/* -X System Audit Log X- */}
           {val.type === "manual" ? (
             auditLogUser.first_name ? (
               <Avatar
@@ -122,7 +99,6 @@ export default function WorkOrderDetailsAuditLog({
           <Flex fontSize={"16px"} flexDir={"column"}>
             <Flex alignItems={"center"} fontWeight={700}>
               <Flex>
-                {/* -X System Audit Log X- */}
                 {val.type === "manual"
                   ? auditLogUser.first_name + " " + auditLogUser.last_name
                   : val.type === "system"
@@ -136,7 +112,6 @@ export default function WorkOrderDetailsAuditLog({
               fontSize={"14px"}
               alignItems={"center"}
             >
-              {/* -X System Audit Log X- */}
               {val.type === "manual"
                 ? val.superadmin?.first_name ||
                   auditLogUser.role === "super_admin"
@@ -158,20 +133,13 @@ export default function WorkOrderDetailsAuditLog({
             flexWrap={"wrap"}
           >
             <Box fontWeight={700} as="span">
-              {/* -X System Audit Log X- */}
               {val.type === "manual"
                 ? auditLogUser.first_name + " " + auditLogUser.last_name + " "
                 : ""}
             </Box>
             {convertAuditLogToHTMLMessage(val?.change)}
           </Box>
-          <Flex
-            onClick={() => {
-              console.log(val?.change);
-              console.log(convertAuditLogToHTMLMessage(val?.change));
-            }}
-            justify={"space-between"}
-          >
+          <Flex justify={"space-between"}>
             <Flex color={"#848484"} fontSize={"14px"}>
               {formatCustomDate(val?.created_at)}
             </Flex>

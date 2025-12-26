@@ -13,7 +13,7 @@ export default function CreateWorkOrderLayout({
   variant,
   hasSidebar,
   hasChanged,
-  clearAll,
+  workOrderStatus,
 }) {
   const { loading, setLoading } = useLoading();
   return (
@@ -28,7 +28,7 @@ export default function CreateWorkOrderLayout({
               setCurrentPage={setCurrentPage}
               hasChanged={hasChanged}
               variant={variant}
-              clearAll={clearAll}
+              workOrderStatus={workOrderStatus}
             />
             {children}
           </Flex>

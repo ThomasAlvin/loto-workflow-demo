@@ -6,20 +6,17 @@ import ReactSelect from "react-select";
 import dynamicPropsComparator from "../../utils/dynamicPropsComparator";
 
 function SelectAssignLockMemo({
-  // formik,
   formikError,
   formikTouched,
   formikValidateForm,
   formikSetFieldTouched,
   deleteLock,
   selectHandler,
-  lockCheckboxHandler,
   lockSelection,
   value,
   index,
   stepIndex,
   getCustomReactSelectStyles,
-  handleCallToAction,
 }) {
   return (
     <Flex flexDir={"column"}>
@@ -30,10 +27,6 @@ function SelectAssignLockMemo({
             color={"#dc143c"}
             fontSize={"15px"}
             fontWeight={700}
-            onClick={() => {
-              console.log(lockSelection);
-              console.log(value);
-            }}
           >
             Lock {index + 1} : &nbsp;
           </Flex>
@@ -111,58 +104,24 @@ function SelectAssignLockMemo({
           </Flex>
         </Flex>
 
-        {/* Disable Require Lock Image */}
-        {/* <Flex gap={"10px"}>
-          <Flex gap={"10px"} alignItems={"center"}>
-            <Checkbox
-              bg={"white"}
-              defaultChecked={value?.require_lock_image}
-              onChange={(event) => {
-                lockCheckboxHandler(event, index);
-              }}
-              size={"md"}
-            >
-              <Flex
-                color={value?.require_lock_image ? "#3182CE" : "#848484"}
-                fontWeight={700}
-                fontSize={"14px"}
-              >
-                Require Lock Image on Submission
-              </Flex>
-            </Checkbox>
-          </Flex>
-        </Flex> */}
-        {
-          // Array.isArray(formik.errors.workOrderSteps) &&
-          // Array.isArray(
-          //   formik.errors.workOrderSteps[stepIndex]?.work_order_locks
-          // ) &&
-          // formik.errors.workOrderSteps[stepIndex]?.work_order_locks[index]?.id &&
-          // Array.isArray(formik.touched.workOrderSteps) &&
-          // Array.isArray(
-          //   formik.touched.workOrderSteps[stepIndex]?.work_order_locks
-          // ) &&
-          // formik.touched.workOrderSteps[stepIndex]?.work_order_locks[index]
-          //   ?.id
-          formikError && formikTouched ? (
-            <Flex
-              py={"4px"}
-              px={"8px"}
-              alignItems={"center"}
-              gap={"5px"}
-              color={"#dc143c"}
-              fontSize={"14px"}
-              bg={"#FDE2E2"}
-            >
-              <Flex>
-                <FaTriangleExclamation />
-              </Flex>
-              <Flex>{formikError}</Flex>
+        {formikError && formikTouched ? (
+          <Flex
+            py={"4px"}
+            px={"8px"}
+            alignItems={"center"}
+            gap={"5px"}
+            color={"#dc143c"}
+            fontSize={"14px"}
+            bg={"#FDE2E2"}
+          >
+            <Flex>
+              <FaTriangleExclamation />
             </Flex>
-          ) : (
-            ""
-          )
-        }
+            <Flex>{formikError}</Flex>
+          </Flex>
+        ) : (
+          ""
+        )}
       </Flex>
     </Flex>
   );

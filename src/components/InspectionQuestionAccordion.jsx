@@ -23,6 +23,7 @@ const InspectionQuestionAccordionMemo = ({
   includeTime,
   unit,
   options,
+  hasReactFlow = false,
 }) => {
   return (
     <Accordion w={"100%"} allowToggle>
@@ -101,7 +102,7 @@ const InspectionQuestionAccordionMemo = ({
         </AccordionButton>
         <AccordionPanel w={"100%"} py={0}>
           <Flex w={"100%"} flexDir={"column"} gap={"10px"}>
-            <Flex w={"100%"}>
+            <Flex w={"100%"} fontSize={hasReactFlow ? "12px" : "14px"}>
               {(() => {
                 switch (type) {
                   case "Text":

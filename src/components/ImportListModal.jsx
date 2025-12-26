@@ -94,11 +94,7 @@ export default function ImportListModal({
 
       formData.append("file", CSVFile);
       await api
-        .post(submitImportRoute, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .testSubmit("File imported successfully")
         .then((response) => {
           Swal.fire({
             title: "Success!",
@@ -252,9 +248,6 @@ export default function ImportListModal({
                   borderColor={isDragging ? "#dc143c" : ""}
                   role="group"
                 >
-                  {/* <Flex w={"150px"}>
-                    <img src={uploadImage}></img>
-                  </Flex> */}
                   <Flex
                     fontSize={"76px"}
                     p={"10px"}
@@ -352,7 +345,6 @@ export default function ImportListModal({
                       <FaFileCsv />
                     </Flex>
                     <Flex>{CSVFile?.name || "No file selected"}</Flex>
-                    {/* <Flex>equipment_machine_template (4)</Flex> */}
                   </Flex>
                   <Flex>
                     <Button

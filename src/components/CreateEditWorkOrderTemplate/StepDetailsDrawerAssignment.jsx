@@ -93,13 +93,6 @@ function StepDetailsDrawerAssignmentMemo({
               : editStepDrawerFormik.values?.notify_to?.length
               ? "#bababa"
               : "#039be5"
-            : variant === "lock"
-            ? editStepDrawerFormik.errors?.work_order_locks?.[lockIndex]?.id &&
-              editStepDrawerFormik.touched?.work_order_locks?.[lockIndex]?.id
-              ? "#dc143c"
-              : editStepDrawerFormik.values?.work_order_locks?.[lockIndex]?.id
-              ? "#bababa"
-              : "#039be5"
             : variant === "inspectionForm"
             ? editStepDrawerFormik.errors?.selectedMachines?.[
                 selectedMachineIndex
@@ -143,14 +136,6 @@ function StepDetailsDrawerAssignmentMemo({
     return customReactSelectStyle;
   };
 
-  const inputHandler = debounce((event) => {
-    const { value } = event.target;
-
-    editStepDrawerFormik.setValues((prevState) => ({
-      ...prevState,
-      titleTriggerAPI: value,
-    }));
-  }, 300);
   const selectHandler = useCallback((event, type, lockIndex) => {
     if (type === "assign") {
       editStepDrawerFormik.setValues((prevState) => ({
@@ -206,21 +191,7 @@ function StepDetailsDrawerAssignmentMemo({
       return prevState;
     });
   }
-  const lockCheckboxHandler = useCallback((event, lockIndex) => {
-    const { checked } = event.target;
-    editStepDrawerFormik.setValues((prevState) => ({
-      ...prevState,
-      work_order_locks: val.work_order_locks.map((val2, indexWorkOrderLock) => {
-        if (indexWorkOrderLock === lockIndex) {
-          return { ...val2, require_lock_image: checked };
-        }
-        return val2;
-      }),
-    }));
-  }, []);
   function machineCheckboxHandler() {
-    console.log("dskajaj");
-
     editStepDrawerFormik.setValues((prevState) => ({
       ...prevState,
       requireVerifyMachine: !prevState?.requireVerifyMachine,
@@ -632,88 +603,6 @@ function StepDetailsDrawerAssignmentMemo({
       ) : (
         ""
       )}
-
-      {editStepDrawerFormik.values.lockAccess ? (
-        <>
-          <Flex flexDir={"column"}>
-            <Flex flexDir={"column"}>
-              <Box
-                fontWeight={700}
-                fontSize={"14px"}
-                as="span"
-                flex="1"
-                textAlign="left"
-              >
-                Assign Lock&nbsp;
-                <Box as="span" color={"#dc143c"}>
-                  *
-                </Box>
-              </Box>
-              {/* <Flex
-                      textAlign={"center"}
-                      fontSize={"14px"}
-                      color={"#848484"}
-                      justifyContent={"space-between"}
-                    >
-                      <Flex>
-                        Select the lock you want to assign this step to
-                      </Flex>
-                    </Flex> */}
-            </Flex>
-
-            <FormikProvider value={editStepDrawerFormik}>
-              <FieldArray name={`work_order_locks`}>
-                {({ remove, push }) => {
-                  function updatedPush(lock) {
-                    editStepDrawerFormik.setValues((prevState) => ({
-                      ...prevState,
-                      work_order_locks: [
-                        ...(val?.work_order_locks ?? []),
-                        {
-                          name: "",
-                          id: "",
-                          require_lock_image: false,
-                          label: "",
-                          value: "",
-                        },
-                      ],
-                    }));
-                    push(lock);
-                  }
-                  function updatedRemove(lockIndex) {
-                    editStepDrawerFormik.setValues((prevState) => {
-                      return {
-                        ...prevState,
-                        work_order_locks:
-                          editStepDrawerFormik.values.work_order_locks.filter(
-                            (val3, indexWorkOrderLock) =>
-                              indexWorkOrderLock !== lockIndex
-                          ),
-                      };
-                    });
-                    remove(lockIndex);
-                  }
-                  return (
-                    <SelectLockAssignFormikProvider
-                      editStepDrawerFormik={editStepDrawerFormik}
-                      removeFn={updatedRemove}
-                      pushFn={updatedPush}
-                      lockCheckboxHandler={lockCheckboxHandler}
-                      selectHandler={selectHandler}
-                      filteredLockSelection={filteredLockSelection}
-                      index={index}
-                      getCustomReactSelectStyles={getCustomReactSelectStyles}
-                      handleCallToAction={handleCallToAction}
-                    />
-                  );
-                }}
-              </FieldArray>
-            </FormikProvider>
-          </Flex>
-        </>
-      ) : (
-        ""
-      )}
       {editStepDrawerFormik.values.multiLockAccess ? (
         <>
           {editStepDrawerFormik.values?.multiLockAccessGroup?.isPreAssigned ? (
@@ -725,25 +614,12 @@ function StepDetailsDrawerAssignmentMemo({
                   as="span"
                   flex="1"
                   textAlign="left"
-                  onClick={() => {
-                    console.log(filteredLockSelection);
-                  }}
                 >
                   Assign Lock&nbsp;
                   <Box as="span" color={"#dc143c"}>
                     *
                   </Box>
                 </Box>
-                {/* <Flex
-                      textAlign={"center"}
-                      fontSize={"14px"}
-                      color={"#848484"}
-                      justifyContent={"space-between"}
-                    >
-                      <Flex>
-                        Select the lock you want to assign this step to
-                      </Flex>
-                    </Flex> */}
               </Flex>
 
               <FormikProvider value={editStepDrawerFormik}>
@@ -792,7 +668,6 @@ function StepDetailsDrawerAssignmentMemo({
                         editStepDrawerFormik={editStepDrawerFormik}
                         removeFn={updatedRemove}
                         pushFn={updatedPush}
-                        lockCheckboxHandler={lockCheckboxHandler}
                         selectHandler={selectHandler}
                         filteredLockSelection={filteredLockSelection}
                         index={index}
@@ -807,90 +682,6 @@ function StepDetailsDrawerAssignmentMemo({
           ) : (
             ""
           )}
-        </>
-      ) : (
-        ""
-      )}
-      {editStepDrawerFormik.values.triggerAPI ? (
-        <>
-          <Flex flexDir={"column"}>
-            <Flex flexDir={"column"}>
-              <Flex fontWeight={700} alignItems={"center"} gap={"4px"}>
-                Trigger API external system key
-                <Box as="span" color={"#dc143c"}>
-                  *
-                </Box>
-                {/* <Tooltip
-                        hasArrow
-                        placement="top"
-                        maxW={"none"}
-                        label={
-                          <Box whiteSpace="nowrap">
-                            This key will be verified from the JSON payload sent
-                            by your external system.
-                          </Box>
-                        }
-                      >
-                        <Flex
-                          _hover={{ color: "black" }}
-                          color={"#848484"}
-                          fontSize={"20px"}
-                        >
-                          <IoMdInformationCircleOutline />
-                        </Flex>
-                      </Tooltip> */}
-              </Flex>
-              {/* <Flex
-                      textAlign={"center"}
-                      fontSize={"14px"}
-                      color={"#848484"}
-                      justifyContent={"space-between"}
-                    >
-                      <Flex>
-                        Provide the key name we should validate from the JSON
-                        payload that will be sent by your external system.
-                      </Flex>
-                    </Flex> */}
-            </Flex>
-            <Input
-              bg={"white"}
-              onChange={inputHandler}
-              defaultValue={editStepDrawerFormik.values.titleTriggerAPI}
-              onBlur={() => {
-                setTimeout(() => {
-                  editStepDrawerFormik.validateForm();
-                  editStepDrawerFormik.setFieldTouched(`titleTriggerAPI`, true);
-                }, 0);
-              }}
-              placeholder="Provide the key name we should validate from the JSON payload that will be sent by your external system."
-              border={
-                editStepDrawerFormik.errors?.titleTriggerAPI &&
-                editStepDrawerFormik.touched?.titleTriggerAPI
-                  ? "1px solid #dc143c"
-                  : editStepDrawerFormik.values?.titleTriggerAPI
-                  ? "1px solid #bababa"
-                  : "1px solid #039be5"
-              }
-            />
-            {editStepDrawerFormik.errors?.titleTriggerAPI &&
-            editStepDrawerFormik.touched?.titleTriggerAPI ? (
-              <Flex
-                py={"4px"}
-                px={"8px"}
-                alignItems={"center"}
-                fontSize={"14px"}
-                gap={"5px"}
-                color={"#dc143c"}
-              >
-                <Flex>
-                  <FaTriangleExclamation />
-                </Flex>
-                <Flex>{editStepDrawerFormik.errors?.titleTriggerAPI}</Flex>
-              </Flex>
-            ) : (
-              ""
-            )}
-          </Flex>
         </>
       ) : (
         ""

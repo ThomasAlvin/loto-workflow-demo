@@ -30,21 +30,6 @@ export default function LockAccessMethodModal({ lockInput }) {
           <Flex>Add New Method</Flex>
         </Flex>
       </Flex>
-      {/* <Button
-        h={"28px"}
-        fontSize={"13px"}
-        px={"12px"}
-        color={"white"}
-        bg={"#dc143c"}
-        onClick={onOpen}
-      >
-        <Flex gap={"10px"} alignItems={"center"}>
-          <Flex>
-            <FaPlus />
-          </Flex>
-          <Flex>Add New Method</Flex>
-        </Flex>
-      </Button> */}
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent

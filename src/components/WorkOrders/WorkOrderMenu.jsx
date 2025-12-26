@@ -10,6 +10,7 @@ import { api } from "../../api/api";
 import Can from "../../components/Can";
 import SwalErrorMessages from "../SwalErrorMessages";
 import WorkOrderDownloadQRCode from "./WorkOrderDownloadQRCode";
+import toSnakeCase from "../../utils/toSnakeCase";
 export default function WorkOrderMenu({
   pageModule,
   val,
@@ -24,22 +25,7 @@ export default function WorkOrderMenu({
   async function downloadReportPDF() {
     try {
       setPdfLoading(true);
-      const response = await api.get(`report/${val.report.UID}/download`, {
-        responseType: "blob", // 👈 this tells axios to handle binary
-      });
-
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      const url = window.URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `report-${val.report.name}.pdf`); // name of the file
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // cleanup
-      window.URL.revokeObjectURL(url);
+      await api.downloadReportPdfByName(toSnakeCase(val.name));
     } catch (error) {
       let errorMessage = "Something went wrong while downloading the report.";
 

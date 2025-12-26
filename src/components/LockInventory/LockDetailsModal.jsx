@@ -61,7 +61,7 @@ export default function LockDetailsModal({
   const [searchInput, setSearchInput] = useState("");
   const [tableLoading, setTableLoading] = useState(false);
   const nav = useNavigate();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const debouncedSearch = useCallback(
     debounce((value) => {
       setSearchInput((prevState) => {
@@ -86,12 +86,7 @@ export default function LockDetailsModal({
   async function fetchLockHistory(controller) {
     setTableLoading(true);
     await api
-      .get(
-        `lock/audit-logs/${selectedLockDetails?.UID}?search=${searchInput}`,
-        {
-          signal: controller.signal,
-        }
-      )
+      .getDummy()
       .then((response) => {
         setHistory(response.data.data);
         setFrom(response.data.from);
@@ -246,8 +241,6 @@ export default function LockDetailsModal({
                 </Flex>
                 <Flex fontWeight={700}>Lock Details</Flex>
               </Flex>
-              {/* <Flex bg={"#ededed"} w={"1px"} alignSelf={"stretch"}></Flex> */}
-
               <Flex
                 _hover={
                   lockDetailsMenu !== "history"
@@ -275,7 +268,6 @@ export default function LockDetailsModal({
                 </Flex>
                 <Flex fontWeight={700}>History</Flex>
               </Flex>
-              {/* <Flex bg={"#ededed"} w={"1px"} alignSelf={"stretch"}></Flex> */}
               <Flex
                 _hover={
                   lockDetailsMenu !== "accessMethods"
@@ -332,7 +324,7 @@ export default function LockDetailsModal({
                       <Flex fontWeight={700}>Battery Level :</Flex>
                     </Flex>
                     <Flex color={"#848484"}>
-                      {selectedLockDetails?.phone_number ?? "90%"}
+                      {selectedLockDetails.battery_level || 0}%
                     </Flex>
                   </Flex>
                 </Flex>
@@ -396,6 +388,50 @@ export default function LockDetailsModal({
                     </Flex>
                     <Flex color={"#848484"}>
                       {selectedLockDetails?.lock_version ?? "Not set"}
+                    </Flex>
+                  </Flex>
+                </Flex>
+                <Flex justify={"space-between"}>
+                  <Flex w={"100%"} flexDir={"column"}>
+                    <Flex fontWeight={700} alignItems={"center"} gap={"5px"}>
+                      <Flex color={"#848484"} fontSize={"20px"}>
+                        <MdEvent />
+                      </Flex>
+                      <Flex fontWeight={700}>Assigned Work Order :</Flex>
+                    </Flex>
+                    <Flex flexDir={"column"}>
+                      <Flex
+                        display={"inline-block"}
+                        overflow={"hidden"}
+                        textOverflow={"ellipsis"}
+                        whiteSpace={"nowrap"}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Link
+                          href={`/work-order/${selectedLockDetails?.work_order_multi_lock_group_item?.work_order_step?.work_order?.UID}`}
+                          fontWeight={700}
+                        >
+                          {
+                            selectedLockDetails
+                              ?.work_order_multi_lock_group_item
+                              ?.work_order_step?.work_order?.name
+                          }
+                        </Link>
+                      </Flex>
+                      <Flex
+                        display={"inline-block"}
+                        overflow={"hidden"}
+                        textOverflow={"ellipsis"}
+                        maxW={"240px"}
+                        whiteSpace={"nowrap"}
+                        fontSize={"13px"}
+                        color={"#848484"}
+                      >
+                        {
+                          selectedLockDetails?.work_order_multi_lock_group_item
+                            ?.work_order_step?.work_order?.work_order_custom_id
+                        }
+                      </Flex>
                     </Flex>
                   </Flex>
                 </Flex>
@@ -490,9 +526,6 @@ export default function LockDetailsModal({
                                   whiteSpace="normal"
                                   fontSize={"14px"}
                                 >
-                                  {/* {moment(val.created_at).format(
-                                      "MMM DD YYYY, hh:mm A"
-                                    )} */}
                                   <Flex flexDir={"column"}>
                                     <Flex color={"black"} fontWeight={700}>
                                       {moment(val.time).format("YYYY-MM-DD")}
@@ -521,8 +554,7 @@ export default function LockDetailsModal({
                                         }
                                         src={
                                           val.user.profile_image_url
-                                            ? IMGURL +
-                                              val.user.profile_image_url
+                                            ? val.user.profile_image_url
                                             : null
                                         }
                                       ></Avatar>

@@ -58,19 +58,19 @@ const StepModalFormDraggable = memo(
       prevProps.type === nextProps.type &&
       prevProps.index === nextProps.index &&
       JSON.stringify(
-        prevProps.formik.errors.formQuestions?.[prevProps.index],
+        prevProps.formik.errors.formQuestions?.[prevProps.index]
       ) ===
         JSON.stringify(
-          nextProps.formik.errors.formQuestions?.[prevProps.index],
+          nextProps.formik.errors.formQuestions?.[prevProps.index]
         ) &&
       JSON.stringify(
-        prevProps.formik.touched.formQuestions?.[prevProps.index],
+        prevProps.formik.touched.formQuestions?.[prevProps.index]
       ) ===
         JSON.stringify(
-          nextProps.formik.touched.formQuestions?.[prevProps.index],
+          nextProps.formik.touched.formQuestions?.[prevProps.index]
         )
     );
-  },
+  }
 );
 
 export default StepModalFormDraggable;

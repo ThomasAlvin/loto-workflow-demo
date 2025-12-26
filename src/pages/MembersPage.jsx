@@ -60,7 +60,7 @@ export default function MembersPage() {
   const [from, setFrom] = useState();
   const [showing, setShowing] = useState(0);
   const [totalPages, setTotalPages] = useState(null);
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const [members, setMembers] = useState([]);
   const [tableLoading, setTableLoading] = useState(true);
   const currentPage = totalPages
@@ -127,8 +127,6 @@ export default function MembersPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -178,7 +176,7 @@ export default function MembersPage() {
   async function removeMember(UID) {
     setRemoveButtonLoading(true);
     await api
-      .delete(`member/${UID}`)
+      .testSubmit("Member deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
           prevState.filter((selUID) => selUID !== UID)
@@ -222,11 +220,7 @@ export default function MembersPage() {
   async function deleteSelected() {
     setDeleteSelectedButtonLoading(true);
     await api
-      .delete(`member`, {
-        data: {
-          selectedUID: selectedUID,
-        },
-      })
+      .testSubmit("Selected member deleted successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -267,7 +261,7 @@ export default function MembersPage() {
   async function resendEmailMember(UID) {
     setResendEmailButtonLoading(true);
     await api
-      .post(`member/resend-email-verified`, { memberUID: UID })
+      .testSubmit("Email sent successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -281,9 +275,6 @@ export default function MembersPage() {
             confirmButton: "swal2-custom-confirm-button",
           },
         });
-        abortControllerRef.current.abort(); // Cancel any previous request
-        abortControllerRef.current = new AbortController();
-        fetchMembers();
       })
       .catch((error) => {
         Swal.fire({
@@ -341,11 +332,7 @@ export default function MembersPage() {
     setTableLoading(true);
     const localAbortController = abortControllerRef.current;
     await api
-      .get(
-        `member/pagination?search=${searchFilter}&role=${roleFilter}&page=${currentPage}
-      &rows=${rows}`,
-        { signal: abortControllerRef.current.signal }
-      )
+      .getMemberPagination()
       .then((response) => {
         setMembers(response.data.data);
         setFrom(response.data.from);
@@ -370,11 +357,7 @@ export default function MembersPage() {
     setActivitiesTableLoading(true);
     const localAbortController = abortControllerRef2.current;
     await api
-      .get(
-        `member/activities/pagination/${selectedMemberDetails?.UID}?search=${activitiesSearchInput}&page=${activitiesCurrentPage}
-        &rows=10`,
-        { signal: abortControllerRef2.current.signal }
-      )
+      .getMemberActivities(selectedMemberDetails?.UID)
       .then((response) => {
         setActivities(response.data.data);
         setActivitiesFrom(response.data.from);
@@ -396,9 +379,7 @@ export default function MembersPage() {
   async function fetchAccessibility(controller) {
     setAccessibilityLoading(true);
     await api
-      .get(`member/${selectedMemberDetails?.UID}/accessibility`, {
-        signal: controller.signal,
-      })
+      .getMemberAccessibility(selectedMemberDetails?.UID)
       .then((response) => {
         setAccessibility(response.data.accessibility);
         setAccessibilityRBAC(response.data.RBACRole);
@@ -681,9 +662,7 @@ export default function MembersPage() {
                             onChange={handleCheckbox}
                           ></Checkbox>
                         </Td>
-                        {/* <Td borderBottomColor={"#bababa"} fontWeight={700}>
-                        {index + from}.
-                      </Td> */}
+
                         <Td px={"16px"} borderBottomColor={"#bababa"}>
                           <Flex alignItems={"center"} gap={"10px"}>
                             {val.user.first_name ? (
@@ -691,9 +670,7 @@ export default function MembersPage() {
                                 cursor={"pointer"}
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleImageFocus(
-                                    IMGURL + val.user.profile_image_url
-                                  );
+                                  handleImageFocus(val.user.profile_image_url);
                                 }}
                                 outline={"1px solid #dc143c"}
                                 border={"2px solid white"}
@@ -702,7 +679,7 @@ export default function MembersPage() {
                                 }
                                 src={
                                   val.user.profile_image_url
-                                    ? IMGURL + val.user.profile_image_url
+                                    ? val.user.profile_image_url
                                     : null
                                 }
                               ></Avatar>

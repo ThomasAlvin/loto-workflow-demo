@@ -2,16 +2,28 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   Flex,
   IconButton,
   Input,
+  InputGroup,
+  InputLeftElement,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Select,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { FaRegEdit } from "react-icons/fa";
-import { FaCamera, FaLeftLong, FaTriangleExclamation } from "react-icons/fa6";
-import { useEffect, useRef, useState } from "react";
+import { FaPlus, FaRegEdit, FaUserAlt } from "react-icons/fa";
+import {
+  FaCamera,
+  FaChevronDown,
+  FaLeftLong,
+  FaTriangleExclamation,
+} from "react-icons/fa6";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLoading } from "../service/LoadingContext";
 import { api } from "../api/api";
 import { useFormik } from "formik";
@@ -19,9 +31,18 @@ import * as Yup from "yup";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { ImCheckmark } from "react-icons/im";
+import CreatableSelect from "react-select/creatable";
+import roleSelection from "../constants/RoleSelection";
 import SwalErrorMessages from "../components/SwalErrorMessages";
 import ImageFocusOverlay from "../components/ImageFocusOverlay";
-import { IoMdClose } from "react-icons/io";
+import {
+  IoMdClose,
+  IoMdInformationCircleOutline,
+  IoMdSearch,
+} from "react-icons/io";
+import ReactSelectCustomControl from "../components/ReactSelectCustomControl";
+import CustomMenuList from "../components/CustomSelectionSelect";
+import { BiBorderBottom, BiChevronDownCircle } from "react-icons/bi";
 import CustomSelectionSelect from "../components/CustomSelectionSelect";
 import setAllFieldsTouched from "../utils/setAllFieldsTouched";
 import CustomizeMemberPermissionModal from "../components/Member/CustomizeMemberPermissionModal";
@@ -30,6 +51,10 @@ import formatString from "../utils/formatString";
 import checkHasPermission from "../utils/checkHasPermission";
 import { useSelector } from "react-redux";
 import convertToFormData from "../utils/convertToFormData";
+import CountryPhoneNumberInput from "../components/CountryPhoneNumberInput";
+import removeCountryCode from "../utils/removeCountryCode";
+import getPhoneCountryDetailsByCountryCode from "../utils/getPhoneCountryDetailsByCountryCode";
+import parsePhoneNumberFromString from "libphonenumber-js";
 
 export default function EditMemberPage() {
   const pageModule = "members";
@@ -67,12 +92,17 @@ export default function EditMemberPage() {
       width: "100%",
     }),
   };
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const { UID } = useParams();
   const initialMemberInput = {
     firstName: "",
     lastName: "",
     phoneNumber: "",
+    phoneCountry: {
+      value: "US",
+      name: "United States",
+      callingCode: "+1",
+    },
     department: "",
     role: "member",
     profileImage: "",
@@ -114,15 +144,21 @@ export default function EditMemberPage() {
       firstName: Yup.string().trim().required("First name is required"),
       lastName: Yup.string().trim().required("Last name is required"),
       department: Yup.object().required("Department is required"),
-      // employeeId: Yup.string().trim().required("Employee ID is required"),
       role: Yup.string().trim().required("Role is required"),
       phoneNumber: Yup.string()
-        .notRequired()
-        .trim()
-        .matches(
-          /^(\+?[1-9]{1}[0-9]{1,2})?(\s|-|\.)?(\(?[0-9]{1,4}\)?[\s.-]?)?([0-9]{1,4}[\s.-]?[0-9]{1,4})+$/,
-          { message: "Invalid phone number format", excludeEmptyString: true }
-        ),
+        .nullable()
+        .transform((value) => (value === "" ? null : value))
+        .test("is-valid-phone", "Phone number is not valid", function (value) {
+          if (!value) return true;
+          if (!memberInput.phoneCountry.value) return false;
+
+          const phoneNumber = parsePhoneNumberFromString(
+            value,
+            memberInput.phoneCountry.value
+          );
+
+          return phoneNumber ? phoneNumber.isValid() : false;
+        }),
     }),
     onSubmit: () => {
       submitMember();
@@ -164,13 +200,18 @@ export default function EditMemberPage() {
   async function submitMember() {
     setLoading(true);
     try {
-      const formData = convertToFormData(memberInput);
+      const memberDetails = {
+        ...memberInput,
+        phoneNumber: memberInput.phoneNumber
+          ? memberInput.phoneCountry.callingCode + memberInput.phoneNumber
+          : null,
+        phoneCountry: memberInput.phoneNumber
+          ? memberInput.phoneCountry.value
+          : null,
+      };
+      const formData = convertToFormData(memberDetails);
       await api
-        .post(`member/${memberInput.userUID}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .testSubmit("Member saved successfully")
         .then((response) => {
           Swal.fire({
             title: "Success!",
@@ -218,27 +259,26 @@ export default function EditMemberPage() {
       console.log(errors); // Optional: log the errors for debugging
     }
   }
-  function inputHandler(event) {
-    let { id, value } = event.target;
-    if (id === "phoneNumber") value = value.replace(/[^0-9-]/g, "");
-    let tempObject = { ...memberInput, [id]: value };
-    if (id === "role") {
-      console.log("it is");
+  const inputHandler = useCallback((event) => {
+    const { id, value } = event.target;
+    const newValue =
+      id === "phoneNumber" ? value.replace(/[^\d() -]/g, "") : value;
 
-      tempObject = {
-        ...tempObject,
-        hasCustomPermissions: false,
-        accessibility: [],
-      };
-    }
-    setMemberInput(tempObject);
-    formik.setValues(tempObject);
-  }
+    setMemberInput((prev) => {
+      let tempObject = { ...prev, [id]: newValue };
+      if (id === "role") {
+        tempObject = {
+          ...tempObject,
+          hasCustomPermissions: false,
+          accessibility: [],
+        };
+      }
+      formik.setFieldValue(id, newValue); // stable, safe
+      return tempObject;
+    });
+  }, []);
+
   function getNewRoleSettingsByRole(inputRole) {
-    console.log(memberInput.accessibility);
-    console.log(
-      defaultAccessibility?.find((role) => role.name === inputRole)?.modules
-    );
     // const newRoleSettingsValue = memberInput.hasCustomPermissions
     //   ? memberInput.accessibility
     //   : defaultAccessibility?.find((role) => role.name === inputRole)?.modules;
@@ -322,9 +362,7 @@ export default function EditMemberPage() {
   async function fetchMember(controller) {
     setLoading(true);
     await api
-      .get(`member/${UID}?withAccessibility=true`, {
-        signal: controller.signal,
-      })
+      .getMemberByUID(UID)
       .then(async (response) => {
         if (
           !checkHasPermission(userSelector, pageModule, [
@@ -341,6 +379,7 @@ export default function EditMemberPage() {
           });
           nav("/member");
         }
+
         setDefaultAccessibility(response.data.accessibility.accessibility);
         setAccessibilityOptions(response.data.accessibility.RBAC);
 
@@ -378,10 +417,20 @@ export default function EditMemberPage() {
           firstName: response.data.member.user.first_name,
           lastName: response.data.member.user.last_name,
           email: response.data.member.user.email,
-          phoneNumber: response.data.member.user.phone_number,
+          phoneNumber: removeCountryCode(
+            response.data.member.user.phone_number,
+            response.data.member.user.phone_country
+          ),
+          phoneCountry: getPhoneCountryDetailsByCountryCode(
+            response.data.member.user.phone_country
+          ) || {
+            value: "US",
+            name: "United States",
+            callingCode: "+1",
+          },
           role: response.data.member.role,
           profileImageUrl: response.data.member.user.profile_image_url
-            ? IMGURL + response.data.member.user.profile_image_url
+            ? response.data.member.user.profile_image_url
             : null,
           deleteProfileImage: false,
           employeeId: response.data.member.employee_id,
@@ -402,9 +451,16 @@ export default function EditMemberPage() {
           firstName: response.data.member.user.first_name,
           lastName: response.data.member.user.last_name,
           phoneNumber: response.data.member.user.phone_number,
+          phoneCountry: getPhoneCountryDetailsByCountryCode(
+            response.data.member.user.phone_country
+          ) || {
+            value: "US",
+            name: "United States",
+            callingCode: "+1",
+          },
           role: response.data.member.role,
           profileImageUrl: response.data.member.profile_image_url
-            ? IMGURL + response.data.member.profile_image_url
+            ? response.data.member.profile_image_url
             : null,
           employeeId: response.data.member.employee_id,
           department: {
@@ -426,7 +482,7 @@ export default function EditMemberPage() {
   async function fetchDepartment(controller) {
     setDepartmentSelectionLoading(true);
     await api
-      .get(`department`, { signal: controller.signal })
+      .getDepartments()
       .then((response) => {
         setDepartmentSelection(
           response?.data?.department.map((department) => ({
@@ -564,20 +620,6 @@ export default function EditMemberPage() {
                         fontSize={"24px"}
                       />
                     </Flex>
-                    {/* <Flex
-                      bg={"#bababa"}
-                      borderRadius={"100%"}
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      h={"120px"}
-                      w={"120px"}
-                      border={"2px solid white"}
-                      position={"relative"}
-                    >
-                      <Flex color={"white"} fontSize={"68px"}>
-                        <FaUserAlt />
-                      </Flex>
-                    </Flex> */}
                   </Flex>
                 </Flex>
                 <input
@@ -748,21 +790,25 @@ export default function EditMemberPage() {
                       <Flex>Enter the member's phone number</Flex>
                     </Flex>
                   </Flex>
-                  <Flex>
-                    <Input
-                      type="text"
-                      border={
-                        formik.errors.phoneNumber && formik.touched.phoneNumber
-                          ? "1px solid crimson"
-                          : "1px solid #E2E8F0"
-                      }
-                      placeholder="555-123-123"
-                      onBlur={formik.handleBlur}
-                      value={memberInput.phoneNumber}
-                      id="phoneNumber"
-                      onChange={inputHandler}
-                    ></Input>
-                  </Flex>
+                  <CountryPhoneNumberInput
+                    selectedCountryCodeValue={memberInput.phoneCountry.value}
+                    selectedCountryCodeCallingCode={
+                      memberInput.phoneCountry.callingCode
+                    }
+                    setSelectedCountryCode={setMemberInput}
+                    registerId={"phoneCountry"}
+                    formikValidateField={formik.validateField}
+                    border={
+                      formik.errors.phoneNumber && formik.touched.phoneNumber
+                        ? "1px solid crimson"
+                        : "1px solid #E2E8F0"
+                    }
+                    placeholder="555-123-123"
+                    onBlur={formik.handleBlur}
+                    value={memberInput.phoneNumber}
+                    id="phoneNumber"
+                    onChange={inputHandler}
+                  />
                   {formik.errors.phoneNumber && formik.touched.phoneNumber ? (
                     <Flex
                       position={"absolute"}
@@ -870,22 +916,6 @@ export default function EditMemberPage() {
                       onChange={inputHandler}
                     ></Input>
                   </Flex>
-                  {/* {formik.errors.employeeId && formik.touched.employeeId ? (
-                    <Flex
-                      position={"absolute"}
-                      left={0}
-                      bottom={0}
-                      color="crimson"
-                      fontSize="14px"
-                      gap="5px"
-                      alignItems="center"
-                    >
-                      <FaTriangleExclamation />
-                      <Flex>{formik.errors.employeeId}</Flex>
-                    </Flex>
-                  ) : (
-                    ""
-                  )} */}
                 </Flex>
               </Flex>
               <Flex px={"80px"} position={"relative"} gap={"30px"}>
@@ -952,15 +982,7 @@ export default function EditMemberPage() {
                   position={"relative"}
                 >
                   <Flex flexDir={"column"}>
-                    <Box
-                      onClick={() => {
-                        console.log(memberInput.accessibility);
-                      }}
-                      fontWeight={700}
-                      as="span"
-                      flex="1"
-                      textAlign="left"
-                    >
+                    <Box fontWeight={700} as="span" flex="1" textAlign="left">
                       Access & Permissions
                     </Box>
                     <Flex
@@ -1006,16 +1028,6 @@ export default function EditMemberPage() {
                   ) : (
                     ""
                   )}
-
-                  {/* <CustomSelectionSelect
-                                      title={"accessibility"}
-                                      selection={accessibilitySelection}
-                                      selectHandler={accessibilitySelectHandler}
-                                      selectedOption={memberInput?.accessibility?.label}
-                                      isSearchable={false}
-                                      optionColor="black"
-                                      optionFontWeight={400}
-                                    /> */}
 
                   {formik.errors.role && formik.touched.role ? (
                     <Flex

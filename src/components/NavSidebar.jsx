@@ -30,6 +30,7 @@ import {
   FaFileAlt,
   FaRegCreditCard,
   FaThLarge,
+  FaUserAlt,
   FaUserCog,
 } from "react-icons/fa";
 import {
@@ -126,7 +127,6 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
   const btnRef = useRef();
   const location = useLocation();
   const userSelector = useSelector((state) => state.login.auth);
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const pathSegments = location.pathname.split("/");
   const firstRouteSegment = pathSegments[1];
   const secondRouteSegment = pathSegments[2];
@@ -443,7 +443,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
   async function deleteNotification(UID) {
     setDeleteNotificationButtonLoading(true);
     await api
-      .delete(`notification/${UID}`)
+      .testSubmit("Notification deleted successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -523,12 +523,6 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
     });
     setSelectedNotificationDetails(val);
     notificationDetailsModalDisclosure.onOpen();
-    await api
-      .post(`notification/mark-single/${val.UID}`)
-      .then((response) => {})
-      .catch((error) => {
-        console.log(error);
-      });
   }
   async function handleOpen(val) {
     setShowMenu(true);
@@ -579,28 +573,9 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
             >
               <span class="navbar-toggler-icon"></span>
             </button>
-            {/* {hideSidebar ? (
-              ""
-            ) : (
-              <Flex
-                onClick={() => {
-                  setHideSidebar((prevState) => !prevState);
-                }}
-                cursor={"pointer"}
-                fontSize={"28px"}
-              >
-                <IoMenuSharp />
-              </Flex>
-            )} */}
 
-            <Flex
-              onClick={() => {
-                console.log(userSelector);
-              }}
-              fontSize={"20px"}
-              fontWeight={700}
-            >
-              eGeeTouch Smart LOTO Management System Version 1.2.209.5
+            <Flex fontSize={"20px"} fontWeight={700}>
+              LOTO Workflow System Version 1.12
             </Flex>
           </Box>
 
@@ -739,7 +714,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                                   }
                                   src={
                                     val.from_user.profile_image_url
-                                      ? IMGURL + val.from_user.profile_image_url
+                                      ? val.from_user.profile_image_url
                                       : undefined
                                   }
                                   border={"2px solid white"}
@@ -834,20 +809,37 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                 >
                   <Flex gap={"10px"} alignItems={"center"}>
                     <Flex>
-                      <Avatar
-                        p={"1px"}
-                        src={
-                          userSelector.profile_image_url
-                            ? IMGURL + userSelector.profile_image_url
-                            : null
-                        }
-                        // size={"sm"}
-                        border={"2px solid white"}
-                        outline={"1px solid #dc143c"}
-                        bg={
-                          userSelector.profile_image_url ? "white" : "gray.400"
-                        }
-                      />
+                      {userSelector.first_name ? (
+                        <Avatar
+                          outline={"1px solid #dc143c"}
+                          border={"2px solid white"}
+                          name={
+                            userSelector.first_name +
+                            " " +
+                            userSelector.last_name
+                          }
+                          src={
+                            userSelector.profile_image_url
+                              ? userSelector.profile_image_url
+                              : null
+                          }
+                        ></Avatar>
+                      ) : (
+                        <Flex
+                          outline={"1px solid #dc143c"}
+                          border={"2px solid white"}
+                          bg={"#bababa"}
+                          borderRadius={"100%"}
+                          justifyContent={"center"}
+                          alignItems={"center"}
+                          h={"48px"}
+                          w={"48px"}
+                        >
+                          <Flex color={"white"} fontSize={"24px"}>
+                            <FaUserAlt />
+                          </Flex>
+                        </Flex>
+                      )}
                     </Flex>
                     <Flex flexDir={"column"}>
                       <Flex>
@@ -985,9 +977,10 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                       }}
                       class="offcanvas-header d-flex justify-content-center"
                     >
-                      <h5 class="offcanvas-title">
+                      <h5 class="offcanvas-title w-100">
                         <Flex
-                          justify={"center"}
+                          w={"100%"}
+                          justify={"space-between"}
                           pl={hideSidebar ? "0px" : "20px"}
                           alignItems={"center"}
                           color={"white"}
@@ -1006,14 +999,8 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                           ) : (
                             ""
                           )}
-                          <Image
-                            cursor={"pointer"}
-                            opacity={hideSidebar ? 0 : 1}
-                            onClick={() => nav("/starter-guide")}
-                            w={hideSidebar ? "0px" : "200px"}
-                            transition={"opacity 0.5s ease"}
-                            src={logoEgeeTouch}
-                          ></Image>
+
+                          <Flex fontWeight={700}>LOTO SYSTEM</Flex>
                           {hideSidebar ? (
                             ""
                           ) : (
@@ -1027,16 +1014,6 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                               <BsFilterRight />
                             </Flex>
                           )}
-
-                          {/* <Flex
-                          position={"absolute"}
-                          right={"-20px"}
-                          onClick={() => {
-                            setHideSidebar((prevState) => !prevState);
-                          }}
-                        >
-                          <FaChevronCircleLeft />
-                        </Flex> */}
                         </Flex>
                       </h5>
                     </div>
@@ -1103,13 +1080,10 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                                     <FaChevronRight />
                                   </Flex>
                                 )}
-
-                                {/* <AccordionIcon fontSize={"24px"} /> */}
                               </Button>
                             </>
                           ) : firstRouteSegment === val?.link?.split("/")[1] ? (
                             <>
-                              {/* <Link to={val?.link} replace> */}
                               <Flex
                                 cursor={"pointer"}
                                 border={0}
@@ -1133,8 +1107,6 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                                 <Icon as={val?.icon}></Icon>
                                 {hideSidebar ? "" : <Flex>{val?.name}</Flex>}
                               </Flex>
-                              {/* </Link> */}
-
                               <Divider m={0} borderColor={"#bababa"} />
                             </>
                           ) : (
@@ -1229,8 +1201,6 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                           alignItems={"center"}
                           fontWeight={700}
                           color={"black"}
-                          // px={"20px"}
-                          // py={"10px"}
                           gap={"10px"}
                         >
                           <Flex>
@@ -1238,10 +1208,6 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                           </Flex>
                           <Flex flexDir={"column"} alignItems="center">
                             <Flex>{userSelector.current_work_site?.name}</Flex>
-
-                            {/* <Badge colorScheme="green" fontSize="0.7rem" px="2">
-                        Current
-                      </Badge> */}
                           </Flex>
                         </Flex>
                       </Flex>
@@ -1290,7 +1256,6 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                                   <Icon as={val2.icon}></Icon>
                                   <Flex>{val2.name}</Flex>
                                 </Flex>
-                                {/* <AccordionIcon fontSize={"24px"} /> */}
                               </Button>
                             ))}
                           </Flex>

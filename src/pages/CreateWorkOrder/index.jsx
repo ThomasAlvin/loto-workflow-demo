@@ -102,39 +102,6 @@ export default function CreateWorkOrderPage() {
                   ),
               otherwise: (schema) => schema.notRequired(),
             }),
-            work_order_locks: Yup.array() // Return a Yup array schema
-              .of(
-                Yup.object().shape({
-                  id: Yup.string()
-                    .trim()
-                    .test(
-                      "customValidation3",
-                      "Lock cannot be empty.",
-                      function (val) {
-                        const { parent, from } = this; // Access parent and from
-                        const workOrderStep = from[1].value;
-                        // Access the second work order step
-                        if (workOrderStep && workOrderStep.lockAccess) {
-                          return val && val.trim() !== ""; // Ensure ID is provided (not empty or whitespace)
-                        }
-                        return true;
-                      }
-                    ),
-                })
-              )
-              .test(
-                "minLocks",
-                "This step requires at least 1 lock.",
-                function (value) {
-                  const { from } = this;
-                  const workOrderStep = from[1].value; // Access the second work order step
-
-                  if (workOrderStep?.lockAccess) {
-                    return Array.isArray(value) && value.length > 0; // Require at least 1 lock if lockAccess is true
-                  }
-                  return true; // No locks required if lockAccess is false
-                }
-              ),
             multiLockAccessGroup: Yup.object().shape({
               multiLockAccessGroupItems: Yup.array() // Return a Yup array schema
                 .of(
@@ -170,19 +137,12 @@ export default function CreateWorkOrderPage() {
                       workOrderStep?.multiLockAccess &&
                       workOrderStep.multiLockAccessGroup?.isPreAssigned
                     ) {
-                      return Array.isArray(value) && value.length > 0; // Require at least 1 lock if lockAccess is true
+                      return Array.isArray(value) && value.length > 0;
                     }
-                    return true; // No locks required if lockAccess is false
+                    return true;
                   }
                 ),
             }),
-            titleTriggerAPI: Yup.string()
-              .trim()
-              .when("triggerAPI", {
-                is: true,
-                then: (schema) => schema.required("Key is required"),
-                otherwise: (schema) => schema.notRequired(),
-              }),
           })
         )
         .min(1, "At least one step is required")
@@ -214,7 +174,7 @@ export default function CreateWorkOrderPage() {
   async function fetchAllSelection(controller) {
     setLoading(true);
     await api
-      .get(`work-order/selection`, { signal: controller.signal })
+      .getAllSelection()
       .then((response) => {
         setMemberSelection(
           response.data.members.map((val) => ({
@@ -289,12 +249,6 @@ export default function CreateWorkOrderPage() {
       if (!filteredItem.machine) {
         delete filteredItem.selectedMachines;
       }
-      if (!filteredItem.triggerAPI) {
-        delete filteredItem.titleTriggerAPI;
-      }
-      if (!filteredItem.lockAccess) {
-        delete filteredItem.work_order_locks;
-      }
       if (!filteredItem?.multiLockAccessGroup?.isPreAssigned) {
         if (filteredItem?.multiLockAccessGroup) {
           delete filteredItem.multiLockAccessGroup.multiLockAccessGroupItems;
@@ -313,11 +267,7 @@ export default function CreateWorkOrderPage() {
     formData.append("flowChartImages[]", workFlowImage);
 
     try {
-      const response = await api.post(`work-order?status=${status}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await api.testSubmit("Work order saved successfully");
 
       if (showSuccessSwal) {
         Swal.fire({
@@ -362,77 +312,16 @@ export default function CreateWorkOrderPage() {
     }
   }
 
-  // const getWorkFlowImage = async () => {
-  //   const imageWidth = 1024;
-  //   const imageHeight = 768;
-  //   console.log(nodes);
-  //   const newNodes = await autoArrangeNodes(nodes, edges, "TB");
-  //   console.log(newNodes);
-  //   console.log(nodes);
-  //   // checkpoint and belom test
-  //   setNodes(newNodes.map((node) => ({ ...node, selected: false })));
-  //   setEdges(edges.map((edge) => ({ ...edge, selected: false })));
-  //   await new Promise((resolve) =>
-  //     requestAnimationFrame(() => requestAnimationFrame(resolve))
-  //   );
-
-  //   const nodesBounds = getNodesBounds(
-  //     newNodes.map((node) => ({
-  //       ...node,
-  //       position: {
-  //         x: node.position.x - (node.measured.width || 0) / 2,
-  //         y: node.position.y - (node.measured.height || 0) / 2,
-  //       },
-  //     }))
-  //   );
-  //   const padding = 40;
-  //   console.log(nodesBounds);
-  //   const paddedBounds = {
-  //     x: nodesBounds.x - padding,
-  //     y: nodesBounds.y - padding,
-  //     width: nodesBounds.width + padding * 2,
-  //     height: nodesBounds.height + padding * 2,
-  //   };
-  //   const viewport = getViewportForBounds(
-  //     paddedBounds,
-  //     imageWidth,
-  //     imageHeight,
-  //     0.5,
-  //     2
-  //   );
-
-  //   const base64WorkFlow = await toPng(
-  //     document.querySelector(".react-flow__viewport"),
-  //     {
-  //       backgroundColor: "#f8f9fa",
-  //       width: imageWidth,
-  //       height: imageHeight,
-  //       style: {
-  //         width: imageWidth,
-  //         height: imageHeight,
-  //         transform: `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.zoom})`,
-  //       },
-  //       skipFonts: true,
-  //     }
-  //   );
-  //   const link = document.createElement("a");
-  //   link.download = "workflow.png"; // filename
-  //   link.href = base64WorkFlow;
-
-  //   // Trigger click
-  //   link.click();
-
-  //   // return base64ToFile(base64WorkFlow);
-  // };
   const getWorkFlowImage = async () => {
     const imageWidth = 1024;
     const imageHeight = 768;
     const newNodes = await autoArrangeNodes(nodes, edges, "TB");
-    console.log(newNodes);
-    console.log(nodes);
-    // checkpoint and belom test
     setNodes(newNodes.map((node) => ({ ...node, selected: false })));
     setEdges(edges.map((edge) => ({ ...edge, selected: false })));
+
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
 
     const nodesBounds = getNodesBounds(
       newNodes.map((node) => ({
@@ -444,7 +333,6 @@ export default function CreateWorkOrderPage() {
       }))
     );
     const padding = 40;
-    console.log(nodesBounds);
     const paddedBounds = {
       x: nodesBounds.x - padding,
       y: nodesBounds.y - padding,

@@ -33,7 +33,7 @@ export default function AssignedWorkOrderMenu({
                 nav(
                   `/work-order/${val.UID}${
                     location.search ? location.search + "&" : "?"
-                  }from=assigned-work-order`,
+                  }from=assigned-work-order`
                 );
               }}
               cursor={"pointer"}
@@ -59,7 +59,7 @@ export default function AssignedWorkOrderMenu({
                       val.UID,
                       val?.latest_work_order_review?.UID,
                       stepUID,
-                      isDisabled,
+                      isDisabled
                     );
                   }
                 }}
@@ -67,7 +67,6 @@ export default function AssignedWorkOrderMenu({
                 cursor={"pointer"}
               >
                 <LuClipboardCopy />
-                {/* <FaMagnifyingGlass /> */}
               </Flex>
             </Tooltip>
           ) : (

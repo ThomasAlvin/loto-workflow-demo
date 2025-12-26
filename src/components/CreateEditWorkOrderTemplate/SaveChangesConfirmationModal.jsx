@@ -61,9 +61,6 @@ export default function SaveChangesConfirmationModal({
       if (!item.machine) {
         delete filteredItem.selectedMachines;
       }
-      if (!item.triggerAPI) {
-        delete filteredItem.titleTriggerAPI;
-      }
 
       return filteredItem;
     });
@@ -91,22 +88,12 @@ export default function SaveChangesConfirmationModal({
     const formData = convertToFormData(formDataObject);
 
     try {
-      const response = await api.post(
+      const response = await api.testSubmit(
         module === "template"
-          ? variant === "edit"
-            ? `template/${UID}?status=draft`
-            : `template?status=draft`
+          ? "Template saved successfully"
           : module === "work_order"
-          ? variant === "edit"
-            ? `work-order/${UID}?status=draft`
-            : `work-order?status=draft`
-          : "",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+          ? "Work order saved successfully"
+          : ""
       );
 
       Swal.fire({

@@ -34,21 +34,21 @@ export default function FlowProvider({
       editable,
       variant,
     }),
-    [connectingSourceId, editable, variant],
+    [connectingSourceId, editable, variant]
   );
   const flagValue = useMemo(
     () => ({
       flaggedSteps,
       setFlaggedSteps,
     }),
-    [flaggedSteps],
+    [flaggedSteps]
   );
   const allowedValue = useMemo(
     () => ({
       allowedTargetIds,
       setAllowedTargetIds,
     }),
-    [allowedTargetIds],
+    [allowedTargetIds]
   );
   useEffect(() => {
     if (editable) {
@@ -66,8 +66,8 @@ export default function FlowProvider({
             workOrderSteps: prevState.workOrderSteps.filter(
               (workOrderStep) =>
                 !deletedNodes.some(
-                  (node) => node.data.UID === workOrderStep.UID,
-                ),
+                  (node) => node.data.UID === workOrderStep.UID
+                )
             ),
           }));
         } else if (variant === "template") {
@@ -76,9 +76,7 @@ export default function FlowProvider({
             templateSteps: prevState.templateSteps.filter(
               (templateStep) =>
                 // switch id to UID
-                !deletedNodes.some(
-                  (node) => node.data.UID === templateStep.UID,
-                ),
+                !deletedNodes.some((node) => node.data.UID === templateStep.UID)
             ),
           }));
         }
@@ -86,7 +84,7 @@ export default function FlowProvider({
         // 2. Remove nodes
         const nodesAfterDeletion = nodes.filter(
           (node) =>
-            !deletedNodes.some((deletedNode) => deletedNode.id === node.id),
+            !deletedNodes.some((deletedNode) => deletedNode.id === node.id)
         );
 
         // 3. Detect if start deleted
@@ -100,24 +98,24 @@ export default function FlowProvider({
           const incomers = getIncomers(node, remainingNodes, acc).filter(
             (edgeNode) => {
               const edge = acc.find(
-                (e) => e.target === node.id && e.source === edgeNode.id,
+                (e) => e.target === node.id && e.source === edgeNode.id
               );
               return edge && edge.sourceHandle !== "loop-back";
-            },
+            }
           );
 
           const outgoers = getOutgoers(node, remainingNodes, acc).filter(
             (edgeNode) => {
               const edge = acc.find(
-                (e) => e.source === node.id && e.target === edgeNode.id,
+                (e) => e.source === node.id && e.target === edgeNode.id
               );
               return edge && edge.sourceHandle !== "loop-back";
-            },
+            }
           );
           const connectedEdges = getConnectedEdges([node], acc);
 
           const remainingEdges = acc.filter(
-            (edge) => !connectedEdges.includes(edge),
+            (edge) => !connectedEdges.includes(edge)
           );
 
           const createdEdges = incomers.flatMap(({ id: source }) =>
@@ -129,7 +127,7 @@ export default function FlowProvider({
                 target,
                 type: defaultNodeSettings.edgeType,
                 markerEnd: defaultNodeSettings.defaultMarkerEnd,
-              })),
+              }))
           );
 
           remainingNodes = remainingNodes.filter((rn) => rn.id !== node.id);
@@ -143,7 +141,7 @@ export default function FlowProvider({
         let reorderedNodes = computeNodeOrder(
           nodesAfterDeletion,
           updatedEdges,
-          nodesAfterDeletion[0]?.id || null,
+          nodesAfterDeletion[0]?.id || null
         );
 
         setNodes(reorderedNodes);
@@ -154,8 +152,8 @@ export default function FlowProvider({
             prev.map((node) =>
               node.data.order === 1
                 ? { ...node, data: { ...node.data, isStart: true } }
-                : node,
-            ),
+                : node
+            )
           );
         }
 
@@ -178,28 +176,9 @@ export default function FlowProvider({
   }, [nodes, edges]);
   return (
     <ActionsContext.Provider value={actionsRef}>
-      {/* <DebugContext name="ActionsContext" value={actionsRef} /> */}
-
       <UIContext.Provider value={uiValue}>
-        {/* <DebugContext
-          name="UIContext"
-          value={{
-            connectingSourceId,
-            setConnectingSourceId,
-            editable,
-            variant,
-          }}
-        /> */}
         <FlagContext.Provider value={flagValue}>
-          {/* <DebugContext
-            name="FlagContext"
-            value={{ flaggedSteps, setFlaggedSteps }}
-          /> */}
           <AllowedTargetsContext.Provider value={allowedValue}>
-            {/* <DebugContext
-              name="AllowedTargetsContext"
-              value={{ allowedTargetIds, setAllowedTargetIds }}
-            /> */}
             {children}
           </AllowedTargetsContext.Provider>
         </FlagContext.Provider>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { api } from "../api/api";
-import Loading from "../components/Loading";
 import { v4 as uuid } from "uuid";
 import { useToast } from "@chakra-ui/react";
 import checkRoleAuth from "../utils/checkRoleAuth";
 import getAccessibilityByRole from "../utils/getAccessibilityByRole";
+import Loading from "../components/Loading";
 export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
   // const nav = useNavigate();
@@ -15,7 +15,6 @@ export default function AuthProvider({ children }) {
 
   async function initializeAuth() {
     const user = localStorage.getItem("isLoggedIn");
-    console.log(user);
 
     if (user) {
       try {
@@ -33,7 +32,6 @@ export default function AuthProvider({ children }) {
               isClosable: true,
             });
           });
-        console.log(authData);
         const currentWorkSite = userSelector?.current_work_site;
         dispatch({ type: "stopLoading" });
         dispatch({
@@ -48,9 +46,7 @@ export default function AuthProvider({ children }) {
             is_subscription_valid: true,
           },
         });
-        console.log("WATAFAKKKKKKKKK");
       } catch (err) {
-        console.log("Error during authentication:", err);
         dispatch({
           type: "logout",
         });

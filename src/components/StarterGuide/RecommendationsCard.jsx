@@ -14,7 +14,7 @@ export default function RecommendationsCard() {
       link: "/starter-guide",
     },
     {
-      title: "Members",
+      title: "Member Roles",
       description: "What are members and roles?",
       icon: <FaUserTie />,
       link: "/starter-guide/member",
@@ -47,16 +47,6 @@ export default function RecommendationsCard() {
           </Flex>{" "}
           Recommendations
         </Flex>
-        <Flex
-          //   onClick={() => nav("/activity")}
-          cursor={"pointer"}
-          color={"#dc143c"}
-          fontWeight={700}
-          gap={"5px"}
-          alignItems={"center"}
-        >
-          See All <FaChevronRight />
-        </Flex>
       </Flex>
       <Flex
         w={"100%"}
@@ -76,8 +66,7 @@ export default function RecommendationsCard() {
                 boxShadow={"0px 0px 3px rgba(220, 20, 60,1)"}
                 transition={"0.1s ease-in-out"}
                 role="group"
-                color={"#dc143c"} // outline={"1px solid #dc143c"}
-                // border={"2px solid black"}
+                color={"#dc143c"}
               >
                 <Flex gap={"10px"} alignItems={"center"}>
                   <Flex
@@ -100,11 +89,7 @@ export default function RecommendationsCard() {
                       justify={"space-between"}
                     >
                       <Flex>{step.title}</Flex>
-                      <Flex
-                        // _groupHover={{ display: "flex" }}
-                        display={"flex"}
-                        fontSize={"20px"}
-                      >
+                      <Flex display={"flex"} fontSize={"20px"}>
                         <IoCheckmarkCircle />
                       </Flex>
                     </Flex>

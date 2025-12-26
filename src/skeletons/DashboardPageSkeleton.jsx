@@ -174,7 +174,6 @@ export default function DashboardPageSkeleton() {
                   <Th fontSize={"12px"} borderBottomColor={"#bababa"}>
                     Name
                   </Th>
-                  {/* <Th>Email</Th> */}
                   <Th fontSize={"12px"} borderBottomColor={"#bababa"}>
                     Section
                   </Th>
@@ -195,7 +194,6 @@ export default function DashboardPageSkeleton() {
                       <Flex flexDir={"column"} gap={"6px"}>
                         <Flex color={"black"} fontWeight={700}>
                           <Skeleton h={"16px"} w={"120px"} />
-                          {/* Jennifer Lawrence */}
                         </Flex>
                         <Skeleton h={"16px"} w={"120px"} />
                       </Flex>
@@ -219,7 +217,6 @@ export default function DashboardPageSkeleton() {
                       <Flex flexDir={"column"} gap={"6px"}>
                         <Flex color={"black"} fontWeight={700}>
                           <Skeleton h={"16px"} w={"120px"} />
-                          {/* Jennifer Lawrence */}
                         </Flex>
                         <Skeleton h={"16px"} w={"120px"} />
                       </Flex>
@@ -243,7 +240,6 @@ export default function DashboardPageSkeleton() {
                       <Flex flexDir={"column"} gap={"6px"}>
                         <Flex color={"black"} fontWeight={700}>
                           <Skeleton h={"16px"} w={"120px"} />
-                          {/* Jennifer Lawrence */}
                         </Flex>
                         <Skeleton h={"16px"} w={"120px"} />
                       </Flex>
@@ -357,40 +353,6 @@ export default function DashboardPageSkeleton() {
                 </Flex>
               </Flex>
             </Flex>
-
-            {/* <Flex
-              cursor={"pointer"}
-              _hover={{ bg: "#f8f9fa" }}
-              transition={"background-color 0.2s ease"}
-              py={"10px"}
-              borderBottom={"1px solid #bababa"}
-              flexDir={"column"}
-              px={"20px"}
-            >
-              <Flex alignItems={"center"} gap={"10px"}>
-                <Flex
-                  bg={"#bababa"}
-                  borderRadius={"100%"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  h={"40px"}
-                  w={"40px"}
-                  border={"2px solid white"}
-                >
-                  <Flex color={"white"} fontSize={"20px"}>
-                    <FaUserAlt />
-                  </Flex>
-                </Flex>
-                <Flex flexDir={"column"}>
-                  <Flex color={"black"} fontWeight={700}>
-                    Jennifer Lawrence
-                  </Flex>
-                  <Flex fontSize={"14px"} color={"#848484"}>
-                    Authorized Employee - 555-102
-                  </Flex>
-                </Flex>
-              </Flex>
-            </Flex> */}
           </Flex>
         </GridItem>
       </Grid>
@@ -456,7 +418,6 @@ export default function DashboardPageSkeleton() {
                       <Flex flexDir={"column"} gap={"6px"}>
                         <Flex color={"black"} fontWeight={700}>
                           <Skeleton h={"16px"} w={"150px"} />
-                          {/* Jennifer Lawrence */}
                         </Flex>
                         <Skeleton h={"16px"} w={"150px"} />
                       </Flex>
@@ -485,7 +446,6 @@ export default function DashboardPageSkeleton() {
                       <Flex flexDir={"column"} gap={"6px"}>
                         <Flex color={"black"} fontWeight={700}>
                           <Skeleton h={"16px"} w={"150px"} />
-                          {/* Jennifer Lawrence */}
                         </Flex>
                         <Skeleton h={"16px"} w={"150px"} />
                       </Flex>
@@ -515,7 +475,6 @@ export default function DashboardPageSkeleton() {
                       <Flex flexDir={"column"} gap={"6px"}>
                         <Flex color={"black"} fontWeight={700}>
                           <Skeleton h={"16px"} w={"150px"} />
-                          {/* Jennifer Lawrence */}
                         </Flex>
                         <Skeleton h={"16px"} w={"150px"} />
                       </Flex>

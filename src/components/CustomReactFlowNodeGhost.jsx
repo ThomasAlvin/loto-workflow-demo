@@ -27,29 +27,11 @@ export default function CustomReactFlowNodeGhost({ data, nodeGhostRef }) {
       color: "#848484",
       icon: <FaCogs />,
     },
-    (data?.lockAccess || data?.access_lock) && {
-      label: "Lock Access",
-      bg: "#ffe6e6",
-      color: "#e32020",
-      icon: <MdLockOutline />,
-    },
     (data?.condition || data?.condition) && {
       label: "Condition",
       bg: "#fddeff",
       color: "#f329ff",
       icon: <LuNetwork />,
-    },
-    (data?.triggerAPI || data?.trigger_api) && {
-      label: "Trigger API",
-      bg: "#dbfbff",
-      color: "#3cc1fa",
-      icon: <BsGlobe2 />,
-    },
-    (data?.sendWebhook || data?.send_webhook) && {
-      label: "Webhook",
-      bg: "#cffff2",
-      color: "#00CB94",
-      icon: <MdWebhook />,
     },
     (data?.multiLockAccess ||
       data?.multi_lock_access ||

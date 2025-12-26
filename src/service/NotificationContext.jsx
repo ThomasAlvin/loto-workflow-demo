@@ -46,14 +46,12 @@ export function NotificationProvider({ children }) {
     workSiteFilter
   ) {
     try {
-      const response = await api.getNotifications(
+      const response = await api.getNotificationsPagination(
         `notification/pagination?search=${searchInput}&page=${currentPage}&rows=${rows}&work_siteUID=${
           workSiteFilter?.UID || ""
         }` + (is_read !== null ? `&is_read=${is_read}` : ""),
         { signal: controller }
       );
-      console.log(response);
-
       setNotifications(response.data.all_notifications);
       setNotificationsPagination((prevState) => ({
         ...prevState,

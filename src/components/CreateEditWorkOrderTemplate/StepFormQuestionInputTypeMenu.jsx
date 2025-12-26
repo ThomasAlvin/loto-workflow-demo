@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import questionTypeIconMapper from "../../utils/questionTypeIconMapper";
 import { memo } from "react";
-import { InputOptions } from "../../utils/optionsUtils";
+import { inputOptions } from "../../utils/optionsUtils";
 
 function StepFormQuestionInputTypeMenu({
   type,
@@ -49,7 +49,7 @@ function StepFormQuestionInputTypeMenu({
       {editable ? (
         <Portal>
           <MenuList zIndex={2000}>
-            {InputOptions.map((val) => {
+            {inputOptions.map((val) => {
               return (
                 <MenuGroup
                   color={"#848484"}

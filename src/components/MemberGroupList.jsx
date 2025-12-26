@@ -6,10 +6,10 @@ import {
   GridItem,
   Tooltip,
 } from "@chakra-ui/react";
-import { memo, useState } from "react";
 import { FaRegBell, FaUserAlt } from "react-icons/fa";
-import dynamicPropsComparator from "../utils/dynamicPropsComparator";
 import labelizeRole from "../utils/labelizeRole";
+import { memo, useState } from "react";
+import dynamicPropsComparator from "../utils/dynamicPropsComparator";
 
 function MemberGroupList({
   memberArray,
@@ -18,12 +18,10 @@ function MemberGroupList({
   fullWidth = false,
   grayBg = true,
   hasShowMore = true,
-  isPDF = false,
   isDataUserFirst = false,
   isReport = false,
   emptyMessage = "Not Assigned Yet",
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const [showMore, setShowMore] = useState(false);
   const showMoreLimit = 5;
   const modifiedMemberArray = isDataUserFirst
@@ -49,105 +47,135 @@ function MemberGroupList({
       {summarizedMember.length ? (
         <Grid templateColumns={`repeat(${fullWidth ? 1 : 2}, 1fr)`} gap={4}>
           {summarizedMember.map((member, memberIndex) => (
-            <GridItem>
-              <Flex
-                w={"100%"}
-                p={"10px"}
-                bg={grayBg ? "#f8f9fa" : "white"}
-                boxShadow={isPDF ? "" : "0px 0px 3px rgba(50,50,93,0.5)"}
-                border={isPDF ? "1px solid #bababa" : ""}
-                justify={"space-between"}
-                alignItems={"center"}
-              >
-                <Flex alignItems={"center"} gap={"10px"}>
-                  {member?.user.first_name ? (
-                    <Flex
-                      borderRadius={"full"}
-                      border={isPDF ? "1px solid #dc143c" : ""}
-                    >
-                      <Avatar
+            <Tooltip
+              label={
+                member?.isSwitchTo
+                  ? "Replaced Assignee"
+                  : member?.isSwitchFrom
+                  ? "Previous Assignee"
+                  : ""
+              }
+              bg={
+                member?.isSwitchTo
+                  ? "#3D9666"
+                  : member?.isSwitchFrom
+                  ? "#dc143c"
+                  : ""
+              }
+              hasArrow
+              placement="top"
+            >
+              <GridItem>
+                <Flex
+                  w={"100%"}
+                  p={"10px"}
+                  bg={
+                    member?.isSwitchFrom
+                      ? "#fff2f2"
+                      : member?.isSwitchTo
+                      ? "#e9f7e1"
+                      : grayBg
+                      ? "#f8f9fa"
+                      : "white"
+                  }
+                  boxShadow={
+                    member?.isSwitchFrom
+                      ? "0px 0px 3px rgba(220, 20, 60)"
+                      : member?.isSwitchTo
+                      ? "0px 0px 3px rgba(61, 150, 102)"
+                      : "0px 0px 3px rgba(50,50,93,0.5)"
+                  }
+                  justify={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Flex alignItems={"center"} gap={"10px"}>
+                    {member?.user.first_name ? (
+                      <Flex borderRadius={"full"}>
+                        <Avatar
+                          outline={"1px solid #dc143c"}
+                          border={"2px solid white"}
+                          key={member?.id + "_" + memberIndex}
+                          name={
+                            member.user.first_name + " " + member.user.last_name
+                          }
+                          src={
+                            member?.user.profile_image_url
+                              ? member?.user.profile_image_url
+                              : null
+                          }
+                        ></Avatar>
+                      </Flex>
+                    ) : (
+                      <Flex
                         outline={"1px solid #dc143c"}
+                        bg={"#bababa"}
+                        borderRadius={"100%"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        h={"48px"}
+                        w={"48px"}
                         border={"2px solid white"}
-                        key={member?.id + "_" + memberIndex}
-                        name={
-                          member.user.first_name + " " + member.user.last_name
-                        }
-                        src={
-                          member?.user.profile_image_url
-                            ? IMGURL + member?.user.profile_image_url
-                            : null
-                        }
-                        onClick={() => {
-                          console.log(member?.user.id + "_" + memberIndex);
-                          console.log(member?.user.id);
-                          console.log(member);
-                        }}
-                      ></Avatar>
-                    </Flex>
-                  ) : (
-                    <Flex
-                      outline={"1px solid #dc143c"}
-                      bg={"#bababa"}
-                      borderRadius={"100%"}
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      h={"48px"}
-                      w={"48px"}
-                      border={"2px solid white"}
-                    >
-                      <Flex color={"white"} fontSize={"24px"}>
-                        <FaUserAlt />
+                      >
+                        <Flex color={"white"} fontSize={"24px"}>
+                          <FaUserAlt />
+                        </Flex>
+                      </Flex>
+                    )}
+                    <Flex flexDir={"column"}>
+                      <Flex fontWeight={700} wordBreak={"break-word"}>
+                        {member
+                          ? member?.user.first_name +
+                            " " +
+                            member?.user.last_name
+                          : "-"}
+                      </Flex>
+                      <Flex
+                        fontWeight={400}
+                        fontSize={"14px"}
+                        color={"#848484"}
+                      >
+                        {member.user.is_superadmin
+                          ? "Super Admin"
+                          : labelizeRole(member?.role)}
+                        {member?.employee_id ? " - " + member?.employee_id : ""}
                       </Flex>
                     </Flex>
-                  )}
-                  <Flex flexDir={"column"}>
-                    <Flex fontWeight={700} wordBreak={"break-word"}>
-                      {member
-                        ? member?.user.first_name + " " + member?.user.last_name
-                        : "-"}
-                    </Flex>
-                    <Flex fontWeight={400} fontSize={"14px"} color={"#848484"}>
-                      {member.user.is_superadmin
-                        ? "Super Admin"
-                        : labelizeRole(member?.role)}
-                      {member?.employee_id ? " - " + member?.employee_id : ""}
-                    </Flex>
                   </Flex>
-                </Flex>
-                {handleOpenSendReminder && hasManagePermission ? (
-                  <Flex>
-                    <Tooltip
-                      hasArrow
-                      openDelay={300}
-                      closeDelay={100}
-                      bg={"#dc143c"}
-                      placement="top"
-                      label="Send Reminder"
-                    >
-                      <Button
-                        onClick={() =>
-                          handleOpenSendReminder(member, "assignee")
-                        }
-                        position={"static"}
-                        _hover={{ bg: "#dc143c", color: "white" }}
-                        boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                        bg={"white"}
-                        color={"#dc143c"}
-                        h={"auto"}
-                        p={"12px"}
-                        borderRadius={"100%"}
+                  {handleOpenSendReminder && hasManagePermission ? (
+                    <Flex>
+                      <Tooltip
+                        hasArrow
+                        openDelay={300}
+                        closeDelay={100}
+                        bg={"#dc143c"}
+                        placement="top"
+                        label="Send Reminder"
                       >
-                        <Flex w={"16px"} h={"16px"}>
-                          <FaRegBell />
-                        </Flex>
-                      </Button>
-                    </Tooltip>
-                  </Flex>
-                ) : (
-                  ""
-                )}
-              </Flex>
-            </GridItem>
+                        <Button
+                          onClick={() =>
+                            handleOpenSendReminder(member, "assignee")
+                          }
+                          position={"static"}
+                          _hover={{ bg: "#dc143c", color: "white" }}
+                          boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
+                          bg={"white"}
+                          color={"#dc143c"}
+                          h={"auto"}
+                          p={"12px"}
+                          borderRadius={"100%"}
+                        >
+                          <Flex w={"16px"} h={"16px"}>
+                            <FaRegBell />
+                          </Flex>
+                        </Button>
+                      </Tooltip>
+                    </Flex>
+                  ) : (
+                    ""
+                  )}
+                </Flex>
+              </GridItem>
+            </Tooltip>
           ))}
         </Grid>
       ) : (

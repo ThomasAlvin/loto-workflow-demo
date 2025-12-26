@@ -30,18 +30,13 @@ export default function EditWorkSiteModal({
   abortControllerRef,
   isInitiallyDefault,
 }) {
-  const dispatch = useDispatch();
   const userSelector = useSelector((state) => state.login.auth);
   const [buttonLoading, setButtonLoading] = useState(false);
 
   async function onSubmit(data) {
     setButtonLoading(true);
     await api
-      .post(`work-sites/${editWorkSiteForm.getValues("UID")}`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .testSubmit("Work site saved successfully")
       .then(async (response) => {
         Swal.fire({
           title: "Success!",
@@ -55,17 +50,6 @@ export default function EditWorkSiteModal({
             confirmButton: "swal2-custom-confirm-button",
           },
         });
-        if (data.isDefault) {
-          dispatch({
-            type: "login",
-            payload: {
-              ...userSelector,
-              main_work_site: workSites.find(
-                (workSite) => workSite.UID === editWorkSiteForm.getValues("UID")
-              ),
-            },
-          });
-        }
         abortControllerRef.current.abort(); // Cancel any previous request
         abortControllerRef.current = new AbortController();
         fetchWorkSites(

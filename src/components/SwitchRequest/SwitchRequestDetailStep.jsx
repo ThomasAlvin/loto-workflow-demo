@@ -6,6 +6,7 @@ import {
   AccordionPanel,
   Avatar,
   Box,
+  Checkbox,
   Flex,
   Table,
   TableContainer,
@@ -13,19 +14,28 @@ import {
   Td,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { FaUserAlt } from "react-icons/fa";
-import { FaChevronDown, FaTriangleExclamation } from "react-icons/fa6";
-import ReactSelect from "react-select";
+import { FaCogs, FaUserAlt } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import {
+  FaChevronDown,
+  FaRegBell,
+  FaTriangleExclamation,
+} from "react-icons/fa6";
+import { BsGlobe2, BsQuestionCircle } from "react-icons/bs";
+import { TiClipboard } from "react-icons/ti";
+import { MdLockOutline } from "react-icons/md";
 import labelizeRole from "../../utils/labelizeRole";
 import WorkFlowStepBadges from "../CreateTemplate/WorkFlowStepBadges";
 import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
+import ReactSelect from "react-select";
 
-import MemberGroupList from "../MemberGroupList";
-import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
 import WorkOrderDetailsStepInspectionForm from "../WorkOrders/WorkOrderDetailsStepInspectionForm";
+import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
+import ReactSelectMemberMultiValue from "../ReactSelectMemberMultiValue";
+import MemberGroupList from "../MemberGroupList";
 
 export default function SwitchRequestDetailStep({
   val,
@@ -46,7 +56,6 @@ export default function SwitchRequestDetailStep({
       ) && member.user.status === "verified"
     );
   });
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
 
   const [openStates, setOpenStates] = useState(
     val?.work_order_step.work_order_step_machines?.map(() =>
@@ -71,7 +80,7 @@ export default function SwitchRequestDetailStep({
       }),
       menuList: (provided) => ({
         ...provided,
-        maxHeight: 200, // Ensure the inner menu list also respects the height limit
+        maxHeight: 200,
       }),
       menuPortal: (base) => ({ ...base, zIndex: 9999 }),
     };
@@ -87,10 +96,7 @@ export default function SwitchRequestDetailStep({
       })
     );
   };
-  // useEffect(() => {
-  //   const node = document.querySelector('[role="dialog"]');
-  //   if (node) setPortalTarget(node);
-  // }, []);
+
   return (
     <Accordion defaultIndex={openByDefault ? [0] : ""} w={"100%"} allowToggle>
       <AccordionItem shadow={"0px 0px 3px rgba(50,50,93,0.5)"}>
@@ -127,138 +133,9 @@ export default function SwitchRequestDetailStep({
         </AccordionButton>
         <AccordionPanel py={"10px"}>
           <Flex w={"100%"} flexDir={"column"} gap={"20px"}>
-            {selectedSwitchRequestStatus === "approved" ? (
-              <>
-                <Flex flexDir={"column"} gap={"10px"}>
-                  <Flex fontWeight={700}>Switched from :</Flex>
-                  <Flex alignItems={"center"} gap={"10px"}>
-                    {requester ? (
-                      requester?.first_name ? (
-                        <Avatar
-                          outline={"1px solid #dc143c"}
-                          border={"2px solid white"}
-                          name={
-                            requester?.first_name + " " + requester?.last_name
-                          }
-                          src={
-                            requester?.profile_image_url
-                              ? IMGURL + requester?.profile_image_url
-                              : null
-                          }
-                        ></Avatar>
-                      ) : (
-                        <Flex
-                          outline={"1px solid #dc143c"}
-                          bg={"#bababa"}
-                          borderRadius={"100%"}
-                          justifyContent={"center"}
-                          alignItems={"center"}
-                          h={"48px"}
-                          w={"48px"}
-                          border={"2px solid white"}
-                        >
-                          <Flex color={"white"} fontSize={"24px"}>
-                            <FaUserAlt />
-                          </Flex>
-                        </Flex>
-                      )
-                    ) : (
-                      <Flex color={"#848484"}>No Suggested Assignee</Flex>
-                    )}
-                    <Flex flexDir={"column"} onClick={() => {}}>
-                      <Flex>
-                        {requester.first_name + " " + requester.last_name}
-                      </Flex>
-                      <Flex
-                        fontWeight={400}
-                        fontSize={"14px"}
-                        color={"#848484"}
-                      >
-                        {requester?.super_admin?.id
-                          ? "Super Admin"
-                          : labelizeRole(requester?.role) +
-                            " - " +
-                            requester?.employee_id}
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </Flex>
-                <Flex flexDir={"column"} gap={"10px"}>
-                  <Flex fontWeight={700}>Reassigned to :</Flex>
-                  <Flex alignItems={"center"} gap={"10px"}>
-                    {val.new_assignee ? (
-                      val.new_assignee?.user?.first_name ? (
-                        <Avatar
-                          outline={"1px solid #dc143c"}
-                          border={"2px solid white"}
-                          name={
-                            val.new_assignee?.user?.first_name +
-                            " " +
-                            val.new_assignee?.user?.last_name
-                          }
-                          src={
-                            val.new_assignee?.user?.profile_image_url
-                              ? IMGURL +
-                                val.new_assignee?.user?.profile_image_url
-                              : null
-                          }
-                        ></Avatar>
-                      ) : (
-                        <Flex
-                          outline={"1px solid #dc143c"}
-                          bg={"#bababa"}
-                          borderRadius={"100%"}
-                          justifyContent={"center"}
-                          alignItems={"center"}
-                          h={"48px"}
-                          w={"48px"}
-                          border={"2px solid white"}
-                        >
-                          <Flex color={"white"} fontSize={"24px"}>
-                            <FaUserAlt />
-                          </Flex>
-                        </Flex>
-                      )
-                    ) : (
-                      <Flex color={"#848484"}>No Suggested Assignee</Flex>
-                    )}
-
-                    <Flex flexDir={"column"} onClick={() => {}}>
-                      <Flex>
-                        {val.new_assignee.user?.first_name +
-                          " " +
-                          val.new_assignee.user?.last_name}
-                      </Flex>
-                      <Flex
-                        fontWeight={400}
-                        fontSize={"14px"}
-                        color={"#848484"}
-                      >
-                        {val.new_assignee.user?.super_admin?.id
-                          ? "Super Admin"
-                          : labelizeRole(val.new_assignee?.role) +
-                            " - " +
-                            val.new_assignee?.employee_id}
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </Flex>
-              </>
-            ) : (
-              ""
-            )}
             {selectedSwitchRequestStatus === "pending" ? (
               <Flex flexDir={"column"} gap={"10px"}>
-                <Box
-                  onClick={() => {
-                    console.log(val);
-                    console.log(selectedSwitchRequestStatus);
-                  }}
-                  fontWeight={700}
-                  as="span"
-                  flex="1"
-                  textAlign="left"
-                >
+                <Box fontWeight={700} as="span" flex="1" textAlign="left">
                   Current Assignees :
                 </Box>
 
@@ -270,14 +147,7 @@ export default function SwitchRequestDetailStep({
               ""
             )}
             <Flex flexDir={"column"} gap={"10px"}>
-              <Flex
-                fontWeight={700}
-                onClick={() => {
-                  console.log(val.suggested_assignee);
-                }}
-              >
-                Suggested Assignee :
-              </Flex>
+              <Flex fontWeight={700}>Suggested Assignee :</Flex>
               <Flex alignItems={"center"} gap={"10px"}>
                 {val.suggested_assignee ? (
                   <>
@@ -292,8 +162,7 @@ export default function SwitchRequestDetailStep({
                         }
                         src={
                           val.suggested_assignee?.user?.profile_image_url
-                            ? IMGURL +
-                              val.suggested_assignee?.user?.profile_image_url
+                            ? val.suggested_assignee?.user?.profile_image_url
                             : null
                         }
                       ></Avatar>
@@ -340,60 +209,57 @@ export default function SwitchRequestDetailStep({
             {selectedSwitchRequestStatus === "approved" ? (
               <>
                 <Flex flexDir={"column"} gap={"10px"}>
-                  <Box
-                    onClick={() => {
-                      console.log(val);
-                      console.log(selectedSwitchRequestStatus);
-                    }}
-                    fontWeight={700}
-                    as="span"
-                    flex="1"
-                    textAlign="left"
-                  >
+                  <Box fontWeight={700} as="span" flex="1" textAlign="left">
                     Old Assignees :
                   </Box>
 
                   <MemberGroupList
-                    memberArray={val.old_assignees.map((assignee) => ({
-                      ...assignee,
-                      user: {
-                        first_name: assignee.first_name,
-                        last_name: assignee.last_name,
-                        profile_image_url: assignee.profile_image_url,
-                      },
-                    }))}
-                  />
-                </Flex>
-                <Flex flexDir={"column"} gap={"10px"}>
-                  <Box
-                    onClick={() => {
-                      console.log(val);
-                      console.log(selectedSwitchRequestStatus);
-                    }}
-                    fontWeight={700}
-                    as="span"
-                    flex="1"
-                    textAlign="left"
-                  >
-                    New Assignees :
-                  </Box>
-
-                  <MemberGroupList
-                    memberArray={val.old_assignees.map((assignee) => {
-                      if (requester.user.email === assignee.email) {
-                        return {
-                          ...val.new_assignee,
-                        };
-                      }
-                      return {
+                    memberArray={val.old_assignees.reduce((acc, assignee) => {
+                      const formatted = {
                         ...assignee,
                         user: {
                           first_name: assignee.first_name,
                           last_name: assignee.last_name,
-                          profile_image_url: assignee.profiel_image_url,
+                          profile_image_url: assignee.profile_image_url,
                         },
+                        isSwitchFrom: requester.user.email === assignee.email,
                       };
-                    })}
+
+                      if (formatted.isSwitchFrom) {
+                        acc.unshift(formatted);
+                      } else {
+                        acc.push(formatted);
+                      }
+
+                      return acc;
+                    }, [])}
+                  />
+                </Flex>
+                <Flex flexDir={"column"} gap={"10px"}>
+                  <Box fontWeight={700} as="span" flex="1" textAlign="left">
+                    New Assignees :
+                  </Box>
+
+                  <MemberGroupList
+                    memberArray={val.old_assignees.reduce((acc, assignee) => {
+                      if (requester.user.email === assignee.email) {
+                        acc.unshift({
+                          ...val.new_assignee,
+                          isSwitchTo: true,
+                        });
+                      } else {
+                        acc.push({
+                          ...assignee,
+                          user: {
+                            first_name: assignee.first_name,
+                            last_name: assignee.last_name,
+                            profile_image_url: assignee.profile_image_url,
+                          },
+                        });
+                      }
+
+                      return acc;
+                    }, [])}
                   />
                 </Flex>
               </>
@@ -403,14 +269,13 @@ export default function SwitchRequestDetailStep({
 
             {selectedSwitchRequestStatus === "pending" ? (
               <Flex flexDir={"column"} textAlign={"left"}>
-                <Flex
-                  onClick={() => {
-                    console.log(filteredMemberSelection);
-                  }}
-                  fontWeight={700}
-                  textAlign="left"
-                >
-                  <Flex>Switch to</Flex>
+                <Flex fontWeight={700} textAlign="left">
+                  <Flex>
+                    Switch to&nbsp;
+                    <Box as="span" color={"#dc143c"}>
+                      *
+                    </Box>
+                  </Flex>
                 </Flex>
                 <Flex
                   textAlign={"center"}
@@ -420,10 +285,7 @@ export default function SwitchRequestDetailStep({
                 >
                   <Flex>Select the member you want to assign this step to</Flex>
                 </Flex>
-                {/* <Flex w={"100%"}> */}
                 <ReactSelect
-                  // isMulti
-                  // menuIsOpen={true}
                   onBlur={async () => {
                     await formik.setFieldTouched(
                       `switchRequestSteps[${stepIndex}].new_assignee_UID`,
@@ -463,7 +325,6 @@ export default function SwitchRequestDetailStep({
                       </Flex>
                     </Flex>
                   )}
-                {/* </Flex> */}
               </Flex>
             ) : (
               ""
@@ -478,7 +339,6 @@ export default function SwitchRequestDetailStep({
                 </Flex>
                 <Flex w={"100%"}>
                   <Flex w={"100%"} flexDir={"column"} gap={"20px"}>
-                    {/* supposed to use TemplateDetailsFormQuestion instead of WorkFlowFormQuestion */}
                     <Flex fontSize={"14px"} flexDir={"column"} w={"100%"}>
                       <Flex
                         bg={"#F8F9FA"}
@@ -530,30 +390,6 @@ export default function SwitchRequestDetailStep({
                         )
                       )}
                     </Flex>
-                    {/* <Flex>
-                          <Button
-                            onClick={addNewQuestion}
-                            border={"dashed 2px #dc143c"}
-                            p={0}
-                          >
-                            <Flex
-                              py={"8px"}
-                              px={"12px"}
-                              bg={"white"}
-                              alignItems={"center"}
-                              justifyContent={"space-between"}
-                            >
-                              <Flex gap={"10px"} alignItems={"center"}>
-                                <Flex color={"crimson"} fontWeight={700}>
-                                  <FaPlus />
-                                </Flex>
-                                <Flex color={"crimson"} fontWeight={"700"}>
-                                  Add Question
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          </Button>
-                        </Flex> */}
                   </Flex>
                 </Flex>
               </Flex>
@@ -793,65 +629,6 @@ export default function SwitchRequestDetailStep({
             ) : (
               ""
             )}
-
-            {val.work_order_step.access_lock ? (
-              <>
-                <Flex flexDir={"column"}>
-                  <Flex flexDir={"column"}>
-                    <Box fontWeight={700} as="span" flex="1" textAlign="left">
-                      Assigned Lock :
-                    </Box>
-                  </Flex>
-                  <Flex flexDir={"column"}>
-                    {val?.work_order_step.work_order_locks.map(
-                      (val, lockIndex) => (
-                        <Flex flexDir={"column"}>
-                          <Flex gap={"10px"} flexDir={"column"}>
-                            <Flex w={"100%"} alignItems={"center"}>
-                              <Flex
-                                whiteSpace={"nowrap"}
-                                color={"#dc143c"}
-                                fontWeight={700}
-                              >
-                                Lock {lockIndex + 1} : &nbsp;
-                              </Flex>
-                              <Flex
-                                h={"40px"}
-                                alignItems={"center"}
-                                w={"100%"}
-                                borderBottom={"1px solid black"}
-                              >
-                                {val.name}
-                              </Flex>
-                            </Flex>
-                            {/* Disable Require Lock Image */}
-                            {/* <Flex gap={"10px"}>
-                              <Flex gap={"10px"} alignItems={"center"}>
-                                <Checkbox
-                                  isDisabled
-                                  defaultChecked={val.require_lock_image}
-                                />
-                                <Flex
-                                  // color={
-                                  //   value.require_lock_image ? "#3182CE" : "#848484"
-                                  // }
-                                  fontWeight={700}
-                                  fontSize={"14px"}
-                                >
-                                  Require Lock Image On Submission
-                                </Flex>
-                              </Flex>
-                            </Flex> */}
-                          </Flex>
-                        </Flex>
-                      )
-                    )}
-                  </Flex>
-                </Flex>
-              </>
-            ) : (
-              ""
-            )}
             {val.work_order_step.multi_access_lock ? (
               <>
                 {val?.work_order_step?.work_order_multi_lock_group
@@ -897,30 +674,6 @@ export default function SwitchRequestDetailStep({
             ) : (
               ""
             )}
-
-            {val.work_order_step.trigger_api ? (
-              <>
-                {val.work_order_step.titleTriggerAPI && (
-                  <Flex flexDir={"column"}>
-                    <Box fontWeight={700} as="span" flex="1" textAlign="left">
-                      Trigger API external system key :
-                    </Box>
-                    <Flex
-                      color={
-                        val.work_order_step.titleTriggerAPI
-                          ? "black"
-                          : "#848484"
-                      }
-                    >
-                      {val.work_order_step.titleTriggerAPI || "Not Set"}
-                    </Flex>
-                  </Flex>
-                )}
-              </>
-            ) : (
-              ""
-            )}
-
             {val.work_order_step.condition ? (
               <>
                 {val.work_order_step.condition_question && (

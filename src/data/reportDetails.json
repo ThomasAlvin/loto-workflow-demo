@@ -1,0 +1,1736 @@
+[
+  {
+    "report": {
+      "id": 23,
+      "name": "CNC Machine Maintenance",
+      "description": null,
+      "flow_chart_images": [
+        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/report/EB1E4259-0D5A-463E-9746-9971DBEFE1A6/flowChart/1/EB1E4259-0D5A-463E-9746-9971DBEFE1A6.jpg"
+      ],
+      "work_sitesId": 5,
+      "creatorId": 10,
+      "status": "completed",
+      "report_custom_id": "LXH/WS01/121325/151",
+      "UID": "EB1E4259-0D5A-463E-9746-9971DBEFE1A6",
+      "work_order_created_at": 1765563735000,
+      "deadline_date_time": 1766163600000,
+      "started_at": 1765563735000,
+      "finished_at": 1765634233000,
+      "created_at": 1765634233000,
+      "updated_at": 1765634233000,
+      "work_site": {
+        "id": 5,
+        "name": "Main Work Site",
+        "location": "Main Work Site Street",
+        "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+        "super_adminId": 10,
+        "created_at": 1740536125000,
+        "updated_at": 1765566704000
+      },
+      "creator": {
+        "id": 10,
+        "first_name": "Adrian",
+        "last_name": "Cole",
+        "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+        "email": "test@gmail.com",
+        "phone_number": null,
+        "phone_country": null,
+        "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+        "work_orders_created_count": 152,
+        "is_superadmin": 1,
+        "is_trial": 1,
+        "is_2fa_enabled": 0,
+        "two_factor_type_default": "email",
+        "is_valid_2fa": 0,
+        "status": "verified",
+        "last_verification_email_sent_at": 1740536054000,
+        "last_login": 1765891713000,
+        "main_work_siteId": 5,
+        "created_at": 1740536054000,
+        "updated_at": 1765891713000,
+        "member": null
+      },
+      "co_creator_members": [],
+      "report_steps": [
+        {
+          "id": 80,
+          "name": "Power Isolation",
+          "description": "",
+          "status": "completed",
+          "reportId": 23,
+          "aborted_by_report_userId": null,
+          "UID": "04B5DA62-93F8-4606-8606-017B8C96A392",
+          "form": 0,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "report_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 1,
+          "condition_question": "Is the power completely isolated?",
+          "condition_options": "[\"Yes\",\"No\"]",
+          "condition_value": null,
+          "parent_UID": null,
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": null,
+          "created_at": 1765634234000,
+          "updated_at": 1765634234000,
+          "report_multi_lock_group": null,
+          "report_step_machines": [],
+          "report_step_assigned_members": [
+            {
+              "id": 35,
+              "first_name": "Natalie",
+              "last_name": "Arden",
+              "employee_id": "234-005",
+              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+              "role": "admin",
+              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+              "email": "testAdmin@gmail.com",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 80,
+                "report_userId": 35
+              }
+            },
+            {
+              "id": 36,
+              "first_name": "Marcus",
+              "last_name": "Henderson",
+              "employee_id": "234-002-008",
+              "department": "{\"id\":20,\"name\":\"Admin\",\"description\":null,\"super_adminId\":10,\"UID\":\"B3B625B1-F7D1-4135-99AC-CEF4F74D2478\",\"created_at\":1742623057000,\"updated_at\":1765554758000}",
+              "role": "member",
+              "UID_user": "99B7A349-6696-4AB9-B509-F7D3EAE6153D",
+              "email": "leketekmuji@dunkos.xyz",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/marcus_henderson.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 80,
+                "report_userId": 36
+              }
+            }
+          ],
+          "report_step_notified_members": [],
+          "aborted_by_report_user": null,
+          "report_form_questions": [],
+          "report_step_submissions": [
+            {
+              "id": 76,
+              "reportId": 23,
+              "action_by_report_userId": 35,
+              "report_stepId": 80,
+              "UID": "F5E02492-AB3D-46C2-9059-A2C3971D6C0B",
+              "machine_verified_by_report_userId": null,
+              "response_conditional": "Yes",
+              "notify_at": null,
+              "machine_verified_at": null,
+              "finished_at": 1765634104000,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "action_by_report_user": {
+                "id": 35,
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "employee_id": "234-005",
+                "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                "role": "admin",
+                "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "email": "testAdmin@gmail.com",
+                "phone_number": null,
+                "phone_country": null,
+                "reportId": 23,
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                "created_at": 1765634233000,
+                "updated_at": 1765634233000
+              },
+              "machine_verified_by_report_user": null
+            }
+          ],
+          "report_step_audit_trails": []
+        },
+        {
+          "id": 81,
+          "name": "Abort and Notify Supervisor",
+          "description": "",
+          "status": "skipped",
+          "reportId": 23,
+          "aborted_by_report_userId": null,
+          "UID": "FFB468FD-6E3D-44CD-9359-20A563AD7772",
+          "form": 0,
+          "notify": 1,
+          "notify_status": "pending",
+          "notification_message": "CNC Machine Power is not isolated for maintenance",
+          "multi_access_lock": 0,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "report_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "No",
+          "parent_UID": "04B5DA62-93F8-4606-8606-017B8C96A392",
+          "loop_branch": null,
+          "loop_target_UID": "04B5DA62-93F8-4606-8606-017B8C96A392",
+          "attempt": null,
+          "created_at": 1765634234000,
+          "updated_at": 1765634234000,
+          "report_multi_lock_group": null,
+          "report_step_machines": [],
+          "report_step_assigned_members": [
+            {
+              "id": 35,
+              "first_name": "Natalie",
+              "last_name": "Arden",
+              "employee_id": "234-005",
+              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+              "role": "admin",
+              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+              "email": "testAdmin@gmail.com",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 81,
+                "report_userId": 35
+              }
+            }
+          ],
+          "report_step_notified_members": [
+            {
+              "id": 37,
+              "first_name": "Riley",
+              "last_name": "Porter",
+              "employee_id": "234-001",
+              "department": "{\"id\":15,\"name\":\"Sales\",\"description\":null,\"super_adminId\":10,\"UID\":\"1C6C1379-D51C-458E-90DA-C0293AD611BA\",\"created_at\":1742176302000,\"updated_at\":1765554977000}",
+              "role": "admin",
+              "UID_user": "AYTQW99-AE68-4695-B803-644770B2D657",
+              "email": "qertybi41053@kytstore.com",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/riley_porter.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 81,
+                "report_userId": 37
+              }
+            }
+          ],
+          "aborted_by_report_user": null,
+          "report_form_questions": [],
+          "report_step_submissions": [],
+          "report_step_audit_trails": []
+        },
+        {
+          "id": 82,
+          "name": "Safety Equipment Check",
+          "description": "",
+          "status": "completed",
+          "reportId": 23,
+          "aborted_by_report_userId": null,
+          "UID": "8647D9E6-F61C-4166-B7F9-313F1A743C1B",
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "report_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "Yes",
+          "parent_UID": "04B5DA62-93F8-4606-8606-017B8C96A392",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": null,
+          "created_at": 1765634234000,
+          "updated_at": 1765634234000,
+          "report_multi_lock_group": null,
+          "report_step_machines": [],
+          "report_step_assigned_members": [
+            {
+              "id": 35,
+              "first_name": "Natalie",
+              "last_name": "Arden",
+              "employee_id": "234-005",
+              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+              "role": "admin",
+              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+              "email": "testAdmin@gmail.com",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 82,
+                "report_userId": 35
+              }
+            },
+            {
+              "id": 38,
+              "first_name": "Dylan",
+              "last_name": "Reeves",
+              "employee_id": "234-002-92",
+              "department": "{\"id\":20,\"name\":\"Admin\",\"description\":null,\"super_adminId\":10,\"UID\":\"B3B625B1-F7D1-4135-99AC-CEF4F74D2478\",\"created_at\":1742623057000,\"updated_at\":1765554758000}",
+              "role": "admin",
+              "UID_user": "D472BB27-0E1C-4E01-BBB1-IKUJYH2CC57251",
+              "email": "lekpolmila@dunkos.xyz",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/dylan_reeves.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 82,
+                "report_userId": 38
+              }
+            },
+            {
+              "id": 39,
+              "first_name": "Oliver",
+              "last_name": "Grant",
+              "employee_id": "555-0987",
+              "department": "{\"id\":20,\"name\":\"Admin\",\"description\":null,\"super_adminId\":10,\"UID\":\"B3B625B1-F7D1-4135-99AC-CEF4F74D2478\",\"created_at\":1742623057000,\"updated_at\":1765554758000}",
+              "role": "member",
+              "UID_user": "YGTDHSTY-5CE8-48BF-AA5A-53124F6C812E",
+              "email": "royfast@dunkos.xyz",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/oliver_grant.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 82,
+                "report_userId": 39
+              }
+            }
+          ],
+          "report_step_notified_members": [],
+          "aborted_by_report_user": null,
+          "report_form_questions": [
+            {
+              "id": 79,
+              "question": "Is all the team member present?",
+              "question_type": "Multiple Choice",
+              "format": null,
+              "options": ["Yes", "No"],
+              "UID": "0F2F3AD8-5A8A-439C-8D1F-B35201D82B56",
+              "unit": null,
+              "include_date": null,
+              "include_time": null,
+              "is_required": 1,
+              "page_number": 1,
+              "report_stepId": 82,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "submissions": [
+                {
+                  "report_form_questionId": 79,
+                  "report_step_submissionId": 77,
+                  "response": ["Yes"],
+                  "submitted_by_report_user": {
+                    "id": 35,
+                    "first_name": "Natalie",
+                    "last_name": "Arden",
+                    "employee_id": "234-005",
+                    "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                    "role": "admin",
+                    "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                    "email": "testAdmin@gmail.com",
+                    "phone_number": null,
+                    "phone_country": null,
+                    "reportId": 23,
+                    "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                    "created_at": 1765634233000,
+                    "updated_at": 1765634233000,
+                    "laravel_through_key": 77
+                  }
+                }
+              ]
+            },
+            {
+              "id": 80,
+              "question": "Please check all safety equipment before proceeding",
+              "question_type": "Checkbox",
+              "format": null,
+              "options": [
+                "Safety Googles",
+                "Insulated Gloves",
+                "Voltage Tester",
+                "Insulating Mats"
+              ],
+              "UID": "1FA54F49-DD83-4CB7-A9CA-15FCCBE18AFF",
+              "unit": null,
+              "include_date": null,
+              "include_time": null,
+              "is_required": 1,
+              "page_number": 1,
+              "report_stepId": 82,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "submissions": [
+                {
+                  "report_form_questionId": 80,
+                  "report_step_submissionId": 77,
+                  "response": [
+                    "Safety Googles",
+                    "Insulated Gloves",
+                    "Voltage Tester",
+                    "Insulating Mats"
+                  ],
+                  "submitted_by_report_user": {
+                    "id": 35,
+                    "first_name": "Natalie",
+                    "last_name": "Arden",
+                    "employee_id": "234-005",
+                    "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                    "role": "admin",
+                    "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                    "email": "testAdmin@gmail.com",
+                    "phone_number": null,
+                    "phone_country": null,
+                    "reportId": 23,
+                    "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                    "created_at": 1765634233000,
+                    "updated_at": 1765634233000,
+                    "laravel_through_key": 77
+                  }
+                }
+              ]
+            }
+          ],
+          "report_step_submissions": [
+            {
+              "id": 77,
+              "reportId": 23,
+              "action_by_report_userId": 35,
+              "report_stepId": 82,
+              "UID": "500CB86C-E09D-4FBE-89C0-E0DA31C65B17",
+              "machine_verified_by_report_userId": null,
+              "response_conditional": null,
+              "notify_at": null,
+              "machine_verified_at": null,
+              "finished_at": 1765634120000,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "action_by_report_user": {
+                "id": 35,
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "employee_id": "234-005",
+                "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                "role": "admin",
+                "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "email": "testAdmin@gmail.com",
+                "phone_number": null,
+                "phone_country": null,
+                "reportId": 23,
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                "created_at": 1765634233000,
+                "updated_at": 1765634233000
+              },
+              "machine_verified_by_report_user": null
+            }
+          ],
+          "report_step_audit_trails": []
+        },
+        {
+          "id": 83,
+          "name": "Pre-Maintenance Inspection",
+          "description": "",
+          "status": "completed",
+          "reportId": 23,
+          "aborted_by_report_userId": null,
+          "UID": "0EFA987B-1414-40A1-98CB-F17689AD8C8B",
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "report_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 1,
+          "condition_question": "Is there no issues found during this inspection?",
+          "condition_options": "[\"Yes\",\"No\"]",
+          "condition_value": "Yes",
+          "parent_UID": "04B5DA62-93F8-4606-8606-017B8C96A392",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": null,
+          "created_at": 1765634234000,
+          "updated_at": 1765634234000,
+          "report_multi_lock_group": null,
+          "report_step_machines": [],
+          "report_step_assigned_members": [
+            {
+              "id": 35,
+              "first_name": "Natalie",
+              "last_name": "Arden",
+              "employee_id": "234-005",
+              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+              "role": "admin",
+              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+              "email": "testAdmin@gmail.com",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 83,
+                "report_userId": 35
+              }
+            }
+          ],
+          "report_step_notified_members": [],
+          "aborted_by_report_user": null,
+          "report_form_questions": [
+            {
+              "id": 81,
+              "question": "Are all safety interlocks in place?",
+              "question_type": "Multiple Choice",
+              "format": null,
+              "options": ["Yes", "No"],
+              "UID": "52E9E349-6EBE-43DC-8894-2A4A42E8B436",
+              "unit": null,
+              "include_date": null,
+              "include_time": null,
+              "is_required": 1,
+              "page_number": 1,
+              "report_stepId": 83,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "submissions": [
+                {
+                  "report_form_questionId": 81,
+                  "report_step_submissionId": 78,
+                  "response": ["Yes"],
+                  "submitted_by_report_user": {
+                    "id": 35,
+                    "first_name": "Natalie",
+                    "last_name": "Arden",
+                    "employee_id": "234-005",
+                    "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                    "role": "admin",
+                    "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                    "email": "testAdmin@gmail.com",
+                    "phone_number": null,
+                    "phone_country": null,
+                    "reportId": 23,
+                    "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                    "created_at": 1765634233000,
+                    "updated_at": 1765634233000,
+                    "laravel_through_key": 78
+                  }
+                }
+              ]
+            },
+            {
+              "id": 82,
+              "question": "Are all guards installed correctly?",
+              "question_type": "Multiple Choice",
+              "format": null,
+              "options": ["Yes", "No"],
+              "UID": "D6BF0DF6-68BC-4ADC-81A5-D13C7F8887DC",
+              "unit": null,
+              "include_date": null,
+              "include_time": null,
+              "is_required": 1,
+              "page_number": 1,
+              "report_stepId": 83,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "submissions": [
+                {
+                  "report_form_questionId": 82,
+                  "report_step_submissionId": 78,
+                  "response": ["Yes"],
+                  "submitted_by_report_user": {
+                    "id": 35,
+                    "first_name": "Natalie",
+                    "last_name": "Arden",
+                    "employee_id": "234-005",
+                    "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                    "role": "admin",
+                    "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                    "email": "testAdmin@gmail.com",
+                    "phone_number": null,
+                    "phone_country": null,
+                    "reportId": 23,
+                    "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                    "created_at": 1765634233000,
+                    "updated_at": 1765634233000,
+                    "laravel_through_key": 78
+                  }
+                }
+              ]
+            },
+            {
+              "id": 83,
+              "question": "Emergency stop functionality checked?",
+              "question_type": "Multiple Choice",
+              "format": null,
+              "options": ["Yes", "No"],
+              "UID": "5B7B04C3-1441-417D-AD47-54B9E0D5CAFB",
+              "unit": null,
+              "include_date": null,
+              "include_time": null,
+              "is_required": 1,
+              "page_number": 1,
+              "report_stepId": 83,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "submissions": [
+                {
+                  "report_form_questionId": 83,
+                  "report_step_submissionId": 78,
+                  "response": ["Yes"],
+                  "submitted_by_report_user": {
+                    "id": 35,
+                    "first_name": "Natalie",
+                    "last_name": "Arden",
+                    "employee_id": "234-005",
+                    "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                    "role": "admin",
+                    "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                    "email": "testAdmin@gmail.com",
+                    "phone_number": null,
+                    "phone_country": null,
+                    "reportId": 23,
+                    "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                    "created_at": 1765634233000,
+                    "updated_at": 1765634233000,
+                    "laravel_through_key": 78
+                  }
+                }
+              ]
+            }
+          ],
+          "report_step_submissions": [
+            {
+              "id": 78,
+              "reportId": 23,
+              "action_by_report_userId": 35,
+              "report_stepId": 83,
+              "UID": "924A4708-1301-486B-A812-F45DB28F5FE5",
+              "machine_verified_by_report_userId": null,
+              "response_conditional": "Yes",
+              "notify_at": null,
+              "machine_verified_at": null,
+              "finished_at": 1765634136000,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "action_by_report_user": {
+                "id": 35,
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "employee_id": "234-005",
+                "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                "role": "admin",
+                "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "email": "testAdmin@gmail.com",
+                "phone_number": null,
+                "phone_country": null,
+                "reportId": 23,
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                "created_at": 1765634233000,
+                "updated_at": 1765634233000
+              },
+              "machine_verified_by_report_user": null
+            }
+          ],
+          "report_step_audit_trails": []
+        },
+        {
+          "id": 84,
+          "name": "Notify Supervisor",
+          "description": "",
+          "status": "skipped",
+          "reportId": 23,
+          "aborted_by_report_userId": null,
+          "UID": "0EC2E26E-25EB-49A1-9C04-7162DB88271F",
+          "form": 0,
+          "notify": 1,
+          "notify_status": "pending",
+          "notification_message": "There is an issue when running CNC Machine maintenance!",
+          "multi_access_lock": 0,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "report_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "No",
+          "parent_UID": "0EFA987B-1414-40A1-98CB-F17689AD8C8B",
+          "loop_branch": null,
+          "loop_target_UID": "0EFA987B-1414-40A1-98CB-F17689AD8C8B",
+          "attempt": null,
+          "created_at": 1765634234000,
+          "updated_at": 1765634234000,
+          "report_multi_lock_group": null,
+          "report_step_machines": [],
+          "report_step_assigned_members": [
+            {
+              "id": 35,
+              "first_name": "Natalie",
+              "last_name": "Arden",
+              "employee_id": "234-005",
+              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+              "role": "admin",
+              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+              "email": "testAdmin@gmail.com",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 84,
+                "report_userId": 35
+              }
+            }
+          ],
+          "report_step_notified_members": [
+            {
+              "id": 37,
+              "first_name": "Riley",
+              "last_name": "Porter",
+              "employee_id": "234-001",
+              "department": "{\"id\":15,\"name\":\"Sales\",\"description\":null,\"super_adminId\":10,\"UID\":\"1C6C1379-D51C-458E-90DA-C0293AD611BA\",\"created_at\":1742176302000,\"updated_at\":1765554977000}",
+              "role": "admin",
+              "UID_user": "AYTQW99-AE68-4695-B803-644770B2D657",
+              "email": "qertybi41053@kytstore.com",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/riley_porter.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 84,
+                "report_userId": 37
+              }
+            }
+          ],
+          "aborted_by_report_user": null,
+          "report_form_questions": [],
+          "report_step_submissions": [],
+          "report_step_audit_trails": []
+        },
+        {
+          "id": 85,
+          "name": "Maintenance Work",
+          "description": "",
+          "status": "completed",
+          "reportId": 23,
+          "aborted_by_report_userId": null,
+          "UID": "3C8A144C-D416-4D8A-8E4F-D58EB1E8CEF6",
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "report_multi_lock_groupId": null,
+          "machine": 1,
+          "require_verify_machine": 1,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "Yes",
+          "parent_UID": "0EFA987B-1414-40A1-98CB-F17689AD8C8B",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": null,
+          "created_at": 1765634234000,
+          "updated_at": 1765634234000,
+          "report_multi_lock_group": null,
+          "report_step_machines": [
+            {
+              "id": 10,
+              "report_stepId": 85,
+              "name": "CNC Machine",
+              "custom_machine_id": "Machine-003",
+              "additional_notes": null,
+              "description": null,
+              "serial_number": null,
+              "status": "completed",
+              "model": "L9000-EMTV1",
+              "location": "Room-D-7006",
+              "main_image_url": "/images/dataImages/Machine/cnc_machine.jpg",
+              "side_image_1_url": null,
+              "side_image_2_url": null,
+              "side_image_3_url": null,
+              "side_image_4_url": null,
+              "side_image_5_url": null,
+              "side_image_6_url": null,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "selected_inspection_forms": [
+                {
+                  "id": 12,
+                  "report_step_machineId": 10,
+                  "report_step_categoryId": 12,
+                  "report_step_inspection_formId": 12,
+                  "created_at": 1765634234000,
+                  "updated_at": 1765634234000,
+                  "report_step_inspection_form": {
+                    "id": 12,
+                    "name": "CNC Machine Inspection",
+                    "description": null,
+                    "UID": "C63990A8-379F-4D39-AD8B-895521088C0C",
+                    "report_step_machineId": 10,
+                    "is_completed": 0,
+                    "created_at": 1765634234000,
+                    "updated_at": 1765634234000,
+                    "report_step_inspection_questions": [
+                      {
+                        "id": 53,
+                        "report_step_inspection_formId": 12,
+                        "UID": "E44C02AC-DC9B-4201-BAA0-AB93420C44D7",
+                        "question": "Is the machine properly isolated from power?",
+                        "question_type": "Multiple Choice",
+                        "format": null,
+                        "options": ["Yes", "No"],
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765634234000,
+                        "updated_at": 1765634234000,
+                        "submissions": [
+                          {
+                            "report_step_inspection_questionId": 53,
+                            "report_step_submissionId": 79,
+                            "response": ["Yes"],
+                            "submitted_by_report_user": {
+                              "id": 35,
+                              "first_name": "Natalie",
+                              "last_name": "Arden",
+                              "employee_id": "234-005",
+                              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                              "role": "admin",
+                              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                              "email": "testAdmin@gmail.com",
+                              "phone_number": null,
+                              "phone_country": null,
+                              "reportId": 23,
+                              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                              "created_at": 1765634233000,
+                              "updated_at": 1765634233000,
+                              "laravel_through_key": 79
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": 54,
+                        "report_step_inspection_formId": 12,
+                        "UID": "FC7CE201-7F5A-4344-ABB1-4E6D125CFFE5",
+                        "question": "Are emergency stops functioning correctly?",
+                        "question_type": "Multiple Choice",
+                        "format": null,
+                        "options": ["Yes", "No"],
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765634234000,
+                        "updated_at": 1765634234000,
+                        "submissions": [
+                          {
+                            "report_step_inspection_questionId": 54,
+                            "report_step_submissionId": 79,
+                            "response": ["Yes"],
+                            "submitted_by_report_user": {
+                              "id": 35,
+                              "first_name": "Natalie",
+                              "last_name": "Arden",
+                              "employee_id": "234-005",
+                              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                              "role": "admin",
+                              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                              "email": "testAdmin@gmail.com",
+                              "phone_number": null,
+                              "phone_country": null,
+                              "reportId": 23,
+                              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                              "created_at": 1765634233000,
+                              "updated_at": 1765634233000,
+                              "laravel_through_key": 79
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": 55,
+                        "report_step_inspection_formId": 12,
+                        "UID": "DE53CAC3-4BD8-44A1-A315-77FBEE6E5139",
+                        "question": "Are all guards and safety interlocks in place?",
+                        "question_type": "Multiple Choice",
+                        "format": null,
+                        "options": ["Yes", "No"],
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765634234000,
+                        "updated_at": 1765634234000,
+                        "submissions": [
+                          {
+                            "report_step_inspection_questionId": 55,
+                            "report_step_submissionId": 79,
+                            "response": ["Yes"],
+                            "submitted_by_report_user": {
+                              "id": 35,
+                              "first_name": "Natalie",
+                              "last_name": "Arden",
+                              "employee_id": "234-005",
+                              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                              "role": "admin",
+                              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                              "email": "testAdmin@gmail.com",
+                              "phone_number": null,
+                              "phone_country": null,
+                              "reportId": 23,
+                              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                              "created_at": 1765634233000,
+                              "updated_at": 1765634233000,
+                              "laravel_through_key": 79
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": 56,
+                        "report_step_inspection_formId": 12,
+                        "UID": "2BFF7B05-AF36-4C6A-A428-1AE85C8A640B",
+                        "question": "Are control panels clean and free of damage?",
+                        "question_type": "Multiple Choice",
+                        "format": null,
+                        "options": ["Yes", "No"],
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765634234000,
+                        "updated_at": 1765634234000,
+                        "submissions": [
+                          {
+                            "report_step_inspection_questionId": 56,
+                            "report_step_submissionId": 79,
+                            "response": ["Yes"],
+                            "submitted_by_report_user": {
+                              "id": 35,
+                              "first_name": "Natalie",
+                              "last_name": "Arden",
+                              "employee_id": "234-005",
+                              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                              "role": "admin",
+                              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                              "email": "testAdmin@gmail.com",
+                              "phone_number": null,
+                              "phone_country": null,
+                              "reportId": 23,
+                              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                              "created_at": 1765634233000,
+                              "updated_at": 1765634233000,
+                              "laravel_through_key": 79
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": 57,
+                        "report_step_inspection_formId": 12,
+                        "UID": "9A8FE58B-079A-4DD2-A1BA-E012F8462D0D",
+                        "question": "Are coolant levels and quality acceptable?",
+                        "question_type": "Multiple Choice",
+                        "format": null,
+                        "options": ["Yes", "No"],
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765634234000,
+                        "updated_at": 1765634234000,
+                        "submissions": [
+                          {
+                            "report_step_inspection_questionId": 57,
+                            "report_step_submissionId": 79,
+                            "response": ["Yes"],
+                            "submitted_by_report_user": {
+                              "id": 35,
+                              "first_name": "Natalie",
+                              "last_name": "Arden",
+                              "employee_id": "234-005",
+                              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                              "role": "admin",
+                              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                              "email": "testAdmin@gmail.com",
+                              "phone_number": null,
+                              "phone_country": null,
+                              "reportId": 23,
+                              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                              "created_at": 1765634233000,
+                              "updated_at": 1765634233000,
+                              "laravel_through_key": 79
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "report_step_category": {
+                    "id": 12,
+                    "name": "CNC Machine",
+                    "description": null,
+                    "UID": "5A6B28A2-892F-419D-994A-54D015370F3A",
+                    "report_step_machineId": 10,
+                    "created_at": 1765634234000,
+                    "updated_at": 1765634234000
+                  }
+                }
+              ]
+            }
+          ],
+          "report_step_assigned_members": [
+            {
+              "id": 35,
+              "first_name": "Natalie",
+              "last_name": "Arden",
+              "employee_id": "234-005",
+              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+              "role": "admin",
+              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+              "email": "testAdmin@gmail.com",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 85,
+                "report_userId": 35
+              }
+            }
+          ],
+          "report_step_notified_members": [],
+          "aborted_by_report_user": null,
+          "report_form_questions": [
+            {
+              "id": 84,
+              "question": "Was there any issues found when disconnecting the main power supply? if so please describe it",
+              "question_type": "Text",
+              "format": "Short Answer",
+              "options": null,
+              "UID": "78D22E1B-6109-40CD-9515-3FF7254F9F51",
+              "unit": null,
+              "include_date": null,
+              "include_time": null,
+              "is_required": 1,
+              "page_number": 1,
+              "report_stepId": 85,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "submissions": [
+                {
+                  "report_form_questionId": 84,
+                  "report_step_submissionId": 79,
+                  "response": ["No"],
+                  "submitted_by_report_user": {
+                    "id": 35,
+                    "first_name": "Natalie",
+                    "last_name": "Arden",
+                    "employee_id": "234-005",
+                    "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                    "role": "admin",
+                    "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                    "email": "testAdmin@gmail.com",
+                    "phone_number": null,
+                    "phone_country": null,
+                    "reportId": 23,
+                    "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                    "created_at": 1765634233000,
+                    "updated_at": 1765634233000,
+                    "laravel_through_key": 79
+                  }
+                }
+              ]
+            }
+          ],
+          "report_step_submissions": [
+            {
+              "id": 79,
+              "reportId": 23,
+              "action_by_report_userId": 35,
+              "report_stepId": 85,
+              "UID": "F4BFF3F3-1EA9-4F6F-A939-9AB8D29A835A",
+              "machine_verified_by_report_userId": null,
+              "response_conditional": null,
+              "notify_at": null,
+              "machine_verified_at": null,
+              "finished_at": 1765634196000,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "action_by_report_user": {
+                "id": 35,
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "employee_id": "234-005",
+                "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                "role": "admin",
+                "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "email": "testAdmin@gmail.com",
+                "phone_number": null,
+                "phone_country": null,
+                "reportId": 23,
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                "created_at": 1765634233000,
+                "updated_at": 1765634233000
+              },
+              "machine_verified_by_report_user": null
+            }
+          ],
+          "report_step_audit_trails": []
+        },
+        {
+          "id": 86,
+          "name": "Completion & Documentation",
+          "description": "",
+          "status": "completed",
+          "reportId": 23,
+          "aborted_by_report_userId": null,
+          "UID": "9C7D9C93-787E-4258-979F-A405D5D682ED",
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "report_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "Yes",
+          "parent_UID": "0EFA987B-1414-40A1-98CB-F17689AD8C8B",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": null,
+          "created_at": 1765634234000,
+          "updated_at": 1765634234000,
+          "report_multi_lock_group": null,
+          "report_step_machines": [],
+          "report_step_assigned_members": [
+            {
+              "id": 35,
+              "first_name": "Natalie",
+              "last_name": "Arden",
+              "employee_id": "234-005",
+              "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+              "role": "admin",
+              "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+              "email": "testAdmin@gmail.com",
+              "phone_number": null,
+              "phone_country": null,
+              "reportId": 23,
+              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+              "created_at": 1765634233000,
+              "updated_at": 1765634233000,
+              "pivot": {
+                "report_stepId": 86,
+                "report_userId": 35
+              }
+            }
+          ],
+          "report_step_notified_members": [],
+          "aborted_by_report_user": null,
+          "report_form_questions": [
+            {
+              "id": 85,
+              "question": "Are all tools, materials, and debris removed from the work area?",
+              "question_type": "Multiple Choice",
+              "format": null,
+              "options": ["Yes", "No"],
+              "UID": "E37B4024-F041-49D0-A8F8-69B0876B99EA",
+              "unit": null,
+              "include_date": null,
+              "include_time": null,
+              "is_required": 1,
+              "page_number": 1,
+              "report_stepId": 86,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "submissions": [
+                {
+                  "report_form_questionId": 85,
+                  "report_step_submissionId": 80,
+                  "response": ["Yes"],
+                  "submitted_by_report_user": {
+                    "id": 35,
+                    "first_name": "Natalie",
+                    "last_name": "Arden",
+                    "employee_id": "234-005",
+                    "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                    "role": "admin",
+                    "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                    "email": "testAdmin@gmail.com",
+                    "phone_number": null,
+                    "phone_country": null,
+                    "reportId": 23,
+                    "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                    "created_at": 1765634233000,
+                    "updated_at": 1765634233000,
+                    "laravel_through_key": 80
+                  }
+                }
+              ]
+            },
+            {
+              "id": 86,
+              "question": "Provide any additional observations or issues found during maintenance.",
+              "question_type": "Text",
+              "format": "Paragraph",
+              "options": null,
+              "UID": "730A658C-32CE-41C6-A425-727FBDBEF23F",
+              "unit": null,
+              "include_date": null,
+              "include_time": null,
+              "is_required": 1,
+              "page_number": 1,
+              "report_stepId": 86,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "submissions": [
+                {
+                  "report_form_questionId": 86,
+                  "report_step_submissionId": 80,
+                  "response": ["There was no issues"],
+                  "submitted_by_report_user": {
+                    "id": 35,
+                    "first_name": "Natalie",
+                    "last_name": "Arden",
+                    "employee_id": "234-005",
+                    "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                    "role": "admin",
+                    "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                    "email": "testAdmin@gmail.com",
+                    "phone_number": null,
+                    "phone_country": null,
+                    "reportId": 23,
+                    "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                    "created_at": 1765634233000,
+                    "updated_at": 1765634233000,
+                    "laravel_through_key": 80
+                  }
+                }
+              ]
+            }
+          ],
+          "report_step_submissions": [
+            {
+              "id": 80,
+              "reportId": 23,
+              "action_by_report_userId": 35,
+              "report_stepId": 86,
+              "UID": "A7FC628F-7B10-4940-811A-DAFF6B832407",
+              "machine_verified_by_report_userId": null,
+              "response_conditional": null,
+              "notify_at": null,
+              "machine_verified_at": null,
+              "finished_at": 1765634221000,
+              "created_at": 1765634234000,
+              "updated_at": 1765634234000,
+              "action_by_report_user": {
+                "id": 35,
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "employee_id": "234-005",
+                "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+                "role": "admin",
+                "UID_user": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "email": "testAdmin@gmail.com",
+                "phone_number": null,
+                "phone_country": null,
+                "reportId": 23,
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+                "created_at": 1765634233000,
+                "updated_at": 1765634233000
+              },
+              "machine_verified_by_report_user": null
+            }
+          ],
+          "report_step_audit_trails": []
+        }
+      ],
+      "report_audit_logs": [
+        {
+          "id": 164,
+          "action": "update",
+          "type": "manual",
+          "work_sitesId": 5,
+          "reportId": 23,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "employee_id": "234-005",
+          "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+          "role": "admin",
+          "email": "testAdmin@gmail.com",
+          "phone_number": null,
+          "phone_country": null,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "ip_address": "127.0.0.1",
+          "change": [
+            {
+              "type": "text",
+              "text": "has "
+            },
+            {
+              "type": "bold",
+              "text": "completed "
+            },
+            {
+              "type": "text",
+              "text": "the work order named: "
+            },
+            {
+              "type": "bold",
+              "text": "\"CNC Machine Maintenance\""
+            },
+            {
+              "type": "text",
+              "text": "."
+            }
+          ],
+          "created_at": 1765634221000,
+          "updated_at": 1765634221000,
+          "assignee_switch_requestId": null
+        },
+        {
+          "id": 163,
+          "action": "update",
+          "type": "manual",
+          "work_sitesId": 5,
+          "reportId": 23,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "employee_id": "234-005",
+          "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+          "role": "admin",
+          "email": "testAdmin@gmail.com",
+          "phone_number": null,
+          "phone_country": null,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "ip_address": "127.0.0.1",
+          "change": [
+            {
+              "type": "text",
+              "text": "Step "
+            },
+            {
+              "type": "bold",
+              "text": "\"Completion & Documentation\""
+            },
+            {
+              "type": "text",
+              "text": " was "
+            },
+            {
+              "type": "bold",
+              "text": "completed"
+            },
+            {
+              "type": "text",
+              "text": " by "
+            },
+            {
+              "type": "bold",
+              "text": "Natalie Arden"
+            },
+            {
+              "type": "text",
+              "text": "."
+            }
+          ],
+          "created_at": 1765634221000,
+          "updated_at": 1765634221000,
+          "assignee_switch_requestId": null
+        },
+        {
+          "id": 162,
+          "action": "update",
+          "type": "manual",
+          "work_sitesId": 5,
+          "reportId": 23,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "employee_id": "234-005",
+          "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+          "role": "admin",
+          "email": "testAdmin@gmail.com",
+          "phone_number": null,
+          "phone_country": null,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "ip_address": "127.0.0.1",
+          "change": [
+            {
+              "type": "text",
+              "text": "Step "
+            },
+            {
+              "type": "bold",
+              "text": "\"Maintenance Work\""
+            },
+            {
+              "type": "text",
+              "text": " was "
+            },
+            {
+              "type": "bold",
+              "text": "completed"
+            },
+            {
+              "type": "text",
+              "text": " by "
+            },
+            {
+              "type": "bold",
+              "text": "Natalie Arden"
+            },
+            {
+              "type": "text",
+              "text": "."
+            }
+          ],
+          "created_at": 1765634196000,
+          "updated_at": 1765634196000,
+          "assignee_switch_requestId": null
+        },
+        {
+          "id": 161,
+          "action": "update",
+          "type": "manual",
+          "work_sitesId": 5,
+          "reportId": 23,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "employee_id": "234-005",
+          "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+          "role": "admin",
+          "email": "testAdmin@gmail.com",
+          "phone_number": null,
+          "phone_country": null,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "ip_address": "127.0.0.1",
+          "change": [
+            {
+              "type": "text",
+              "text": "Inspection Form "
+            },
+            {
+              "type": "bold",
+              "text": "\"CNC Machine Inspection\""
+            },
+            {
+              "type": "text",
+              "text": " for Machine "
+            },
+            {
+              "type": "bold",
+              "text": "\"CNC Machine\""
+            },
+            {
+              "type": "text",
+              "text": " in Step "
+            },
+            {
+              "type": "bold",
+              "text": "\"Maintenance Work\""
+            },
+            {
+              "type": "text",
+              "text": " has been answered by "
+            },
+            {
+              "type": "bold",
+              "text": "Natalie Arden"
+            },
+            {
+              "type": "text",
+              "text": "."
+            }
+          ],
+          "created_at": 1765634192000,
+          "updated_at": 1765634192000,
+          "assignee_switch_requestId": null
+        },
+        {
+          "id": 160,
+          "action": "update",
+          "type": "manual",
+          "work_sitesId": 5,
+          "reportId": 23,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "employee_id": "234-005",
+          "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+          "role": "admin",
+          "email": "testAdmin@gmail.com",
+          "phone_number": null,
+          "phone_country": null,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "ip_address": "127.0.0.1",
+          "change": [
+            {
+              "type": "text",
+              "text": "Step "
+            },
+            {
+              "type": "bold",
+              "text": "\"Pre-Maintenance Inspection\""
+            },
+            {
+              "type": "text",
+              "text": " was "
+            },
+            {
+              "type": "bold",
+              "text": "completed"
+            },
+            {
+              "type": "text",
+              "text": " by "
+            },
+            {
+              "type": "bold",
+              "text": "Natalie Arden"
+            },
+            {
+              "type": "text",
+              "text": "."
+            }
+          ],
+          "created_at": 1765634136000,
+          "updated_at": 1765634136000,
+          "assignee_switch_requestId": null
+        },
+        {
+          "id": 159,
+          "action": "update",
+          "type": "manual",
+          "work_sitesId": 5,
+          "reportId": 23,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "employee_id": "234-005",
+          "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+          "role": "admin",
+          "email": "testAdmin@gmail.com",
+          "phone_number": null,
+          "phone_country": null,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "ip_address": "127.0.0.1",
+          "change": [
+            {
+              "type": "text",
+              "text": "Step "
+            },
+            {
+              "type": "bold",
+              "text": "\"Safety Equipment Check\""
+            },
+            {
+              "type": "text",
+              "text": " was "
+            },
+            {
+              "type": "bold",
+              "text": "completed"
+            },
+            {
+              "type": "text",
+              "text": " by "
+            },
+            {
+              "type": "bold",
+              "text": "Natalie Arden"
+            },
+            {
+              "type": "text",
+              "text": "."
+            }
+          ],
+          "created_at": 1765634120000,
+          "updated_at": 1765634120000,
+          "assignee_switch_requestId": null
+        },
+        {
+          "id": 158,
+          "action": "update",
+          "type": "manual",
+          "work_sitesId": 5,
+          "reportId": 23,
+          "first_name": "Natalie",
+          "last_name": "Arden",
+          "employee_id": "234-005",
+          "department": "{\"id\":3,\"name\":\"Operations Team\",\"description\":null,\"super_adminId\":10,\"UID\":\"009B5B2F-5EA2-479B-AD6F-B49255F16775\",\"created_at\":1740536890000,\"updated_at\":1765554983000}",
+          "role": "admin",
+          "email": "testAdmin@gmail.com",
+          "phone_number": null,
+          "phone_country": null,
+          "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+          "ip_address": "127.0.0.1",
+          "change": [
+            {
+              "type": "text",
+              "text": "Step "
+            },
+            {
+              "type": "bold",
+              "text": "\"Power Isolation\""
+            },
+            {
+              "type": "text",
+              "text": " was "
+            },
+            {
+              "type": "bold",
+              "text": "completed"
+            },
+            {
+              "type": "text",
+              "text": " by "
+            },
+            {
+              "type": "bold",
+              "text": "Natalie Arden"
+            },
+            {
+              "type": "text",
+              "text": "."
+            }
+          ],
+          "created_at": 1765634104000,
+          "updated_at": 1765634104000,
+          "assignee_switch_requestId": null
+        },
+        {
+          "id": 157,
+          "action": "update",
+          "type": "manual",
+          "work_sitesId": 5,
+          "reportId": 23,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "employee_id": null,
+          "department": null,
+          "role": "super_admin",
+          "email": "test@gmail.com",
+          "phone_number": null,
+          "phone_country": null,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "ip_address": "127.0.0.1",
+          "change": [
+            {
+              "type": "text",
+              "text": "Updated status of Work Order: "
+            },
+            {
+              "type": "bold",
+              "text": "\"CNC Machine Maintenance\""
+            },
+            {
+              "type": "text",
+              "text": " to "
+            },
+            {
+              "type": "bold",
+              "text": "Ongoing"
+            }
+          ],
+          "created_at": 1765563736000,
+          "updated_at": 1765563736000,
+          "assignee_switch_requestId": null
+        },
+        {
+          "id": 156,
+          "action": "update",
+          "type": "manual",
+          "work_sitesId": 5,
+          "reportId": 23,
+          "first_name": "Adrian",
+          "last_name": "Cole",
+          "employee_id": null,
+          "department": null,
+          "role": "super_admin",
+          "email": "test@gmail.com",
+          "phone_number": null,
+          "phone_country": null,
+          "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+          "ip_address": "127.0.0.1",
+          "change": [
+            {
+              "type": "text",
+              "text": "Created Work Order: "
+            },
+            {
+              "type": "bold",
+              "text": "\"CNC Machine Maintenance\""
+            }
+          ],
+          "created_at": 1765563736000,
+          "updated_at": 1765563736000,
+          "assignee_switch_requestId": null
+        }
+      ],
+      "report_reviews": []
+    }
+  }
+]

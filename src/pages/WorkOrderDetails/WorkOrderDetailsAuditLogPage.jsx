@@ -12,7 +12,6 @@ import Pagination from "../../components/Pagination";
 import ListEmptyState from "../../components/ListEmptyState";
 import { useState } from "react";
 import SwitchRequestDetailModal from "../../components/SwitchRequest/SwitchRequestDetailModal";
-
 export default function WorkOrderDetailsAuditLogPage({
   workOrder,
   from,

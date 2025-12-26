@@ -10,7 +10,6 @@ import SwalErrorMessages from "../../components/SwalErrorMessages.jsx";
 import WorkOrderDetailsReviewsPage from "./WorkOrderDetailsReviewsPage.jsx";
 import WorkOrderDetailsLayout from "../../components/Layout/WorkOrderDetailsLayout.jsx";
 import WorkOrderDetails404Page from "./WorkOrderDetails404Page.jsx";
-import { useWorkOrderListener } from "../../hooks/useWorkOrderListener.js";
 import { useSelector } from "react-redux";
 import CustomToast from "../../components/CustomToast.jsx";
 import SendReminderModal from "../../components/WorkOrders/SendReminderModal.jsx";
@@ -76,8 +75,6 @@ export default function WorkOrderDetailsPage() {
 
     newWorkOrderData?.latest_work_order_reviews?.map((review) => {
       const reviewers = review.work_order_reviewer_members;
-      console.log(reviewers);
-
       reviewers.map((reviewer) => {
         const filteredReviewer = reviewer?.super_admin
           ? reviewer.super_admin
@@ -96,8 +93,6 @@ export default function WorkOrderDetailsPage() {
         }
       });
     });
-    console.log("dsadasdas");
-
     newWorkOrderData?.work_order_steps.map((step) => {
       // -X multi assign problem X-
       const assignees = step.assigned_members;
@@ -106,9 +101,6 @@ export default function WorkOrderDetailsPage() {
       const assigned_machines = step.work_order_step_machines;
       const assigned_locks =
         step?.work_order_multi_lock_group?.work_order_multi_lock_group_items;
-
-      console.log(step);
-      console.log(assignees);
 
       if (assignees.length) {
         assignees.map((assignee) => {
@@ -155,8 +147,6 @@ export default function WorkOrderDetailsPage() {
       });
 
       assigned_locks?.map((assigned_lock) => {
-        console.log(assigned_lock);
-
         if (newWorkOrderData.status === "draft") {
           if (
             assigned_lock?.lock?.name &&
@@ -176,12 +166,6 @@ export default function WorkOrderDetailsPage() {
         }
       });
     });
-    console.log(uniqueAssignees);
-    console.log(uniqueNotifiedMembers);
-    console.log(uniqueAssignedLocks);
-    console.log(uniqueAssignedMachines);
-    console.log("dsadasdas");
-
     setWorkOrder({
       ...newWorkOrderData,
       assignees: uniqueAssignees,
@@ -206,12 +190,7 @@ export default function WorkOrderDetailsPage() {
     setSwitchAssigneeButtonLoading(true);
     if (isRequest === true) {
       await api
-        .post(`work-order/request-switch-assignee`, {
-          reason,
-          // memberUID: requestSwitchAssigneeMemberUID,
-          workOrderUID: UID,
-          workOrderSteps: selectedSteps,
-        })
+        .testSubmit("Switch request sent successfully")
         .then((response) => {
           abortControllerRef.current.abort();
           abortControllerRef.current = new AbortController();
@@ -252,10 +231,7 @@ export default function WorkOrderDetailsPage() {
         });
     } else {
       await api
-        .post(`work-order/switch-user/${UID}/${stepUID}`, {
-          memberUIDs,
-          reason,
-        })
+        .testSubmit("Assignee switch successfully")
         .then((response) => {
           abortControllerRef.current.abort();
           abortControllerRef.current = new AbortController();
@@ -301,7 +277,7 @@ export default function WorkOrderDetailsPage() {
     setCancelNextPusherToast(true);
     setAbortStepButtonLoading(true);
     await api
-      .post(`work-order/abort-step/${UID}/${stepUID}`)
+      .testSubmit("Step aborted successfully")
       .then((response) => {
         abortControllerRef.current.abort();
         abortControllerRef.current = new AbortController();
@@ -344,10 +320,8 @@ export default function WorkOrderDetailsPage() {
 
   async function fetchMember(controller) {
     await api
-      .get(`member`, { signal: controller.signal })
+      .getMembers()
       .then((response) => {
-        console.log(response);
-
         setMemberSelection(
           response.data.members.map((val) => ({
             ...val,
@@ -366,9 +340,7 @@ export default function WorkOrderDetailsPage() {
       setLoading(true);
     }
     await api
-      .get(`work-order/${UID}`, {
-        signal: abortControllerRef.current.signal,
-      })
+      .getWorkOrderDetailsByUID(UID)
       .then((response) => {
         setAndUpdateWorkOrderData(response.data.workOrder);
       })
@@ -387,13 +359,7 @@ export default function WorkOrderDetailsPage() {
     setAuditLogLoading(true);
     const localAbortController = abortControllerRef2.current;
     await api
-      .get(
-        `work-order/audit-log/${UID}?page=${currentAuditLogPage}
-        &rows=${rows}`,
-        {
-          signal: abortControllerRef2.current.signal,
-        }
-      )
+      .getWorkOrderDetailsAuditLogByUID(UID)
       .then((response) => {
         setAuditLogs(response.data.data);
         setFrom(response.data.from);
@@ -414,12 +380,9 @@ export default function WorkOrderDetailsPage() {
   }
 
   async function sendReminder(memberUID, role) {
-    console.log(role);
-    console.log(memberUID);
-
     setSendReminderButtonLoading(true);
     await api
-      .post(`work-order/${UID}/reminder/${role}/${memberUID}`)
+      .testSubmit("Reminder sent successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -455,8 +418,6 @@ export default function WorkOrderDetailsPage() {
   }
 
   function handleOpenSendReminder(member, reminderRole) {
-    console.log(reminderRole);
-    console.log(member);
     sendReminderDisclosure.onOpen();
     setSelectedSendReminderMember({ ...member, reminderRole });
   }
@@ -468,11 +429,9 @@ export default function WorkOrderDetailsPage() {
 
   useEffect(() => {
     abortControllerRef.current = new AbortController();
-    abortControllerRef2.current = new AbortController();
     const controller = new AbortController();
     fetchMember(controller);
     fetchWorkOrderDetails(true);
-    fetchWorkOrderAuditLog();
     return () => {
       controller.abort();
       abortControllerRef.current.abort(); // Cleanup on unmount
@@ -487,76 +446,6 @@ export default function WorkOrderDetailsPage() {
       abortControllerRef2.current.abort(); // Cleanup on unmount
     };
   }, [currentAuditLogPage, rows]);
-
-  useWorkOrderListener(
-    // `wo.${"4A87F954-2A32-49A7-81B1-AA3501299802"}.user.${
-    //   userSelector.id
-    // }.ws.${workSiteUID}`,
-    `wo.${UID}.user.${userSelector.id}.ws.${workSiteUID}`,
-    {
-      onUpdated: (pusherData) => {
-        console.log("pusher data : ", pusherData);
-        const newWorkOrder = pusherData.workOrder;
-
-        if (!cancelNextPusherToast) {
-          toast({
-            duration: 5000,
-            position: "top",
-            render: ({ onClose }) => (
-              <CustomToast
-                onClose={onClose}
-                title={"Work order has been updated"}
-                description={"Please review the latest changes."}
-              />
-            ),
-          });
-        }
-        setCancelNextPusherToast(false);
-        setAndUpdateWorkOrderData(newWorkOrder);
-        abortControllerRef2.current = new AbortController();
-        fetchWorkOrderAuditLog();
-      },
-      onDeleted: (pusherData) => {
-        console.log("pusher data : ", pusherData);
-        setFetchError(true);
-        toast({
-          duration: 5000,
-          position: "top",
-          render: ({ onClose }) => (
-            <CustomToast
-              onClose={onClose}
-              title={
-                "Work order has been deleted or your access has been revoked."
-              }
-              description={
-                "This may be due to deletion or changes in access permissions."
-              }
-            />
-          ),
-        });
-      },
-      onGroupDeleted: (pusherData) => {
-        console.log("pusher data : ", pusherData);
-        setFetchError(true);
-        toast({
-          duration: 5000,
-          position: "top",
-          render: ({ onClose }) => (
-            <CustomToast
-              onClose={onClose}
-              title={
-                "Work order has been deleted or your access has been revoked."
-              }
-              description={
-                "This may be due to deletion or changes in access permissions."
-              }
-            />
-          ),
-        });
-      },
-    },
-    [cancelNextPusherToast]
-  );
 
   return (
     <Box>
@@ -578,7 +467,9 @@ export default function WorkOrderDetailsPage() {
                   abortStepButtonLoading={abortStepButtonLoading}
                   switchAssigneeButtonLoading={switchAssigneeButtonLoading}
                   hasManagePermission={hasManagePermission}
-                  handleOpenSendReminder={handleOpenSendReminder}
+                  handleOpenSendReminder={
+                    workOrder?.status !== "draft" ? handleOpenSendReminder : ""
+                  }
                   pageModule={pageModule}
                   stepDetailsDisclosure={stepDetailsDisclosure}
                 />
@@ -601,7 +492,9 @@ export default function WorkOrderDetailsPage() {
                 setCurrentAuditLogPage={setCurrentAuditLogPage}
                 auditLogLoading={auditLogLoading}
                 hasManagePermission={hasManagePermission}
-                handleOpenSendReminder={handleOpenSendReminder}
+                handleOpenSendReminder={
+                  workOrder?.status !== "draft" ? handleOpenSendReminder : ""
+                }
               />
             </Box>
             <Box
@@ -611,7 +504,9 @@ export default function WorkOrderDetailsPage() {
                 UID={UID}
                 workOrder={workOrder}
                 hasManagePermission={hasManagePermission}
-                handleOpenSendReminder={handleOpenSendReminder}
+                handleOpenSendReminder={
+                  workOrder?.status !== "draft" ? handleOpenSendReminder : ""
+                }
               />
             </Box>
           </WorkOrderDetailsLayout>

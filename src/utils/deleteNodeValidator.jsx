@@ -9,23 +9,45 @@ export default function deleteNodeValidator(
   deleteStepFn
 ) {
   if (selectedDeleteNodes.length > 0) {
+    const selectedNodeIds = new Set(selectedDeleteNodes.map((n) => n.id));
     const hasCondition = selectedDeleteNodes.some(
       (node) => node.data?.condition === true
     );
     const hasMultiLockMain = selectedDeleteNodes.some(
       (node) => node.data?.isMainMultiLockAccess === true
     );
-    const hasMultiLockLinkedStep = selectedDeleteNodes.some(
-      (node) =>
-        !node.data.isMainMultiLockAccess &&
-        node.data?.multiLockAccessGroup?.name
-    );
-    const hasTopConditionBranch = selectedDeleteNodes.some((node) =>
-      isTopConditionBranch(node, allNodes)
-    );
-    console.log(hasCondition);
 
-    if (hasMultiLockLinkedStep) {
+    // Check for invalid linked multi-lock steps
+    const hasInvalidMultiLockLinkedStep = selectedDeleteNodes.some((node) => {
+      if (node.data?.isMainMultiLockAccess || !node.data?.multiLockAccessGroup)
+        return false;
+
+      const mainNode = allNodes.find(
+        (n) =>
+          n.data?.isMainMultiLockAccess &&
+          n.data?.multiLockAccessGroup?.name ===
+            node.data.multiLockAccessGroup.name
+      );
+
+      if (!mainNode) return false;
+
+      return !selectedNodeIds.has(mainNode.id);
+    });
+    const hasInvalidTopConditionBranch = selectedDeleteNodes.some((node) => {
+      // Ignore non-top branches
+      if (!isTopConditionBranch(node, allNodes, allEdges)) return false;
+
+      // Find parent condition node
+      const parentConditionNode = allNodes.find(
+        (n) => n.data.UID === node.data.parent_UID
+      );
+
+      if (!parentConditionNode) return false;
+
+      // Invalid if parent condition is NOT selected
+      return !selectedNodeIds.has(parentConditionNode.id);
+    });
+    if (hasInvalidMultiLockLinkedStep) {
       toast.closeAll();
       toast({
         title: "Cannot Delete Linked Lock Access Step",
@@ -35,7 +57,7 @@ export default function deleteNodeValidator(
         position: "top",
         isClosable: true,
       });
-    } else if (hasTopConditionBranch) {
+    } else if (hasInvalidTopConditionBranch) {
       toast.closeAll();
       toast({
         title: "Cannot Delete Top Condition Branch",
@@ -83,7 +105,6 @@ export default function deleteNodeValidator(
         const selectedBranches = Array.from(allBranchesToDelete.values());
         finalSelectedNodes = [...finalSelectedNodes, ...selectedBranches];
       }
-      console.log(selectedDeleteNodes);
       if (hasMultiLockMain && hasCondition) {
         openDeleteConfirm(finalSelectedNodes, {
           header: "Delete Steps?",
@@ -112,15 +133,13 @@ export default function deleteNodeValidator(
   }
 }
 
-function isTopConditionBranch(node, allNodes) {
+function isTopConditionBranch(node, allNodes, allEdges) {
   if (!node.data.parent_UID || !node.data.condition_value) return false;
-
-  const branchNodes = allNodes.filter(
-    (n) =>
-      n.data.parent_UID === node.data.parent_UID &&
-      n.data.condition_value === node.data.condition_value
+  const parentConditionNode = allNodes.find(
+    (n) => n.data.UID === node.data.parent_UID
   );
-
-  const isTop = node.id === branchNodes[0].id;
-  return isTop;
+  if (!parentConditionNode) return false;
+  return allEdges.some(
+    (e) => e.source === parentConditionNode.id && e.target === node.id
+  );
 }

@@ -108,11 +108,7 @@ export default function CreateMachineCategoryModal({
     const formData = convertToFormData(data);
 
     await api
-      .post(`machine-category`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .testSubmit("Machine category saved successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",

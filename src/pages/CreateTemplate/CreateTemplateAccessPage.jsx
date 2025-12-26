@@ -27,7 +27,6 @@ export default function CreateTemplateAccessPage({
   submitTemplate,
   formik,
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const userSelector = useSelector((state) => state.login.auth);
   const [memberSelection, setMemberSelection] = useState([]);
   function deleteAccess(index) {
@@ -53,7 +52,7 @@ export default function CreateTemplateAccessPage({
 
   async function fetchMembers(controller) {
     await api
-      .get(`member`, { signal: controller.signal })
+      .getMembers()
       .then((response) => {
         setMemberSelection(
           response.data.members.map((val) => ({
@@ -164,7 +163,7 @@ export default function CreateTemplateAccessPage({
                                   }
                                   src={
                                     userSelector?.profile_image_url
-                                      ? IMGURL + userSelector?.profile_image_url
+                                      ? userSelector?.profile_image_url
                                       : null
                                   }
                                 ></Avatar>
@@ -223,34 +222,13 @@ export default function CreateTemplateAccessPage({
                               <Checkbox isDisabled isChecked />
                             </Flex>
                           </Td>
-                          <Td borderColor="#bababa" textAlign={"center"}>
-                            {/* <Flex
-                              gap={"10px"}
-                              justify={"center"}
-                              color={"crimson"}
-                            >
-                              <Flex
-                                cursor={"pointer"}
-                                onClick={() => {
-                                  deleteAccess(index);
-                                }}
-                                p={"5px"}
-                                _hover={{ bg: "#ededed" }}
-                              >
-                                <FaTrashAlt />
-                              </Flex>
-                            </Flex> */}
-                          </Td>
+                          <Td borderColor="#bababa" textAlign={"center"}></Td>
                         </Tr>
                         {templateDetails.access.map((val, index) => {
                           return (
                             <Tr>
                               <Td borderColor="#bababa" textAlign={"center"}>
-                                <Flex
-                                  onClick={() => console.log(val)}
-                                  gap={"10px"}
-                                  alignItems={"center"}
-                                >
+                                <Flex gap={"10px"} alignItems={"center"}>
                                   {val?.first_name ? (
                                     <Avatar
                                       outline={"1px solid #dc143c"}
@@ -260,7 +238,7 @@ export default function CreateTemplateAccessPage({
                                       }
                                       src={
                                         val?.profile_image_url
-                                          ? IMGURL + val?.profile_image_url
+                                          ? val?.profile_image_url
                                           : null
                                       }
                                     ></Avatar>
@@ -429,10 +407,7 @@ export default function CreateTemplateAccessPage({
         top={"-9999px"}
         w={"100%"}
         h={"100%"}
-      >
-        {/* disabled cause template don't save workflow images */}
-        {/* <WorkFlowXyFlow nodes={nodes} edges={edges} /> */}
-      </Flex>
+      ></Flex>
     </Flex>
   );
 }

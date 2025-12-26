@@ -6,14 +6,7 @@ export default function ReactSelectCustomTemplateOption(props) {
     <components.Option {...props}>
       <Flex justify={"space-between"} alignItems={"center"} gap={"8px"}>
         <Flex>{props.data.label}</Flex>
-        <Flex
-          onClick={() => {
-            console.log(props);
-          }}
-          gap={"5px"}
-          fontSize={"14px"}
-          alignItems={"center"}
-        >
+        <Flex gap={"5px"} fontSize={"14px"} alignItems={"center"}>
           <Flex fontWeight={700} color={props.isSelected ? "'white" : "black"}>
             {props.data.stepCount}
           </Flex>

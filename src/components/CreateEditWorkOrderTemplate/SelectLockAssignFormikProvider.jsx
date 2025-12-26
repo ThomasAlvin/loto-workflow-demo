@@ -7,7 +7,6 @@ export default function SelectLockAssignFormikProvider({
   editStepDrawerFormik,
   removeFn,
   pushFn,
-  lockCheckboxHandler,
   selectHandler,
   filteredLockSelection,
   index,
@@ -18,7 +17,7 @@ export default function SelectLockAssignFormikProvider({
     (lockIndex) => {
       removeFn(lockIndex);
     },
-    [removeFn],
+    [removeFn]
   );
   return (
     <Flex flexDir={"column"}>
@@ -37,7 +36,6 @@ export default function SelectLockAssignFormikProvider({
               formikValidateForm={editStepDrawerFormik.validateForm}
               formikSetFieldTouched={editStepDrawerFormik.setFieldTouched}
               deleteLock={deleteLock}
-              lockCheckboxHandler={lockCheckboxHandler}
               selectHandler={selectHandler}
               lockSelection={filteredLockSelection}
               value={value}
@@ -46,7 +44,7 @@ export default function SelectLockAssignFormikProvider({
               getCustomReactSelectStyles={getCustomReactSelectStyles}
               handleCallToAction={handleCallToAction}
             />
-          ),
+          )
         )}
       </Flex>
       <Flex pt={"10px"}>

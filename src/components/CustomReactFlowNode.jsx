@@ -5,7 +5,6 @@ import { memo, useContext, useMemo } from "react";
 import { FaBan } from "react-icons/fa";
 import { FaArrowRotateRight, FaFlag, FaPlay } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
-import { memoPropsComparator } from "../debugging/memoPropsComparator";
 import { useDeleteContext } from "../service/DeleteMultiLockAccessContext";
 import {
   ActionsContext,
@@ -19,7 +18,6 @@ import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import NewWorkFlowStepBadges from "./CreateTemplate/NewWorkFlowStepBadges";
 
 function CustomReactFlowNodeMemo(node) {
-  console.log(node.data.order, "CustomReactFlowNode Rerendered");
   const actionsRef = useContext(ActionsContext);
   const { connectingSourceId, editable, variant } = useContext(UIContext);
   const { allowedTargetIds } = useContext(AllowedTargetsContext);
@@ -185,11 +183,6 @@ function CustomReactFlowNodeMemo(node) {
             ) : (
               ""
             )}
-            {/* {workOrderFormik?.errors?.workOrderSteps?.[
-              workOrderFormik.values.workOrderSteps.findIndex(
-                (step) => step.UID === data.UID,
-              )
-            ] ? ( */}
             {data.hasError ? (
               <Flex
                 position={"absolute"}
@@ -211,7 +204,6 @@ function CustomReactFlowNodeMemo(node) {
                 >
                   <Flex color={"#dc143c"} fontSize={"14px"}>
                     <FaBan />
-                    {/* <FaUserAltSlash /> */}
                   </Flex>
                 </Tooltip>
               </Flex>
@@ -298,7 +290,6 @@ function CustomReactFlowNodeMemo(node) {
                 >
                   <Flex color={"#dc143c"} fontSize={"14px"}>
                     <FaFlag />
-                    {/* <FaUserAltSlash /> */}
                   </Flex>
                 </Tooltip>
               </Flex>
@@ -477,7 +468,6 @@ function CustomReactFlowNodeMemo(node) {
             <Flex>{data.order ? data.order + "." : "(Unordered)"}&nbsp;</Flex>
             <Flex>{data.label}</Flex>
           </Flex>
-          {/* Untuk display review details */}
           {variant === "workOrder" ? (
             !editable ? (
               <Flex
@@ -507,40 +497,9 @@ function CustomReactFlowNodeMemo(node) {
         ) : (
           ""
         )}
-        {/* {data.UID ? (
-          <Flex
-            onClick={() => {
-              console.log(data.UID);
-            }}
-            whiteSpace={"nowrap"}
-            color={"red"}
-            fontSize={"12px"}
-          >
-            <Flex>{data.UID}</Flex>
-          </Flex>
-        ) : (
-          ""
-        )} */}
-        {/* {data.idDB ? (
-          <Flex whiteSpace={"nowrap"} color={"blue"} fontSize={"12px"}>
-            <Flex>{data.idDB}</Flex>
-          </Flex>
-        ) : (
-          ""
-        )} */}
-        {/* {data?.loop_target_UID ? (
-          <Flex whiteSpace={"nowrap"} color={"#848484"} fontSize={"12px"}>
-            <Flex>{data.loop_target_UID}</Flex>
-          </Flex>
-        ) : (
-          ""
-        )} */}
       </Flex>
     </Flex>
   );
 }
-const CustomReactFlowNode = memo(
-  CustomReactFlowNodeMemo,
-  memoPropsComparator("CustomReactFlowNode")
-);
+const CustomReactFlowNode = memo(CustomReactFlowNodeMemo);
 export default CustomReactFlowNode;

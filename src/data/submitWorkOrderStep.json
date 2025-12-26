@@ -1,0 +1,712 @@
+[
+  {
+    "work_order": {
+      "id": 98,
+      "name": "Example Machine QR Scan",
+      "description": "Login with the Admin Account to check the QR code scanner feature",
+      "current_step": 1,
+      "status": "ongoing",
+      "is_overdue": 0,
+      "flow_chart_images": [
+        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/workOrder/24E3FE6E-A440-40B7-A47B-A2C955D43D1B/flowChart/1/1765560906_file.png"
+      ],
+      "work_order_custom_id": "LXH/WS01/121325/150",
+      "reportId": null,
+      "work_sitesId": 5,
+      "creatorId": 10,
+      "UID": "24E3FE6E-A440-40B7-A47B-A2C955D43D1B",
+      "deadline_date_time": 2018710800000,
+      "started_at": 1765560906000,
+      "finished_at": null,
+      "notified_due_soon_at": null,
+      "created_at": 1765560906000,
+      "updated_at": 1765560906000,
+      "step_index": 1,
+      "work_site": {
+        "id": 5,
+        "name": "Main Work Site",
+        "location": "Main Work Site Street",
+        "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+        "super_adminId": 10,
+        "created_at": 1740536125000,
+        "updated_at": 1765566704000
+      },
+      "work_order_step": {
+        "id": 1198,
+        "name": "Initiate Maintenance",
+        "description": "",
+        "UID": "3309F1DA-3FFA-47EE-8C38-8D49137A3F5F",
+        "status": "ongoing",
+        "work_orderId": 98,
+        "aborted_by_userId": null,
+        "form": 0,
+        "notify": 0,
+        "notify_status": null,
+        "notification_message": null,
+        "multi_access_lock": 0,
+        "multi_access_lock_status": null,
+        "is_main_multi_access_lock": 0,
+        "multi_access_lock_step_index": null,
+        "work_order_multi_lock_groupId": null,
+        "machine": 1,
+        "require_verify_machine": 1,
+        "is_machine_verify": null,
+        "condition": 0,
+        "condition_question": null,
+        "condition_options": null,
+        "condition_value": null,
+        "parent_UID": null,
+        "loop_branch": null,
+        "loop_target_UID": null,
+        "attempt": null,
+        "is_drafted": 0,
+        "created_at": 1765560906000,
+        "updated_at": 1765560906000,
+        "work_order_step_machines": [
+          {
+            "id": 32,
+            "work_order_stepId": 1198,
+            "machineId": 135,
+            "name": "Hydraulic Press",
+            "description": null,
+            "UID": "C89773F1-4B8F-4AA0-A456-B57FA09BD984",
+            "custom_machine_id": "Machine-002",
+            "additional_notes": null,
+            "serial_number": null,
+            "model": "D8000-EXTV2",
+            "location": "Room-C-2076",
+            "status": "ongoing",
+            "main_image_url": "/images/dataImages/Machine/hydraulic_press.jpg",
+            "side_image_1_url": null,
+            "side_image_2_url": null,
+            "side_image_3_url": null,
+            "side_image_4_url": null,
+            "side_image_5_url": null,
+            "side_image_6_url": null,
+            "created_at": 1765560906000,
+            "updated_at": 1765560906000,
+            "machine": {
+              "id": 135,
+              "name": "Hydraulic Press",
+              "description": null,
+              "UID": "055CD6C8-2594-417C-BFE3-E530955F1D6A",
+              "serial_number": null,
+              "model": "D8000-EXTV2",
+              "work_sitesId": 5,
+              "custom_machine_id": "Machine-002",
+              "additional_notes": null,
+              "location": "Room-C-2076",
+              "status": "under_maintenance",
+              "main_image_url": "/images/dataImages/Machine/hydraulic_press.jpg",
+              "side_image_1_url": null,
+              "side_image_2_url": null,
+              "side_image_3_url": null,
+              "side_image_4_url": null,
+              "side_image_5_url": null,
+              "side_image_6_url": null,
+              "created_at": 1765560787000,
+              "updated_at": 1765560906000,
+              "categories": [
+                {
+                  "id": 99,
+                  "name": "Hydraulic Press",
+                  "work_sitesId": 5,
+                  "description": null,
+                  "UID": "38D7EFA5-8538-43A8-B997-3E193875DEA6",
+                  "created_at": 1765560787000,
+                  "updated_at": 1765560787000,
+                  "pivot": {
+                    "machineId": 135,
+                    "categoryId": 99
+                  },
+                  "inspection_forms": [
+                    {
+                      "id": 102,
+                      "name": "Hydraulic Press Maintenance",
+                      "work_sitesId": 5,
+                      "description": null,
+                      "UID": "CF84F85E-1B49-4F6F-BDA3-27DA426F1C29",
+                      "created_at": 1765560853000,
+                      "updated_at": 1765560853000,
+                      "pivot": {
+                        "categoryId": 99,
+                        "inspection_formId": 102
+                      },
+                      "inspection_questions": [
+                        {
+                          "id": 972,
+                          "inspection_formId": 102,
+                          "question": "Example Question",
+                          "question_type": "Text",
+                          "format": "Short Answer",
+                          "options": null,
+                          "unit": null,
+                          "include_date": null,
+                          "include_time": null,
+                          "is_required": 1,
+                          "created_at": 1765560853000,
+                          "updated_at": 1765560853000
+                        },
+                        {
+                          "id": 973,
+                          "inspection_formId": 102,
+                          "question": "Example Question 2",
+                          "question_type": "Text",
+                          "format": "Short Answer",
+                          "options": null,
+                          "unit": null,
+                          "include_date": null,
+                          "include_time": null,
+                          "is_required": 1,
+                          "created_at": 1765560853000,
+                          "updated_at": 1765560853000
+                        },
+                        {
+                          "id": 974,
+                          "inspection_formId": 102,
+                          "question": "Example Question 3",
+                          "question_type": "Text",
+                          "format": "Short Answer",
+                          "options": null,
+                          "unit": null,
+                          "include_date": null,
+                          "include_time": null,
+                          "is_required": 1,
+                          "created_at": 1765560853000,
+                          "updated_at": 1765560853000
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "selected_inspection_forms": [
+              {
+                "id": 61,
+                "work_order_step_machineId": 32,
+                "work_order_step_categoryId": 61,
+                "work_order_step_inspection_formId": 61,
+                "created_at": 1765560906000,
+                "updated_at": 1765560906000,
+                "work_order_step_inspection_form": {
+                  "id": 61,
+                  "name": "Hydraulic Press Maintenance",
+                  "description": null,
+                  "UID": "17C61618-8371-4775-980F-0C7A6734B0C8",
+                  "status": "ongoing",
+                  "inspection_formId": 102,
+                  "work_order_step_machineId": 32,
+                  "created_at": 1765560906000,
+                  "updated_at": 1765560906000,
+                  "work_order_step_inspection_questions": [
+                    {
+                      "id": 435,
+                      "work_order_step_inspection_formId": 61,
+                      "UID": "6867BC39-7508-4B2C-B302-F5CA305E87ED",
+                      "question": "Example Question",
+                      "question_type": "Text",
+                      "format": "Short Answer",
+                      "options": null,
+                      "unit": null,
+                      "include_date": null,
+                      "include_time": null,
+                      "is_required": 1,
+                      "created_at": 1765560906000,
+                      "updated_at": 1765560906000,
+                      "submissions": []
+                    },
+                    {
+                      "id": 436,
+                      "work_order_step_inspection_formId": 61,
+                      "UID": "BFDE792B-D0DF-4937-9681-CC5A18AFA437",
+                      "question": "Example Question 2",
+                      "question_type": "Text",
+                      "format": "Short Answer",
+                      "options": null,
+                      "unit": null,
+                      "include_date": null,
+                      "include_time": null,
+                      "is_required": 1,
+                      "created_at": 1765560906000,
+                      "updated_at": 1765560906000,
+                      "submissions": []
+                    },
+                    {
+                      "id": 437,
+                      "work_order_step_inspection_formId": 61,
+                      "UID": "159E51AC-8037-4CC2-B7FB-8A772D669AE0",
+                      "question": "Example Question 3",
+                      "question_type": "Text",
+                      "format": "Short Answer",
+                      "options": null,
+                      "unit": null,
+                      "include_date": null,
+                      "include_time": null,
+                      "is_required": 1,
+                      "created_at": 1765560906000,
+                      "updated_at": 1765560906000,
+                      "submissions": []
+                    }
+                  ],
+                  "work_order_step_inspection_form_submission": [],
+                  "inspection_form": {
+                    "id": 102,
+                    "name": "Hydraulic Press Maintenance",
+                    "work_sitesId": 5,
+                    "description": null,
+                    "UID": "CF84F85E-1B49-4F6F-BDA3-27DA426F1C29",
+                    "created_at": 1765560853000,
+                    "updated_at": 1765560853000,
+                    "inspection_questions": [
+                      {
+                        "id": 972,
+                        "inspection_formId": 102,
+                        "question": "Example Question",
+                        "question_type": "Text",
+                        "format": "Short Answer",
+                        "options": null,
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765560853000,
+                        "updated_at": 1765560853000
+                      },
+                      {
+                        "id": 973,
+                        "inspection_formId": 102,
+                        "question": "Example Question 2",
+                        "question_type": "Text",
+                        "format": "Short Answer",
+                        "options": null,
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765560853000,
+                        "updated_at": 1765560853000
+                      },
+                      {
+                        "id": 974,
+                        "inspection_formId": 102,
+                        "question": "Example Question 3",
+                        "question_type": "Text",
+                        "format": "Short Answer",
+                        "options": null,
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765560853000,
+                        "updated_at": 1765560853000
+                      }
+                    ]
+                  }
+                },
+                "work_order_step_category": {
+                  "id": 61,
+                  "name": "Hydraulic Press",
+                  "description": null,
+                  "UID": "B1AE4776-653D-4C0A-90B4-AB115D832FDC",
+                  "work_order_step_machineId": 32,
+                  "categoryId": 99,
+                  "created_at": 1765560906000,
+                  "updated_at": 1765560906000,
+                  "category": {
+                    "id": 99,
+                    "name": "Hydraulic Press",
+                    "work_sitesId": 5,
+                    "description": null,
+                    "UID": "38D7EFA5-8538-43A8-B997-3E193875DEA6",
+                    "created_at": 1765560787000,
+                    "updated_at": 1765560787000
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "notified_members": [],
+        "assigned_members": [
+          {
+            "id": 5,
+            "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+            "role": "admin",
+            "employee_id": "234-005",
+            "userId": 12,
+            "pivot": {
+              "work_order_stepId": 1198,
+              "memberId": 5
+            },
+            "user": {
+              "id": 12,
+              "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+              "first_name": "Natalie",
+              "last_name": "Arden",
+              "email": "testAdmin@gmail.com",
+              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+            }
+          }
+        ],
+        "work_order_form_questions": [],
+        "audit_trails": []
+      }
+    }
+  },
+  {
+    "work_order": {
+      "id": 98,
+      "name": "Example Machine QR Scan",
+      "description": "Login with the Admin Account to check the QR code scanner feature",
+      "current_step": 1,
+      "status": "ongoing",
+      "is_overdue": 0,
+      "flow_chart_images": [
+        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/workOrder/24E3FE6E-A440-40B7-A47B-A2C955D43D1B/flowChart/1/1765560906_file.png"
+      ],
+      "work_order_custom_id": "LXH/WS01/121325/150",
+      "reportId": null,
+      "work_sitesId": 5,
+      "creatorId": 10,
+      "UID": "24E3FE6E-A440-40B7-A47B-A2C955D43D1B",
+      "deadline_date_time": 2018710800000,
+      "started_at": 1765560906000,
+      "finished_at": null,
+      "notified_due_soon_at": null,
+      "created_at": 1765560906000,
+      "updated_at": 1765560906000,
+      "step_index": 1,
+      "work_site": {
+        "id": 5,
+        "name": "Main Work Site",
+        "location": "Main Work Site Street",
+        "UID": "57BBE0E6-D586-46A6-AF9E-AD6B8D8939B8",
+        "super_adminId": 10,
+        "created_at": 1740536125000,
+        "updated_at": 1765566704000
+      },
+      "work_order_step": {
+        "id": 1198,
+        "name": "Initiate Maintenance",
+        "description": "",
+        "UID": "3309F1DA-3FFA-47EE-8C38-8D49137A3F5F",
+        "status": "ongoing",
+        "work_orderId": 98,
+        "aborted_by_userId": null,
+        "form": 0,
+        "notify": 0,
+        "notify_status": null,
+        "notification_message": null,
+        "multi_access_lock": 0,
+        "multi_access_lock_status": null,
+        "is_main_multi_access_lock": 0,
+        "multi_access_lock_step_index": null,
+        "work_order_multi_lock_groupId": null,
+        "machine": 1,
+        "require_verify_machine": 1,
+        "is_machine_verify": null,
+        "condition": 0,
+        "condition_question": null,
+        "condition_options": null,
+        "condition_value": null,
+        "parent_UID": null,
+        "loop_branch": null,
+        "loop_target_UID": null,
+        "attempt": null,
+        "is_drafted": 0,
+        "created_at": 1765560906000,
+        "updated_at": 1765560906000,
+        "work_order_step_machines": [
+          {
+            "id": 32,
+            "work_order_stepId": 1198,
+            "machineId": 135,
+            "name": "Hydraulic Press",
+            "description": null,
+            "UID": "C89773F1-4B8F-4AA0-A456-B57FA09BD984",
+            "custom_machine_id": "Machine-002",
+            "additional_notes": null,
+            "serial_number": null,
+            "model": "D8000-EXTV2",
+            "location": "Room-C-2076",
+            "status": "ongoing",
+            "main_image_url": "/images/dataImages/Machine/hydraulic_press.jpg",
+            "side_image_1_url": null,
+            "side_image_2_url": null,
+            "side_image_3_url": null,
+            "side_image_4_url": null,
+            "side_image_5_url": null,
+            "side_image_6_url": null,
+            "created_at": 1765560906000,
+            "updated_at": 1765560906000,
+            "machine": {
+              "id": 135,
+              "name": "Hydraulic Press",
+              "description": null,
+              "UID": "055CD6C8-2594-417C-BFE3-E530955F1D6A",
+              "serial_number": null,
+              "model": "D8000-EXTV2",
+              "work_sitesId": 5,
+              "custom_machine_id": "Machine-002",
+              "additional_notes": null,
+              "location": "Room-C-2076",
+              "status": "under_maintenance",
+              "main_image_url": "/images/dataImages/Machine/hydraulic_press.jpg",
+              "side_image_1_url": null,
+              "side_image_2_url": null,
+              "side_image_3_url": null,
+              "side_image_4_url": null,
+              "side_image_5_url": null,
+              "side_image_6_url": null,
+              "created_at": 1765560787000,
+              "updated_at": 1765560906000,
+              "categories": [
+                {
+                  "id": 99,
+                  "name": "Hydraulic Press",
+                  "work_sitesId": 5,
+                  "description": null,
+                  "UID": "38D7EFA5-8538-43A8-B997-3E193875DEA6",
+                  "created_at": 1765560787000,
+                  "updated_at": 1765560787000,
+                  "pivot": {
+                    "machineId": 135,
+                    "categoryId": 99
+                  },
+                  "inspection_forms": [
+                    {
+                      "id": 102,
+                      "name": "Hydraulic Press Maintenance",
+                      "work_sitesId": 5,
+                      "description": null,
+                      "UID": "CF84F85E-1B49-4F6F-BDA3-27DA426F1C29",
+                      "created_at": 1765560853000,
+                      "updated_at": 1765560853000,
+                      "pivot": {
+                        "categoryId": 99,
+                        "inspection_formId": 102
+                      },
+                      "inspection_questions": [
+                        {
+                          "id": 972,
+                          "inspection_formId": 102,
+                          "question": "Example Question",
+                          "question_type": "Text",
+                          "format": "Short Answer",
+                          "options": null,
+                          "unit": null,
+                          "include_date": null,
+                          "include_time": null,
+                          "is_required": 1,
+                          "created_at": 1765560853000,
+                          "updated_at": 1765560853000
+                        },
+                        {
+                          "id": 973,
+                          "inspection_formId": 102,
+                          "question": "Example Question 2",
+                          "question_type": "Text",
+                          "format": "Short Answer",
+                          "options": null,
+                          "unit": null,
+                          "include_date": null,
+                          "include_time": null,
+                          "is_required": 1,
+                          "created_at": 1765560853000,
+                          "updated_at": 1765560853000
+                        },
+                        {
+                          "id": 974,
+                          "inspection_formId": 102,
+                          "question": "Example Question 3",
+                          "question_type": "Text",
+                          "format": "Short Answer",
+                          "options": null,
+                          "unit": null,
+                          "include_date": null,
+                          "include_time": null,
+                          "is_required": 1,
+                          "created_at": 1765560853000,
+                          "updated_at": 1765560853000
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "selected_inspection_forms": [
+              {
+                "id": 61,
+                "work_order_step_machineId": 32,
+                "work_order_step_categoryId": 61,
+                "work_order_step_inspection_formId": 61,
+                "created_at": 1765560906000,
+                "updated_at": 1765560906000,
+                "work_order_step_inspection_form": {
+                  "id": 61,
+                  "name": "Hydraulic Press Maintenance",
+                  "description": null,
+                  "UID": "17C61618-8371-4775-980F-0C7A6734B0C8",
+                  "status": "ongoing",
+                  "inspection_formId": 102,
+                  "work_order_step_machineId": 32,
+                  "created_at": 1765560906000,
+                  "updated_at": 1765560906000,
+                  "work_order_step_inspection_questions": [
+                    {
+                      "id": 435,
+                      "work_order_step_inspection_formId": 61,
+                      "UID": "6867BC39-7508-4B2C-B302-F5CA305E87ED",
+                      "question": "Example Question",
+                      "question_type": "Text",
+                      "format": "Short Answer",
+                      "options": null,
+                      "unit": null,
+                      "include_date": null,
+                      "include_time": null,
+                      "is_required": 1,
+                      "created_at": 1765560906000,
+                      "updated_at": 1765560906000,
+                      "submissions": []
+                    },
+                    {
+                      "id": 436,
+                      "work_order_step_inspection_formId": 61,
+                      "UID": "BFDE792B-D0DF-4937-9681-CC5A18AFA437",
+                      "question": "Example Question 2",
+                      "question_type": "Text",
+                      "format": "Short Answer",
+                      "options": null,
+                      "unit": null,
+                      "include_date": null,
+                      "include_time": null,
+                      "is_required": 1,
+                      "created_at": 1765560906000,
+                      "updated_at": 1765560906000,
+                      "submissions": []
+                    },
+                    {
+                      "id": 437,
+                      "work_order_step_inspection_formId": 61,
+                      "UID": "159E51AC-8037-4CC2-B7FB-8A772D669AE0",
+                      "question": "Example Question 3",
+                      "question_type": "Text",
+                      "format": "Short Answer",
+                      "options": null,
+                      "unit": null,
+                      "include_date": null,
+                      "include_time": null,
+                      "is_required": 1,
+                      "created_at": 1765560906000,
+                      "updated_at": 1765560906000,
+                      "submissions": []
+                    }
+                  ],
+                  "work_order_step_inspection_form_submission": [],
+                  "inspection_form": {
+                    "id": 102,
+                    "name": "Hydraulic Press Maintenance",
+                    "work_sitesId": 5,
+                    "description": null,
+                    "UID": "CF84F85E-1B49-4F6F-BDA3-27DA426F1C29",
+                    "created_at": 1765560853000,
+                    "updated_at": 1765560853000,
+                    "inspection_questions": [
+                      {
+                        "id": 972,
+                        "inspection_formId": 102,
+                        "question": "Example Question",
+                        "question_type": "Text",
+                        "format": "Short Answer",
+                        "options": null,
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765560853000,
+                        "updated_at": 1765560853000
+                      },
+                      {
+                        "id": 973,
+                        "inspection_formId": 102,
+                        "question": "Example Question 2",
+                        "question_type": "Text",
+                        "format": "Short Answer",
+                        "options": null,
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765560853000,
+                        "updated_at": 1765560853000
+                      },
+                      {
+                        "id": 974,
+                        "inspection_formId": 102,
+                        "question": "Example Question 3",
+                        "question_type": "Text",
+                        "format": "Short Answer",
+                        "options": null,
+                        "unit": null,
+                        "include_date": null,
+                        "include_time": null,
+                        "is_required": 1,
+                        "created_at": 1765560853000,
+                        "updated_at": 1765560853000
+                      }
+                    ]
+                  }
+                },
+                "work_order_step_category": {
+                  "id": 61,
+                  "name": "Hydraulic Press",
+                  "description": null,
+                  "UID": "B1AE4776-653D-4C0A-90B4-AB115D832FDC",
+                  "work_order_step_machineId": 32,
+                  "categoryId": 99,
+                  "created_at": 1765560906000,
+                  "updated_at": 1765560906000,
+                  "category": {
+                    "id": 99,
+                    "name": "Hydraulic Press",
+                    "work_sitesId": 5,
+                    "description": null,
+                    "UID": "38D7EFA5-8538-43A8-B997-3E193875DEA6",
+                    "created_at": 1765560787000,
+                    "updated_at": 1765560787000
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "notified_members": [],
+        "assigned_members": [
+          {
+            "id": 5,
+            "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+            "role": "admin",
+            "employee_id": "234-005",
+            "userId": 12,
+            "pivot": {
+              "work_order_stepId": 1198,
+              "memberId": 5
+            },
+            "user": {
+              "id": 12,
+              "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+              "first_name": "Natalie",
+              "last_name": "Arden",
+              "email": "testAdmin@gmail.com",
+              "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+            }
+          }
+        ],
+        "work_order_form_questions": [],
+        "audit_trails": []
+      }
+    }
+  }
+]

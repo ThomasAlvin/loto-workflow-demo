@@ -62,7 +62,6 @@ export default function TemplatesPage() {
   const [tableLoading, setTableLoading] = useState(false);
   const [showing, setShowing] = useState(0);
   const [totalPages, setTotalPages] = useState(null);
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
 
   const currentPage = totalPages
     ? Math.min(Number(searchParams.get("page")) || 1, totalPages)
@@ -99,8 +98,6 @@ export default function TemplatesPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -167,12 +164,8 @@ export default function TemplatesPage() {
     setTableLoading(true);
     const localAbortController = abortControllerRef.current;
     await api
-      .get(
-        `template/pagination?type=all&step_type=only_saved&search=${searchFilter}&status=${statusFilter}&page=${currentPage}&rows=${rows}`,
-        { signal: abortControllerRef.current.signal }
-      )
+      .getTemplatePagination()
       .then((response) => {
-        console.log(response.data);
         setTemplates(response.data.data);
         setFrom(response.data.from);
         setTotalPages(response.data.last_page);
@@ -195,7 +188,7 @@ export default function TemplatesPage() {
   async function deleteTemplate(UID) {
     setDeleteButtonLoading(true);
     await api
-      .delete(`template/${UID}`)
+      .testSubmit("Template deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
           prevState.filter((selUID) => selUID !== UID)
@@ -239,11 +232,7 @@ export default function TemplatesPage() {
   async function deleteSelected() {
     setDeleteSelectedButtonLoading(true);
     await api
-      .delete(`template`, {
-        data: {
-          selectedUID: selectedUID,
-        },
-      })
+      .testSubmit("Selected template deleted successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -377,8 +366,6 @@ export default function TemplatesPage() {
                 <MenuGroup title="Select Method" px={"0px"} color={"crimson"}>
                   <MenuItem
                     onClick={() => {
-                      console.log(location.search);
-
                       nav(`/template/create${location.search}`);
                     }}
                   >
@@ -604,7 +591,7 @@ export default function TemplatesPage() {
                               }
                               src={
                                 creatorInfo?.profile_image_url
-                                  ? IMGURL + creatorInfo?.profile_image_url
+                                  ? creatorInfo?.profile_image_url
                                   : null
                               }
                             ></Avatar>
@@ -692,8 +679,7 @@ export default function TemplatesPage() {
                                             src={
                                               assignedMember?.user
                                                 .profile_image_url
-                                                ? IMGURL +
-                                                  assignedMember?.user
+                                                ? assignedMember?.user
                                                     .profile_image_url
                                                 : null
                                             }
@@ -759,7 +745,6 @@ export default function TemplatesPage() {
                             <Flex color={"#848484"}>No access granted</Flex>
                           )}
                         </Flex>
-                        {/* All Admin */}
                       </Td>
                       <Td
                         borderBottomColor={"#bababa"}

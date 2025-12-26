@@ -60,7 +60,6 @@ export default function SwitchAssigneeModalSelectedStep({
     };
     return customReactSelectStyle;
   };
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
 
   const [openStates, setOpenStates] = useState(
     val.work_order_step_machines?.map(() => [0])
@@ -75,7 +74,6 @@ export default function SwitchAssigneeModalSelectedStep({
       })
     );
   };
-  console.log(openStates);
 
   return (
     <Accordion defaultIndex={openByDefault ? [0] : ""} w={"100%"} allowToggle>
@@ -114,26 +112,14 @@ export default function SwitchAssigneeModalSelectedStep({
         <AccordionPanel py={"16px"}>
           <Flex w={"100%"} flexDir={"column"} gap={"20px"}>
             <Flex flexDir={"column"} gap={"10px"}>
-              <Box
-                onClick={() => console.log(val)}
-                fontWeight={700}
-                as="span"
-                flex="1"
-                textAlign="left"
-              >
+              <Box fontWeight={700} as="span" flex="1" textAlign="left">
                 Current Assignees :
               </Box>
 
               <MemberGroupList memberArray={val.assigned_members} />
             </Flex>
             <Flex flexDir={"column"} textAlign={"left"}>
-              <Flex
-                onClick={() => {
-                  console.log(filteredMemberSelection);
-                }}
-                fontWeight={700}
-                textAlign="left"
-              >
+              <Flex fontWeight={700} textAlign="left">
                 <Flex>Suggest a replacement</Flex>
               </Flex>
               <Flex
@@ -144,14 +130,10 @@ export default function SwitchAssigneeModalSelectedStep({
               >
                 <Flex>Suggest a member to take over your assignment</Flex>
               </Flex>
-              {/* <Flex w={"100%"}> */}
               <ReactSelect
-                // isMulti
                 menuPosition="fixed"
                 menuPlacement="auto"
-                // menuPortalTarget={document.body}
                 styles={getCustomReactSelectStyles("member")}
-                // styles={customReactSelectStyle}
                 isSearchable
                 isClearable
                 onChange={(e) => selectHandler(e, "memberId", val.UID)}
@@ -160,7 +142,6 @@ export default function SwitchAssigneeModalSelectedStep({
                   Option: ReactSelectMemberSelection,
                 }}
               />
-              {/* </Flex> */}
             </Flex>
             {val.form ? (
               <Flex flexDir={"column"}>
@@ -171,7 +152,6 @@ export default function SwitchAssigneeModalSelectedStep({
                 </Flex>
                 <Flex w={"100%"}>
                   <Flex w={"100%"} flexDir={"column"} gap={"20px"}>
-                    {/* supposed to use TemplateDetailsFormQuestion instead of WorkFlowFormQuestion */}
                     <Flex fontSize={"14px"} flexDir={"column"} w={"100%"}>
                       <Flex
                         bg={"#F8F9FA"}
@@ -286,7 +266,6 @@ export default function SwitchAssigneeModalSelectedStep({
                                 cursor={"pointer"}
                                 bg={"#f9f9f9"}
                                 onClick={() => {
-                                  console.log(selectedMachine);
                                   toggleAccordion(index);
                                 }}
                               >
@@ -303,9 +282,6 @@ export default function SwitchAssigneeModalSelectedStep({
                                 </Td>
                                 <Td whiteSpace={"normal"} px={"12px"}>
                                   {selectedMachine.serial_number}
-                                  {/* pernah ganti serialNumber */}
-                                  {/* pernah ganti serial_number because create work order sumamry */}
-                                  {/* pernah ganti serial_number because create work order sumamry */}
                                 </Td>
                                 <Td
                                   border={"none"}
@@ -344,12 +320,7 @@ export default function SwitchAssigneeModalSelectedStep({
                                       <AccordionPanel px={"10px"} py={"10px"}>
                                         <Flex flexDir={"column"} gap={"10px"}>
                                           <Flex alignItems={"center"}>
-                                            <Flex
-                                              onClick={() => {
-                                                console.log(selectedMachine);
-                                              }}
-                                              fontWeight={700}
-                                            >
+                                            <Flex fontWeight={700}>
                                               Selected Inspection Form :
                                             </Flex>
                                           </Flex>
@@ -408,63 +379,6 @@ export default function SwitchAssigneeModalSelectedStep({
             ) : (
               ""
             )}
-
-            {val.lock_access ? (
-              <>
-                <Flex flexDir={"column"}>
-                  <Flex flexDir={"column"}>
-                    <Box fontWeight={700} as="span" flex="1" textAlign="left">
-                      Assigned Lock :
-                    </Box>
-                  </Flex>
-                  <Flex flexDir={"column"}>
-                    {val?.work_order_locks.map((val, lockIndex) => (
-                      <Flex flexDir={"column"}>
-                        <Flex gap={"10px"} flexDir={"column"}>
-                          <Flex w={"100%"} alignItems={"center"}>
-                            <Flex
-                              whiteSpace={"nowrap"}
-                              color={"#dc143c"}
-                              fontWeight={700}
-                            >
-                              Lock {lockIndex + 1} : &nbsp;
-                            </Flex>
-                            <Flex
-                              h={"40px"}
-                              alignItems={"center"}
-                              w={"100%"}
-                              borderBottom={"1px solid black"}
-                            >
-                              {val.name}
-                            </Flex>
-                          </Flex>
-                          {/* Disable Require Lock Image */}
-                          {/* <Flex gap={"10px"}>
-                            <Flex gap={"10px"} alignItems={"center"}>
-                              <Checkbox
-                                isDisabled
-                                defaultChecked={val.require_lock_image}
-                              />
-                              <Flex
-                                // color={
-                                //   value.require_lock_image ? "#3182CE" : "#848484"
-                                // }
-                                fontWeight={700}
-                                fontSize={"14px"}
-                              >
-                                Require Lock Image On Submission
-                              </Flex>
-                            </Flex>
-                          </Flex> */}
-                        </Flex>
-                      </Flex>
-                    ))}
-                  </Flex>
-                </Flex>
-              </>
-            ) : (
-              ""
-            )}
             {val.multi_access_lock ? (
               <>
                 {val.work_order_multi_lock_group.is_pre_assigned ? (
@@ -509,22 +423,7 @@ export default function SwitchAssigneeModalSelectedStep({
             ) : (
               ""
             )}
-            {val.triggerAPI ? (
-              <>
-                {val.titleTriggerAPI && (
-                  <Flex flexDir={"column"}>
-                    <Box fontWeight={700} as="span" flex="1" textAlign="left">
-                      Trigger API external system key :
-                    </Box>
-                    <Flex color={val.titleTriggerAPI ? "black" : "#848484"}>
-                      {val.titleTriggerAPI || "Not Set"}
-                    </Flex>
-                  </Flex>
-                )}
-              </>
-            ) : (
-              ""
-            )}
+
             {val.condition ? (
               <>
                 {val.condition_question && (

@@ -61,9 +61,6 @@ export default function WorkOrderSaveAsDraftConfirmationModal({
       if (!filteredItem.machine) {
         delete filteredItem.selectedMachines;
       }
-      if (!filteredItem.triggerAPI) {
-        delete filteredItem.titleTriggerAPI;
-      }
 
       return filteredItem;
     });
@@ -77,17 +74,7 @@ export default function WorkOrderSaveAsDraftConfirmationModal({
     const formData = convertToFormData(formDataObject);
 
     try {
-      const response = await api.post(
-        variant === "edit"
-          ? `work-order/${UID}?status=draft`
-          : `work-order?status=draft`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await api.testSubmit("Work order saves successfully");
 
       Swal.fire({
         title: "Success!",

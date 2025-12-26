@@ -1,7 +1,6 @@
 import defaultNodeSettings from "../constants/defaultNodeSettings";
-import autoArrangeNodes from "./autoArrangeNodes";
 import { v4 as uuid } from "uuid";
-import autoArrangeNodes2 from "./autoArrangeNodes2";
+import autoArrangeNodes from "./autoArrangeNodes";
 
 export default async function convertStepsToXyFlowData(workOrderSteps) {
   if (!workOrderSteps || !workOrderSteps.length)
@@ -39,7 +38,7 @@ export default async function convertStepsToXyFlowData(workOrderSteps) {
 
     // Find children of this parent
     const children = workOrderSteps.filter(
-      (steps) => steps.parent_UID === parentUID,
+      (steps) => steps.parent_UID === parentUID
     );
 
     if (!children.length) return;
@@ -131,8 +130,7 @@ export default async function convertStepsToXyFlowData(workOrderSteps) {
     }
   });
 
-  // const arrangedNodes = autoArrangeNodes(nodes, edges, "TB");
-  const arrangedNodes = await autoArrangeNodes2(nodes, edges, "TB");
+  const arrangedNodes = await autoArrangeNodes(nodes, edges, "TB");
 
   return { nodes: arrangedNodes, edges };
 }

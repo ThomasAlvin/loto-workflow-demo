@@ -46,23 +46,12 @@ function WorkFlowStepAssign({
   assignRefs,
   handleCallToAction,
 }) {
-  console.log("Step " + (index + 1) + " is Rerendered");
-
   const toast = useToast();
   const [openAccordions, setOpenAccordions] = useState(
     val.selectedMachines?.map((val, index) => index)
   );
 
   const hasError =
-    (formik.errors.workOrderSteps?.[index]?.work_order_locks &&
-      formik.touched.workOrderSteps?.[index]?.work_order_locks &&
-      typeof formik.errors.workOrderSteps?.[index]?.work_order_locks ===
-        "string") ||
-    formik.errors.workOrderSteps?.[index]?.work_order_locks?.some(
-      (machine, lockIndex) =>
-        formik.touched.workOrderSteps?.[index]?.work_order_locks?.[lockIndex] &&
-        formik.errors.workOrderSteps?.[index]?.work_order_locks?.[lockIndex]
-    ) ||
     (formik.errors.workOrderSteps?.[index]?.multiLockAccessGroup
       ?.multiLockAccessGroupItems &&
       formik.touched.workOrderSteps?.[index]?.multiLockAccessGroup
@@ -84,8 +73,6 @@ function WorkFlowStepAssign({
       )) ||
     (formik.errors.workOrderSteps?.[index]?.assigned_to &&
       formik.touched.workOrderSteps?.[index]?.assigned_to) ||
-    (formik.errors.workOrderSteps?.[index]?.titleTriggerAPI &&
-      formik.touched.workOrderSteps?.[index]?.titleTriggerAPI) ||
     (formik.errors.workOrderSteps?.[index]?.notify_to &&
       formik.touched.workOrderSteps?.[index]?.notify_to) ||
     (formik.errors.workOrderSteps?.[index]?.selectedMachines &&
@@ -153,19 +140,6 @@ function WorkFlowStepAssign({
               : formik.values.workOrderSteps?.[index]?.notify_to?.length
               ? "#bababa"
               : "#039be5"
-            : variant === "lock"
-            ? formik.errors.workOrderSteps?.[index]?.work_order_locks?.[
-                lockIndex
-              ]?.id &&
-              formik.touched.workOrderSteps?.[index]?.work_order_locks?.[
-                lockIndex
-              ]?.id
-              ? "#dc143c"
-              : formik.values.workOrderSteps?.[index]?.work_order_locks?.[
-                  lockIndex
-                ]?.id
-              ? "#bababa"
-              : "#039be5"
             : variant === "inspectionForm"
             ? formik.errors.workOrderSteps?.[index]?.selectedMachines?.[
                 selectedMachineIndex
@@ -209,22 +183,6 @@ function WorkFlowStepAssign({
     return customReactSelectStyle;
   };
 
-  const inputHandler = debounce((event) => {
-    const { value } = event.target;
-
-    workOrderFormikSetValues((prevState) => ({
-      ...prevState,
-      workOrderSteps: prevState.workOrderSteps.map((val, indexStep) => {
-        if (indexStep === index) {
-          return {
-            ...val,
-            titleTriggerAPI: value,
-          };
-        }
-        return val;
-      }),
-    }));
-  }, 300);
   const selectHandler = useCallback((event, type, lockIndex) => {
     if (type === "assign") {
       workOrderFormikSetValues((prevState) => ({
@@ -311,29 +269,7 @@ function WorkFlowStepAssign({
       return prevState;
     });
   }
-  const lockCheckboxHandler = useCallback((event, lockIndex) => {
-    const { checked } = event.target;
-    workOrderFormikSetValues((prevState) => ({
-      ...prevState,
-      workOrderSteps: prevState.workOrderSteps.map((val, indexStep) => {
-        if (indexStep === index) {
-          // Update only the specified step
-          return {
-            ...val,
-            work_order_locks: val.work_order_locks.map(
-              (val2, indexWorkOrderLock) => {
-                if (indexWorkOrderLock === lockIndex) {
-                  return { ...val2, require_lock_image: checked };
-                }
-                return val2;
-              }
-            ),
-          };
-        }
-        return val;
-      }),
-    }));
-  }, []);
+
   function multiLockAccessCheckboxHandler() {
     workOrderFormikSetValues((prevState) => ({
       ...prevState,
@@ -453,14 +389,6 @@ function WorkFlowStepAssign({
                   </Box>
                 </Flex>
               </Flex>
-              {/* <Flex
-                textAlign={"center"}
-                fontSize={"14px"}
-                color={"#848484"}
-                justifyContent={"space-between"}
-              >
-                <Flex>Select the members you want to assign this step to</Flex>
-              </Flex> */}
               <ReactSelect
                 isMulti={true}
                 placeholder="Select the members you want to assign"
@@ -538,17 +466,6 @@ function WorkFlowStepAssign({
                   <Box fontWeight={700} as="span" flex="1" textAlign="left">
                     Form
                   </Box>
-                  {/* <Flex
-                    textAlign={"center"}
-                    fontSize={"14px"}
-                    color={"#848484"}
-                    justifyContent={"space-between"}
-                  >
-                    <Flex>
-                      Provide a form for members to fill out after they finished
-                      this step
-                    </Flex>
-                  </Flex> */}
                 </Flex>
                 <Flex w={"100%"}>
                   <Flex w={"100%"} flexDir={"column"} gap={"20px"}>
@@ -629,17 +546,6 @@ function WorkFlowStepAssign({
                       *
                     </Box>
                   </Box>
-                  {/* <Flex
-                    textAlign={"center"}
-                    fontSize={"14px"}
-                    color={"#848484"}
-                    justifyContent={"space-between"}
-                  >
-                    <Flex>
-                      Select the members you want to notify when this step is
-                      finished
-                    </Flex>
-                  </Flex> */}
                   <ReactSelect
                     isMulti={true}
                     placeholder="Select the members you want to notify for this step"
@@ -723,16 +629,6 @@ function WorkFlowStepAssign({
                   >
                     Notification message
                   </Box>
-                  {/* <Flex
-                    textAlign={"center"}
-                    fontSize={"14px"}
-                    color={"#848484"}
-                    justifyContent={"space-between"}
-                  >
-                    <Flex>
-                      The notification message to the selected members
-                    </Flex>
-                  </Flex> */}
                   <Input
                     bg={"white"}
                     boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
@@ -763,16 +659,6 @@ function WorkFlowStepAssign({
                       *
                     </Box>
                   </Box>
-                  {/* <Flex
-                    textAlign={"center"}
-                    fontSize={"14px"}
-                    color={"#848484"}
-                    justifyContent={"space-between"}
-                  >
-                    <Flex>
-                      Assign machines in this step for members to finish
-                    </Flex>
-                  </Flex> */}
                   <Flex
                     fontSize={"14px"}
                     flexDir={"column"}
@@ -975,112 +861,6 @@ function WorkFlowStepAssign({
             ) : (
               ""
             )}
-
-            {val.lockAccess ? (
-              <>
-                <Flex flexDir={"column"}>
-                  <Flex flexDir={"column"}>
-                    <Box
-                      fontWeight={700}
-                      fontSize={"15px"}
-                      as="span"
-                      flex="1"
-                      textAlign="left"
-                    >
-                      Assign Lock&nbsp;
-                      <Box as="span" color={"#dc143c"}>
-                        *
-                      </Box>
-                    </Box>
-                    {/* <Flex
-                      textAlign={"center"}
-                      fontSize={"14px"}
-                      color={"#848484"}
-                      justifyContent={"space-between"}
-                    >
-                      <Flex>
-                        Select the lock you want to assign this step to
-                      </Flex>
-                    </Flex> */}
-                  </Flex>
-
-                  <FormikProvider value={formik}>
-                    <FieldArray
-                      name={`workOrderSteps.${index}.work_order_locks`}
-                    >
-                      {({ remove, push }) => {
-                        function updatedPush(lock) {
-                          workOrderFormikSetValues((prevState) => ({
-                            ...prevState,
-                            workOrderSteps: prevState.workOrderSteps.map(
-                              (val, indexStep) => {
-                                if (indexStep === index) {
-                                  return {
-                                    ...val,
-                                    work_order_locks: [
-                                      ...(val?.work_order_locks ?? []),
-                                      {
-                                        name: "",
-                                        id: "",
-                                        require_lock_image: false,
-                                        label: "",
-                                        value: "",
-                                      },
-                                    ],
-                                  };
-                                }
-                                return val;
-                              }
-                            ),
-                          }));
-                          push(lock);
-                        }
-                        function updatedRemove(lockIndex) {
-                          workOrderFormikSetValues((prevState) => {
-                            return {
-                              ...prevState,
-                              workOrderSteps: prevState.workOrderSteps.map(
-                                (val2, indexStep) => {
-                                  if (indexStep === index) {
-                                    return {
-                                      ...val2,
-                                      work_order_locks:
-                                        val.work_order_locks.filter(
-                                          (val3, indexWorkOrderLock) =>
-                                            indexWorkOrderLock !== lockIndex
-                                        ),
-                                    };
-                                  }
-                                  return val2;
-                                }
-                              ),
-                            };
-                          });
-                          remove(lockIndex);
-                        }
-                        return (
-                          <SelectLockAssignFormikProvider
-                            formik={formik}
-                            removeFn={updatedRemove}
-                            pushFn={updatedPush}
-                            lockCheckboxHandler={lockCheckboxHandler}
-                            selectHandler={selectHandler}
-                            filteredLockSelection={filteredLockSelection}
-                            index={index}
-                            getCustomReactSelectStyles={
-                              getCustomReactSelectStyles
-                            }
-                            handleCallToAction={handleCallToAction}
-                          />
-                        );
-                      }}
-                    </FieldArray>
-                  </FormikProvider>
-                </Flex>
-              </>
-            ) : (
-              ""
-            )}
             {val.multiLockAccess ? (
               <>
                 {val?.multiLockAccessGroup?.isPreAssigned ? (
@@ -1098,16 +878,6 @@ function WorkFlowStepAssign({
                           *
                         </Box>
                       </Box>
-                      {/* <Flex
-                      textAlign={"center"}
-                      fontSize={"14px"}
-                      color={"#848484"}
-                      justifyContent={"space-between"}
-                    >
-                      <Flex>
-                        Select the lock you want to assign this step to
-                      </Flex>
-                    </Flex> */}
                     </Flex>
 
                     <FormikProvider value={formik}>
@@ -1176,7 +946,6 @@ function WorkFlowStepAssign({
                               formik={formik}
                               removeFn={updatedRemove}
                               pushFn={updatedPush}
-                              lockCheckboxHandler={lockCheckboxHandler}
                               selectHandler={selectHandler}
                               filteredLockSelection={filteredLockSelection}
                               index={index}
@@ -1193,95 +962,6 @@ function WorkFlowStepAssign({
                 ) : (
                   ""
                 )}
-              </>
-            ) : (
-              ""
-            )}
-            {val.triggerAPI ? (
-              <>
-                <Flex flexDir={"column"}>
-                  <Flex flexDir={"column"}>
-                    <Flex fontWeight={700} alignItems={"center"} gap={"4px"}>
-                      Trigger API external system key
-                      <Box as="span" color={"#dc143c"}>
-                        *
-                      </Box>
-                      {/* <Tooltip
-                        hasArrow
-                        placement="top"
-                        maxW={"none"}
-                        label={
-                          <Box whiteSpace="nowrap">
-                            This key will be verified from the JSON payload sent
-                            by your external system.
-                          </Box>
-                        }
-                      >
-                        <Flex
-                          _hover={{ color: "black" }}
-                          color={"#848484"}
-                          fontSize={"20px"}
-                        >
-                          <IoMdInformationCircleOutline />
-                        </Flex>
-                      </Tooltip> */}
-                    </Flex>
-                    {/* <Flex
-                      textAlign={"center"}
-                      fontSize={"14px"}
-                      color={"#848484"}
-                      justifyContent={"space-between"}
-                    >
-                      <Flex>
-                        Provide the key name we should validate from the JSON
-                        payload that will be sent by your external system.
-                      </Flex>
-                    </Flex> */}
-                  </Flex>
-                  <Input
-                    bg={"white"}
-                    onChange={inputHandler}
-                    defaultValue={val.titleTriggerAPI}
-                    onBlur={() => {
-                      setTimeout(() => {
-                        formik.validateForm();
-                        formik.setFieldTouched(
-                          `workOrderSteps[${index}].titleTriggerAPI`,
-                          true
-                        );
-                      }, 0);
-                    }}
-                    placeholder="Provide the key name we should validate from the JSON payload that will be sent by your external system."
-                    border={
-                      formik.errors.workOrderSteps?.[index]?.titleTriggerAPI &&
-                      formik.touched.workOrderSteps?.[index]?.titleTriggerAPI
-                        ? "1px solid #dc143c"
-                        : formik.values.workOrderSteps?.[index]?.titleTriggerAPI
-                        ? "1px solid #bababa"
-                        : "1px solid #039be5"
-                    }
-                  />
-                  {formik.errors.workOrderSteps?.[index]?.titleTriggerAPI &&
-                  formik.touched.workOrderSteps?.[index]?.titleTriggerAPI ? (
-                    <Flex
-                      py={"4px"}
-                      px={"8px"}
-                      alignItems={"center"}
-                      fontSize={"14px"}
-                      gap={"5px"}
-                      color={"#dc143c"}
-                    >
-                      <Flex>
-                        <FaTriangleExclamation />
-                      </Flex>
-                      <Flex>
-                        {formik.errors.workOrderSteps[index]?.titleTriggerAPI}
-                      </Flex>
-                    </Flex>
-                  ) : (
-                    ""
-                  )}
-                </Flex>
               </>
             ) : (
               ""

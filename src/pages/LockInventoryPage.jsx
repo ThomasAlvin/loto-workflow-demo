@@ -79,7 +79,6 @@ export default function LockInventoryPage() {
 
   const isIndeterminate = checkedOnPage.length > 0 && !allChecked;
 
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const debouncedSearch = useCallback(
     debounce((value) => {
       if (searchFilter === value) {
@@ -95,8 +94,6 @@ export default function LockInventoryPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -155,10 +152,7 @@ export default function LockInventoryPage() {
     const localAbortController = abortControllerRef.current;
 
     await api
-      .get(
-        `lock/pagination?search=${searchFilter}&status=${statusFilter}&page=${currentPage}&rows=${rows}`,
-        { signal: abortControllerRef.current.signal }
-      )
+      .getLockPagination()
       .then((response) => {
         setLocks(response.data.data);
         setFrom(response.data.from);
@@ -182,7 +176,7 @@ export default function LockInventoryPage() {
   async function deleteLock(UID) {
     setDeleteButtonLoading(true);
     await api
-      .delete(`lock/${UID}`)
+      .testSubmit("Lock deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
           prevState.filter((selUID) => selUID !== UID)
@@ -227,11 +221,8 @@ export default function LockInventoryPage() {
   async function deleteSelected() {
     setDeleteSelectedButtonLoading(true);
     await api
-      .delete(`lock`, {
-        data: {
-          selectedUID: selectedUID,
-        },
-      })
+      .testSubmit("Selected lock deleted successfully")
+
       .then((response) => {
         Swal.fire({
           title: "Success!",

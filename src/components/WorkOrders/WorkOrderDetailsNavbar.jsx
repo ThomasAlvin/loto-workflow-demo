@@ -9,8 +9,6 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import Swal from "sweetalert2";
-import { api } from "../../api/api";
 import checkHasPermission from "../../utils/checkHasPermission";
 import ReviewDetailsApproveModal from "../Review/ReviewDetailsApproveModal";
 import ReviewDetailsRejectModal from "../Review/ReviewDetailsRejectModal";
@@ -79,48 +77,8 @@ export default function WorkOrderDetailsNavbar({
     ) {
       nav("/assigned-work-order");
     } else {
-      console.log(userSelector);
       nav("/starter-guide");
     }
-  }
-
-  async function finishWorkOrder() {
-    api
-      .post(`work-order/finish/${UID}`)
-      .then((response) => {
-        // nav("/work-order");
-        Swal.fire({
-          title: "Success!",
-          text: response.data.message,
-          icon: "success",
-          customClass: {
-            popup: "swal2-custom-popup",
-            title: "swal2-custom-title",
-            content: "swal2-custom-content",
-            actions: "swal2-custom-actions",
-            confirmButton: "swal2-custom-confirm-button",
-          },
-        });
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Oops...",
-          icon: "error",
-          html: SwalErrorMessages(error.response.data.message),
-          customClass: {
-            popup: "swal2-custom-popup",
-            title: "swal2-custom-title",
-            content: "swal2-custom-content",
-            actions: "swal2-custom-actions",
-            confirmButton: "swal2-custom-confirm-button",
-          },
-        });
-        console.log(error);
-      })
-      .finally(() => {
-        // setLoading(false);
-        // onClose();
-      });
   }
 
   return (
@@ -269,72 +227,7 @@ export default function WorkOrderDetailsNavbar({
               ""
             )
           ) : (
-            <Flex alignItems={"center"} gap={"30px"}>
-              {/* <Flex>
-                <ButtonGroup
-                  border={"1px solid #dc143c"}
-                  isAttached
-                  variant="outline"
-                  borderRadius={"5px"}
-                >
-                  <Button
-                    borderRadius={"5px"}
-                    border={"none"}
-                    borderRight={"1px solid #dc143c"}
-                    alignItems={"center"}
-                    gap={"10px"}
-                    color={"#dc143c"}
-                    _hover={{ background: "#dc143c", color: "white" }}
-                  >
-                    <MdFileDownload fontSize={"20px"} />
-                    Download PDF
-                  </Button>
-
-                  <Menu>
-                    <MenuButton
-                      border={"none"}
-                      px={"16px"}
-                      borderRadius={"0px"}
-                      as={IconButton}
-                      aria-label="Options"
-                      fontSize={"20px"}
-                      icon={<FaChevronUp />}
-                      variant="outline"
-                      color={"#dc143c"}
-                      _hover={{ background: "#dc143c", color: "white" }}
-                      _active={{ background: "#dc143c", color: "white" }}
-                    />
-                    <MenuList>
-                      <MenuItem>
-                        <Flex gap={"10px"} alignItems={"center"}>
-                          <FaRegFilePdf />
-                          PDF
-                        </Flex>
-                      </MenuItem>
-                      <MenuItem>
-                        <Flex gap={"10px"} alignItems={"center"}>
-                          <FaRegFileWord />
-                          Word
-                        </Flex>
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>
-                </ButtonGroup>
-              </Flex> */}
-              {/* <Flex>
-                <Button
-                  zIndex={"200"}
-                  px={"20px"}
-                  bg={"#dc143c"}
-                  color={"white"}
-                  alignItems={"center"}
-                  gap={"10px"}
-                  onClick={finishWorkOrder}
-                >
-                  Finish Work Order
-                </Button>
-              </Flex> */}
-            </Flex>
+            ""
           )}
         </Box>
       </Flex>

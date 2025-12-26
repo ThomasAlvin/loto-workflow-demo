@@ -1,20 +1,38 @@
 import {
   Box,
+  Button,
   Divider,
   Flex,
+  Input,
   MenuItem,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Tag,
   TagLabel,
+  Textarea,
+  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FaMagnifyingGlass, FaWrench } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { v4 as uuid } from "uuid";
+import ReactSelect from "react-select";
+import CreatableSelect from "react-select/creatable";
+import {
+  FaMagnifyingGlass,
+  FaPlus,
+  FaTriangleExclamation,
+  FaWrench,
+} from "react-icons/fa6";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import InspectionFormDetailsModalFormQuestions from "./InspectionFormDetailsModalFormQuestions";
+import moment from "moment";
 
 export default function InspectionFormDetailsModal({ inspectionForm }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -47,7 +65,7 @@ export default function InspectionFormDetailsModal({ inspectionForm }) {
           <Divider m={0} />
 
           <ModalBody>
-            <Flex flexDir={"column"} gap={"20px"} pb={"20px"}>
+            <Flex flexDir={"column"} gap={"16px"} pb={"20px"}>
               <Flex gap={"30px"} alignItems={"center"}>
                 <Flex
                   alignItems={"center"}
@@ -69,11 +87,9 @@ export default function InspectionFormDetailsModal({ inspectionForm }) {
                       <Flex fontWeight={700} w={"100%"} fontSize={"20px"}>
                         {inspectionForm.name}
                       </Flex>
-                      {/* <Input w={"100%"}></Input> */}
                     </Flex>
                     <Flex flexDir={"column"}>
                       <Flex w={"100%"}>{inspectionForm.description}</Flex>
-                      {/* <Textarea></Textarea> */}
                     </Flex>
                   </Flex>
                   <Flex flexWrap={"wrap"} gap={"5px"}>
@@ -100,6 +116,20 @@ export default function InspectionFormDetailsModal({ inspectionForm }) {
                   </Flex>
                 </Flex>
               </Flex>
+              <Flex flexDir={"column"} gap={"10px"}>
+                <Flex fontSize={"16px"} flexDir={"column"} w={"100%"}>
+                  <Flex flexDir={"column"}>
+                    <Box fontWeight={700} as="span" flex="1" textAlign="left">
+                      Created At :
+                    </Box>
+                  </Flex>
+                  <Flex color={"#848484"}>
+                    {moment(inspectionForm.created_at).format(
+                      "DD MMMM YYYY | hh:mm A"
+                    )}
+                  </Flex>
+                </Flex>
+              </Flex>
 
               <Flex flexDir={"column"} gap={"10px"}>
                 <Flex
@@ -108,7 +138,7 @@ export default function InspectionFormDetailsModal({ inspectionForm }) {
                   flexDir={"column"}
                   w={"100%"}
                 >
-                  <Flex flexDir={"column"}>
+                  <Flex pb={"5px"} flexDir={"column"}>
                     <Box fontWeight={700} as="span" flex="1" textAlign="left">
                       Form Questions :
                     </Box>

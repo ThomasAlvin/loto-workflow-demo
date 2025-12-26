@@ -57,7 +57,7 @@ export default function CreateDepartmentModal({
   async function onSubmit(data) {
     setButtonLoading(true);
     await api
-      .post(`department`, data)
+      .testSubmit("Department saved successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -118,15 +118,6 @@ export default function CreateDepartmentModal({
           <Flex>Add Department</Flex>
         </Flex>
       </Button>
-      {/* Hide import and export template department feature */}
-      {/* <MenuItem onClick={createDepartmentDisclosure.onOpen}>
-        <Flex alignItems={"center"} gap={"10px"}>
-          <Flex fontSize={"18px"}>
-            <FaPlus />
-          </Flex>
-          <Flex>Add Department manually</Flex>
-        </Flex>
-      </MenuItem> */}
       <Modal
         closeOnOverlayClick={false}
         isOpen={createDepartmentDisclosure.isOpen}

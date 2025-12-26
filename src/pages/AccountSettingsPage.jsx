@@ -12,7 +12,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 import { FcGoogle } from "react-icons/fc";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import ChangePasswordModal from "../components/AccountSettings/ChangePasswordModal";
@@ -36,8 +36,11 @@ import SetToDefaultTFAConfirmationModal from "../components/AccountSettings/SetT
 import DeleteMethodConfirmationModal from "../components/AccountSettings/DeleteMethodConfirmationModal";
 import checkHasPermission from "../utils/checkHasPermission";
 import convertToFormData from "../utils/convertToFormData";
+import CountryPhoneNumberInput from "../components/CountryPhoneNumberInput";
+import getPhoneCountryDetailsByCountryCode from "../utils/getPhoneCountryDetailsByCountryCode";
+import removeCountryCode from "../utils/removeCountryCode";
 import Can from "../components/Can";
-
+import parsePhoneNumberFromString from "libphonenumber-js";
 export default function AccountSettingsPage() {
   const pageModule = "subscription";
   const [searchParams] = useSearchParams();
@@ -65,17 +68,15 @@ export default function AccountSettingsPage() {
   const [enableTFA, setEnableTFA] = useState();
   const [cancelSubscriptionButtonLoading, setCancelSubscriptionButtonLoading] =
     useState();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const [profileImagePreview, setProfileImagePreview] = useState(
-    userSelector.profile_image_url
-      ? IMGURL + userSelector.profile_image_url
-      : ""
+    userSelector.profile_image_url ? userSelector.profile_image_url : ""
   );
   const setToDefaultTFADisclosure = useDisclosure();
 
   const [companyLogoImagePreview, setCompanyLogoImagePreview] = useState(
     userSelector.company_logo_image_url
-      ? IMGURL + userSelector.company_logo_image_url
+      ? userSelector.company_logo_image_url
       : ""
   );
   const nav = useNavigate();
@@ -88,7 +89,14 @@ export default function AccountSettingsPage() {
   const initialValue = {
     firstName: userSelector.first_name,
     lastName: userSelector.last_name,
-    phoneNumber: userSelector.phone_number || "",
+    phoneNumber: removeCountryCode(userSelector.phone_number) || "",
+    phoneCountry: getPhoneCountryDetailsByCountryCode(
+      userSelector.phone_country
+    ) || {
+      value: "US",
+      name: "United States",
+      callingCode: "+1",
+    },
     profileImage: "",
     deleteProfileImage: userSelector.profile_image_url ? false : true,
     companyLogoImage: "",
@@ -98,12 +106,14 @@ export default function AccountSettingsPage() {
 
   const {
     reset,
+    control,
     watch,
     register,
     handleSubmit,
     getValues,
     setValue,
-    formState: { errors, touchedFields },
+    trigger,
+    formState: { errors, touchedFields, isDirty },
   } = useForm({
     defaultValues: initialValue,
     resolver: yupResolver(
@@ -111,13 +121,26 @@ export default function AccountSettingsPage() {
         firstName: Yup.string().trim().required("First name is required"),
         lastName: Yup.string().trim().required("Last name is required"),
         phoneNumber: Yup.string()
-          .notRequired()
-          .trim()
-          .matches(
-            /^(\+?[1-9]{1}[0-9]{1,2})?(\s|-|\.)?(\(?[0-9]{1,4}\)?[\s.-]?)?([0-9]{1,4}[\s.-]?[0-9]{1,4})+$/,
-            {
-              message: "Invalid phone number format",
-              excludeEmptyString: true,
+          .nullable()
+          .transform((value) => (value === "" ? null : value))
+          .test(
+            "is-valid-phone",
+            "Phone number is not valid",
+            function (value) {
+              const { phoneCountry } = this.parent;
+
+              // If phone number is empty, allow it (optional field)
+              if (!value) return true;
+
+              // If number exists but country does not, fail
+              if (!phoneCountry.value) return false;
+
+              const phoneNumber = parsePhoneNumberFromString(
+                value,
+                phoneCountry.value
+              );
+
+              return phoneNumber ? phoneNumber.isValid() : false;
             }
           ),
       })
@@ -125,7 +148,12 @@ export default function AccountSettingsPage() {
     mode: "onTouched",
     reValidateMode: "onChange",
   });
+  const selectedCountryCode = useWatch({
+    control,
+    name: "phoneCountry",
+  });
   const cancelSubscriptionModalDisclosure = useDisclosure();
+  const connectGoogleAuthDisclosure = useDisclosure();
 
   function handleOpenCancelSubscriptionModal() {
     cancelSubscriptionModalDisclosure.onOpen();
@@ -234,7 +262,15 @@ export default function AccountSettingsPage() {
 
   async function submitEditAccount(data) {
     setButtonLoading(true);
-    const formData = convertToFormData(data);
+    const phoneCountry = data.phoneNumber ? data.phoneCountry.value : "";
+    const editInput = {
+      ...data,
+      phoneNumber: data.phoneNumber
+        ? selectedCountryCode.callingCode + data.phoneNumber
+        : null,
+      phoneCountry,
+    };
+    const formData = convertToFormData(editInput);
     await api
       .testSubmit("Changes Saved Successfully")
       .then(async (response) => {
@@ -270,15 +306,11 @@ export default function AccountSettingsPage() {
         setButtonLoading(false);
       });
   }
-  function handleChange(e) {
-    const { value, id } = e.target;
-    if (id === "row") {
-      setRows(value);
-    } else {
-      debouncedSearch(value);
-    }
-  }
-
+  const handleOpenConnectGoogleAuth = (e) => {
+    e.stopPropagation();
+    refreshQrCode();
+    connectGoogleAuthDisclosure.onOpen();
+  };
   async function handleToggleTFA(event) {
     const { checked } = event.target;
     setTFASwitchLoading(true);
@@ -330,13 +362,6 @@ export default function AccountSettingsPage() {
             confirmButton: "swal2-custom-confirm-button",
           },
         });
-        dispatch({
-          type: "login",
-          payload: {
-            ...userSelector,
-            two_factor_type_default: method,
-          },
-        });
       })
       .catch((error) => {
         Swal.fire({
@@ -357,68 +382,6 @@ export default function AccountSettingsPage() {
         closeSetToDefaultTFAModal();
       });
   };
-  async function submitCompanyProfile() {
-    setButtonLoading(true);
-    const submittedData = {
-      logoImage: getValues("companyLogoImage"),
-      deleteLogoImage: getValues("deleteCompanyLogoImage"),
-      companyName: getValues("companyName"),
-    };
-    const formData = convertToFormData(submittedData);
-
-    await api
-      .post(`/user/upload-logo`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(async (response) => {
-        Swal.fire({
-          title: "Success!",
-          text: response.data.message,
-          icon: "success",
-          customClass: {
-            popup: "swal2-custom-popup",
-            title: "swal2-custom-title",
-            content: "swal2-custom-content",
-            actions: "swal2-custom-actions",
-            confirmButton: "swal2-custom-confirm-button",
-          },
-        });
-        dispatch({
-          type: "login",
-          payload: {
-            ...userSelector,
-            company_logo_image_url: response.data.company_logo_image_url,
-            company_name: response.data.company_name,
-          },
-        });
-        const newValues = {
-          ...getValues(),
-          companyLogoImage: "",
-        };
-
-        reset(newValues);
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Oops...",
-          // text: error.response.data.errors || "An error occurred",
-          icon: "error",
-          html: SwalErrorMessages(error.response.data.message),
-          customClass: {
-            popup: "swal2-custom-popup",
-            title: "swal2-custom-title",
-            content: "swal2-custom-content",
-            actions: "swal2-custom-actions",
-            confirmButton: "swal2-custom-confirm-button",
-          },
-        });
-      })
-      .finally(() => {
-        setButtonLoading(false);
-      });
-  }
 
   async function cancelSubscriptionAtPeriodEnd() {
     setCancelSubscriptionButtonLoading(true);
@@ -463,42 +426,10 @@ export default function AccountSettingsPage() {
       });
   }
 
-  async function changePaymentMethod() {
-    try {
-      setLoading(true);
-
-      const response = await api.post(`/user/change-payment-method`, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      window.location.href = response.data.url;
-    } catch (error) {
-      setLoading(false);
-      Swal.fire({
-        title: "Oops...",
-        icon: "error",
-        html: SwalErrorMessages(
-          error.response?.data?.message || "An error occurred"
-        ),
-        customClass: {
-          popup: "swal2-custom-popup",
-          title: "swal2-custom-title",
-          content: "swal2-custom-content",
-          actions: "swal2-custom-actions",
-          confirmButton: "swal2-custom-confirm-button",
-        },
-      });
-    }
-  }
   async function refreshQrCode() {
     setQRLoading(true);
     await api
-      .get(`user/refresh-qr-url`)
-      .then((response) => {
-        setQRCodeURL(response.data.qr);
-      })
+      .testSubmit()
       .catch((error) => {
         console.error(error);
       })
@@ -511,13 +442,6 @@ export default function AccountSettingsPage() {
     await api
       .testSubmit("Google Authenticator method has been deleted successfully.")
       .then((response) => {
-        dispatch({
-          type: "login",
-          payload: {
-            ...userSelector,
-            is_valid_2fa: false,
-          },
-        });
         Swal.fire({
           title: "Success!",
           text: response.data.message,
@@ -552,39 +476,6 @@ export default function AccountSettingsPage() {
         setDeleteGoogle2FALoading(false);
       });
   }
-  const accountInitial = {
-    firstName: userSelector.first_name,
-    lastName: userSelector.last_name,
-    phoneNumber: userSelector.phone_number || "",
-    profileImage: "",
-    deleteProfileImage: userSelector.profile_image_url ? false : true,
-  };
-
-  const accountCurrent = {
-    firstName: watch("firstName"),
-    lastName: watch("lastName"),
-    phoneNumber: watch("phoneNumber"),
-    profileImage: watch("profileImage"),
-    deleteProfileImage: watch("deleteProfileImage"),
-  };
-
-  const isAccountInputChanged =
-    JSON.stringify(accountInitial) !== JSON.stringify(accountCurrent);
-
-  const companyInitial = {
-    companyLogoImage: "",
-    deleteCompanyLogoImage: userSelector.company_logo_image_url ? false : true,
-    companyName: userSelector?.company_name || "",
-  };
-
-  const companyCurrent = {
-    companyLogoImage: watch("companyLogoImage"),
-    deleteCompanyLogoImage: watch("deleteCompanyLogoImage"),
-    companyName: watch("companyName"),
-  };
-
-  const isCompanyDetailsChanged =
-    JSON.stringify(companyInitial) !== JSON.stringify(companyCurrent);
 
   useEffect(() => {
     if (
@@ -634,7 +525,6 @@ export default function AccountSettingsPage() {
             </Flex>
           </Can>{" "}
         </Flex>
-        {/* <Flex h={"2px"} bg={"#bababa"}></Flex> */}
         {tab === "subscription" &&
         checkHasPermission(
           userSelector,
@@ -768,7 +658,6 @@ export default function AccountSettingsPage() {
                           </Flex>
                         </Flex>
                         <Flex fontSize={"14px"}>
-                          {/* <Flex fontWeight={700}>Profile Picture</Flex> */}
                           <Flex color={"#848484"}>JPG, PNG, JPEG Only</Flex>
                         </Flex>
                       </Flex>
@@ -980,11 +869,6 @@ export default function AccountSettingsPage() {
                         <Input
                           bg={"#ededed"}
                           isDisabled={true}
-                          // {...register("email")}
-                          // border={
-                          //   errors.email ? "1px solid crimson" : "1px solid #E2E8F0"
-                          // }
-                          // placeholder="Email"
                           value={userSelector.email}
                         ></Input>
                       </Flex>
@@ -1018,15 +902,30 @@ export default function AccountSettingsPage() {
                         </Flex>
                       </Flex>
                       <Flex>
-                        <Input
-                          {...register("phoneNumber")}
+                        <CountryPhoneNumberInput
+                          selectedCountryCodeValue={selectedCountryCode.value}
+                          selectedCountryCodeCallingCode={
+                            selectedCountryCode.callingCode
+                          }
+                          setSelectedCountryCode={setValue}
+                          registerId={"phoneCountry"}
+                          variant={"RHF"}
+                          trigger={trigger}
                           border={
                             errors.phoneNumber
                               ? "1px solid crimson"
                               : "1px solid #E2E8F0"
                           }
-                          placeholder="Phone Number"
-                        ></Input>
+                          placeholder="555-123-123"
+                          {...register("phoneNumber", {
+                            onChange: (e) => {
+                              e.target.value = e.target.value.replace(
+                                /[^\d() -]/g,
+                                ""
+                              );
+                            },
+                          })}
+                        />
                       </Flex>
                       {errors.phoneNumber ? (
                         <Flex
@@ -1048,7 +947,7 @@ export default function AccountSettingsPage() {
                   </Flex>
 
                   <Flex justify={"end"} alignItems={"center"} gap={"20px"}>
-                    {isAccountInputChanged ? <ChangesDetectedWarning /> : ""}
+                    {isDirty ? <ChangesDetectedWarning /> : ""}
                     <Button
                       isLoading={buttonLoading}
                       _hover={{
@@ -1104,16 +1003,6 @@ export default function AccountSettingsPage() {
                         onChange={handleToggleTFA}
                       />
                     </Flex>
-                    {/* <Button
-                      border={"1px solid #dc143c"}
-                      color={"#dc143c"}
-                      bg={"white"}
-                      h={"32px"}
-                      px={"8px"}
-                      fontSize={"14px"}
-                    >
-                      Change Method
-                    </Button> */}
                   </Flex>
                   <Flex
                     opacity={
@@ -1197,7 +1086,7 @@ export default function AccountSettingsPage() {
                           "google_auth" &&
                         userSelector.is_valid_2fa
                           ? () => handleOpenSetToDefaultTFAModal("google_auth")
-                          : ""
+                          : handleOpenConnectGoogleAuth
                       }
                       justify={"space-between"}
                       p={"10px"}
@@ -1250,6 +1139,12 @@ export default function AccountSettingsPage() {
                               !(
                                 userSelector.is_2fa_enabled && !TFASwitchLoading
                               )
+                            }
+                            isOpen={connectGoogleAuthDisclosure.isOpen}
+                            onClose={connectGoogleAuthDisclosure.onClose}
+                            onOpen={connectGoogleAuthDisclosure.onOpen}
+                            handleOpenConnectGoogleAuth={
+                              handleOpenConnectGoogleAuth
                             }
                             refreshQrCode={refreshQrCode}
                             QRLoading={QRLoading}

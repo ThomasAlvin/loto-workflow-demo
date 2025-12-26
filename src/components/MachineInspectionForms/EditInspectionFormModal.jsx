@@ -15,21 +15,23 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { FaRegEdit } from "react-icons/fa";
-import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
-import { VscEmptyWindow } from "react-icons/vsc";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { v4 as uuid } from "uuid";
+import CreatableSelect from "react-select/creatable";
+import { FaPlus, FaTriangleExclamation } from "react-icons/fa6";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { api } from "../../api/api";
-import convertToFormData from "../../utils/convertToFormData";
-import CustomSelectionSelect from "../CustomSelectionSelect";
-import SwalErrorMessages from "../SwalErrorMessages";
 import CreateInspectionFormModalFormQuestion from "./CreateInspectionFormModalFormQuestion";
+import { api } from "../../api/api";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { FaRegEdit } from "react-icons/fa";
+import { VscEmptyWindow } from "react-icons/vsc";
+import SwalErrorMessages from "../SwalErrorMessages";
+import CustomSelectionSelect from "../CustomSelectionSelect";
+import convertToFormData from "../../utils/convertToFormData";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 export default function EditInspectionFormModal({
   inspectionForm,
@@ -47,7 +49,14 @@ export default function EditInspectionFormModal({
   const handleChange = (newValue) => {
     setValue("categories", newValue);
   };
-
+  function onDragEnd(result) {
+    if (!result.destination) return;
+    const { source, destination } = result;
+    const copiedItems = [...getValues("formQuestions")];
+    const [removed] = copiedItems.splice(source.index, 1);
+    copiedItems.splice(destination.index, 0, removed);
+    setValue("formQuestions", copiedItems);
+  }
   const handleCreate = (inputValue) => {
     const newOption = {
       value: inputValue,
@@ -108,11 +117,16 @@ export default function EditInspectionFormModal({
                       2,
                       "At least two options are required for Multiple Choice"
                     )
-                    .test("unique", "Options must be unique", (value) => {
+                    .test("unique", "Options must be unique", function (value) {
                       if (!value) return true; // Skip if undefined, let required/min handle it
                       const trimmed = value.map((v) =>
                         typeof v === "string" ? v.trim() : ""
                       );
+                      if (trimmed.some((v) => v.length === 0)) {
+                        return this.createError({
+                          message: "Option cannot be empty",
+                        });
+                      }
                       const unique = new Set(trimmed);
                       return unique.size === trimmed.length;
                     }), // At least 2 options required for Multiple Choice
@@ -123,16 +137,25 @@ export default function EditInspectionFormModal({
                       Yup.array()
                         .of(
                           Yup.string().trim().required("Option cannot be empty")
-                        ) // Each option must be a string
+                        )
                         .min(1, "At least one option is required for Checkbox")
-                        .test("unique", "Options must be unique", (value) => {
-                          if (!value) return true; // Skip if undefined, let required/min handle it
-                          const trimmed = value.map((v) =>
-                            typeof v === "string" ? v.trim() : ""
-                          );
-                          const unique = new Set(trimmed);
-                          return unique.size === trimmed.length;
-                        }),
+                        .test(
+                          "unique",
+                          "Options must be unique",
+                          function (value) {
+                            if (!value) return true; // Skip if undefined, let required/min handle it
+                            const trimmed = value.map((v) =>
+                              typeof v === "string" ? v.trim() : ""
+                            );
+                            if (trimmed.some((v) => v.length === 0)) {
+                              return this.createError({
+                                message: "Option cannot be empty",
+                              });
+                            }
+                            const unique = new Set(trimmed);
+                            return unique.size === trimmed.length;
+                          }
+                        ),
                     otherwise: () => Yup.array().nullable(), // Options are not required for other types
                   }),
               }),
@@ -152,7 +175,7 @@ export default function EditInspectionFormModal({
     reValidateMode: "onChange",
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, insert, remove } = useFieldArray({
     control,
     name: "formQuestions", // The name must match the array field in your form
   });
@@ -183,11 +206,7 @@ export default function EditInspectionFormModal({
     const formData = convertToFormData(data);
 
     await api
-      .post(`inspection-form/${inspectionForm.UID}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .testSubmit("Inspection form saved successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -438,44 +457,6 @@ export default function EditInspectionFormModal({
                   selectedOption={watch("categories")}
                   createNewOption={handleCreate}
                 />
-                {/* <Flex w={"100%"}>
-                  <Controller
-                    name="categories"
-                    control={control}
-                    render={({ field }) => (
-                      <CreatableSelect
-                        {...field}
-                        isMulti
-                        options={categorySelection}
-                        createOptionPosition="first"
-                        onChange={handleChange}
-                        onCreateOption={handleCreate}
-                        placeholder="Select or create..."
-                        styles={{
-                          control: (provided, state) => ({
-                            ...provided,
-                            // borderColor: "#3cc1fa",
-                            width: "100%",
-                          }),
-                          container: (provided) => ({
-                            ...provided,
-                            width: "100%",
-                          }),
-                        }}
-                        formatCreateLabel={(inputValue) => (
-                          <Flex
-                            gap={"8px"}
-                            color={"#2684FF"}
-                            alignItems={"center"}
-                          >
-                            <FaPlus />
-                            <Flex>Create "{inputValue}" as new Category</Flex>
-                          </Flex>
-                        )}
-                      />
-                    )}
-                  />
-                </Flex> */}
               </Flex>
               <Flex flexDir={"column"} gap={"10px"}>
                 <Flex flexDir={"column"}>
@@ -545,57 +526,96 @@ export default function EditInspectionFormModal({
                       Manage
                     </Flex>
                   </Flex>
-                  {watch("formQuestions").length === 0 ? (
-                    <Flex
-                      justifyContent={"center"}
-                      flexDir={"column"}
-                      p={"20px"}
-                      bg={"#f8f9fa"}
-                      border={
-                        errors.formQuestionsSize?.message
-                          ? "#dc143c 2px dashed"
-                          : "#848484 2px dashed"
-                      }
-                      color={"#848484"}
-                      gap={"20px"}
-                    >
-                      <Flex justify={"center"} fontSize={"100px"}>
-                        <VscEmptyWindow />
-                      </Flex>
-                      <Flex flexDir={"column"} gap={"5px"}>
-                        <Flex
-                          justify={"center"}
-                          fontWeight={700}
-                          fontSize={"20px"}
-                        >
-                          Form Questions is Empty!
-                        </Flex>
-                        <Flex justify={"center"}>
-                          Create questions to gather the information needed for
-                          this step.
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  ) : (
-                    fields.map((field, index) => (
-                      <CreateInspectionFormModalFormQuestion
-                        register={register}
-                        key={field.id}
-                        title={field.title}
-                        watch={watch}
-                        required={field.required}
-                        type={field.type}
-                        setValue={setValue}
-                        getValues={getValues}
-                        index={index}
-                        errors={errors}
-                        clearErrors={clearErrors}
-                        trigger={trigger}
-                        remove={remove}
-                        fields={fields}
-                      />
-                    ))
-                  )}
+                  <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
+                    <Droppable droppableId={"question"} key={"question"}>
+                      {(provided, snapshot) => {
+                        return (
+                          <Flex
+                            flexDir={"column"}
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            style={{
+                              width: "100%",
+                              background: snapshot.isDraggingOver
+                                ? "#ffb0b0"
+                                : "",
+                            }}
+                          >
+                            {watch("formQuestions").length === 0 ? (
+                              <Flex
+                                justifyContent={"center"}
+                                flexDir={"column"}
+                                p={"20px"}
+                                bg={"#f8f9fa"}
+                                border={
+                                  errors.formQuestionsSize?.message
+                                    ? "#dc143c 2px dashed"
+                                    : "#848484 2px dashed"
+                                }
+                                color={"#848484"}
+                                gap={"20px"}
+                              >
+                                <Flex justify={"center"} fontSize={"100px"}>
+                                  <VscEmptyWindow />
+                                </Flex>
+                                <Flex flexDir={"column"} gap={"5px"}>
+                                  <Flex
+                                    justify={"center"}
+                                    fontWeight={700}
+                                    fontSize={"20px"}
+                                  >
+                                    Form Questions is Empty!
+                                  </Flex>
+                                  <Flex justify={"center"}>
+                                    Create questions to gather the information
+                                    needed for this step.
+                                  </Flex>
+                                </Flex>
+                              </Flex>
+                            ) : (
+                              fields.map((field, index) => (
+                                <Draggable
+                                  key={field.id}
+                                  draggableId={field.id}
+                                  index={index}
+                                >
+                                  {(provided, snapshot) => (
+                                    <CreateInspectionFormModalFormQuestion
+                                      key={field.id}
+                                      id={field.id}
+                                      provided={provided}
+                                      watch={watch}
+                                      register={register}
+                                      title={field.title}
+                                      insert={insert}
+                                      remove={remove}
+                                      required={field.required}
+                                      type={field.type}
+                                      setValue={setValue}
+                                      getValues={getValues}
+                                      index={index}
+                                      fieldErrors={
+                                        errors.formQuestions?.[index]
+                                      }
+                                      titleErrors={
+                                        errors.formQuestions?.[index]?.title
+                                      }
+                                      optionErrors={
+                                        errors.formQuestions?.[index]?.type
+                                          ?.options
+                                      }
+                                      trigger={trigger}
+                                    />
+                                  )}
+                                </Draggable>
+                              ))
+                            )}
+                            {provided.placeholder}
+                          </Flex>
+                        );
+                      }}
+                    </Droppable>
+                  </DragDropContext>
                 </Flex>
                 <Flex justify={"space-between"} py={"5px"}>
                   <Button

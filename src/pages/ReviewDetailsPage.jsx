@@ -52,7 +52,7 @@ export default function ReviewDetailsPage() {
 
 function ReviewContent({ stepDetailsDisclosure }) {
   const { fitView } = useReactFlow();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
   const [workOrder, setWorkOrder] = useState();
   const [fetchError, setFetchError] = useState(false);
@@ -113,8 +113,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
         role: workOrder?.work_order_reviewer.member?.role,
         employee_id: workOrder?.work_order_reviewer.member?.employee_id,
       };
-  console.log(workOrder?.work_order_review);
-  console.log(mySubmissionRequester);
 
   const hasPastDeadlineTime =
     Date.now() >= workOrder?.work_order.deadline_date_time;
@@ -125,8 +123,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
       if (!stepDetailsDisclosure.isOpen) {
         setSelectedEditStepTab("overview");
       }
-      console.log(selectedStep);
-      console.log(workOrder?.work_order_review.work_order.work_order_steps);
 
       setSelectedEditStep({
         ...selectedStep,
@@ -144,9 +140,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
       setLoading(true);
     }
     await api
-      .get(`review/${UID}`, {
-        signal: abortControllerRef.current.signal,
-      })
+      .getReviewDetails(UID)
       .then((response) => {
         const uniqueAssigneesSet = new Set();
         const uniqueAssignees = [];
@@ -158,7 +152,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
         const uniqueAssignedLocks = [];
         const uniqueAssignedReviewerSet = new Set();
         const uniqueAssignedReviewer = [];
-        console.log(response.data);
 
         const reformedWorkOrder = {
           ...response.data,
@@ -169,17 +162,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
               work_order_steps: [
                 ...response.data.work_order_snapshot.work_order_step_snapshots.map(
                   (stepSnapshot) => {
-                    console.log(stepSnapshot);
-                    console.log(stepSnapshot.UID);
-
-                    console.log({
-                      ...stepSnapshot.work_order_multi_lock_group_snapshot,
-                    });
-                    console.log(
-                      stepSnapshot.work_order_multi_lock_group_snapshot
-                        ?.work_order_multi_lock_group_item_snapshots
-                    );
-
                     return {
                       ...stepSnapshot,
                       // switch id to UID
@@ -247,8 +229,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
                           })
                         ),
                       ],
-                      work_order_locks:
-                        stepSnapshot.work_order_lock_snapshots || [],
                     };
                   }
                 ),
@@ -277,12 +257,9 @@ function ReviewContent({ stepDetailsDisclosure }) {
             const assignees = step.assigned_members;
             const notifiedMembers = step.notified_members;
             const assigned_machines = step.work_order_step_machines;
-            const assigned_locks = step.work_order_locks;
-            console.log(step);
-            console.log(uniqueAssignees);
-            console.log(assigned_locks);
-            console.log(step);
-            console.log(assignees);
+            const assigned_locks =
+              step?.work_order_multi_lock_group
+                ?.work_order_multi_lock_group_items || [];
 
             if (assignees.length) {
               assignees.map((assignee) => {
@@ -296,7 +273,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
               });
             }
 
-            console.log(uniqueAssignees);
             if (notifiedMembers.length) {
               notifiedMembers.map((notifMember) => {
                 if (
@@ -352,14 +328,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
             }
           ),
         });
-        console.log({
-          ...reformedWorkOrder,
-          assignees: uniqueAssignees,
-          notifiedMembers: uniqueNotifiedMembers,
-          assignedLocks: uniqueAssignedLocks,
-          assignedMachines: uniqueAssignedMachines,
-          // assignedReviewers: uniqueAssignedReviewer,
-        });
 
         // setSelectedStep({ ...response.data.workOrder.work_order_steps[0], index: 0 });
       })
@@ -378,12 +346,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
     (index) => {
       const stepToToggle =
         workOrder.work_order_review.work_order.work_order_steps[index];
-      console.log(index);
-      console.log(
-        workOrder.work_order_review.work_order.work_order_steps[index]
-      );
-
-      console.log(stepToToggle);
 
       setFlaggedSteps((prevState) => {
         // switch id to UID
@@ -435,8 +397,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
       const xyFlowData = await convertStepsToXyFlowData(
         workOrder?.work_order_review.work_order?.work_order_steps
       );
-      console.log(xyFlowData);
-      console.log(workOrder);
 
       setNodes(xyFlowData?.nodes);
       setEdges(xyFlowData?.edges);
@@ -488,16 +448,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
               <Flex w={"100%"} flexDir={"column"} gap={"20px"}>
                 <Flex flexDir={"column"} gap={"20px"}>
                   <Flex justifyContent={"space-between"} alignItems={"center"}>
-                    <Flex
-                      onClick={() => {
-                        console.log(workOrder);
-                        console.log(flaggedSteps);
-                        console.log(collectedReviews);
-                      }}
-                      fontSize={"20px"}
-                      fontWeight={700}
-                      color={"#dc143c"}
-                    >
+                    <Flex fontSize={"20px"} fontWeight={700} color={"#dc143c"}>
                       Steps
                     </Flex>
 
@@ -580,20 +531,6 @@ function ReviewContent({ stepDetailsDisclosure }) {
                       >
                         My Submission
                       </Flex>
-                      {/* <Flex
-                      h={"fit-content"}
-                      fontWeight={700}
-                      borderRadius={"10px"}
-                      px={"8px"}
-                      py={"4px"}
-                      alignItems={"center"}
-                      gap={"8px"}
-                      bg={bgColor}
-                      color={textColor}
-                    >
-                      <Flex fontSize={"20px"}>{icon}</Flex>
-                      <Flex>{text}</Flex>
-                    </Flex> */}
                     </Flex>
                     <Flex
                       // bg={"#f8f9fa"}
@@ -617,8 +554,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
                               }
                               src={
                                 mySubmissionRequester.profile_image_url
-                                  ? IMGURL +
-                                    mySubmissionRequester.profile_image_url
+                                  ? mySubmissionRequester.profile_image_url
                                   : null
                               }
                             ></Avatar>
@@ -832,7 +768,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
                                     }
                                     src={
                                       requester?.profile_image_url
-                                        ? IMGURL + requester?.profile_image_url
+                                        ? requester?.profile_image_url
                                         : null
                                     }
                                   ></Avatar>
@@ -1038,7 +974,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
                                   }
                                   src={
                                     requester.profile_image_url
-                                      ? IMGURL + requester.profile_image_url
+                                      ? requester.profile_image_url
                                       : null
                                   }
                                 ></Avatar>
@@ -1144,7 +1080,7 @@ function ReviewContent({ stepDetailsDisclosure }) {
                                   }
                                   src={
                                     requester.profile_image_url
-                                      ? IMGURL + requester.profile_image_url
+                                      ? requester.profile_image_url
                                       : null
                                   }
                                 ></Avatar>

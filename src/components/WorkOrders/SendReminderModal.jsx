@@ -35,13 +35,7 @@ export default function SendReminderModal({
             alignItems={"center"}
             color={"#dc143c"}
           >
-            <Flex
-              onClick={() => {
-                console.log(selectedSendReminderMember);
-              }}
-            >
-              Send Reminder?
-            </Flex>
+            <Flex>Send Reminder?</Flex>
           </ModalHeader>
           <ModalCloseButton
             isDisabled={sendReminderButtonLoading}

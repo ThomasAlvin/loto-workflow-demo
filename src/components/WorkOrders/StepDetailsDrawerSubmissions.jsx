@@ -71,11 +71,10 @@ export default function StepDetailsDrawerSubmissions({
   const [multiLockAccessFilter, setMultiLockAccessFilter] = useState("");
 
   const imageFocusDisclosure = useDisclosure();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const toggleAccordion = (index) => {
     setOpenStates((prevStates) =>
       prevStates.map((val2, i) => {
-        console.log(val2 ? null : [0]);
         if (i === index) {
           return val2 ? null : [0];
         }
@@ -382,13 +381,7 @@ export default function StepDetailsDrawerSubmissions({
               {selectedEditStep?.machine ? (
                 <>
                   <Flex flexDir={"column"} gap={"5px"}>
-                    <Flex
-                      fontWeight={700}
-                      onClick={() => {
-                        console.log(openStates);
-                      }}
-                      textAlign="left"
-                    >
+                    <Flex fontWeight={700} textAlign="left">
                       Assigned Machines :
                     </Flex>
 
@@ -459,7 +452,6 @@ export default function StepDetailsDrawerSubmissions({
                                       cursor={"pointer"}
                                       bg={"#f9f9f9"}
                                       onClick={() => {
-                                        console.log("ketrigger");
                                         toggleAccordion(index);
                                       }}
                                       _hover={{
@@ -623,86 +615,6 @@ export default function StepDetailsDrawerSubmissions({
                       </Flex>
                     </Flex>
                   </Flex>{" "}
-                  {selectedEditStep?.require_verify_machine ? (
-                    <Flex flexDir={"column"} gap={"5px"}>
-                      <Flex fontWeight={700} textAlign="left">
-                        Machine QR/UID Verified By :
-                      </Flex>
-                      {submission.machine_verified_by_member ? (
-                        <Flex alignItems={"center"} gap={"10px"}>
-                          {submission?.machine_verified_by_member?.user
-                            .first_name ? (
-                            <Avatar
-                              outline={"1px solid #dc143c"}
-                              border={"2px solid white"}
-                              name={
-                                submission?.machine_verified_by_member.user
-                                  .first_name +
-                                " " +
-                                submission?.machine_verified_by_member.user
-                                  .last_name
-                              }
-                              src={
-                                submission?.machine_verified_by_member?.user
-                                  .profile_image_url
-                                  ? IMGURL +
-                                    submission?.machine_verified_by_member.user
-                                      ?.profile_image_url
-                                  : null
-                              }
-                            ></Avatar>
-                          ) : (
-                            <Flex
-                              outline={"1px solid #dc143c"}
-                              bg={"#bababa"}
-                              borderRadius={"100%"}
-                              justifyContent={"center"}
-                              alignItems={"center"}
-                              h={"48px"}
-                              w={"48px"}
-                              border={"2px solid white"}
-                            >
-                              <Flex color={"white"} fontSize={"24px"}>
-                                <FaUserAlt />
-                              </Flex>
-                            </Flex>
-                          )}
-
-                          <Flex flexDir={"column"}>
-                            <Flex alignItems={"center"} fontWeight={700}>
-                              <Flex>
-                                {submission?.machine_verified_by_member.user
-                                  .first_name +
-                                  " " +
-                                  submission?.machine_verified_by_member.user
-                                    .last_name}
-                              </Flex>
-                            </Flex>
-                            <Flex
-                              color={"#848484"}
-                              fontWeight={400}
-                              fontSize={"14px"}
-                              alignItems={"center"}
-                            >
-                              {labelizeRole(
-                                submission?.machine_verified_by_member.role
-                              ) +
-                                (submission?.machine_verified_by_member
-                                  ?.employee_id
-                                  ? " - " +
-                                    submission?.machine_verified_by_member
-                                      .employee_id
-                                  : "")}
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                      ) : (
-                        <Flex color={"#848484"}>Not verified yet</Flex>
-                      )}
-                    </Flex>
-                  ) : (
-                    ""
-                  )}
                 </>
               ) : (
                 ""
@@ -782,9 +694,7 @@ export default function StepDetailsDrawerSubmissions({
                                         ]?.response?.map((responseURL) => (
                                           <Flex
                                             onClick={() => {
-                                              handleImageFocus(
-                                                IMGURL + responseURL
-                                              );
+                                              handleImageFocus(responseURL);
                                             }}
                                             cursor={"pointer"}
                                             position={"relative"}
@@ -822,7 +732,7 @@ export default function StepDetailsDrawerSubmissions({
                                               boxShadow={
                                                 "0px 0px 3px rgba(50,50,93,0.5)"
                                               }
-                                              src={IMGURL + responseURL}
+                                              src={responseURL}
                                             ></Image>
                                           </Flex>
                                         ))
@@ -834,32 +744,6 @@ export default function StepDetailsDrawerSubmissions({
                           ) : (
                             <Flex color={"#848484"}>No locks assigned</Flex>
                           )}
-
-                          {/* Disable Require Lock Image */}
-                          {/* <Flex gap={"10px"}>
-                                    <Flex gap={"10px"} alignItems={"center"}>
-                                      <Checkbox
-                                        position={"static"}
-                                        isDisabled
-                                        defaultChecked={
-                                          val.work_order_multi_lock_group
-                                            .require_lock_image
-                                        }
-                                      />
-                                      <Flex
-                                        color={
-                                          val.work_order_multi_lock_group
-                                            .require_lock_image
-                                            ? "#3182CE"
-                                            : "#848484"
-                                        }
-                                        fontWeight={700}
-                                        fontSize={"14px"}
-                                      >
-                                        Require Lock Image On Submission
-                                      </Flex>
-                                    </Flex>
-                                  </Flex> */}
                         </Flex>
                       </Flex>
                     </Flex>
@@ -972,15 +856,9 @@ export default function StepDetailsDrawerSubmissions({
                               <Th borderBottomColor={"#bababa"} px={"8px"}>
                                 Method
                               </Th>
-                              {/* <Th borderBottomColor={"#bababa"} px={"8px"}>
-                                Method Info
-                              </Th> */}
                               <Th borderBottomColor={"#bababa"} px={"8px"}>
                                 Location
                               </Th>
-                              {/* <Th borderBottomColor={"#bababa"} px={"8px"}>
-                                        Google Maps
-                                      </Th> */}
                             </Tr>
                           </Thead>
                           <Tbody>
@@ -1097,70 +975,6 @@ export default function StepDetailsDrawerSubmissions({
                                         </Flex>
                                       </Flex>
                                     </Td>
-                                    {/* <Td
-                                              borderBottomColor={"#bababa"}
-                                              color={"#848484"}
-                                              px={"8px"}
-                                              fontSize={"14px"}
-                                            >
-                                              <Flex alignItems={"center"} gap={"10px"}>
-                                                {val.user.first_name ? (
-                                                  <Avatar
-                                                    outline={"1px solid #dc143c"}
-                                                    border={"2px solid white"}
-                                                    name={
-                                                      val.user.first_name +
-                                                      " " +
-                                                      val.user.last_name
-                                                    }
-                                                    src={
-                                                      val.user.profile_image_url
-                                                        ? IMGURL +
-                                                          val.user.profile_image_url
-                                                        : null
-                                                    }
-                                                  ></Avatar>
-                                                ) : (
-                                                  <Flex
-                                                    outline={"1px solid #dc143c"}
-                                                    bg={"#bababa"}
-                                                    borderRadius={"100%"}
-                                                    justifyContent={"center"}
-                                                    alignItems={"center"}
-                                                    h={"48px"}
-                                                    w={"48px"}
-                                                    border={"2px solid white"}
-                                                  >
-                                                    <Flex
-                                                      color={"white"}
-                                                      fontSize={"24px"}
-                                                    >
-                                                      <FaUserAlt />
-                                                    </Flex>
-                                                  </Flex>
-                                                )}
-                                                <Flex flexDir={"column"}>
-                                                  <Flex fontWeight={700} color={"black"}>
-                                                    {val?.user?.first_name +
-                                                      " " +
-                                                      val?.user?.last_name}
-                                                  </Flex>
-                                                  <Flex
-                                                    fontSize={"14px"}
-                                                    color={"#848484"}
-                                                  >
-                                                    {val?.user.is_superadmin
-                                                      ? "Super Admin"
-                                                      : labelizeRole(
-                                                          val?.user.member?.role
-                                                        ) +
-                                                        " - " +
-                                                        val?.user.member?.employee_id}
-                                                  </Flex>
-                                                </Flex>
-                                              </Flex>
-                                            </Td> */}
-
                                     <Td
                                       borderBottomColor={"#bababa"}
                                       color={"#848484"}

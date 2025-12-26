@@ -258,11 +258,7 @@ export default function CreateEquipmentMachinePage() {
       const formData = convertToFormData(machineInput);
 
       await api
-        .post(`equipment-machine`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .testSubmit("Successfully added equipment/machine")
         .then((response) => {
           if (!woUID) {
             Swal.fire({
@@ -316,7 +312,7 @@ export default function CreateEquipmentMachinePage() {
   async function fetchMachineCategory(controller) {
     setSelectionLoading(true);
     await api
-      .get(`machine-category`, { signal: controller.signal })
+      .getMachineCategories()
       .then((response) => {
         setMachineCategory(response?.data?.machineCategory);
         setOptions(
@@ -478,7 +474,6 @@ export default function CreateEquipmentMachinePage() {
                         <Flex>
                           <FaEdit />
                         </Flex>
-                        {/* <Flex>Edit</Flex> */}
                       </Flex>
                     </>
                   ) : (
@@ -534,7 +529,7 @@ export default function CreateEquipmentMachinePage() {
               <Flex fontWeight={700} justify={"space-between"}>
                 <Flex>Other Image</Flex>
               </Flex>
-              {Array.from({ length: 6 }).map((_, index) =>
+              {Array.from({ length: 3 }).map((_, index) =>
                 formik.errors[`image${index + 1}`] &&
                 formik.touched[`image${index + 1}`] ? (
                   <Flex
@@ -585,30 +580,8 @@ export default function CreateEquipmentMachinePage() {
                 onChange={handleFileChange("image3")}
                 accept="image/*"
               />
-              <input
-                type="file"
-                ref={(el) => (fileInputRefs.current[4] = el)} // Assign ref dynamically to each input
-                style={{ display: "none" }}
-                onChange={handleFileChange("image4")}
-                accept="image/*"
-              />
-              <input
-                type="file"
-                ref={(el) => (fileInputRefs.current[5] = el)} // Assign ref dynamically to each input
-                style={{ display: "none" }}
-                onChange={handleFileChange("image5")}
-                accept="image/*"
-              />
-              <input
-                type="file"
-                ref={(el) => (fileInputRefs.current[6] = el)} // Assign ref dynamically to each input
-                style={{ display: "none" }}
-                onChange={handleFileChange("image6")}
-                accept="image/*"
-              />
-
               <Grid templateColumns="repeat(3, 1fr)" gap={"20px"}>
-                {Array.from({ length: 6 }).map((fileKey, index) =>
+                {Array.from({ length: 3 }).map((fileKey, index) =>
                   fileDisplay["image" + (index + 1)] ? (
                     <GridItem
                       position={"relative"}
@@ -687,7 +660,6 @@ export default function CreateEquipmentMachinePage() {
                         <Flex>
                           <FaEdit />
                         </Flex>
-                        {/* <Flex>Edit</Flex> */}
                       </Flex>
                     </GridItem>
                   ) : (

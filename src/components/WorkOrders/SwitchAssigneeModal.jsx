@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Box,
   Button,
   Flex,
@@ -11,17 +12,22 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { FaUserAlt } from "react-icons/fa";
-import { FaTriangleExclamation } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { FaUserAlt, FaUserCircle } from "react-icons/fa";
 import ReactSelect from "react-select";
-import labelizeRole from "../../utils/labelizeRole";
-import MemberGroupList from "../MemberGroupList";
-import ReactSelectMemberMultiValue from "../ReactSelectMemberMultiValue";
+import { useFormik } from "formik";
+import { api } from "../../api/api";
+import { useEffect, useRef, useState } from "react";
+import { FaTriangleExclamation } from "react-icons/fa6";
+import Swal from "sweetalert2";
 import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
 import ReactSelectStepSelection from "../ReactSelectStepSelection";
+import MemberGroupList from "../MemberGroupList";
+import ReactSelectMemberMultiValue from "../ReactSelectMemberMultiValue";
 import SwitchAssigneeModalSelectedStep from "./SwitchAssigneeModalSelectedStep";
+import { useSelector } from "react-redux";
+import { IoPersonAddSharp, IoPersonRemoveSharp } from "react-icons/io5";
 
 export default function SwitchAssigneeModal({
   workOrderSteps,
@@ -33,7 +39,7 @@ export default function SwitchAssigneeModal({
   switchAssigneeDisclosure,
 }) {
   const userSelector = useSelector((state) => state.login.auth);
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const filteredMemberSelection = memberSelection.filter(
     (member) => member?.user?.status === "verified"
   );
@@ -105,7 +111,6 @@ export default function SwitchAssigneeModal({
   };
 
   async function selectHandler(value, id, workOrderStepUID) {
-    console.log(value);
     if (id === "memberId") {
       if (stepDetails.isRequest) {
         formik.setValues((prevState) => ({
@@ -120,7 +125,7 @@ export default function SwitchAssigneeModal({
       } else {
         formik.setValues((prevState) => ({
           ...prevState,
-          memberUIDs: value.map((val) => val.memberUID),
+          memberUIDs: value,
         }));
       }
     } else if (id === "workOrderSteps") {
@@ -141,6 +146,14 @@ export default function SwitchAssigneeModal({
       [id]: value,
     }));
   }
+  const initialSwitchAssignee = [
+    ...(stepDetails?.assigned_members || [])?.map((member) => ({
+      label: member.user.first_name + " " + member.user.last_name,
+      value: member.id,
+      ...member,
+    })),
+  ];
+
   return (
     <>
       <Modal
@@ -154,17 +167,10 @@ export default function SwitchAssigneeModal({
         <ModalContent maxW="700px" maxH={"90vh"} overflow={"hidden"}>
           <ModalHeader color={"#dc143c"}>
             <Flex>
-              <Flex
-                onClick={() => {
-                  console.log(filteredStepSelection);
-                  console.log(workOrderSteps);
-                  console.log(stepDetails);
-                }}
-              >
+              <Flex>
                 {stepDetails?.isRequest
                   ? "Request Switch Assignee"
                   : "Switch Assignee"}
-                {/* {stepDetails.index + 1}. {stepDetails.name} */}
               </Flex>
             </Flex>
           </ModalHeader>
@@ -184,15 +190,13 @@ export default function SwitchAssigneeModal({
 
               {stepDetails?.isRequest ? (
                 <Flex flexDir={"column"}>
-                  <Flex
-                    onClick={() => {
-                      console.log(memberSelection);
-                      console.log(stepDetails);
-                    }}
-                    fontWeight={700}
-                    textAlign="left"
-                  >
-                    <Flex>Steps to Reassign from</Flex>
+                  <Flex fontWeight={700} textAlign="left">
+                    <Flex>
+                      Steps to Reassign from&nbsp;
+                      <Box as="span" color={"#dc143c"}>
+                        *
+                      </Box>
+                    </Flex>
                   </Flex>
                   <Flex
                     textAlign={"center"}
@@ -272,34 +276,6 @@ export default function SwitchAssigneeModal({
                         );
                       })}
                     </Flex>
-                    {/* <Flex flexDir={"column"} color={"#dc143c"}>
-                    {workOrderFormik.values.workOrderSteps?.length >= 5 ? (
-                      <>
-                        <Flex h={"20px"} pl={"5px"} color={"#848484"}>
-                          {summaryData.steps.length < 5 ? "..." : ""}
-                        </Flex>
-                        {summaryData.steps.length < 5 ? (
-                          <Flex
-                            textDecor={"underline"}
-                            cursor={"pointer"}
-                            onClick={() => showSteps()}
-                          >
-                            Show More
-                          </Flex>
-                        ) : (
-                          <Flex
-                            textDecor={"underline"}
-                            cursor={"pointer"}
-                            onClick={() => hideSteps()}
-                          >
-                            Show Less
-                          </Flex>
-                        )}
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </Flex> */}
                   </Flex>
                 </Flex>
               ) : (
@@ -308,58 +284,153 @@ export default function SwitchAssigneeModal({
               {stepDetails.isRequest ? (
                 ""
               ) : (
-                <Flex flexDir={"column"}>
-                  <Flex
-                    onClick={() => {
-                      console.log(memberSelection);
-                      console.log(stepDetails);
-                    }}
-                    fontWeight={700}
-                    textAlign="left"
-                  >
-                    <Flex>Switch to</Flex>
-                  </Flex>
-                  <Flex
-                    textAlign={"center"}
-                    fontSize={"14px"}
-                    color={"#848484"}
-                    justifyContent={"space-between"}
-                  >
-                    <Flex>
-                      Select the members you want to reassign this step to
+                <Flex flexDir={"column"} gap={"10px"}>
+                  <Flex flexDir={"column"}>
+                    <Flex fontWeight={700} textAlign="left">
+                      <Flex>
+                        Switch to&nbsp;
+                        <Box as="span" color={"#dc143c"}>
+                          *
+                        </Box>
+                      </Flex>
                     </Flex>
-                  </Flex>
-                  <ReactSelect
-                    isMulti
-                    //   menuPortalTarget={document.body}
-                    onBlur={async () => {
-                      await formik.setFieldTouched("memberUIDs", true);
-                      formik.validateForm();
-                    }}
-                    styles={getCustomReactSelectStyles("member")}
-                    // styles={customReactSelectStyle}
-                    menuPosition="fixed"
-                    isSearchable
-                    isClearable
-                    defaultValue={stepDetails.assigned_to}
-                    onChange={(e) => selectHandler(e, "memberId")}
-                    options={filteredMemberSelection}
-                    components={{
-                      Option: ReactSelectMemberSelection,
-                      MultiValue: ReactSelectMemberMultiValue,
-                    }}
-                  />
-                  {formik.touched.memberUIDs && formik.errors.memberUIDs && (
                     <Flex
-                      color="crimson"
-                      fontSize="14px"
-                      gap="5px"
-                      alignItems="center"
+                      textAlign={"center"}
+                      fontSize={"14px"}
+                      color={"#848484"}
+                      justifyContent={"space-between"}
                     >
-                      <FaTriangleExclamation />
-                      <Flex>{formik.errors.memberUIDs}</Flex>
+                      <Flex>
+                        Select the members you want to reassign this step to
+                      </Flex>
                     </Flex>
-                  )}
+                    <ReactSelect
+                      isMulti
+                      //   menuPortalTarget={document.body}
+                      onBlur={async () => {
+                        await formik.setFieldTouched("memberUIDs", true);
+                        formik.validateForm();
+                      }}
+                      styles={getCustomReactSelectStyles("member")}
+                      // styles={customReactSelectStyle}
+                      menuPosition="fixed"
+                      isSearchable
+                      isClearable
+                      value={formik.values.memberUIDs}
+                      onChange={(e) => selectHandler(e, "memberId")}
+                      options={filteredMemberSelection}
+                      components={{
+                        Option: ReactSelectMemberSelection,
+                        MultiValue: ReactSelectMemberMultiValue,
+                      }}
+                    />
+
+                    {formik.touched.memberUIDs && formik.errors.memberUIDs && (
+                      <Flex
+                        color="crimson"
+                        fontSize="14px"
+                        gap="5px"
+                        alignItems="center"
+                      >
+                        <FaTriangleExclamation />
+                        <Flex>{formik.errors.memberUIDs}</Flex>
+                      </Flex>
+                    )}
+                  </Flex>
+                  <Flex fontSize={"14px"} flexDir={"column"} gap={"10px"}>
+                    {formik.values.memberUIDs.filter(
+                      (member) =>
+                        !initialSwitchAssignee.some(
+                          (init) => init?.value === member?.value
+                        )
+                    )?.length ? (
+                      <Flex flexDir={"column"} gap={"5px"}>
+                        <Flex
+                          fontWeight={700}
+                          alignItems={"center"}
+                          gap={"5px"}
+                          color={"#3D9666"}
+                        >
+                          <Flex>
+                            <IoPersonAddSharp />
+                          </Flex>
+                          <Flex>Adding:</Flex>{" "}
+                        </Flex>
+                        <Flex flexWrap={"wrap"} gap={"10px"}>
+                          {formik.values.memberUIDs
+                            .filter(
+                              (member) =>
+                                !initialSwitchAssignee.some(
+                                  (init) => init?.value === member?.value
+                                )
+                            )
+                            .map((m) => (
+                              <Flex
+                                cursor={"default"}
+                                bg={"#DBF6CB"}
+                                fontSize={"13px"}
+                                border={"1px solid #3D9666"}
+                                color={"#3D9666"}
+                                fontWeight={700}
+                                px={"8px"}
+                                py={"0px"}
+                                borderRadius={"5px"}
+                              >
+                                {m?.label}
+                              </Flex>
+                            ))}
+                        </Flex>
+                      </Flex>
+                    ) : (
+                      ""
+                    )}
+                    {initialSwitchAssignee.filter(
+                      (init) =>
+                        !formik.values.memberUIDs.some(
+                          (member) => member?.value === init?.value
+                        )
+                    )?.length ? (
+                      <Flex flexDir={"column"}>
+                        <Flex
+                          fontWeight={700}
+                          alignItems={"center"}
+                          gap={"5px"}
+                          color={"#dc143c"}
+                        >
+                          <Flex>
+                            <IoPersonRemoveSharp />
+                          </Flex>
+                          <Flex>Removing:</Flex>{" "}
+                        </Flex>
+                        <Flex flexWrap={"wrap"} gap={"10px"}>
+                          {initialSwitchAssignee
+                            .filter(
+                              (init) =>
+                                !formik.values.memberUIDs.some(
+                                  (member) => member?.value === init?.value
+                                )
+                            )
+                            .map((m) => (
+                              <Flex
+                                cursor={"default"}
+                                bg={"#FDE2E2"}
+                                fontSize={"13px"}
+                                border={"1px solid #dc143c"}
+                                color={"#dc143c"}
+                                fontWeight={700}
+                                px={"8px"}
+                                py={"0px"}
+                                borderRadius={"5px"}
+                              >
+                                {m?.label}
+                              </Flex>
+                            ))}
+                        </Flex>
+                      </Flex>
+                    ) : (
+                      ""
+                    )}
+                  </Flex>
                 </Flex>
               )}
 

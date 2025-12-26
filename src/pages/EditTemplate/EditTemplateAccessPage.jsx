@@ -28,7 +28,6 @@ export default function EditTemplateAccessPage({
   currentPage,
   setCurrentPage,
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const nav = useNavigate();
   const userSelector = useSelector((state) => state.login.auth);
 
@@ -59,7 +58,7 @@ export default function EditTemplateAccessPage({
   }
   async function fetchMembers(controller) {
     await api
-      .get(`member`, { signal: controller.signal })
+      .getMembers()
       .then((response) => {
         setMemberSelection(
           response.data.members.map((val) => ({
@@ -107,10 +106,6 @@ export default function EditTemplateAccessPage({
                   textAlign={"center"}
                   fontSize={"28px"}
                   fontWeight={700}
-                  onClick={() => {
-                    console.log(templateDetails);
-                    console.log(memberSelection);
-                  }}
                 >
                   Who can access this template and its inspections?
                 </Flex>
@@ -177,7 +172,7 @@ export default function EditTemplateAccessPage({
                                       }
                                       src={
                                         val?.profile_image_url
-                                          ? IMGURL + val?.profile_image_url
+                                          ? val?.profile_image_url
                                           : null
                                       }
                                     ></Avatar>
@@ -399,10 +394,7 @@ export default function EditTemplateAccessPage({
         top={"-9999px"}
         w={"100%"}
         h={"100%"}
-      >
-        {/* disabled cause template don't save workflow images */}
-        {/* <WorkFlowXyFlow nodes={nodes} edges={edges} /> */}
-      </Flex>
+      ></Flex>
     </Flex>
   );
 }

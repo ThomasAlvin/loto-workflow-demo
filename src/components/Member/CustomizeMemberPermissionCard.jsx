@@ -76,8 +76,6 @@ export default function CustomizeMemberPermissionCard({
     return "none";
   }
   function formatRequirement(requirements) {
-    console.log(requirements);
-
     return requirements
       ?.map((requirement) => {
         const words = formatString(
@@ -169,18 +167,6 @@ export default function CustomizeMemberPermissionCard({
         ) : (
           ""
         )}
-        {/* {isWorkOrderViewOwnedOrViewRequirement(module, permission) ||
-        formatRequirement(permission?.conflicts) ? (
-          <Flex alignItems={"center"} fontSize={"14px"} color={"#7059ff"}>
-            <Flex fontWeight={700}>Conflicts:&nbsp;</Flex>
-            <Flex color={"black"}>
-              {isWorkOrderViewOwnedOrViewRequirement(module, permission) ||
-                formatRequirement(permission?.conflicts)}
-            </Flex>
-          </Flex>
-        ) : (
-          ""
-        )} */}
       </Flex>
       <Flex
         onClick={(e) => {

@@ -23,7 +23,7 @@ export default function convertTableToRoute(tableName, UID) {
       } else {
         return `/work-order`;
       }
-    case "report":
+    case "reports":
       if (UID) {
         return `/report/${UID}`;
       } else {

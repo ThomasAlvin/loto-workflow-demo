@@ -28,25 +28,14 @@ import ListEmptyState from "../ListEmptyState";
 import MemberGroupList from "../MemberGroupList";
 import ReportDetailsStepInspectionForm from "./ReportDetailsStepInspectionForm";
 export default function ReportDetailsStepSubmissions({ selectedStep }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const multiLockAccessNames =
     selectedStep?.report_multi_lock_group?.report_multi_lock_group_items.map(
       (item) => item.name
     ) || [];
-
-  const lockAccessIds =
-    selectedStep?.report_locks?.map((item) => item.name) || [];
-
   const multiLockAccessAuditLogs =
     selectedStep.report_step_audit_trails?.filter((log) => {
       return multiLockAccessNames.includes(log.lock?.name);
     });
-
-  const lockAccessAuditLogs = selectedStep.report_step_audit_trails?.filter(
-    (log) => {
-      return lockAccessIds.includes(log.lock?.name);
-    }
-  );
 
   return (
     <Flex flexDir={"column"} gap={"30px"}>
@@ -119,14 +108,6 @@ export default function ReportDetailsStepSubmissions({ selectedStep }) {
                   ) : (
                     ""
                   )}
-                  {selectedStep.access_lock ? (
-                    <LockAccessSection
-                      selectedStep={selectedStep}
-                      submissionIndex={submissionIndex}
-                    />
-                  ) : (
-                    ""
-                  )}
                   {selectedStep.multi_access_lock ? (
                     <MultiLockAccessSection
                       selectedStep={selectedStep}
@@ -142,14 +123,6 @@ export default function ReportDetailsStepSubmissions({ selectedStep }) {
                       responseConditional={
                         reportSubmission.response_conditional
                       }
-                      submissionIndex={submissionIndex}
-                    />
-                  ) : (
-                    ""
-                  )}
-                  {selectedStep.trigger_api ? (
-                    <TriggerApiSection
-                      selectedStep={selectedStep}
                       submissionIndex={submissionIndex}
                     />
                   ) : (
@@ -173,11 +146,6 @@ export default function ReportDetailsStepSubmissions({ selectedStep }) {
           ) : (
             ""
           )}
-          {selectedStep.access_lock ? (
-            <LockAccessSection selectedStep={selectedStep} />
-          ) : (
-            ""
-          )}
           {selectedStep.multi_access_lock ? (
             <MultiLockAccessSection
               selectedStep={selectedStep}
@@ -191,18 +159,12 @@ export default function ReportDetailsStepSubmissions({ selectedStep }) {
           ) : (
             ""
           )}
-          {selectedStep.trigger_api ? (
-            <TriggerApiSection selectedStep={selectedStep} />
-          ) : (
-            ""
-          )}
         </Flex>
       )}
     </Flex>
   );
 }
 function FormSection({ selectedStep, submissionIndex }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Flex flexDir={"column"} gap={"16px"}>
       <Flex flexDir={"column"}>
@@ -258,7 +220,6 @@ function FormSection({ selectedStep, submissionIndex }) {
   );
 }
 function NotifySection({ selectedStep, submissionIndex, notifyAt }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Flex w={"100%"} flexDir={"column"} gap={"16px"}>
       <Flex flexDir={"column"}>
@@ -348,7 +309,6 @@ function NotifySection({ selectedStep, submissionIndex, notifyAt }) {
   );
 }
 function MachineSection({ selectedStep, submissionIndex }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Flex flexDir={"column"} gap={"16px"}>
       <Flex
@@ -524,371 +484,6 @@ function MachineSection({ selectedStep, submissionIndex }) {
           </Flex>
         </Flex>
       </Flex>
-      <Flex flexDir={"column"} gap={"5px"}>
-        <Flex fontWeight={700} textAlign="left">
-          Machine QR/UID Verified By
-        </Flex>
-        <Box
-          w={"100%"}
-          onClick={() => {
-            console.log(selectedStep);
-          }}
-        >
-          <MemberGroupList
-            memberArray={selectedStep?.report_step_notified_members?.map(
-              (assignedMember) => ({
-                ...assignedMember,
-                user: {
-                  first_name: assignedMember.first_name,
-                  last_name: assignedMember.last_name,
-                  profile_image_url: assignedMember.profile_image_url,
-                },
-              })
-            )}
-            hasShowMore={false}
-          />
-        </Box>
-      </Flex>
-    </Flex>
-  );
-}
-function LockAccessSection({ selectedStep, submissionIndex }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
-  return (
-    <Flex flexDir={"column"}>
-      <Flex flexDir={"column"} gap={"20px"}>
-        <Flex
-          py={"4px"}
-          px={"10px"}
-          bg={
-            selectedStep?.status === "completed" ||
-            selectedStep?.status === "cancelled"
-              ? "#dc143c"
-              : "#bababa"
-          }
-          color={"white"}
-          fontSize={"20px"}
-          fontWeight={700}
-          textAlign="left"
-        >
-          Assigned Lock
-        </Flex>
-        <Flex flexDir={"column"}>
-          <TableContainer
-            overflowX={"hidden"}
-            boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-          >
-            <Table w={"100%"} variant="simple">
-              <Thead bg={"#ECEFF3"}>
-                <Tr>
-                  <Th
-                    textAlign={"center"}
-                    borderBottomColor={"#bababa"}
-                    px={"12px"}
-                    w={"60px"}
-                  >
-                    No
-                  </Th>
-                  <Th borderBottomColor={"#bababa"} px={"12px"}>
-                    Lock
-                  </Th>
-                  <Th borderBottomColor={"#bababa"} px={"12px"}>
-                    Serial Number
-                  </Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {selectedStep.report_locks.map((val, index) => {
-                  return (
-                    <Tr
-                      cursor={"pointer"}
-                      bg={index % 2 ? "white" : "#f8f9fa"}
-                      fontSize={"14px"}
-                      _hover={{
-                        background: "#ededed",
-                      }}
-                      transition={"background ease-in-out 0.1s"}
-                    >
-                      <Td
-                        fontWeight={700}
-                        px={"12px"}
-                        textAlign={"center"}
-                        borderBottomColor={"#bababa"}
-                      >
-                        {index + 1}.
-                      </Td>
-                      <Td
-                        borderBottomColor={"#bababa"}
-                        whiteSpace={"normal"}
-                        px={"12px"}
-                      >
-                        <Flex alignItems={"center"} gap={"10px"}>
-                          <Flex
-                            bg={"#dedede"}
-                            justifyContent={"center"}
-                            alignItems={"center"}
-                            h={"48px"}
-                            w={"48px"}
-                          >
-                            <Flex color={"white"} fontSize={"20px"}>
-                              {val.model ? (
-                                <Image src={getLockImageByModel(val.model)} />
-                              ) : (
-                                <IoIosLock />
-                              )}
-                            </Flex>
-                          </Flex>
-                          <Flex flexDir={"column"}>
-                            <Flex fontWeight={700}>{val.name}</Flex>
-                            <Flex
-                              fontWeight={400}
-                              fontSize={"14px"}
-                              color={"#848484"}
-                            >
-                              {val.model}
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                      </Td>
-                      <Td
-                        borderBottomColor={"#bababa"}
-                        whiteSpace={"normal"}
-                        color={"#848484"}
-                        px={"12px"}
-                      >
-                        {val.serial_number}
-                      </Td>
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </Flex>
-        {selectedStep.report_locks.length ? (
-          <Flex flexDir={"column"} gap={"10px"}>
-            <Flex fontWeight={700}>Submitted Images : </Flex>
-            <Flex gap={"20px"} flexDir={"column"}>
-              <Flex flexDir={"column"} gap={"10px"}>
-                {selectedStep.report_locks.map((lock) => (
-                  <>
-                    <Flex fontWeight={700} color={"#dc143c"} fontSize={"14px"}>
-                      {lock.name}
-                    </Flex>
-                    <Flex gap={"20px"} flexWrap={"wrap"}>
-                      {lock.response_image_url &&
-                      lock.response_image_url.length ? (
-                        lock.response_image_url.map((responseURL) => (
-                          <Flex>
-                            <Flex cursor={"pointer"} position={"relative"}>
-                              <Image
-                                w={"120px"}
-                                bg={"#f5f5f5"}
-                                h={"100px"}
-                                boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                                src={IMGURL + responseURL}
-                              ></Image>
-                            </Flex>
-                          </Flex>
-                        ))
-                      ) : (
-                        <Flex fontSize={"14px"} color={"#848484"}>
-                          No Image Submitted
-                        </Flex>
-                      )}
-                    </Flex>
-                  </>
-                ))}
-              </Flex>
-            </Flex>
-          </Flex>
-        ) : (
-          ""
-        )}
-        <Flex flexDir={"column"} gap={"10px"}>
-          <Box
-            fontWeight={700}
-            as="span"
-            flex="1"
-            textAlign="left"
-            alignItems={"center"}
-          >
-            Lock Access Audit Logs :
-          </Box>
-          <Flex flexDir={"column"} gap={"10px"}>
-            <TableContainer
-              overflow={"auto"}
-              boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-            >
-              <Table variant="simple">
-                <Thead bg={"#ECEFF3"}>
-                  <Tr>
-                    <Th borderBottomColor={"#bababa"} px={"12px"}>
-                      Lock
-                    </Th>
-                    <Th borderBottomColor={"#bababa"} px={"12px"}>
-                      Date & Time
-                    </Th>
-                    <Th borderBottomColor={"#bababa"} px={"12px"}>
-                      Action
-                    </Th>
-                    <Th borderBottomColor={"#bababa"} px={"12px"}>
-                      Method
-                    </Th>
-                    <Th borderBottomColor={"#bababa"} px={"12px"}>
-                      Method Info
-                    </Th>
-
-                    <Th borderBottomColor={"#bababa"} px={"12px"}>
-                      Location
-                    </Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {lockAccessAuditLogs.length ? (
-                    lockAccessAuditLogs.map((val, index) => {
-                      const { bgColor, textColor, icon, text } =
-                        tableStatusStyleMapper(val.status);
-                      return (
-                        <Tr
-                          onClick={() => {}}
-                          w={"100%"}
-                          bg={index % 2 ? "white" : "#f8f9fa"}
-                        >
-                          <Td
-                            borderBottomColor={"#bababa"}
-                            whiteSpace="normal"
-                            wordBreak="break-word"
-                            px={"12px"}
-                            fontSize={"14px"}
-                          >
-                            <Flex alignItems={"center"} gap={"10px"}>
-                              <Flex
-                                bg={"#dedede"}
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                                h={"48px"}
-                                w={"48px"}
-                              >
-                                <Flex color={"white"} fontSize={"20px"}>
-                                  {val.report_lock.model ? (
-                                    <Image
-                                      src={getLockImageByModel(
-                                        val.report_lock.model
-                                      )}
-                                    />
-                                  ) : (
-                                    <IoIosLock />
-                                  )}
-                                </Flex>
-                              </Flex>
-                              <Flex flexDir={"column"}>
-                                <Flex fontWeight={700}>
-                                  {val.report_lock.name}
-                                </Flex>
-                                <Flex
-                                  fontWeight={400}
-                                  fontSize={"14px"}
-                                  color={"#848484"}
-                                >
-                                  {val.report_lock.model}
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          </Td>
-                          <Td
-                            px={"12px"}
-                            borderBottomColor={"#bababa"}
-                            color={"#848484"}
-                            overflowWrap="break-word"
-                            maxWidth="50px"
-                            whiteSpace="normal"
-                            fontSize={"14px"}
-                          >
-                            <Flex flexDir={"column"}>
-                              <Flex color={"black"} fontWeight={700}>
-                                {moment(val.time).format("YYYY-MM-DD")}
-                              </Flex>
-                              <Flex color={"#848484"} fontSize={"14px"}>
-                                {moment(val.time).format("hh:mm A")}
-                              </Flex>
-                            </Flex>
-                          </Td>
-                          <Td
-                            borderBottomColor={"#bababa"}
-                            fontSize={"14px"}
-                            px={"12px"}
-                          >
-                            <Flex>
-                              <Flex
-                                fontWeight={700}
-                                borderRadius={"10px"}
-                                px={"8px"}
-                                py={"4px"}
-                                alignItems={"center"}
-                                gap={"8px"}
-                                bg={bgColor}
-                                color={textColor}
-                              >
-                                <Flex fontSize={"20px"}>{icon}</Flex>
-                                <Flex>{text}</Flex>
-                              </Flex>
-                            </Flex>
-                          </Td>
-                          <Td
-                            px={"12px"}
-                            borderBottomColor={"#bababa"}
-                            color={"#848484"}
-                            overflowWrap="break-word"
-                            maxWidth="50px"
-                            whiteSpace="normal"
-                            fontSize={"14px"}
-                          >
-                            <Flex color={"#848484"} fontSize={"14px"}>
-                              {formatString(val.method)}
-                            </Flex>
-                          </Td>
-                          <Td
-                            px={"12px"}
-                            borderBottomColor={"#bababa"}
-                            color={"#848484"}
-                            overflowWrap="break-word"
-                            maxWidth="50px"
-                            whiteSpace="normal"
-                            fontSize={"14px"}
-                          >
-                            <Flex color={"#848484"} fontSize={"14px"}>
-                              {formatString(val.method_info)}
-                            </Flex>
-                          </Td>
-                          <Td
-                            borderBottomColor={"#bababa"}
-                            color={"#848484"}
-                            whiteSpace="normal"
-                            wordBreak="break-word"
-                            px={"12px"}
-                            fontSize={"14px"}
-                          >
-                            <Flex>{val.placemark || "-"}</Flex>
-                          </Td>
-                        </Tr>
-                      );
-                    })
-                  ) : (
-                    <ListEmptyState
-                      size={"sm"}
-                      colSpan={6}
-                      header1={"No history found."}
-                      header2={"to begin tracking them."}
-                      linkText={"Create an action"}
-                    />
-                  )}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          </Flex>
-        </Flex>
-      </Flex>
     </Flex>
   );
 }
@@ -897,7 +492,6 @@ function MultiLockAccessSection({
   submissionIndex,
   multiLockAccessAuditLogs,
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Flex flexDir={"column"} gap={"20px"}>
       <Flex flexDir={"column"} gap={"16px"}>
@@ -1091,7 +685,7 @@ function MultiLockAccessSection({
                                       boxShadow={
                                         "0px 0px 3px rgba(50,50,93,0.5)"
                                       }
-                                      src={IMGURL + responseURL}
+                                      src={responseURL}
                                     ></Image>
                                   </Flex>
                                 </Flex>
@@ -1317,7 +911,6 @@ function ConditionSection({
   responseConditional,
   submissionIndex,
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <Flex w={"100%"} flexDir={"column"} gap={"16px"}>
       <Flex flexDir={"column"}>
@@ -1373,19 +966,6 @@ function ConditionSection({
             ""
           )}
         </Flex>
-      </Flex>
-    </Flex>
-  );
-}
-function TriggerApiSection({ selectedStep, submissionIndex }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
-  return (
-    <Flex flexDir={"column"}>
-      <Box fontWeight={700} as="span" flex="1" textAlign="left">
-        Trigger API external system key :
-      </Box>
-      <Flex color={selectedStep.title_trigger_api ? "black" : "#848484"}>
-        {selectedStep.title_trigger_api}
       </Flex>
     </Flex>
   );

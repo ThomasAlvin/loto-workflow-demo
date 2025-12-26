@@ -24,36 +24,35 @@ import {
   Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { v4 as uuid } from "uuid";
+import { memo, useState } from "react";
 import { FaChevronRight, FaPlus, FaTriangleExclamation } from "react-icons/fa6";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { RxDragHandleDots2 } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
 import { LuCopyPlus } from "react-icons/lu";
-import { RxDragHandleDots2 } from "react-icons/rx";
-import { v4 as uuid } from "uuid";
-import { InputOptions, UnitOptions } from "../../utils/optionsUtils";
+import { inputOptions, unitOptions } from "../../utils/optionsUtils";
 import questionTypeIconMapper from "../../utils/questionTypeIconMapper";
 
-function CreateInspectionFormModalFormQuestion({
-  key,
+function CreateInspectionFormModalFormQuestionMemo({
   id,
-  register,
+  provided,
   watch,
+  register,
   title,
+  insert,
+  remove,
   required,
   type,
   setValue,
   getValues,
   index,
-  field,
-  errors,
-  clearErrors,
-  setError,
+  fieldErrors,
+  titleErrors,
+  optionErrors,
   trigger,
-  remove, // From useFieldArray
-  fields, // Array of form questions from useFieldArray
 }) {
-  const [accordionOpen, setAccordionOpen] = useState(false);
+  const [accordionOpen, setAccordionOpen] = useState(true);
 
   function selectTypeHandler(event, newType, index) {
     event.preventDefault();
@@ -164,25 +163,27 @@ function CreateInspectionFormModalFormQuestion({
       type: type,
     };
 
-    const prevValue = getValues("formQuestions"); // Get the current value
-    const updatedItems = [...prevValue];
-    updatedItems.splice(index + 1, 0, newQuestion);
-    setValue("formQuestions", updatedItems);
+    insert(index + 1, newQuestion);
   }
 
   function deleteStep() {
     remove(index);
   }
-
   return (
     <Flex
+      key={id}
       bg={"white"}
       w={"100%"}
       color={"#848484"}
-      shadow={
-        errors.formQuestions?.[index] ? "" : "0px 0px 3px rgba(50, 50, 93, 0.5)"
-      }
-      border={errors.formQuestions?.[index] ? "1px solid crimson" : ""}
+      ref={provided.innerRef}
+      {...provided.dragHandleProps}
+      {...provided.draggableProps}
+      style={{
+        userSelect: "none",
+        ...provided.draggableProps.style,
+      }}
+      shadow={fieldErrors ? "" : "0px 0px 3px rgba(50, 50, 93, 0.5)"}
+      border={fieldErrors ? "1px solid crimson" : ""}
     >
       <Accordion index={[accordionOpen ? 0 : -1]} w={"100%"} allowToggle>
         <AccordionItem border={0}>
@@ -192,7 +193,7 @@ function CreateInspectionFormModalFormQuestion({
           >
             <Flex
               w={"100%"}
-              alignItems={"center"}
+              alignItems={"stretch"}
               justifyContent={"space-between"}
             >
               <Flex
@@ -222,27 +223,19 @@ function CreateInspectionFormModalFormQuestion({
                     resize={"none"}
                     minH={"36px"}
                     color={"black"}
-                    borderColor={
-                      errors.formQuestions?.[index]?.title
-                        ? "crimson"
-                        : "inherit"
-                    }
-                    borderBottom={
-                      errors.formQuestions?.[index]?.title
-                        ? "1px solid crimson"
-                        : "none"
-                    }
+                    borderColor={titleErrors ? "crimson" : "inherit"}
+                    borderBottom={titleErrors ? "1px solid crimson" : "none"}
                     borderTop={"none"}
                     height={"36px"}
                     overflow={"hidden"}
                   ></Textarea>
-                  {errors.formQuestions?.[index]?.title ? (
+                  {titleErrors ? (
                     <InputRightElement h={"100%"}>
                       <Tooltip
                         bg={"#dc143c"}
                         color={"white"}
                         placement="top"
-                        label={errors?.formQuestions[index]?.title.message}
+                        label={titleErrors.message}
                         aria-label="A tooltip"
                       >
                         <Flex color={"#dc143c"}>
@@ -260,7 +253,6 @@ function CreateInspectionFormModalFormQuestion({
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
-                  h={"auto"}
                   borderRight={"#E2E8F0 1px solid"}
                   textAlign={"start"}
                   px={"10px"}
@@ -280,7 +272,7 @@ function CreateInspectionFormModalFormQuestion({
                   </Flex>
                 </MenuButton>
                 <MenuList>
-                  {InputOptions.map((val) => {
+                  {inputOptions.map((val) => {
                     return (
                       <MenuGroup
                         textAlign={"left"}
@@ -375,7 +367,6 @@ function CreateInspectionFormModalFormQuestion({
               </Flex>
             </Flex>
           </AccordionButton>
-          {/* <FormQuestionAccordionPanel type={type} selectFormatFn={selectFormatHandler} dateTimeCheckboxFn={dateTimeCheckBoxHandler} optionInputFn={}/> */}
           <AccordionPanel py={"0px"}>
             <Flex flexDir={"column"} gap={"10px"}>
               <Flex gap={"20px"}>
@@ -472,7 +463,7 @@ function CreateInspectionFormModalFormQuestion({
                                 </Flex>
                               </MenuButton>
                               <MenuList maxH={"300px"} overflow={"auto"}>
-                                {UnitOptions.map((val) => {
+                                {unitOptions.map((val) => {
                                   return (
                                     <MenuGroup
                                       fontWeight={400}
@@ -532,7 +523,7 @@ function CreateInspectionFormModalFormQuestion({
                           w={"100%"}
                           gap={"10px"}
                         >
-                          {errors.formQuestions?.[index]?.type?.options ? (
+                          {optionErrors ? (
                             <Flex
                               py={"4px"}
                               px={"8px"}
@@ -545,16 +536,11 @@ function CreateInspectionFormModalFormQuestion({
                                 <FaTriangleExclamation />
                               </Flex>
                               <Flex>
-                                {Array.isArray(
-                                  errors?.formQuestions[index]?.type?.options
-                                )
+                                {Array.isArray(optionErrors)
                                   ? // Use find to get the first truthy value
-                                    errors?.formQuestions[
-                                      index
-                                    ]?.type.options.find((val) => val?.message)
+                                    optionErrors.find((val) => val?.message)
                                       .message || ""
-                                  : errors?.formQuestions[index]?.type?.options
-                                      .message}
+                                  : optionErrors.message}
                               </Flex>
                             </Flex>
                           ) : (
@@ -635,7 +621,7 @@ function CreateInspectionFormModalFormQuestion({
                           w={"100%"}
                           gap={"10px"}
                         >
-                          {errors.formQuestions?.[index]?.type?.options ? (
+                          {optionErrors ? (
                             <Flex
                               py={"4px"}
                               px={"8px"}
@@ -648,22 +634,21 @@ function CreateInspectionFormModalFormQuestion({
                                 <FaTriangleExclamation />
                               </Flex>
                               <Flex>
-                                {Array.isArray(
-                                  errors?.formQuestions[index]?.type?.options
-                                )
+                                {Array.isArray(optionErrors)
                                   ? // Use find to get the first truthy value
-                                    errors?.formQuestions[
-                                      index
-                                    ]?.type.options.find((val) => val?.message)
+                                    optionErrors.find((val) => val?.message)
                                       .message || ""
-                                  : errors?.formQuestions[index]?.type?.options
-                                      .message}
+                                  : optionErrors.message}
                               </Flex>
                             </Flex>
                           ) : (
                             ""
                           )}
+
                           {type?.options?.map((val, optionIndex) => {
+                            const field = register(
+                              `formQuestions[${index}].type.options[${optionIndex}]`
+                            );
                             return (
                               <Flex alignItems={"center"} gap={"10px"}>
                                 <Flex
@@ -673,18 +658,16 @@ function CreateInspectionFormModalFormQuestion({
                                   w={"20px"}
                                 />
                                 <Input
-                                  {...register(
-                                    `formQuestions[${index}].type.options[${optionIndex}]`
-                                  )}
+                                  {...field}
                                   placeholder={"Option " + (optionIndex + 1)}
                                   color={"black"}
                                   variant={"flushed"}
-                                  onBlur={() => {
+                                  onBlur={(e) => {
+                                    // field.onBlur(e);
                                     trigger(
                                       `formQuestions[${index}].type.options`
                                     );
                                   }}
-                                  // value={val}
                                 ></Input>
                                 <Flex>
                                   <Button
@@ -738,7 +721,7 @@ function CreateInspectionFormModalFormQuestion({
                           w={"100%"}
                           gap={"10px"}
                         >
-                          {errors.formQuestions?.[index]?.type?.options ? (
+                          {optionErrors ? (
                             <Flex
                               py={"4px"}
                               px={"8px"}
@@ -751,15 +734,10 @@ function CreateInspectionFormModalFormQuestion({
                                 <FaTriangleExclamation />
                               </Flex>
                               <Flex>
-                                {Array.isArray(
-                                  errors.formQuestions[index]?.type?.options
-                                )
-                                  ? errors.formQuestions[
-                                      index
-                                    ]?.type.options.find((val) => val?.message)
+                                {Array.isArray(optionErrors)
+                                  ? optionErrors.find((val) => val?.message)
                                       .message || ""
-                                  : errors.formQuestions[index]?.type?.options
-                                      .message}
+                                  : optionErrors.message}
                               </Flex>
                             </Flex>
                           ) : (
@@ -980,14 +958,6 @@ function CreateInspectionFormModalFormQuestion({
                   }
                 })()}
               </Flex>
-
-              {/* <Flex flexDir={"column"} gap={"10px"}>
-                  {(() => {
-                    switch (type.title) {
-                    
-                    }
-                  })()}
-                </Flex> */}
             </Flex>
           </AccordionPanel>
         </AccordionItem>
@@ -995,21 +965,8 @@ function CreateInspectionFormModalFormQuestion({
     </Flex>
   );
 }
-// const CreateInspectionFormModalFormQuestion = memo(
-//   CreateInspectionFormModalFormQuestion,
-//   (prevProps, nextProps) => {
-//     return (
-//       prevProps.title === nextProps.title &&
-//       prevProps.index === nextProps.index &&
-//       prevProps.required === nextProps.required &&
-//       prevProps.type === nextProps.type &&
-//       JSON.stringify(prevProps.errors) ===
-//         JSON.stringify(nextProps.errors) &&
-//       JSON.stringify(prevProps.touchedFields) ===
-//         JSON.stringify(nextProps.touchedFields)
-//     );
-//   }
-// );
-
 // Export the memoized component
+const CreateInspectionFormModalFormQuestion = memo(
+  CreateInspectionFormModalFormQuestionMemo
+);
 export default CreateInspectionFormModalFormQuestion;

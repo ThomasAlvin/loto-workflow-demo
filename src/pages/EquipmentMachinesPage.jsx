@@ -102,7 +102,6 @@ export default function EquipmentMachinesPage() {
 
   const isIndeterminate = checkedOnPage.length > 0 && !allChecked;
 
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const debouncedSearch = useCallback(
     debounce((value) => {
       if (searchFilter === value) {
@@ -118,8 +117,6 @@ export default function EquipmentMachinesPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -171,10 +168,7 @@ export default function EquipmentMachinesPage() {
     setTableLoading(true);
     const localAbortController = abortControllerRef.current;
     await api
-      .get(
-        `equipment-machine/pagination?search=${searchFilter}&status=${statusFilter}&page=${currentPage}&rows=${rows}`,
-        { signal: abortControllerRef.current.signal }
-      )
+      .getEquipmentMachinesPagination()
       .then((response) => {
         setEquipmentMachines(response.data.data);
         setFrom(response.data.from);
@@ -198,7 +192,7 @@ export default function EquipmentMachinesPage() {
   async function deleteEquipmentMachine(UID) {
     setDeleteButtonLoading(true);
     await api
-      .delete(`equipment-machine/${UID}`)
+      .testSubmit("Machine deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
           prevState.filter((selUID) => selUID !== UID)
@@ -242,11 +236,7 @@ export default function EquipmentMachinesPage() {
   async function deleteSelected() {
     setDeleteSelectedButtonLoading(true);
     await api
-      .delete(`equipment-machine`, {
-        data: {
-          selectedUID: selectedUID,
-        },
-      })
+      .testSubmit("Selected machine deleted successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -412,13 +402,6 @@ export default function EquipmentMachinesPage() {
                 }}
               ></Input>
             </InputGroup>
-            {/* <Input
-              placeholder="search"
-              onChange={(event) => {
-                setTableLoading(true);
-                handleChange(event);
-              }}
-            ></Input> */}
           </Flex>
         </Flex>
       </Flex>
@@ -528,9 +511,7 @@ export default function EquipmentMachinesPage() {
                   return (
                     <Tr
                       onClick={() => {
-                        nav(
-                          `/equipment-machine/edit/${val.UID}${location.search}`
-                        );
+                        handleOpenEquipmentMachineDetailsModal(val);
                       }}
                       cursor={"pointer"}
                       _hover={{ background: "#f5f5f5" }}
@@ -568,11 +549,10 @@ export default function EquipmentMachinesPage() {
                                 <Image
                                   h={"40px"}
                                   w={"40px"}
+                                  objectFit={"contain"}
                                   cursor={"pointer"}
                                   onClick={() => {
-                                    handleImageFocus(
-                                      IMGURL + val.main_image_url
-                                    );
+                                    handleImageFocus(val.main_image_url);
                                   }}
                                   onError={() => {
                                     setEquipmentMachines((prevState) => {
@@ -585,7 +565,7 @@ export default function EquipmentMachinesPage() {
                                     });
                                   }}
                                   // borderRadius={"100%"}
-                                  src={IMGURL + val.main_image_url}
+                                  src={val.main_image_url}
                                 ></Image>
                               ) : (
                                 <Flex

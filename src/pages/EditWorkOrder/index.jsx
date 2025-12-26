@@ -1,12 +1,18 @@
 import { Box, useDisclosure } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { debounce } from "lodash";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { api } from "../../api/api";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { useLoading } from "../../service/LoadingContext";
+import EditWorkOrderAssignPage from "./EditWorkOrderAssignPage";
 import EditWorkOrderBuildPage from "./EditWorkOrderBuildPage";
 import moment from "moment";
 import Swal from "sweetalert2";
@@ -22,13 +28,17 @@ import {
   useNodesState,
 } from "@xyflow/react";
 import { DeleteMultiLockAccessProvider } from "../../service/DeleteMultiLockAccessContext";
+import defaultNodeSettings from "../../constants/defaultNodeSettings";
 import getConnectedNodes from "../../utils/getConnectedNodes";
+import autoArrangeNodes from "../../utils/autoArrangeNodes";
 import { toPng } from "html-to-image";
 import base64ToFile from "../../utils/base64ToFile";
 import convertStepsToXyFlowData from "../../utils/convertStepsToXyFlowData";
-import autoArrangeNodes from "../../utils/autoArrangeNodes";
+import WorkOrderDetails404Page from "../WorkOrderDetails/WorkOrderDetails404Page";
 
 export default function EditWorkOrderPage() {
+  const location = useLocation();
+  const duplicationIssues = location.state?.errorMessages;
   const initialWorkOrderDetails = {
     name: "",
     description: "",
@@ -38,7 +48,7 @@ export default function EditWorkOrderPage() {
     review: { type: "single", reviewers: [] },
   };
   const emptySelectionWarningModal = useDisclosure();
-
+  const [fetchError, setFetchError] = useState(false);
   //ini cuman pakai untuk realtime display when updating any work order details
   const [workOrderDetailsInput, setWorkOrderDetailsInput] = useState({
     name: "",
@@ -63,7 +73,6 @@ export default function EditWorkOrderPage() {
   const [memberSelection, setMemberSelection] = useState([]);
   const [machineSelection, setMachineSelection] = useState([]);
   const [lockSelection, setLockSelection] = useState([]);
-
   const [hasFetchDataError, setHasFetchDataError] = useState({
     lock: false,
     machine: false,
@@ -90,7 +99,6 @@ export default function EditWorkOrderPage() {
                 })
               )
               .min(1, "Must assign at least 1 member"),
-
             notify_to: Yup.array().when("notify", {
               is: true,
               then: (schema) =>
@@ -108,7 +116,6 @@ export default function EditWorkOrderPage() {
                   ),
               otherwise: (schema) => schema.notRequired(),
             }),
-
             selectedMachines: Yup.array().when("machine", {
               is: true,
               then: (schema) =>
@@ -124,39 +131,6 @@ export default function EditWorkOrderPage() {
                   ),
               otherwise: (schema) => schema.notRequired(),
             }),
-            work_order_locks: Yup.array() // Return a Yup array schema
-              .of(
-                Yup.object().shape({
-                  id: Yup.string()
-                    .trim()
-                    .test(
-                      "customValidation3",
-                      "Lock cannot be empty.",
-                      function (val) {
-                        const { parent, from } = this; // Access parent and from
-                        const workOrderStep = from[1].value;
-                        // Access the second work order step
-                        if (workOrderStep && workOrderStep.lockAccess) {
-                          return val && val.trim() !== ""; // Ensure ID is provided (not empty or whitespace)
-                        }
-                        return true;
-                      }
-                    ),
-                })
-              )
-              .test(
-                "minLocks",
-                "This step requires at least 1 lock.",
-                function (value) {
-                  const { from } = this;
-                  const workOrderStep = from[1].value; // Access the second work order step
-
-                  if (workOrderStep?.lockAccess) {
-                    return Array.isArray(value) && value.length > 0; // Require at least 1 lock if lockAccess is true
-                  }
-                  return true; // No locks required if lockAccess is false
-                }
-              ),
             multiLockAccessGroup: Yup.object().shape({
               multiLockAccessGroupItems: Yup.array() // Return a Yup array schema
                 .of(
@@ -192,19 +166,12 @@ export default function EditWorkOrderPage() {
                       workOrderStep?.multiLockAccess &&
                       workOrderStep.multiLockAccessGroup?.isPreAssigned
                     ) {
-                      return Array.isArray(value) && value.length > 0; // Require at least 1 lock if lockAccess is true
+                      return Array.isArray(value) && value.length > 0;
                     }
-                    return true; // No locks required if lockAccess is false
+                    return true;
                   }
                 ),
             }),
-            titleTriggerAPI: Yup.string()
-              .trim()
-              .when("triggerAPI", {
-                is: true,
-                then: (schema) => schema.required("Key is required"),
-                otherwise: (schema) => schema.notRequired(),
-              }),
           })
         )
         .min(1, "At least one step is required")
@@ -258,12 +225,6 @@ export default function EditWorkOrderPage() {
       if (!filteredItem.machine) {
         delete filteredItem.selectedMachines;
       }
-      if (!filteredItem.triggerAPI) {
-        delete filteredItem.titleTriggerAPI;
-      }
-      if (!filteredItem.lockAccess) {
-        delete filteredItem.work_order_locks;
-      }
       if (!filteredItem?.multiLockAccessGroup?.isPreAssigned) {
         if (filteredItem?.multiLockAccessGroup) {
           delete filteredItem.multiLockAccessGroup.multiLockAccessGroupItems;
@@ -283,22 +244,12 @@ export default function EditWorkOrderPage() {
         ),
       },
     };
-    console.log(formDataObject);
-
     const workFlowImage = await getWorkFlowImage();
     const formData = convertToFormData(formDataObject);
     formData.append("flowChartImages[]", workFlowImage);
 
     try {
-      const response = await api.post(
-        `work-order/${UID}?status=${status}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await api.testSubmit("Work order saved successfully");
       if (showSuccessSwal) {
         Swal.fire({
           title: "Success!",
@@ -339,10 +290,11 @@ export default function EditWorkOrderPage() {
   const getWorkFlowImage = async () => {
     const imageWidth = 1024;
     const imageHeight = 768;
-    const newNodes = await autoArrangeNodes(nodes, edges, "TB");
     setNodes(newNodes.map((node) => ({ ...node, selected: false })));
     setEdges(edges.map((edge) => ({ ...edge, selected: false })));
-
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
     const nodesBounds = getNodesBounds(
       newNodes.map((node) => ({
         ...node,
@@ -352,6 +304,7 @@ export default function EditWorkOrderPage() {
         },
       }))
     );
+
     const padding = 40;
     const paddedBounds = {
       x: nodesBounds.x - padding,
@@ -449,6 +402,7 @@ export default function EditWorkOrderPage() {
         label: groupItem.machine.name,
         value: groupItem.machineId,
       }));
+
     const hasRemovedMachine = removedMachines.length > 0 ? true : false;
 
     return {
@@ -460,13 +414,15 @@ export default function EditWorkOrderPage() {
     setLoading(true);
     const duplicateRedirect = localStorage.getItem("duplicate");
     await api
-      .get(
-        `work-order/${UID}?include_latest_review=true&is_include_selection=true`,
-        {
-          signal: controller.signal,
-        }
-      )
+      .getWorkOrderByUID(UID)
       .then(async (response) => {
+        if (
+          response.data.workOrder.status === "under_review" ||
+          response.data.workOrder.status === "completed"
+        ) {
+          setFetchError(true);
+          return;
+        }
         let selectionCheck = { lock: false, machine: false, member: false };
         setMemberSelection(
           response.data.selection.members.map((val) => ({
@@ -613,7 +569,6 @@ export default function EditWorkOrderPage() {
                 // id: step.UID,
                 UID: step.UID,
                 workOrderStepUID: step.UID,
-                lockAccess: !!step.access_lock,
                 multiLockAccess: !!step.multi_access_lock,
                 isMainMultiLockAccess: !!step.is_main_multi_access_lock,
                 ...(step?.multi_access_lock_step_index != null && {
@@ -650,9 +605,6 @@ export default function EditWorkOrderPage() {
                 }),
                 machine: !!step.machine,
                 requireVerifyMachine: !!step.require_verify_machine,
-                triggerAPI: !!step.trigger_api,
-                titleTriggerAPI: step.title_trigger_api,
-                sendWebhook: !!step.send_webhook,
                 condition: !!step.condition,
                 ...(step.condition_question
                   ? { condition_question: step.condition_question }
@@ -676,36 +628,6 @@ export default function EditWorkOrderPage() {
                   value: notifiedMember?.id,
                 })),
                 selectedMachines: filteredValidMachines.machines || [],
-                work_order_locks: !!step.access_lock
-                  ? step.work_order_locks.length > 0
-                    ? step.work_order_locks.map((workOrderLock) =>
-                        workOrderLock && Object.keys(workOrderLock).length > 0
-                          ? {
-                              id: workOrderLock?.lockId,
-                              name: workOrderLock?.lock?.name,
-                              require_lock_image:
-                                workOrderLock?.require_lock_image || false,
-                              value: workOrderLock?.lockId,
-                              label: workOrderLock?.lock?.name,
-                            }
-                          : {
-                              name: "",
-                              id: "",
-                              require_lock_image: false,
-                              label: "",
-                              value: "",
-                            }
-                      )
-                    : [
-                        {
-                          name: "",
-                          id: "",
-                          require_lock_image: false,
-                          label: "",
-                          value: "",
-                        },
-                      ]
-                  : [],
               };
             }
           ),
@@ -758,41 +680,13 @@ export default function EditWorkOrderPage() {
             response.data.workOrder.work_order_custom_id || null,
         };
 
-        const removedMessage =
-          hasRemovedError.lock && hasRemovedError.machine
-            ? "machines and locks"
-            : hasRemovedError.lock
-            ? "locks"
-            : hasRemovedError.machine
-            ? "machines"
-            : "";
-
-        if (removedMessage) {
-          Swal.fire({
-            title: "Warning!",
-            html: SwalErrorMessages(
-              `Some steps were updated because some ${removedMessage} previously assigned are no longer available.`
-            ),
-            icon: "warning",
-            customClass: {
-              popup: "swal2-custom-popup",
-              title: "swal2-custom-title",
-              content: "swal2-custom-content",
-              actions: "swal2-custom-actions",
-              confirmButton: "swal2-custom-confirm-button",
-            },
-            ...(selectionCheck.lock ||
-            selectionCheck.member ||
-            selectionCheck.machine
-              ? {
-                  didClose: () => {
-                    console.log("warakfakskaskdaskd");
-
-                    emptySelectionWarningModal.onOpen();
-                  },
-                }
-              : {}),
-          });
+        if (duplicationIssues?.length) {
+          showUnassignedStepSwal(
+            duplicationIssues,
+            selectionCheck.lock ||
+              selectionCheck.member ||
+              selectionCheck.machine
+          );
         } else {
           if (
             selectionCheck.lock ||
@@ -835,13 +729,40 @@ export default function EditWorkOrderPage() {
         setInitialFetchedWorkOrderDetails(fetchedValue);
       })
       .catch((error) => {
+        setFetchError(true);
         console.error(error);
       })
       .finally(async () => {
         setLoading(false);
       });
   }
-
+  const showUnassignedStepSwal = useCallback(
+    (duplicationIssues, hasOpenSelectionWarning) => {
+      Swal.fire({
+        title: "Warning!",
+        html: SwalErrorMessages(
+          `Some steps could not retain their assigned machines or locks because the selected resources are no longer available.`,
+          duplicationIssues
+        ),
+        icon: "warning",
+        customClass: {
+          popup: "swal2-custom-popup",
+          title: "swal2-custom-title",
+          content: "swal2-custom-content",
+          actions: "swal2-custom-actions",
+          confirmButton: "swal2-custom-confirm-button",
+        },
+        width: "500px",
+        ...(hasOpenSelectionWarning
+          ? {
+              didClose: () => {
+                emptySelectionWarningModal.onOpen();
+              },
+            }
+          : {}),
+      });
+    }
+  );
   useEffect(() => {
     const controller = new AbortController();
     // const controller2 = new AbortController();
@@ -858,54 +779,54 @@ export default function EditWorkOrderPage() {
   }, []);
   return (
     <>
-      <ReactFlowProvider>
-        <Box style={{ display: currentPage === "build" ? "block" : "none" }}>
-          <DeleteMultiLockAccessProvider>
-            <EditWorkOrderBuildPage
-              debouncedUpdateWorkOrderDetails={debouncedUpdateWorkOrderDetails}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              formik={formik}
-              handleCallToAction={handleCallToAction}
-              submitWorkOrder={submitWorkOrder}
-              initialWorkOrderDetails={initialWorkOrderDetails}
-              initialFetchedWorkOrderDetails={initialFetchedWorkOrderDetails}
-              latestReview={latestReview}
-              memberSelection={memberSelection}
-              machineSelection={machineSelection}
-              lockSelection={lockSelection}
-              workOrderDetailsInput={workOrderDetailsInput}
-              setWorkOrderDetailsInput={setWorkOrderDetailsInput}
-              nodes={nodes}
-              setNodes={setNodes}
-              onNodesChange={onNodesChange}
-              edges={edges}
-              setEdges={setEdges}
-              onEdgesChange={onEdgesChange}
-            />
-          </DeleteMultiLockAccessProvider>
+      {!fetchError ? (
+        <ReactFlowProvider>
+          <Box style={{ display: currentPage === "build" ? "block" : "none" }}>
+            <DeleteMultiLockAccessProvider>
+              <EditWorkOrderBuildPage
+                debouncedUpdateWorkOrderDetails={
+                  debouncedUpdateWorkOrderDetails
+                }
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                formik={formik}
+                showUnassignedStepSwal={showUnassignedStepSwal}
+                handleCallToAction={handleCallToAction}
+                submitWorkOrder={submitWorkOrder}
+                initialWorkOrderDetails={initialWorkOrderDetails}
+                initialFetchedWorkOrderDetails={initialFetchedWorkOrderDetails}
+                latestReview={latestReview}
+                memberSelection={memberSelection}
+                machineSelection={machineSelection}
+                lockSelection={lockSelection}
+                workOrderDetailsInput={workOrderDetailsInput}
+                setWorkOrderDetailsInput={setWorkOrderDetailsInput}
+                nodes={nodes}
+                setNodes={setNodes}
+                onNodesChange={onNodesChange}
+                edges={edges}
+                setEdges={setEdges}
+                onEdgesChange={onEdgesChange}
+              />
+            </DeleteMultiLockAccessProvider>
+          </Box>
+          <Box
+            style={{ display: currentPage === "assign" ? "block" : "none" }}
+          ></Box>
+          <LeavePageConfirmationModal
+            handleLeavePageConfirmation={handleLeavePageConfirmation}
+            leavePageConfirmationModal={leavePageConfirmationModal}
+          />
+          <EmptySelectionWarningModal
+            emptySelectionWarningModal={emptySelectionWarningModal}
+            selectionErrors={selectionErrors}
+          />
+        </ReactFlowProvider>
+      ) : (
+        <Box>
+          <WorkOrderDetails404Page />
         </Box>
-        <Box style={{ display: currentPage === "assign" ? "block" : "none" }}>
-          {/* <EditWorkOrderAssignPage
-            workOrderFormik={formik}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            submitWorkOrder={submitWorkOrder}
-            handleCallToAction={handleCallToAction}
-            lockSelection={lockSelection}
-            memberSelection={memberSelection}
-            machineSelection={machineSelection}
-          /> */}
-        </Box>
-        <LeavePageConfirmationModal
-          handleLeavePageConfirmation={handleLeavePageConfirmation}
-          leavePageConfirmationModal={leavePageConfirmationModal}
-        />
-        <EmptySelectionWarningModal
-          emptySelectionWarningModal={emptySelectionWarningModal}
-          selectionErrors={selectionErrors}
-        />
-      </ReactFlowProvider>
+      )}
     </>
   );
 }

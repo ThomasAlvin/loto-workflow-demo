@@ -1,9 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Button, Flex, useDisclosure } from "@chakra-ui/react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Button, Flex, Image, useDisclosure } from "@chakra-ui/react";
 import { FaChevronRight } from "react-icons/fa";
+import { VscEmptyWindow } from "react-icons/vsc";
+import { v4 as uuid } from "uuid";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import CreateTemplateLayout from "../../components/Layout/CreateTemplateLayout";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import WorkFlowStep from "../../components/CreateTemplate/WorkflowStep";
 import TemplateDetailsInput from "../../components/CreateTemplate/TemplateDetailsInput";
+import AddStepModal from "../../components/CreateEditWorkOrderTemplate/AddStepModal";
+import emptyIllustration from "../../assets/images/emptyIllustration.6782cc2c8633a338fe7d-removebg.png";
+import getAlphabeticSequencing from "../../utils/getAlphabeticSequencing";
+import EditStepModal from "../../components/CreateEditWorkOrderTemplate/EditStepModal";
 import DeleteMultiLockAccessConfirmationModal from "../../components/CreateEditWorkOrderTemplate/DeleteMultiLockAccessConfirmationModal";
 import WorkFlowXyFlow from "../../components/WorkFlowXyFlow";
 import { FormikProvider } from "formik";
@@ -13,7 +21,6 @@ import computeNodeOrder from "../../utils/computeNodeOrder";
 import getConnectedNodes from "../../utils/getConnectedNodes";
 import defaultNodeSettings from "../../constants/defaultNodeSettings";
 import FlowProvider from "../../service/FlowProvider";
-import getAlphabeticSequencing from "../utils/getAlphabeticSequencing";
 export default function CreateTemplateBuildPage({
   templateDetails,
   debouncedUpdateTemplateDetails,
@@ -32,10 +39,12 @@ export default function CreateTemplateBuildPage({
   const editStepDisclosure = useDisclosure();
 
   const [selectedEditStep, setSelectedEditStep] = useState();
-
+  const [unconnectedNodesError, setUnconnectedNodesError] = useState("");
   const nextAlphabeticalSequence = getAlphabeticSequencing(
     formik.values.templateSteps
   );
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+
   const groupName = selectedEditStep?.multiLockAccessGroup?.name; // or any name you want to match
   const hasChanged = !(
     JSON.stringify(formik.values) === JSON.stringify(initialValues)
@@ -59,9 +68,18 @@ export default function CreateTemplateBuildPage({
     }, {});
     formik.setTouched(allTouched);
 
-    if (Object.keys(errors).length > 0) {
+    const startNode = nodes.find((n) => n.data?.isStart);
+    const connectedNodeIds = getConnectedNodes(startNode, edges);
+    const unconnectedNodes = nodes.filter((n) => !connectedNodeIds.has(n.id));
+    if (Object.keys(errors).length > 0 || unconnectedNodes.length > 0) {
       if (errors.name) {
         templateTitleInputRef.current.scrollIntoView({
+          behavior: "smooth", // or "auto"
+          block: "center", // "start", "center", "end", or "nearest"
+        });
+      } else if (unconnectedNodes.length) {
+        setSubmitAttempted(true);
+        workFlowRef.current.scrollIntoView({
           behavior: "smooth", // or "auto"
           block: "center", // "start", "center", "end", or "nearest"
         });
@@ -169,8 +187,6 @@ export default function CreateTemplateBuildPage({
     const orderedNodes = startNode
       ? getConnectedNodes(startNode, filteredEdges)
       : [];
-    // let orderedNodes = reorderedNodes.filter((nds) => nds.data.order);
-    console.log(orderedNodes);
     setNodes((prevNodes) =>
       prevNodes.map((node) => {
         const hadLoopBackFromThisNode = deletedEdges.some(
@@ -202,6 +218,22 @@ export default function CreateTemplateBuildPage({
     },
     [formik.values.templateSteps]
   );
+  const startNode = nodes.find((n) => n.data?.isStart);
+  const connectedNodeIds = getConnectedNodes(startNode, edges);
+  const unconnectedNodes = nodes.filter((n) => !connectedNodeIds.has(n.id));
+
+  useEffect(() => {
+    if (!submitAttempted) return;
+
+    const startNode = nodes.find((n) => n.data?.isStart);
+    const connectedNodeIds = getConnectedNodes(startNode, edges);
+    const unconnectedNodes = nodes.filter((n) => !connectedNodeIds.has(n.id));
+    setUnconnectedNodesError(
+      unconnectedNodes.length
+        ? "Some steps are not connected to the workflow. Please connect them or remove them before submitting."
+        : ""
+    );
+  }, [edges, nodes.length, submitAttempted]);
 
   useEffect(() => {
     formik.setFieldValue("templateSteps", formik.values.templateSteps);
@@ -230,6 +262,7 @@ export default function CreateTemplateBuildPage({
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           stage={"build"}
+          hasUnconnectedNode={unconnectedNodes.length ? true : false}
           // hasSidebar={"true"}
           templateDetails={templateDetails}
           submitTemplate={submitTemplate}
@@ -254,16 +287,7 @@ export default function CreateTemplateBuildPage({
                     fontWeight={700}
                     fontSize={"24px"}
                   >
-                    <Flex
-                      onClick={() => {
-                        console.log(formik);
-                        console.log(nodes);
-                        console.log(edges);
-                      }}
-                      color={"#dc143c"}
-                    >
-                      Workflow
-                    </Flex>
+                    <Flex color={"#dc143c"}>Workflow</Flex>
                     <Flex
                       textAlign={"center"}
                       fontSize={"12px"}
@@ -275,8 +299,9 @@ export default function CreateTemplateBuildPage({
                       </Flex>
                     </Flex>
                   </Flex>
-                  {formik.errors.templateSteps &&
-                  formik.touched.templateSteps ? (
+                  {unconnectedNodesError ||
+                  (formik.errors.templateSteps &&
+                    formik.touched.templateSteps) ? (
                     <Flex
                       py={"4px"}
                       px={"8px"}
@@ -288,7 +313,11 @@ export default function CreateTemplateBuildPage({
                       <Flex>
                         <FaTriangleExclamation />
                       </Flex>
-                      <Flex>{formik.errors.templateSteps}</Flex>
+                      <Flex>
+                        {unconnectedNodesError
+                          ? unconnectedNodesError
+                          : formik.errors.templateSteps}
+                      </Flex>
                     </Flex>
                   ) : (
                     ""

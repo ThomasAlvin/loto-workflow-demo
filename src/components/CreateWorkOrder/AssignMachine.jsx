@@ -41,7 +41,7 @@ export default function AssignMachine({
           categoryName: val.name,
           inspectionFormId: val2.pivot.inspection_formId,
         }));
-    },
+    }
   );
 
   const isOpen = openAccordions.includes(selectedMachineIndex);
@@ -54,7 +54,7 @@ export default function AssignMachine({
             return { ...machine, selectedInspectionForms: event }; // Fix typo
           }
           return machine;
-        },
+        }
       ),
     }));
   }
@@ -132,7 +132,7 @@ export default function AssignMachine({
                           setTimeout(() => {
                             editStepDrawerFormik.setFieldTouched(
                               `workOrderSteps[${stepIndex}].selectedMachines[${selectedMachineIndex}].selectedInspectionForms`,
-                              true,
+                              true
                             );
                             editStepDrawerFormik.validateForm();
                           }, 0);
@@ -140,7 +140,7 @@ export default function AssignMachine({
                         styles={getCustomReactSelectStyles(
                           "inspectionForm",
                           null,
-                          selectedMachineIndex,
+                          selectedMachineIndex
                         )}
                         isSearchable
                         isClearable
@@ -185,19 +185,19 @@ export default function AssignMachine({
                       />
 
                       {Array.isArray(
-                        editStepDrawerFormik.errors?.selectedMachines,
+                        editStepDrawerFormik.errors?.selectedMachines
                       ) &&
                       Array.isArray(
-                        editStepDrawerFormik.errors?.selectedMachines,
+                        editStepDrawerFormik.errors?.selectedMachines
                       ) &&
                       editStepDrawerFormik.errors?.selectedMachines[
                         selectedMachineIndex
                       ]?.selectedInspectionForms &&
                       Array.isArray(
-                        editStepDrawerFormik.touched?.selectedMachines,
+                        editStepDrawerFormik.touched?.selectedMachines
                       ) &&
                       Array.isArray(
-                        editStepDrawerFormik.touched?.selectedMachines,
+                        editStepDrawerFormik.touched?.selectedMachines
                       ) &&
                       editStepDrawerFormik.touched?.selectedMachines[
                         selectedMachineIndex
@@ -271,7 +271,7 @@ export default function AssignMachine({
                         {selectedMachine?.selectedInspectionForms?.map(
                           (
                             selectedInspectionForm,
-                            selectedInspectionFormIndex,
+                            selectedInspectionFormIndex
                           ) => {
                             return (
                               <Flex
@@ -309,7 +309,7 @@ export default function AssignMachine({
                                 </Flex>
                               </Flex>
                             );
-                          },
+                          }
                         )}
                       </Flex>
                     ) : (

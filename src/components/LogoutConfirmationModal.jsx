@@ -49,9 +49,6 @@ export default function LogoutConfirmationModal({
             gap={"10px"}
             alignItems={"center"}
             color={"#dc143c"}
-            onClick={() => {
-              console.log(userSelector);
-            }}
           >
             Logout from account?
           </ModalHeader>

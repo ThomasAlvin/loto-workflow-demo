@@ -27,7 +27,6 @@ export default function EditEquipmentMachinePage() {
   const nav = useNavigate();
   const location = useLocation();
 
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const { UID } = useParams();
   const { loading, setLoading } = useLoading();
   const initialMachineInput = {
@@ -298,11 +297,7 @@ export default function EditEquipmentMachinePage() {
       const formData = convertToFormData(machineInput);
 
       await api
-        .post(`equipment-machine/${UID}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .testSubmit("Equipment/machine saved successfully")
         .then((response) => {
           Swal.fire({
             title: "Success!",
@@ -343,7 +338,7 @@ export default function EditEquipmentMachinePage() {
   async function fetchMachine(controller) {
     setLoading(true);
     await api
-      .get(`equipment-machine/${UID}`, { signal: controller.signal })
+      .getEquipmentMachineByUID(UID)
       .then(async (response) => {
         const imageUrls = [
           response.data.machine.main_image_url,
@@ -406,25 +401,25 @@ export default function EditEquipmentMachinePage() {
         });
         setFileDisplay({
           mainImage: response.data.machine.main_image_url
-            ? IMGURL + response.data.machine.main_image_url
+            ? response.data.machine.main_image_url
             : null,
           image1: response.data.machine.side_image_1_url
-            ? IMGURL + response.data.machine.side_image_1_url
+            ? response.data.machine.side_image_1_url
             : null,
           image2: response.data.machine.side_image_2_url
-            ? IMGURL + response.data.machine.side_image_2_url
+            ? response.data.machine.side_image_2_url
             : null,
           image3: response.data.machine.side_image_3_url
-            ? IMGURL + response.data.machine.side_image_3_url
+            ? response.data.machine.side_image_3_url
             : null,
           image4: response.data.machine.side_image_4_url
-            ? IMGURL + response.data.machine.side_image_4_url
+            ? response.data.machine.side_image_4_url
             : null,
           image5: response.data.machine.side_image_5_url
-            ? IMGURL + response.data.machine.side_image_5_url
+            ? response.data.machine.side_image_5_url
             : null,
           image6: response.data.machine.side_image_6_url
-            ? IMGURL + response.data.machine.side_image_6_url
+            ? response.data.machine.side_image_6_url
             : null,
         });
       })
@@ -437,7 +432,7 @@ export default function EditEquipmentMachinePage() {
   }
   async function fetchMachineCategory(controller) {
     await api
-      .get(`machine-category`, { signal: controller.signal })
+      .getMachineCategories()
       .then((response) => {
         setMachineCategory(response?.data?.machineCategory);
         setOptions(
@@ -604,7 +599,6 @@ export default function EditEquipmentMachinePage() {
                         <Flex>
                           <FaEdit />
                         </Flex>
-                        {/* <Flex>Edit</Flex> */}
                       </Flex>
                     </>
                   ) : (
@@ -674,7 +668,7 @@ export default function EditEquipmentMachinePage() {
               <Flex fontWeight={700} justify={"space-between"}>
                 <Flex>Other Image</Flex>
               </Flex>
-              {Array.from({ length: 6 }).map((_, index) =>
+              {Array.from({ length: 3 }).map((_, index) =>
                 formik.errors[`image${index + 1}`] &&
                 formik.touched[`image${index + 1}`] ? (
                   <Flex
@@ -724,30 +718,9 @@ export default function EditEquipmentMachinePage() {
                 onChange={handleFileChange(3)}
                 accept="image/*"
               />
-              <input
-                type="file"
-                ref={(el) => (fileInputRefs.current[4] = el)} // Assign ref dynamically to each input
-                style={{ display: "none" }}
-                onChange={handleFileChange(4)}
-                accept="image/*"
-              />
-              <input
-                type="file"
-                ref={(el) => (fileInputRefs.current[5] = el)} // Assign ref dynamically to each input
-                style={{ display: "none" }}
-                onChange={handleFileChange(5)}
-                accept="image/*"
-              />
-              <input
-                type="file"
-                ref={(el) => (fileInputRefs.current[6] = el)} // Assign ref dynamically to each input
-                style={{ display: "none" }}
-                onChange={handleFileChange(6)}
-                accept="image/*"
-              />
 
               <Grid templateColumns="repeat(3, 1fr)" gap={"20px"}>
-                {Array.from({ length: 6 }).map((fileKey, index) =>
+                {Array.from({ length: 3 }).map((fileKey, index) =>
                   fileDisplay["image" + (index + 1)] ? (
                     <GridItem
                       position={"relative"}
@@ -834,7 +807,6 @@ export default function EditEquipmentMachinePage() {
                         <Flex>
                           <FaEdit />
                         </Flex>
-                        {/* <Flex>Edit</Flex> */}
                       </Flex>
                     </GridItem>
                   ) : (

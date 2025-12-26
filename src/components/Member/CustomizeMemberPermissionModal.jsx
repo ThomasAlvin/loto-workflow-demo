@@ -174,7 +174,6 @@ export default function CustomizeMemberPermissionModal({
               }
             }
           }
-          console.log(updatedPermissions);
 
           return {
             ...prevModule,
@@ -190,7 +189,6 @@ export default function CustomizeMemberPermissionModal({
           .permissions.some(
             (perm) => perm.permission === permission.permission
           );
-        console.log(permissionExists);
 
         if (!permissionExists) {
           const newUpdatedModules = updatedModules.map((prevModule) => {
@@ -199,12 +197,9 @@ export default function CustomizeMemberPermissionModal({
               prevModule.name === "equipment_machines" ||
               prevModule.name === "members"
             ) {
-              console.log(permission);
-
               const permissionExists2 = prevState
                 .find((prevModule2) => prevModule2.name === prevModule.name)
                 .permissions.some((perm) => perm.permission === "view");
-              console.log(permissionExists2);
 
               if (!permissionExists2) {
                 let updatedPermissions;
@@ -232,11 +227,9 @@ export default function CustomizeMemberPermissionModal({
 
           return newUpdatedModules;
         }
-        console.log("dh sampai2");
 
         return updatedModules;
       }
-      console.log(removeManageWorkOrder);
 
       if (removeManageWorkOrder) {
         const newUpdatedModules = updatedModules.map((prevModule) => {
@@ -247,9 +240,6 @@ export default function CustomizeMemberPermissionModal({
                 (perm) =>
                   perm.permission === "view" || perm.permission === "view_owned"
               );
-            //terakhir edit the work orders dibilang gk ad permission manage??
-            console.log(prevState);
-            console.log(permissionExists2);
 
             if (permissionExists2) {
               let updatedPermissions;
@@ -263,7 +253,6 @@ export default function CustomizeMemberPermissionModal({
                     p.permission === "manage"
                   )
               );
-              console.log(updatedPermissions);
 
               return {
                 ...prevModule,
@@ -274,7 +263,6 @@ export default function CustomizeMemberPermissionModal({
           }
           return prevModule;
         });
-        console.log(newUpdatedModules);
 
         return newUpdatedModules;
       }
@@ -307,14 +295,7 @@ export default function CustomizeMemberPermissionModal({
             display={"flex"}
             flexDir={"column"}
           >
-            <Flex
-              onClick={() => {
-                console.log(customPermissions);
-              }}
-              color={"crimson"}
-            >
-              Permission & Accessibility{" "}
-            </Flex>
+            <Flex color={"crimson"}>Permission & Accessibility </Flex>
 
             <Flex
               textAlign={"center"}
@@ -412,7 +393,6 @@ export default function CustomizeMemberPermissionModal({
                 </Flex>
                 <Divider my={0} borderColor={"#848484"} />
                 <Flex flexDir={"column"} gap={"20px"}>
-                  {/* {Array.from({ length: 3 }).map((module, index) => ( */}
                   {roleAccessibility?.modules?.map((module, index) =>
                     module.permissions.length ? (
                       <Flex flexDir={"column"} gap={"10px"}>
@@ -429,7 +409,6 @@ export default function CustomizeMemberPermissionModal({
                           </Flex>
                         </Flex>
                         <Flex flexDir={"column"} borderY={"1px solid #bababa"}>
-                          {/* {Array.from({ length: 3 }).map((_, index2) => ( */}
                           {module.permissions.map((permission, index2) => {
                             if (!customPermissions) {
                               console.warn("Member role not found");

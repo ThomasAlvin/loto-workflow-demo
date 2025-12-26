@@ -20,7 +20,6 @@ export default function DepartmentDetailsModal({
   isOpen,
 }) {
   const nav = useNavigate();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
 
   return (
     <>
@@ -135,7 +134,7 @@ export default function DepartmentDetailsModal({
                                     }
                                     src={
                                       val.user.profile_image_url
-                                        ? IMGURL + val.user.profile_image_url
+                                        ? val.user.profile_image_url
                                         : null
                                     }
                                   ></Avatar>
@@ -216,17 +215,6 @@ export default function DepartmentDetailsModal({
                       </Flex>
                     )}
                   </Flex>
-
-                  {/* {inspectionForm.inspection_questions.map(
-                    (val, inspectionQuestionIndex) => {
-                      return (
-                        <InspectionFormDetailsModalFormQuestions
-                          val={val}
-                          index={inspectionQuestionIndex}
-                        />
-                      );
-                    }
-                  )} */}
                 </Flex>
               </Flex>
             </Flex>

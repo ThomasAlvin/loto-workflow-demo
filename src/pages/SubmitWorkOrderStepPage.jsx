@@ -53,7 +53,7 @@ import SubmitQuestionTypeMapper from "../components/SubmitQuestionTypeMapper";
 export default function SubmitWorkOrderStepPage() {
   const taskRefs = useRef([]);
   const location = useLocation();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const [highlightedIndex, setHighlightedIndex] = useState(null);
   const userSelector = useSelector((state) => state.login.auth);
   const { UID, stepUID } = useParams();
@@ -338,15 +338,10 @@ export default function SubmitWorkOrderStepPage() {
   async function fetchWorkOrderStepDetails() {
     setLoading(true);
     await api
-      .get(`work-order/${UID}/step/${stepUID}`, {
-        signal: abortControllerRef.current.signal,
-      })
+      .getSubmitWorkOrderStep()
       .then((response) => {
-        console.log(response.data);
-
         const responseWorkOrder = response.data.work_order;
         const workOrderStep = responseWorkOrder?.work_order_step;
-        console.log(workOrderStep);
         reset({
           UID: workOrderStep.UID,
           workOrderFormQuestions: workOrderStep?.work_order_form_questions?.map(
@@ -418,9 +413,6 @@ export default function SubmitWorkOrderStepPage() {
   }
 
   function applyCompletedInspectionForms(response) {
-    console.log(response);
-    console.log(workOrder);
-
     if (!response?.completed_inspection_forms) return;
 
     const machines = getValues().workOrderStepMachines;
@@ -433,10 +425,7 @@ export default function SubmitWorkOrderStepPage() {
       );
 
       if (index === -1) return;
-      console.log(index);
       setWorkOrder((prev) => {
-        console.log(prev);
-
         return {
           ...prev,
           work_order_step: {
@@ -450,19 +439,6 @@ export default function SubmitWorkOrderStepPage() {
                       sif.work_order_step_inspection_form.UID ===
                       inspectionForm.work_order_step_inspection_form_UID
                     ) {
-                      console.log(inspectionForm.submission);
-                      console.log({
-                        ...sif,
-                        work_order_step_inspection_form: {
-                          ...sif.work_order_step_inspection_form,
-                          work_order_step_inspection_form_submission: [
-                            ...sif.work_order_step_inspection_form
-                              .work_order_step_inspection_form_submission,
-                            inspectionForm.submission, // 👈 This pushes the new item
-                          ],
-                        },
-                      });
-
                       return {
                         ...sif,
                         work_order_step_inspection_form: {
@@ -528,10 +504,7 @@ export default function SubmitWorkOrderStepPage() {
         },
       };
 
-      const responseForm = await api.post(
-        `work-order/submit-step/${workOrder.UID}`,
-        formDataObject
-      );
+      const responseForm = await api.testSubmit("Step submitted successfully");
 
       Swal.fire({
         title: "Success!",
@@ -612,13 +585,10 @@ export default function SubmitWorkOrderStepPage() {
             }))
         ),
       };
-      console.log(payloadObject);
 
-      const responseMachine = await api.post(
-        `work-order/inspection-form/answer/${workOrder.UID}`,
-        payloadObject
+      const responseMachine = await api.testSubmit(
+        "Inspection form submitted successfully"
       );
-      console.log(responseMachine);
       Swal.fire({
         title: "Success!",
         text: responseMachine?.data?.message,
@@ -805,21 +775,14 @@ export default function SubmitWorkOrderStepPage() {
 
     if (!scopedErrors) return;
     const firstErrorPath = findFirstErrorPath(scopedErrors);
-    console.log(submitScope);
-    console.log(scopedErrors);
-    console.log(firstErrorPath);
-
     const fullPath = submitScope
       ? `${submitScope}${firstErrorPath}`
       : firstErrorPath;
-    console.log(fullPath);
 
     if (!fullPath) return;
 
     // Scroll anchor
     const el = document.querySelector(`[name="${fullPath}"]`);
-    console.log(el);
-    console.log(errors);
 
     if (el) {
       el.focus({ preventScroll: true });
@@ -852,14 +815,7 @@ export default function SubmitWorkOrderStepPage() {
                       fontWeight={700}
                       fontSize={"24px"}
                     >
-                      <Flex
-                        onClick={() => {
-                          console.log("workOrder", workOrder);
-                          console.log("getValues()", getValues());
-                          console.log("errors", errors);
-                        }}
-                        color={"#dc143c"}
-                      >
+                      <Flex color={"#dc143c"}>
                         Step
                         {" " + workOrder?.step_index}: {workOrderStep?.name}
                       </Flex>
@@ -945,7 +901,6 @@ export default function SubmitWorkOrderStepPage() {
                                         gap={"10px"}
                                         alignItems={"center"}
                                       >
-                                        {/* <WorkFlowStepBadges val={val} /> */}
                                         <AccordionIcon />
                                       </Flex>
                                     </Flex>
@@ -978,15 +933,7 @@ export default function SubmitWorkOrderStepPage() {
                                         <Flex fontWeight={700}>
                                           Form Questions :
                                         </Flex>
-                                        {/* <Flex fontSize={"14px"} color={"#848484"}>
-                                      Answered 0 out of{" "}
-                                      {
-                                        workOrderStep?.work_order_form_questions.filter(
-                                          (question) => question.is_required
-                                        )?.length
-                                      }{" "}
-                                      required questions{" "}
-                                    </Flex> */}
+
                                         {workOrderStep?.work_order_form_questions?.map(
                                           (val, index) => {
                                             formQuestionCounterIndex++;
@@ -1071,7 +1018,6 @@ export default function SubmitWorkOrderStepPage() {
                                         gap={"10px"}
                                         alignItems={"center"}
                                       >
-                                        {/* <WorkFlowStepBadges val={val} /> */}
                                         <AccordionIcon />
                                       </Flex>
                                     </Flex>
@@ -1097,12 +1043,7 @@ export default function SubmitWorkOrderStepPage() {
                                         submission.
                                       </Flex>
                                       <Flex flexDir={"column"} gap={"5px"}>
-                                        <Flex
-                                          onClick={() => {
-                                            console.log(workOrderStep);
-                                          }}
-                                          fontWeight={700}
-                                        >
+                                        <Flex fontWeight={700}>
                                           Notified Member
                                         </Flex>
                                         <MemberGroupList
@@ -1214,7 +1155,6 @@ export default function SubmitWorkOrderStepPage() {
                                         gap={"10px"}
                                         alignItems={"center"}
                                       >
-                                        {/* <WorkFlowStepBadges val={val} /> */}
                                         <AccordionIcon />
                                       </Flex>
                                     </Flex>
@@ -1236,14 +1176,6 @@ export default function SubmitWorkOrderStepPage() {
                                           <Flex fontWeight={700}>
                                             Assigned Machines :
                                           </Flex>
-                                          {/* <Flex fontSize={"14px"} color={"#848484"}>
-                                        Finished 0 out of{" "}
-                                        {
-                                          workOrderStep
-                                            ?.work_order_step_machines?.length
-                                        }{" "}
-                                        machine
-                                      </Flex> */}
                                         </Flex>
                                         {workOrderStep?.work_order_step_machines?.map(
                                           (machine, machineIndex) => {
@@ -1421,7 +1353,6 @@ export default function SubmitWorkOrderStepPage() {
                                                                             "center"
                                                                           }
                                                                         >
-                                                                          {/* <WorkFlowStepBadges val={val} /> */}
                                                                           <Flex
                                                                             gap={
                                                                               "5px"
@@ -1500,24 +1431,6 @@ export default function SubmitWorkOrderStepPage() {
                                                                               fontWeight={
                                                                                 700
                                                                               }
-                                                                              onClick={() => {
-                                                                                console.log(
-                                                                                  workOrder
-                                                                                    .work_order_step
-                                                                                    .attempt
-                                                                                );
-
-                                                                                console.log(
-                                                                                  inspectionForm
-                                                                                    .work_order_step_inspection_form
-                                                                                    .work_order_step_inspection_form_submission[
-                                                                                    workOrder
-                                                                                      .work_order_step
-                                                                                      .attempt ||
-                                                                                      0
-                                                                                  ]
-                                                                                );
-                                                                              }}
                                                                             >
                                                                               Submitted
                                                                               by
@@ -1625,24 +1538,6 @@ export default function SubmitWorkOrderStepPage() {
                                                                                 flexDir={
                                                                                   "column"
                                                                                 }
-                                                                                onClick={() => {
-                                                                                  console.log(
-                                                                                    currentStepMachinesCounterIndex
-                                                                                  );
-
-                                                                                  console.log(
-                                                                                    get(
-                                                                                      errors,
-                                                                                      `workOrderStepMachines[${currentStepMachinesCounterIndex}]`
-                                                                                    )
-                                                                                  );
-                                                                                  console.log(
-                                                                                    get(
-                                                                                      errors,
-                                                                                      `workOrderStepMachines[${currentStepMachinesCounterIndex}].isMachineVerify`
-                                                                                    )
-                                                                                  );
-                                                                                }}
                                                                               >
                                                                                 <Flex>
                                                                                   To
@@ -1672,10 +1567,6 @@ export default function SubmitWorkOrderStepPage() {
                                                                             <Flex>
                                                                               <Button
                                                                                 onClick={() => {
-                                                                                  console.log(
-                                                                                    currentStepMachinesCounterIndex
-                                                                                  );
-
                                                                                   openVerifyMachineModal(
                                                                                     machine,
                                                                                     currentStepMachinesCounterIndex
@@ -2094,7 +1985,6 @@ export default function SubmitWorkOrderStepPage() {
                                         gap={"10px"}
                                         alignItems={"center"}
                                       >
-                                        {/* <WorkFlowStepBadges val={val} /> */}
                                         <AccordionIcon />
                                       </Flex>
                                     </Flex>
@@ -2131,8 +2021,6 @@ export default function SubmitWorkOrderStepPage() {
 
                                         <RadioGroup
                                           onChange={(option) => {
-                                            console.log(option);
-
                                             setValue(
                                               "responseConditional",
                                               option,

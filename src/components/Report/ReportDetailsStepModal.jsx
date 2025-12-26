@@ -34,19 +34,6 @@ export default function ReportDetailsStepModal({
       (item) => item.name
     ) || [];
 
-  const lockAccessIds =
-    selectedStep?.report_locks?.map((item) => item.name) || [];
-
-  const multiLockAccessAuditLogs =
-    selectedStep.report_step_audit_trails?.filter((log) => {
-      return multiLockAccessNames.includes(log.lock?.name);
-    });
-
-  const lockAccessAuditLogs = selectedStep.report_step_audit_trails?.filter(
-    (log) => {
-      return lockAccessIds.includes(log.lock?.name);
-    }
-  );
   const { bgColor, textColor, icon, text } = tableStatusStyleMapper(
     selectedStep?.status
   );
@@ -145,7 +132,6 @@ export default function ReportDetailsStepModal({
         aria-label="Next page"
       />
       <ModalContent bg={"#ededed"} maxW={"900px"}>
-        {/* <ModalCloseButton /> */}
         <ModalBody p={"20px"}>
           <Flex flexDir={"column"}>
             <Flex
@@ -168,14 +154,7 @@ export default function ReportDetailsStepModal({
                 }
               >
                 <Flex flexDir={"column"}>
-                  <Flex
-                    fontSize={"24px"}
-                    onClick={() => {
-                      console.log(reportStepByStatus);
-                    }}
-                  >
-                    {report?.name}
-                  </Flex>
+                  <Flex fontSize={"24px"}>{report?.name}</Flex>
                   <Text fontSize="32px" fontWeight={700} lineHeight="1.2">
                     {selectedStep.originalIndex +
                       1 +
@@ -262,16 +241,6 @@ export default function ReportDetailsStepModal({
                     ) : (
                       ""
                     )}
-                    {/* <Flex flexDir={"column"}>
-                      <Flex gap={"20px"} justifyContent={"space-between"}>
-                        <Flex fontWeight={700}>Completion Time:</Flex>
-                      </Flex>
-                      <Flex>
-                        {moment(selectedStep.finished_at).format(
-                          "MMMM Do YYYY, hh:mm A"
-                        )}
-                      </Flex>
-                    </Flex> */}
                   </Flex>
                   <ReportDetailsStepSubmissions selectedStep={selectedStep} />
                 </Flex>

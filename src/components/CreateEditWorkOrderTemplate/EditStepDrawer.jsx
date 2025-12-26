@@ -96,7 +96,6 @@ export default function EditStepDrawer({
       body: "",
       confirmationLabel: "",
     });
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const editStepDrawerFormik = useFormik({
     initialValues: {
       ...selectedEditStep,
@@ -231,39 +230,6 @@ export default function EditStepDrawer({
                 .required("Inspection forms are required."), // Validate inspection forms
             })
           ),
-        work_order_locks: Yup.array() // Return a Yup array schema
-          .of(
-            Yup.object().shape({
-              id: Yup.string()
-                .trim()
-                .test(
-                  "customValidation3",
-                  "Lock cannot be empty.",
-                  function (val) {
-                    const { parent, from } = this; // Access parent and from
-                    const workOrderStep = from[1].value;
-                    // Access the second work order step
-                    if (workOrderStep && workOrderStep.lockAccess) {
-                      return val && val.trim() !== ""; // Ensure ID is provided (not empty or whitespace)
-                    }
-                    return true;
-                  }
-                ),
-            })
-          )
-          .test(
-            "minLocks",
-            "This step requires at least 1 lock.",
-            function (value) {
-              const { from } = this;
-              const workOrderStep = from[0].value; // Access the second work order step
-
-              if (workOrderStep?.lockAccess) {
-                return Array.isArray(value) && value.length > 0; // Require at least 1 lock if lockAccess is true
-              }
-              return true; // No locks required if lockAccess is false
-            }
-          ),
         multiLockAccessGroup: Yup.object().shape({
           multiLockAccessGroupItems: Yup.array() // Return a Yup array schema
             .of(
@@ -299,30 +265,20 @@ export default function EditStepDrawer({
                   workOrderStep?.multiLockAccess &&
                   workOrderStep.multiLockAccessGroup?.isPreAssigned
                 ) {
-                  return Array.isArray(value) && value.length > 0; // Require at least 1 lock if lockAccess is true
+                  return Array.isArray(value) && value.length > 0;
                 }
-                return true; // No locks required if lockAccess is false
+                return true;
               }
             ),
         }),
-        titleTriggerAPI: Yup.string()
-          .trim()
-          .when("triggerAPI", {
-            is: true,
-            then: (schema) => schema.required("Key is required"),
-            otherwise: (schema) => schema.notRequired(),
-          }),
       })
       .test("atleastOne", "null", (obj) => {
         if (
           obj.form ||
           obj.notify ||
           obj.machine ||
-          obj.lockAccess ||
           obj.multiLockAccess ||
-          obj.condition ||
-          obj.triggerAPI ||
-          obj.sendWebhook
+          obj.condition
         ) {
           return true; // everything is fine
         }
@@ -371,7 +327,6 @@ export default function EditStepDrawer({
       notify: false,
       notificationMessage: "",
       notify_to: [],
-      lockAccess: false,
       multiLockAccess: name ? true : false,
       isMainMultiLockAccess: false,
       ...(name
@@ -384,11 +339,8 @@ export default function EditStepDrawer({
         : {}),
       machine: false,
       requireVerifyMachine: false,
-      triggerAPI: false,
-      sendWebhook: false,
       condition: false,
       condition_question: "",
-      titleTriggerAPI: "",
       selectedMachines: [],
       formQuestions: [
         {
@@ -448,27 +400,6 @@ export default function EditStepDrawer({
         );
 
         break;
-      case "lockAccess":
-        editStepDrawerFormik.setFieldValue(
-          "lockAccess",
-          !editStepDrawerFormik.values.lockAccess
-        );
-        editStepDrawerFormik.setFieldValue(
-          "work_order_locks",
-          !editStepDrawerFormik.values.lockAccess
-            ? [
-                {
-                  name: "",
-                  id: "",
-                  require_lock_image: false,
-                  label: "",
-                  value: "",
-                },
-              ]
-            : []
-        );
-
-        break;
       case "multiLockAccess":
         editStepDrawerFormik.setValues((prevState) => ({
           ...prevState,
@@ -496,18 +427,6 @@ export default function EditStepDrawer({
               }
             : {},
         }));
-        break;
-      case "triggerAPI":
-        editStepDrawerFormik.setFieldValue(
-          "triggerAPI",
-          !editStepDrawerFormik.values.triggerAPI
-        );
-        break;
-      case "sendWebhook":
-        editStepDrawerFormik.setFieldValue(
-          "sendWebhook",
-          !editStepDrawerFormik.values.sendWebhook
-        );
         break;
     }
   }
@@ -575,12 +494,7 @@ export default function EditStepDrawer({
     if (!filteredStepDetails.machine) {
       filteredStepDetails.selectedMachines = [];
     }
-    if (!filteredStepDetails.triggerAPI) {
-      filteredStepDetails.titleTriggerAPI = "";
-    }
-    if (!filteredStepDetails.lockAccess) {
-      filteredStepDetails.work_order_locks = [];
-    }
+
     if (!filteredStepDetails?.multiLockAccessGroup?.isPreAssigned) {
       if (filteredStepDetails?.multiLockAccessGroup) {
         delete filteredStepDetails.multiLockAccessGroup
@@ -602,8 +516,6 @@ export default function EditStepDrawer({
         !item.data.isMainMultiLockAccess
       );
     });
-    console.log(linkedSteps);
-
     const sortedLinkedSteps = [...linkedSteps].sort(
       (a, b) =>
         Number(a.data.multiLockAccessStepIndex) -
@@ -613,14 +525,10 @@ export default function EditStepDrawer({
     const keptLinkedSteps = sortedLinkedSteps.slice(0, count);
     const linkedStepNodeUuid = Array.from({ length: count }, () => uuid());
     const linkedStepDataUuid = Array.from({ length: count }, () => uuid());
-    console.log("Node", linkedStepNodeUuid);
-    console.log("Data", linkedStepDataUuid);
 
     formikSetValues((prevState) => {
       const newLinkedSteps = [];
       for (let i = linkedSteps.length; i < count; i++) {
-        console.log(i);
-
         newLinkedSteps.push(
           createInitialStepInput(groupName, i + 1, linkedStepDataUuid[i])
         );
@@ -634,13 +542,15 @@ export default function EditStepDrawer({
           !item.data.isMainMultiLockAccess;
 
         if (index === stepIndex) {
-          newItems.push(filteredStepDetails);
+          newItems.push(
+            filteredStepDetails.condition && !item.data.condition
+              ? { ...filteredStepDetails, loop_target_UID: "" }
+              : filteredStepDetails
+          );
           if (
             filteredStepDetails.isMainMultiLockAccess &&
             newLinkedSteps.length > 0
           ) {
-            console.log(newLinkedSteps);
-
             newItems.push(...newLinkedSteps);
           }
           if (filteredStepDetails.condition && !item.data.condition) {
@@ -662,7 +572,6 @@ export default function EditStepDrawer({
           newItems.push(item.data);
         }
       });
-      console.log(newItems);
 
       if (selectedEditStep.condition && !filteredStepDetails.condition) {
         newItems = newItems.filter(
@@ -675,8 +584,6 @@ export default function EditStepDrawer({
         [stepType]: newItems,
       };
     });
-    console.log(linkedSteps);
-    console.log(count);
 
     const newLinkedSteps = [];
     for (let i = linkedSteps.length; i < count; i++) {
@@ -684,7 +591,6 @@ export default function EditStepDrawer({
         createInitialStepInput(groupName, i + 1, linkedStepDataUuid[i])
       );
     }
-    console.log(newLinkedSteps);
 
     const newNodes = [];
     let newEdges = getEdges();
@@ -692,18 +598,12 @@ export default function EditStepDrawer({
     const deletedNodes = [];
     const isAddingLinkedStep =
       filteredStepDetails.isMainMultiLockAccess && newLinkedSteps.length > 0;
-    console.log(isAddingLinkedStep);
 
     const { descendantNodes } = getDescendantNodesById(
       selectedEditStep.nodeId,
       newEdges,
       getNodes()
     );
-    console.log("selectedEditStep.nodeId", selectedEditStep.nodeId);
-    console.log("newEdges", newEdges);
-    console.log("getNodes()", getNodes());
-    console.log("descendantsNodes", descendantNodes);
-    console.log("items", items);
 
     items.forEach((item, index) => {
       const isLinkedStep =
@@ -714,6 +614,10 @@ export default function EditStepDrawer({
           ...item,
           data: {
             ...filteredStepDetails,
+            loop_target_UID:
+              filteredStepDetails.condition && !item.data.condition
+                ? ""
+                : filteredStepDetails.loop_target_UID,
             label: filteredStepDetails.name,
             isEnd:
               filteredStepDetails.isEnd &&
@@ -726,14 +630,7 @@ export default function EditStepDrawer({
 
         // Kalau di add condition, tambahin sample steps
         if (filteredStepDetails.condition && !item.data?.condition) {
-          console.log(filteredStepDetails);
-          console.log(item);
-
-          let nextNodeId = "";
           newEdges = newEdges.filter((e) => {
-            if (e.source === item.id) {
-              nextNodeId = e.target;
-            }
             return e.source !== item.id;
           });
           newEdges.push(...getConditionalEdge(conditionalNodeUuid, item.id));
@@ -749,7 +646,6 @@ export default function EditStepDrawer({
           );
         }
         if (isAddingLinkedStep) {
-          console.log(newEdges);
           // if there is like 3 nodes and you are editing step 2, nextNodeId gives you data on step 3
           let nextNodeId = "";
           if (!filteredStepDetails.condition) {
@@ -871,7 +767,6 @@ export default function EditStepDrawer({
       setNodes(reorderedNewNodes.map((node) => ({ ...node, selected: false })));
       setEdges(newEdges.map((edge) => ({ ...edge, selected: false })));
     }
-    console.log(newLinkedSteps);
 
     closeModal();
     saveChangesConfirmationDisclosure.onClose();
@@ -887,9 +782,7 @@ export default function EditStepDrawer({
       assigned_to,
       notify_to,
       selectedMachines,
-      work_order_locks,
       multiLockAccessGroup,
-      titleTriggerAPI,
       ...filteredUnblockingErrors
     } = errors;
 
@@ -999,26 +892,8 @@ export default function EditStepDrawer({
       };
     });
   }
-  // useEffect(() => {
-  //   const observer = new MutationObserver((mutations) => {
-  //     mutations.forEach((m) => {
-  //       console.log("DOM mutation detected:", m);
-  //     });
-  //   });
-
-  //   if (drawerRef.current) {
-  //     observer.observe(drawerRef.current, {
-  //       childList: true,
-  //       subtree: true,
-  //     });
-  //   }
-
-  //   return () => observer.disconnect();
-  // }, []);
   useEffect(() => {
     function handleClickOutside(event) {
-      console.log(event.target);
-      console.log(!drawerRef.current.contains(event.target));
       if (event.target.closest(".react-select__indicator")) return;
       if (
         drawerRef.current &&
@@ -1079,14 +954,7 @@ export default function EditStepDrawer({
           pt={4}
           zIndex={1000}
         >
-          <Flex
-            h={"100%"}
-            w={"100%"}
-            position={"relative"}
-            flexDir={"column"}
-            // gap={"20px"}
-          >
-            {/* Header */}
+          <Flex h={"100%"} w={"100%"} position={"relative"} flexDir={"column"}>
             <Flex
               fontWeight={700}
               borderBottom={"2px solid #bababa"}
@@ -1147,7 +1015,6 @@ export default function EditStepDrawer({
                 </Flex>
               </Flex>
             </Flex>
-            {/* Body */}
             <Flex py={"20px"} flex={1} w={"100%"} overflowY={"auto"}>
               <Flex
                 h={"fit-content"}
@@ -1216,8 +1083,7 @@ export default function EditStepDrawer({
                                       }
                                       src={
                                         filteredReviewer.profile_image_url
-                                          ? IMGURL +
-                                            filteredReviewer.profile_image_url
+                                          ? filteredReviewer.profile_image_url
                                           : null
                                       }
                                     ></Avatar>
@@ -1279,32 +1145,7 @@ export default function EditStepDrawer({
                           fontWeight={700}
                           fontSize={"18px"}
                         >
-                          <Flex
-                            onClick={() => {
-                              console.log(
-                                "selectedEditStep:",
-                                selectedEditStep
-                              );
-                              console.log(
-                                "selectedEditStep:",
-                                getNodes().filter((nds) => {
-                                  // switch id to UID
-                                  nds.data.UID === selectedEditStep.UID;
-                                })
-                              );
-                              console.log("workOrderFormik:", workOrderFormik);
-                              console.log(
-                                "editStepDrawerFormik:",
-                                editStepDrawerFormik
-                              );
-                              console.log(
-                                "editStepDrawerFormik.values:",
-                                editStepDrawerFormik.values
-                              );
-                            }}
-                          >
-                            Step Details
-                          </Flex>
+                          <Flex>Step Details</Flex>
                           <Flex>
                             <GoPencil />
                           </Flex>
@@ -1374,20 +1215,7 @@ export default function EditStepDrawer({
                           fontWeight={700}
                           fontSize={"18px"}
                         >
-                          <Flex
-                            onClick={() =>
-                              console.log([
-                                editStepDrawerFormik.values?.form && 0,
-                                editStepDrawerFormik.values?.machine && 1,
-                                editStepDrawerFormik.values?.multiLockAccess &&
-                                  2,
-                                editStepDrawerFormik.values?.notify && 3,
-                                editStepDrawerFormik.values?.condition && 4,
-                                // editStepDrawerFormik.values?.triggerAPI && 5,
-                                // editStepDrawerFormik.values?.sendWebhook && 6,
-                              ])
-                            }
-                          >
+                          <Flex>
                             Actions&nbsp;
                             <Box as="span" color={"#dc143c"}>
                               *
@@ -1434,8 +1262,6 @@ export default function EditStepDrawer({
                               : null,
                             editStepDrawerFormik.values?.notify ? 3 : null,
                             editStepDrawerFormik.values?.condition ? 4 : null,
-                            // editStepDrawerFormik.values?.triggerAPI && 5,
-                            // editStepDrawerFormik.values?.sendWebhook && 6,
                           ]}
                           allowMultiple
                           gap={"0px"}
@@ -2228,145 +2054,6 @@ export default function EditStepDrawer({
                           ) : (
                             ""
                           )}
-                          {/* {variant === "template" || variant === "workOrder" ? (
-                    <AccordionItem>
-                      <Flex flexDir={"column"}>
-                        <AccordionButton
-                          onClick={() => {
-                            handleAccordionChange("triggerAPI");
-                          }}
-                        >
-                          <Flex w={"100%"} justify={"space-between"}>
-                            <Flex gap={"10px"} alignItems={"center"}>
-                              <AccordionIcon visibility={"hidden"} />
-                              <Flex flexDir={"column"}>
-                                <Flex
-                                  fontWeight={700}
-                                  as="span"
-                                  flex="1"
-                                  alignItems={"center"}
-                                  gap={"4px"}
-                                >
-                                  Trigger API
-                                  <Tooltip
-                                    hasArrow
-                                    placement="top"
-                                    maxW={"none"}
-                                    label={
-                                      <Box whiteSpace="nowrap">
-                                        You're server must send a request to
-                                        confirm this step
-                                      </Box>
-                                    }
-                                  >
-                                    <Flex
-                                      _hover={{ color: "black" }}
-                                      color={"#848484"}
-                                      fontSize={"20px"}
-                                    >
-                                      <IoMdInformationCircleOutline />
-                                    </Flex>
-                                  </Tooltip>
-                                </Flex>
-                                <Flex
-                                  textAlign={"left"}
-                                  fontSize={"14px"}
-                                  color={"#848484"}
-                                  justifyContent={"space-between"}
-                                >
-                                  <Flex>
-                                    Allow members to trigger the API for
-                                    authorization on specific actions.
-                                  </Flex>
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                            <Flex>
-                              <Flex
-                                flexDir={"column"}
-                                justify={"center"}
-                                pointerEvents={"none"}
-                              >
-                                <Checkbox
-                                  isChecked={editStepDrawerFormik.values?.triggerAPI}
-                                ></Checkbox>
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                        </AccordionButton>
-                      </Flex>
-                    </AccordionItem>
-                  ) : (
-                    ""
-                  )}
-                  {variant === "template" || variant === "workOrder" ? (
-                    <AccordionItem>
-                      <Flex flexDir={"column"}>
-                        <AccordionButton
-                          onClick={() => {
-                            handleAccordionChange("sendWebhook");
-                          }}
-                        >
-                          <Flex w={"100%"} justify={"space-between"}>
-                            <Flex gap={"10px"} alignItems={"center"}>
-                              <AccordionIcon visibility={"hidden"} />
-                              <Flex flexDir={"column"}>
-                                <Flex
-                                  fontWeight={700}
-                                  as="span"
-                                  flex="1"
-                                  alignItems={"center"}
-                                  gap={"4px"}
-                                >
-                                  Send Webhook
-                                  <Tooltip
-                                    hasArrow
-                                    placement="top"
-                                    maxW={"none"}
-                                    label={
-                                      <Box whiteSpace="nowrap">
-                                        Once this step is completed, we’ll send
-                                        a request to the base URL you set in the
-                                        developer menu.
-                                      </Box>
-                                    }
-                                  >
-                                    <Flex
-                                      _hover={{ color: "black" }}
-                                      color={"#848484"}
-                                      fontSize={"20px"}
-                                    >
-                                      <IoMdInformationCircleOutline />
-                                    </Flex>
-                                  </Tooltip>
-                                </Flex>
-                                <Flex
-                                  textAlign={"left"}
-                                  fontSize={"14px"}
-                                  color={"#848484"}
-                                  justifyContent={"space-between"}
-                                >
-                                  <Flex>
-                                    When this step is completed, we will send an
-                                    API request to your server to inform you.
-                                  </Flex>
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                            <Flex>
-                              <Flex pointerEvents={"none"}>
-                                <Checkbox
-                                  isChecked={editStepDrawerFormik.values?.sendWebhook}
-                                ></Checkbox>
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                        </AccordionButton>
-                      </Flex>
-                    </AccordionItem>
-                  ) : (
-                    ""
-                  )} */}
                         </Accordion>
                       </Flex>
                     </Flex>
@@ -2386,7 +2073,6 @@ export default function EditStepDrawer({
                 )}
               </Flex>
             </Flex>
-            {/* Footer */}
             <Flex
               borderTop={"1px solid #bababa"}
               py={"20px"}

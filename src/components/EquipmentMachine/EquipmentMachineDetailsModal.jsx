@@ -13,7 +13,7 @@ import {
   TagLabel,
 } from "@chakra-ui/react";
 import { CgNotes } from "react-icons/cg";
-import { FaInfoCircle, FaTag, FaThLarge } from "react-icons/fa";
+import { FaEdit, FaInfoCircle, FaTag, FaThLarge } from "react-icons/fa";
 import { FaHashtag, FaMapLocation, FaScrewdriverWrench } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
@@ -24,7 +24,6 @@ export default function EquipmentMachineDetailsModal({
   isOpen,
 }) {
   const nav = useNavigate();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
 
   function handleCloseModal() {
     onClose();
@@ -60,16 +59,18 @@ export default function EquipmentMachineDetailsModal({
                   border={"2px solid #dc143c"}
                   borderRadius={"100%"}
                 >
-                  <Flex color={"white"} fontSize={"48px"}>
+                  <Flex
+                    h={"96px"}
+                    w={"96px"}
+                    justify={"center"}
+                    alignItems={"center"}
+                    color={"white"}
+                    fontSize={"56px"}
+                  >
                     {selectedEquipmentMachineDetails?.main_image_url ? (
                       <Image
-                        h={"96px"}
-                        w={"96px"}
                         borderRadius={"100%"}
-                        src={
-                          IMGURL +
-                          selectedEquipmentMachineDetails?.main_image_url
-                        }
+                        src={selectedEquipmentMachineDetails?.main_image_url}
                       ></Image>
                     ) : (
                       <FaScrewdriverWrench />
@@ -81,7 +82,7 @@ export default function EquipmentMachineDetailsModal({
                   justify={"center"}
                   flexDir={"column"}
                 >
-                  {/* <Button
+                  <Button
                     mt={"50px"}
                     background={"white"}
                     h={"32px"}
@@ -92,14 +93,16 @@ export default function EquipmentMachineDetailsModal({
                     alignItems={"center"}
                     border={"2px solid #dc143c"}
                     onClick={() => {
-                      nav(`/lock/edit/${selectedEquipmentMachineDetails?.UID}`);
+                      nav(
+                        `/equipment-machine/edit/${selectedEquipmentMachineDetails?.UID}`
+                      );
                     }}
                   >
                     <Flex>
                       <FaEdit />
                     </Flex>
-                    <Flex>Edit Lock</Flex>
-                  </Button> */}
+                    <Flex>Edit Machine</Flex>
+                  </Button>
                 </Flex>
               </Flex>
             </Flex>
@@ -239,7 +242,6 @@ export default function EquipmentMachineDetailsModal({
                         </Flex>
                       )}
                     </Flex>
-                    {/* {selectedEquipmentMachineDetails?.categories} */}
                   </Flex>
                 </Flex>
                 <Flex w={"45%"} flexDir={"column"}>

@@ -31,8 +31,6 @@ export default function CreateWorkSiteModal({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [buttonLoading, setButtonLoading] = useState();
-  const dispatch = useDispatch();
-  const userSelector = useSelector((state) => state.login.auth);
   const {
     control,
     register,
@@ -73,21 +71,8 @@ export default function CreateWorkSiteModal({
   async function onSubmit(data) {
     setButtonLoading(true);
     await api
-      .post(`work-sites`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .testSubmit("Work site added successfully")
       .then((response) => {
-        if (data.isDefault) {
-          dispatch({
-            type: "login",
-            payload: {
-              ...userSelector,
-              main_work_site: response.data.workSite,
-            },
-          });
-        }
         abortControllerRef.current.abort(); // Cancel any previous request
         abortControllerRef.current = new AbortController();
         fetchWorkSites();

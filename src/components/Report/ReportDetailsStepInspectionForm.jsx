@@ -40,9 +40,12 @@ export default function ReportDetailsStepInspectionForm({
               pr={"16px"}
             >
               <Flex fontWeight={700} alignItems={"center"} gap={"10px"}>
-                <Flex h={"9px"} w={"9px"} bg={"#c92445"} borderRadius={"100%"}>
-                  {/* <FaLongArrowAltRight /> */}
-                </Flex>
+                <Flex
+                  h={"9px"}
+                  w={"9px"}
+                  bg={"#c92445"}
+                  borderRadius={"100%"}
+                ></Flex>
                 <Flex>{inspectionForm?.report_step_inspection_form?.name}</Flex>
               </Flex>
               <Flex fontSize={"16px"}>
@@ -92,7 +95,6 @@ export default function ReportDetailsStepInspectionForm({
                           />
                         </Flex>
                       </Flex>
-                      {/* <Flex bg={"#e0e0e0"} h={"1px"} w={"100%"}></Flex> */}
                     </>
                   )
                 )}

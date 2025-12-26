@@ -1,5 +1,4 @@
 import { isEqual } from "lodash"; // much safer than JSON.stringify
-import { memo } from "react";
 
 export default function dynamicPropsComparator(prevProps, nextProps) {
   // Props to ignore from checking (optional)

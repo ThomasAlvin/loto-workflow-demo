@@ -57,12 +57,10 @@ export default function DashboardPage() {
   const userSelector = useSelector((state) => state.login.auth);
   const [workSiteSelection, setWorkSiteSelection] = useState([]);
   const [dashboardData, setDashboardData] = useState({});
-  const [buttonLoading, setButtonLoading] = useState(false);
   const [workSiteLoading, setWorkSiteLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const nav = useNavigate();
-  const dispatch = useDispatch();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const summaryCards = [
     {
       title: "Users",
@@ -98,39 +96,16 @@ export default function DashboardPage() {
     await api
       .getWorkSites()
       .then((response) => {
-        console.log(response.data);
-        console.log(response.data.data);
         setWorkSiteSelection(response.data.data);
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
-        // setTableLoading(false);
         setWorkSiteLoading(false);
       });
   }
   async function switchWorkSite(workSite) {
-    dispatch({
-      type: "login",
-      payload: {
-        ...userSelector,
-        current_work_site: workSite,
-      },
-    });
-    // disabled karena it looks stupid without loading because api request is removed
-    // Swal.fire({
-    //   title: "Success!",
-    //   text: "Successfully switched work site!",
-    //   icon: "success",
-    //   customClass: {
-    //     popup: "swal2-custom-popup",
-    //     title: "swal2-custom-title",
-    //     content: "swal2-custom-content",
-    //     actions: "swal2-custom-actions",
-    //     confirmButton: "swal2-custom-confirm-button",
-    //   },
-    // });
     abortControllerRef.current.abort(); // Cancel any previous request
     abortControllerRef.current = new AbortController();
     fetchDashboardData();
@@ -140,7 +115,6 @@ export default function DashboardPage() {
     await api
       .getDashboard()
       .then((response) => {
-        console.log(response.data);
         setDashboardData(response.data);
       })
       .catch((error) => {
@@ -188,19 +162,11 @@ export default function DashboardPage() {
           gap={"20px"}
         >
           <Flex alignItems={"center"} justify={"space-between"}>
-            <Flex
-              onClick={() => {
-                console.log(userSelector);
-              }}
-              color={"#dc143c"}
-              fontSize={"28px"}
-              fontWeight={700}
-            >
+            <Flex color={"#dc143c"} fontSize={"28px"} fontWeight={700}>
               Dashboard
             </Flex>
             <Menu>
               <MenuButton
-                isLoading={buttonLoading}
                 flexShrink={0}
                 _hover={{
                   bg: tinycolor("#dc143c").darken(8).toString(),
@@ -418,7 +384,6 @@ export default function DashboardPage() {
                       <Th fontSize={"12px"} borderBottomColor={"#bababa"}>
                         Name
                       </Th>
-                      {/* <Th>Email</Th> */}
                       <Th fontSize={"12px"} borderBottomColor={"#bababa"}>
                         Section
                       </Th>
@@ -444,7 +409,7 @@ export default function DashboardPage() {
                                     name={val.first_name + " " + val.last_name}
                                     src={
                                       val.profile_image_url
-                                        ? IMGURL + val.profile_image_url
+                                        ? val.profile_image_url
                                         : null
                                     }
                                   ></Avatar>
@@ -468,7 +433,6 @@ export default function DashboardPage() {
                                   <Flex color={"black"} fontWeight={700}>
                                     {val.first_name + " " + val.last_name}
                                   </Flex>
-                                  {/* -X Check again if the user is a member and not super admin X- */}
                                   <Flex fontSize={"14px"} color={"#848484"}>
                                     {labelizeRole(val.role)}
                                     {val.employee_id
@@ -531,7 +495,7 @@ export default function DashboardPage() {
                             }
                             src={
                               val.user.profile_image_url
-                                ? IMGURL + val.user.profile_image_url
+                                ? val.user.profile_image_url
                                 : null
                             }
                           ></Avatar>
@@ -554,11 +518,9 @@ export default function DashboardPage() {
                         <Flex flexDir={"column"}>
                           <Flex color={"black"} fontWeight={700}>
                             {val.user.first_name + " " + val.user.last_name}
-                            {/* {val.user.first_name + " " + val.user.last_name} */}
                           </Flex>
                           <Flex fontSize={"14px"} color={"#848484"}>
                             {labelizeRole(val.role) + " - " + val.employee_id}
-                            {/* Authorized Employee - 555-102 */}
                           </Flex>
                         </Flex>
                       </Flex>
@@ -702,7 +664,7 @@ export default function DashboardPage() {
                                     }
                                     src={
                                       creatorInfo.profile_image_url
-                                        ? IMGURL + creatorInfo.profile_image_url
+                                        ? creatorInfo.profile_image_url
                                         : null
                                     }
                                   ></Avatar>
@@ -729,7 +691,6 @@ export default function DashboardPage() {
                                         " " +
                                         creatorInfo.last_name
                                       : "Not Assigned Yet"}
-                                    {/* {val.user.first_name + " " + val.user.last_name} */}
                                   </Flex>
                                   <Flex fontSize={"14px"} color={"#848484"}>
                                     {creatorInfo.role
@@ -738,7 +699,6 @@ export default function DashboardPage() {
                                           ? " - " + creatorInfo.employee_id
                                           : "")
                                       : "Not Assigned Yet"}
-                                    {/* Authorized Employee - 555-102 */}
                                   </Flex>
                                 </Flex>
                               </Flex>
@@ -815,8 +775,7 @@ export default function DashboardPage() {
                                                 src={
                                                   assignedMember?.user
                                                     .profile_image_url
-                                                    ? IMGURL +
-                                                      assignedMember?.user
+                                                    ? assignedMember?.user
                                                         .profile_image_url
                                                     : null
                                                 }

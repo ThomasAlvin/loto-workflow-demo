@@ -37,9 +37,12 @@ export default function CreateWorkOrderDetailsStepInspectionForm({
               pr={"16px"}
             >
               <Flex fontWeight={700} alignItems={"center"} gap={"10px"}>
-                <Flex h={"9px"} w={"9px"} bg={"#c92445"} borderRadius={"100%"}>
-                  {/* <FaLongArrowAltRight /> */}
-                </Flex>
+                <Flex
+                  h={"9px"}
+                  w={"9px"}
+                  bg={"#c92445"}
+                  borderRadius={"100%"}
+                ></Flex>
                 <Flex>
                   {inspectionForm?.name ||
                     inspectionForm?.inspection_form?.name}
@@ -93,7 +96,6 @@ export default function CreateWorkOrderDetailsStepInspectionForm({
                         />
                       </Flex>
                     </Flex>
-                    {/* <Flex bg={"#e0e0e0"} h={"1px"} w={"100%"}></Flex> */}
                   </>
                 ))}
               </Flex>
@@ -146,96 +148,6 @@ export default function CreateWorkOrderDetailsStepInspectionForm({
                       unit={inspectionQuestion.unit}
                       options={inspectionQuestion.options}
                     />
-                    {/* <Accordion w={"100%"} allowToggle>
-                      <AccordionItem>
-                        <AccordionButton
-                          position={"static"}
-                          p={0}
-                          _expanded={{
-                            boxShadow: "0px 1px 0px rgba(0, 0, 0, 0.2)",
-                          }}
-                        >
-                          <Flex
-                            w={"100%"}
-                            alignItems={"center"}
-                            justifyContent={"space-between"}
-                          >
-                            <Flex w={"50%"} alignItems={"center"}>
-                              <Textarea
-                                position={"static"}
-                                cursor={"pointer"}
-                                isReadOnly={true}
-                                // ref={textareaRef}
-                                value={inspectionQuestion.question}
-                                // onChange={handleInput}
-                                borderRadius={"0px"}
-                                fontSize={"14px"}
-                                placeholder="What time did you arrive work today?"
-                                px={"10px"}
-                                py={"5px"}
-                                resize={"none"}
-                                // minH={"36px"}
-                                borderLeft={"none"}
-                                borderBottom={"none"}
-                                borderTop={"none"}
-                                color={"black"}
-                                // height={"36px"}
-                                style={{ fieldSizing: "content" }}
-                                overflow={"hidden"}
-                              ></Textarea>
-                            </Flex>
-                            <Flex
-                              justifyContent={"left"}
-                              borderRight={"#E2E8F0 1px solid"}
-                              textAlign={"start"}
-                              px={"10px"}
-                              py={"5px"}
-                              color={"#848484"}
-                              fontWeight={400}
-                              w={"25%"}
-                            >
-                              <Flex alignItems={"center"} gap={"10px"}>
-                                <Flex
-                                  bg={"#FFF3E5"}
-                                  color={"#FE8500"}
-                                  borderRadius={"20px"}
-                                  p={"5px"}
-                                >
-                                  {questionTypeIconMapper(
-                                    inspectionQuestion.question_type
-                                  )}
-                                </Flex>
-                                <Flex>{inspectionQuestion.question_type}</Flex>
-                              </Flex>
-                            </Flex>
-
-                            <Flex w={"25%"}>
-                              <Flex
-                                w={"100%"}
-                                justify={"space-between"}
-                                px={"10px"}
-                                gap={"10px"}
-                                alignItems={"center"}
-                              >
-                                <Flex gap={"10px"} alignItems={"center"}>
-                                  <Checkbox
-                                    position={"static"}
-                                    // onChange={requiredCheckBoxHandler}
-                                    sx={{
-                                      cursor: "pointer !important", // Applying !important
-                                    }}
-                                    // defaultChecked={val.required || val.is_required}
-                                    isDisabled={true}
-                                  />
-                                  <Flex>Required</Flex>
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                        </AccordionButton>
-                        <AccordionPanel py={"10px"}></AccordionPanel>
-                      </AccordionItem>
-                    </Accordion> */}
                   </Flex>
                 ))}
               </Flex>

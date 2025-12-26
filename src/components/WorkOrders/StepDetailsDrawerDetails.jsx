@@ -81,7 +81,6 @@ export default function StepDetailsDrawerDetails({
       machineOpenByDefault ? [0] : null
     )
   );
-  const [lockAccessFilter, setLockAccessFilter] = useState("");
   const [multiLockAccessFilter, setMultiLockAccessFilter] = useState("");
 
   const [imageFocusURL, setImageFocusURL] = useState();
@@ -94,11 +93,10 @@ export default function StepDetailsDrawerDetails({
   const editStepQuestionsDisclosure = useDisclosure();
   const { screenToFlowPosition, setNodes, setEdges, getNodes, getEdges } =
     useReactFlow();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const toggleAccordion = (index) => {
     setOpenStates((prevStates) =>
       prevStates.map((val2, i) => {
-        console.log(val2 ? null : [0]);
         if (i === index) {
           return val2 ? null : [0];
         }
@@ -115,16 +113,12 @@ export default function StepDetailsDrawerDetails({
     selectedEditStep?.work_order_multi_lock_group?.work_order_multi_lock_group_items?.map(
       (item) => item.lockId
     ) || [];
-  const lockAccessIds =
-    selectedEditStep?.work_order_locks.map((item) => item.lock?.id) || [];
   const multiLockAccessAuditLogs = selectedEditStep?.audit_trails?.filter(
     (log) => {
       return multiLockAccessIds.includes(log.lock?.id);
     }
   );
-  const lockAccessAuditLogs = selectedEditStep?.audit_trails?.filter((log) => {
-    return lockAccessIds.includes(log.lock?.id);
-  });
+
   function filterByLockName(name, arrList) {
     return arrList.filter((auditLog) => {
       return auditLog.lock.name === name;
@@ -203,7 +197,6 @@ export default function StepDetailsDrawerDetails({
           zIndex={1000}
         >
           <Flex h={"100%"} w={"100%"} position={"relative"} flexDir={"column"}>
-            {/* Header */}
             <Flex
               fontWeight={700}
               borderBottom={"2px solid #bababa"}
@@ -219,13 +212,7 @@ export default function StepDetailsDrawerDetails({
                 fontSize={"24px"}
                 fontWeight={700}
               >
-                <Flex
-                  onClick={() => {
-                    console.log(selectedEditStep);
-                  }}
-                  gap={"5px"}
-                  alignItems={"center"}
-                >
+                <Flex gap={"5px"} alignItems={"center"}>
                   <Flex>
                     {selectedEditStep.order ? selectedEditStep.order + "." : ""}
                   </Flex>
@@ -261,7 +248,6 @@ export default function StepDetailsDrawerDetails({
                 </Flex>
               </Flex>
             </Flex>
-            {/* Body */}
             <Flex
               w={"100%"}
               pt={"20px"}
@@ -431,13 +417,7 @@ export default function StepDetailsDrawerDetails({
               !selectedEditStep.work_order_step_submissions?.length ? (
                 <>
                   <Flex flexDir={"column"} gap={"5px"}>
-                    <Flex
-                      fontWeight={700}
-                      onClick={() => {
-                        console.log(openStates);
-                      }}
-                      textAlign="left"
-                    >
+                    <Flex fontWeight={700} textAlign="left">
                       Assigned Machines :
                     </Flex>
 
@@ -508,8 +488,6 @@ export default function StepDetailsDrawerDetails({
                                       cursor={"pointer"}
                                       bg={"#f9f9f9"}
                                       onClick={() => {
-                                        console.log("ketrigger");
-
                                         toggleAccordion(index);
                                       }}
                                       _hover={{ background: "#ededed" }}
@@ -668,583 +646,10 @@ export default function StepDetailsDrawerDetails({
                       </Flex>
                     </Flex>
                   </Flex>{" "}
-                  {selectedEditStep?.require_verify_machine &&
-                  variant !== "review" ? (
-                    <Flex flexDir={"column"} gap={"5px"}>
-                      <Flex fontWeight={700} textAlign="left">
-                        Machine QR/UID Verified By :
-                      </Flex>
-                      {selectedEditStep?.machine_verified_by_member ? (
-                        <Flex alignItems={"center"} gap={"10px"}>
-                          {selectedEditStep?.machine_verified_by_member?.user
-                            .first_name ? (
-                            <Avatar
-                              outline={"1px solid #dc143c"}
-                              border={"2px solid white"}
-                              name={
-                                selectedEditStep?.machine_verified_by_member
-                                  .user.first_name +
-                                " " +
-                                selectedEditStep?.machine_verified_by_member
-                                  .user.last_name
-                              }
-                              src={
-                                selectedEditStep?.machine_verified_by_member
-                                  ?.user.profile_image_url
-                                  ? IMGURL +
-                                    selectedEditStep?.machine_verified_by_member
-                                      .user?.profile_image_url
-                                  : null
-                              }
-                            ></Avatar>
-                          ) : (
-                            <Flex
-                              outline={"1px solid #dc143c"}
-                              bg={"#bababa"}
-                              borderRadius={"100%"}
-                              justifyContent={"center"}
-                              alignItems={"center"}
-                              h={"48px"}
-                              w={"48px"}
-                              border={"2px solid white"}
-                            >
-                              <Flex color={"white"} fontSize={"24px"}>
-                                <FaUserAlt />
-                              </Flex>
-                            </Flex>
-                          )}
-
-                          <Flex flexDir={"column"}>
-                            <Flex alignItems={"center"} fontWeight={700}>
-                              <Flex>
-                                {selectedEditStep?.machine_verified_by_member
-                                  .user.first_name +
-                                  " " +
-                                  selectedEditStep?.machine_verified_by_member
-                                    .user.last_name}
-                              </Flex>
-                            </Flex>
-                            <Flex
-                              color={"#848484"}
-                              fontWeight={400}
-                              fontSize={"14px"}
-                              alignItems={"center"}
-                            >
-                              {labelizeRole(
-                                selectedEditStep?.machine_verified_by_member
-                                  .role
-                              ) +
-                                (selectedEditStep?.machine_verified_by_member
-                                  ?.employee_id
-                                  ? " - " +
-                                    selectedEditStep?.machine_verified_by_member
-                                      .employee_id
-                                  : "")}
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                      ) : (
-                        <Flex color={"#848484"}>Not verified yet</Flex>
-                      )}
-                    </Flex>
-                  ) : (
-                    ""
-                  )}
                 </>
               ) : (
                 ""
               )}
-
-              {selectedEditStep.access_lock ? (
-                <>
-                  <Flex flexDir={"column"}>
-                    <Flex flexDir={"column"}>
-                      <Box fontWeight={700} as="span" flex="1" textAlign="left">
-                        Assigned Lock :
-                      </Box>
-                    </Flex>
-                    <Flex flexDir={"column"}>
-                      {selectedEditStep.work_order_locks.length ? (
-                        selectedEditStep.work_order_locks.map(
-                          (val, lockIndex) => (
-                            <Flex flexDir={"column"}>
-                              <Flex gap={"10px"} flexDir={"column"}>
-                                <Flex w={"100%"} alignItems={"center"}>
-                                  <Flex
-                                    whiteSpace={"nowrap"}
-                                    color={"#dc143c"}
-                                    fontWeight={700}
-                                  >
-                                    Lock {lockIndex + 1} : &nbsp;
-                                  </Flex>
-                                  <Flex
-                                    h={"40px"}
-                                    alignItems={"center"}
-                                    w={"100%"}
-                                    borderBottom={"1px solid black"}
-                                  >
-                                    {val.lock?.name || val.name ? (
-                                      workOrderStatus === "draft" ? (
-                                        val.lock?.name
-                                      ) : (
-                                        val.name
-                                      )
-                                    ) : (
-                                      <Flex color={"#848484"}>
-                                        Not assigned yet
-                                      </Flex>
-                                    )}
-                                  </Flex>
-                                </Flex>
-                                {/* Disable Require Lock Image */}
-                                {/* <Flex gap={"10px"}>
-                                      <Flex gap={"10px"} alignItems={"center"}>
-                                        <Checkbox
-                                          position={"static"}
-                                          isDisabled
-                                          defaultChecked={val.require_lock_image}
-                                        />
-                                        <Flex
-                                          color={
-                                            val.require_lock_image ? "#3182CE" : "#848484"
-                                          }
-                                          fontWeight={700}
-                                          fontSize={"14px"}
-                                        >
-                                          Require Lock Image On Submission
-                                        </Flex>
-                                      </Flex>
-                                    </Flex> */}
-                                <Flex gap={"20px"}>
-                                  {val?.response_image_url?.length
-                                    ? val.response_image_url.map(
-                                        (responseURL) => (
-                                          <Flex
-                                            onClick={() => {
-                                              handleImageFocus(
-                                                IMGURL + responseURL
-                                              );
-                                            }}
-                                            cursor={"pointer"}
-                                            position={"relative"}
-                                            role="group"
-                                          >
-                                            <Flex
-                                              _groupHover={{
-                                                display: "block",
-                                              }}
-                                              w={"100%"}
-                                              display={"none"}
-                                              h={"100%"}
-                                              bg={"black"}
-                                              opacity={0.1}
-                                              position={"absolute"}
-                                            ></Flex>
-                                            <Flex
-                                              p={"3px"}
-                                              _groupHover={{
-                                                display: "block",
-                                              }}
-                                              display={"none"}
-                                              top={0}
-                                              right={0}
-                                              position={"absolute"}
-                                              fontSize={"32px"}
-                                              color={"#f8f9fa"}
-                                            >
-                                              <FiZoomIn />
-                                            </Flex>
-                                            <Image
-                                              w={"120px"}
-                                              bg={"#f5f5f5"}
-                                              h={"100px"}
-                                              boxShadow={
-                                                "0px 0px 3px rgba(50,50,93,0.5)"
-                                              }
-                                              src={IMGURL + responseURL}
-                                            ></Image>
-                                          </Flex>
-                                        )
-                                      )
-                                    : ""}
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          )
-                        )
-                      ) : (
-                        <Flex color={"#848484"}>No locks assigned</Flex>
-                      )}
-                    </Flex>
-                  </Flex>
-
-                  <Flex flexDir={"column"} gap={"10px"}>
-                    <Flex justify={"space-between"} alignItems={"center"}>
-                      <Box fontWeight={700} as="span" flex="1" textAlign="left">
-                        Lock Access Audit Logs :
-                      </Box>
-                      <Flex gap={"10px"} alignItems={"center"}>
-                        {lockAccessFilter ? (
-                          <Button
-                            h={"28px"}
-                            border={"1px solid #dc143c"}
-                            color={"#dc143c"}
-                            bg={"white"}
-                            gap={"5px"}
-                            px={"12px"}
-                            fontSize={"14px"}
-                            onClick={() => {
-                              setLockAccessFilter("");
-                            }}
-                          >
-                            <FaRegTrashAlt />
-                            Remove Filter
-                          </Button>
-                        ) : (
-                          ""
-                        )}
-
-                        <Menu>
-                          <MenuButton
-                            _hover={{
-                              bg: tinycolor("#dc143c").darken(8).toString(),
-                            }}
-                            _active={{
-                              bg: tinycolor("#dc143c").darken(8).toString(),
-                            }}
-                            as={Button}
-                            color={"white"}
-                            bg={"#dc143c"}
-                            h={"28px"}
-                            px={"12px"}
-                            alignContent={"center"}
-                            fontSize={"14px"}
-                          >
-                            <Flex alignItems={"center"} gap={"5px"}>
-                              <Flex>
-                                <FaFilter />
-                              </Flex>
-                              <Flex>
-                                {lockAccessFilter || "Filter by lock"}
-                              </Flex>
-                            </Flex>
-                          </MenuButton>
-                          <MenuList>
-                            {selectedEditStep.work_order_locks.map(
-                              (lockAccess) => (
-                                <MenuItem
-                                  onClick={() =>
-                                    setLockAccessFilter(lockAccess?.lock?.name)
-                                  }
-                                >
-                                  <Flex alignItems={"center"} gap={"10px"}>
-                                    <Flex flexDir={"column"}>
-                                      <Flex fontWeight={700}>
-                                        {lockAccess?.lock?.name}
-                                      </Flex>
-                                      <Flex
-                                        fontWeight={400}
-                                        fontSize={"14px"}
-                                        color={"#848484"}
-                                      >
-                                        {lockAccess?.lock?.serial_number}
-                                      </Flex>
-                                    </Flex>
-                                  </Flex>
-                                </MenuItem>
-                              )
-                            )}
-                          </MenuList>
-                        </Menu>
-                      </Flex>
-                    </Flex>
-                    <Flex flexDir={"column"} gap={"10px"}>
-                      <TableContainer
-                        overflow={"auto"}
-                        boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                      >
-                        <Table variant="simple">
-                          <Thead bg={"#ECEFF3"}>
-                            <Tr>
-                              <Th borderBottomColor={"#bababa"} px={"20px"}>
-                                Lock
-                              </Th>
-                              <Th borderBottomColor={"#bababa"} px={"20px"}>
-                                Date & Time
-                              </Th>
-                              <Th borderBottomColor={"#bababa"} px={"20px"}>
-                                Action
-                              </Th>
-                              <Th borderBottomColor={"#bababa"} px={"20px"}>
-                                Method
-                              </Th>
-                              <Th borderBottomColor={"#bababa"} px={"20px"}>
-                                Method Info
-                              </Th>
-                              <Th borderBottomColor={"#bababa"} px={"20px"}>
-                                Location
-                              </Th>
-
-                              {/* <Th borderBottomColor={"#bababa"} px={"20px"}>
-                                        Google Maps
-                                      </Th> */}
-                            </Tr>
-                          </Thead>
-                          <Tbody>
-                            {lockAccessAuditLogs?.length ? (
-                              (showMore
-                                ? lockAccessFilter
-                                  ? filterByLockName(
-                                      lockAccessFilter,
-                                      lockAccessAuditLogs
-                                    )
-                                  : lockAccessAuditLogs
-                                : (lockAccessFilter
-                                    ? filterByLockName(
-                                        lockAccessFilter,
-                                        lockAccessAuditLogs
-                                      )
-                                    : lockAccessAuditLogs
-                                  ).slice(0, 3)
-                              ).map((val, index) => {
-                                const { bgColor, textColor, icon, text } =
-                                  tableStatusStyleMapper(val.status);
-                                return (
-                                  <Tr
-                                    w={"100%"}
-                                    bg={index % 2 ? "white" : "#f8f9fa"}
-                                  >
-                                    <Td
-                                      borderBottomColor={"#bababa"}
-                                      whiteSpace="normal"
-                                      wordBreak="break-word"
-                                      px={"8px"}
-                                      fontSize={"14px"}
-                                    >
-                                      <Flex alignItems={"center"} gap={"10px"}>
-                                        <Flex
-                                          bg={"#dedede"}
-                                          justifyContent={"center"}
-                                          alignItems={"center"}
-                                          h={"48px"}
-                                          w={"48px"}
-                                        >
-                                          <Flex
-                                            color={"white"}
-                                            fontSize={"20px"}
-                                          >
-                                            {val.lock.model ? (
-                                              <Image
-                                                src={getLockImageByModel(
-                                                  val.lock.model
-                                                )}
-                                              />
-                                            ) : (
-                                              <IoIosLock />
-                                            )}
-                                          </Flex>
-                                        </Flex>
-                                        <Flex flexDir={"column"}>
-                                          <Flex fontWeight={700}>
-                                            {val.lock.name}
-                                          </Flex>
-                                          <Flex
-                                            fontWeight={400}
-                                            fontSize={"14px"}
-                                            color={"#848484"}
-                                          >
-                                            {val.lock.serial_number}
-                                          </Flex>
-                                        </Flex>
-                                      </Flex>
-                                    </Td>
-                                    <Td
-                                      px={"8px"}
-                                      borderBottomColor={"#bababa"}
-                                      color={"#848484"}
-                                      overflowWrap="break-word"
-                                      maxWidth="50px"
-                                      whiteSpace="normal"
-                                      fontSize={"14px"}
-                                    >
-                                      <Flex flexDir={"column"}>
-                                        <Flex color={"black"} fontWeight={700}>
-                                          {moment(val.time).format(
-                                            "YYYY-MM-DD"
-                                          )}
-                                        </Flex>
-                                        <Flex
-                                          color={"#848484"}
-                                          fontSize={"14px"}
-                                        >
-                                          {moment(val.time).format("hh:mm A")}
-                                        </Flex>
-                                      </Flex>
-                                    </Td>
-
-                                    {/* <Td
-                                              borderBottomColor={"#bababa"}
-                                              color={"#848484"}
-                                              px={"8px"}
-                                              fontSize={"14px"}
-                                            >
-                                              <Flex alignItems={"center"} gap={"10px"}>
-                                                {val.user.first_name ? (
-                                                  <Avatar
-                                                    outline={"1px solid #dc143c"}
-                                                    border={"2px solid white"}
-                                                    name={
-                                                      val.user.first_name +
-                                                      " " +
-                                                      val.user.last_name
-                                                    }
-                                                    src={
-                                                      val.user.profile_image_url
-                                                        ? IMGURL +
-                                                          val.user.profile_image_url
-                                                        : null
-                                                    }
-                                                  ></Avatar>
-                                                ) : (
-                                                  <Flex
-                                                    outline={"1px solid #dc143c"}
-                                                    bg={"#bababa"}
-                                                    borderRadius={"100%"}
-                                                    justifyContent={"center"}
-                                                    alignItems={"center"}
-                                                    h={"48px"}
-                                                    w={"48px"}
-                                                    border={"2px solid white"}
-                                                  >
-                                                    <Flex
-                                                      color={"white"}
-                                                      fontSize={"24px"}
-                                                    >
-                                                      <FaUserAlt />
-                                                    </Flex>
-                                                  </Flex>
-                                                )}
-                                                <Flex flexDir={"column"}>
-                                                  <Flex fontWeight={700} color={"black"}>
-                                                    {val?.user?.first_name +
-                                                      " " +
-                                                      val?.user?.last_name}
-                                                  </Flex>
-                                                  <Flex
-                                                    fontSize={"14px"}
-                                                    color={"#848484"}
-                                                  >
-                                                    {val?.user.is_superadmin
-                                                      ? "Super Admin"
-                                                      : labelizeRole(
-                                                          val?.user.member?.role
-                                                        ) +
-                                                        " - " +
-                                                        val?.user.member?.employee_id}
-                                                  </Flex>
-                                                </Flex>
-                                              </Flex>
-                                            </Td> */}
-                                    <Td
-                                      borderBottomColor={"#bababa"}
-                                      fontSize={"14px"}
-                                      px={"8px"}
-                                    >
-                                      <Flex>
-                                        <Flex
-                                          fontWeight={700}
-                                          borderRadius={"10px"}
-                                          px={"8px"}
-                                          py={"4px"}
-                                          alignItems={"center"}
-                                          gap={"8px"}
-                                          bg={bgColor}
-                                          color={textColor}
-                                        >
-                                          <Flex fontSize={"20px"}>{icon}</Flex>
-                                          <Flex>{text}</Flex>
-                                        </Flex>
-                                      </Flex>
-                                    </Td>
-                                    <Td
-                                      borderBottomColor={"#bababa"}
-                                      fontSize={"14px"}
-                                      px={"8px"}
-                                      color={"#848484"}
-                                    >
-                                      <Flex>{formatString(val.method)}</Flex>
-                                    </Td>
-
-                                    <Td
-                                      borderBottomColor={"#bababa"}
-                                      color={"#848484"}
-                                      whiteSpace="normal"
-                                      wordBreak="break-word"
-                                      px={"8px"}
-                                      fontSize={"14px"}
-                                    >
-                                      <Flex>{val.method_info}</Flex>
-                                    </Td>
-                                    <Td
-                                      borderBottomColor={"#bababa"}
-                                      color={"#848484"}
-                                      whiteSpace="normal"
-                                      wordBreak="break-word"
-                                      px={"8px"}
-                                      fontSize={"14px"}
-                                    >
-                                      <Flex>{val.placemark || "-"}</Flex>
-                                    </Td>
-                                  </Tr>
-                                );
-                              })
-                            ) : (
-                              <ListEmptyState
-                                size={"sm"}
-                                colSpan={6}
-                                header1={"No history found."}
-                                header2={
-                                  "No actions have been taken on the assigned locks."
-                                }
-                                linkText={"Create an action"}
-                              />
-                            )}
-                          </Tbody>
-                        </Table>
-                      </TableContainer>
-                      {lockAccessAuditLogs?.length > 3 ? (
-                        <Flex
-                          cursor={"pointer"}
-                          _hover={{
-                            color: tinycolor("#dc143c").darken(8).toString(),
-                          }}
-                          pr={"10px"}
-                          justify={"end"}
-                          alignItems={"center"}
-                          color={"#dc143c"}
-                          fontWeight={700}
-                          gap={"5px"}
-                          onClick={() => setShowMore((prevState) => !prevState)}
-                        >
-                          <Flex>{showMore ? "Show less" : "Show all"}</Flex>
-                          <Flex fontSize={"20px"}>
-                            {showMore ? (
-                              <FaChevronCircleUp />
-                            ) : (
-                              <FaChevronCircleDown />
-                            )}
-                          </Flex>
-                        </Flex>
-                      ) : (
-                        ""
-                      )}
-                    </Flex>
-                  </Flex>
-                </>
-              ) : (
-                ""
-              )}
-
               {selectedEditStep.multi_access_lock &&
               !selectedEditStep.work_order_step_submissions?.length ? (
                 <>
@@ -1319,9 +724,7 @@ export default function StepDetailsDrawerDetails({
                                           (responseURL) => (
                                             <Flex
                                               onClick={() => {
-                                                handleImageFocus(
-                                                  IMGURL + responseURL
-                                                );
+                                                handleImageFocus(responseURL);
                                               }}
                                               cursor={"pointer"}
                                               position={"relative"}
@@ -1359,7 +762,7 @@ export default function StepDetailsDrawerDetails({
                                                 boxShadow={
                                                   "0px 0px 3px rgba(50,50,93,0.5)"
                                                 }
-                                                src={IMGURL + responseURL}
+                                                src={responseURL}
                                               ></Image>
                                             </Flex>
                                           )
@@ -1372,32 +775,6 @@ export default function StepDetailsDrawerDetails({
                           ) : (
                             <Flex color={"#848484"}>No locks assigned</Flex>
                           )}
-
-                          {/* Disable Require Lock Image */}
-                          {/* <Flex gap={"10px"}>
-                                    <Flex gap={"10px"} alignItems={"center"}>
-                                      <Checkbox
-                                        position={"static"}
-                                        isDisabled
-                                        defaultChecked={
-                                          val.work_order_multi_lock_group
-                                            .require_lock_image
-                                        }
-                                      />
-                                      <Flex
-                                        color={
-                                          val.work_order_multi_lock_group
-                                            .require_lock_image
-                                            ? "#3182CE"
-                                            : "#848484"
-                                        }
-                                        fontWeight={700}
-                                        fontSize={"14px"}
-                                      >
-                                        Require Lock Image On Submission
-                                      </Flex>
-                                    </Flex>
-                                  </Flex> */}
                         </Flex>
                       </Flex>
                     </Flex>
@@ -1510,15 +887,9 @@ export default function StepDetailsDrawerDetails({
                               <Th borderBottomColor={"#bababa"} px={"8px"}>
                                 Method
                               </Th>
-                              {/* <Th borderBottomColor={"#bababa"} px={"8px"}>
-                                Method Info
-                              </Th> */}
                               <Th borderBottomColor={"#bababa"} px={"8px"}>
                                 Location
                               </Th>
-                              {/* <Th borderBottomColor={"#bababa"} px={"8px"}>
-                                        Google Maps
-                                      </Th> */}
                             </Tr>
                           </Thead>
                           <Tbody>
@@ -1635,70 +1006,6 @@ export default function StepDetailsDrawerDetails({
                                         </Flex>
                                       </Flex>
                                     </Td>
-                                    {/* <Td
-                                              borderBottomColor={"#bababa"}
-                                              color={"#848484"}
-                                              px={"8px"}
-                                              fontSize={"14px"}
-                                            >
-                                              <Flex alignItems={"center"} gap={"10px"}>
-                                                {val.user.first_name ? (
-                                                  <Avatar
-                                                    outline={"1px solid #dc143c"}
-                                                    border={"2px solid white"}
-                                                    name={
-                                                      val.user.first_name +
-                                                      " " +
-                                                      val.user.last_name
-                                                    }
-                                                    src={
-                                                      val.user.profile_image_url
-                                                        ? IMGURL +
-                                                          val.user.profile_image_url
-                                                        : null
-                                                    }
-                                                  ></Avatar>
-                                                ) : (
-                                                  <Flex
-                                                    outline={"1px solid #dc143c"}
-                                                    bg={"#bababa"}
-                                                    borderRadius={"100%"}
-                                                    justifyContent={"center"}
-                                                    alignItems={"center"}
-                                                    h={"48px"}
-                                                    w={"48px"}
-                                                    border={"2px solid white"}
-                                                  >
-                                                    <Flex
-                                                      color={"white"}
-                                                      fontSize={"24px"}
-                                                    >
-                                                      <FaUserAlt />
-                                                    </Flex>
-                                                  </Flex>
-                                                )}
-                                                <Flex flexDir={"column"}>
-                                                  <Flex fontWeight={700} color={"black"}>
-                                                    {val?.user?.first_name +
-                                                      " " +
-                                                      val?.user?.last_name}
-                                                  </Flex>
-                                                  <Flex
-                                                    fontSize={"14px"}
-                                                    color={"#848484"}
-                                                  >
-                                                    {val?.user.is_superadmin
-                                                      ? "Super Admin"
-                                                      : labelizeRole(
-                                                          val?.user.member?.role
-                                                        ) +
-                                                        " - " +
-                                                        val?.user.member?.employee_id}
-                                                  </Flex>
-                                                </Flex>
-                                              </Flex>
-                                            </Td> */}
-
                                     <Td
                                       borderBottomColor={"#bababa"}
                                       color={"#848484"}
@@ -1787,29 +1094,6 @@ export default function StepDetailsDrawerDetails({
                 ""
               )}
 
-              {selectedEditStep.trigger_api ? (
-                <>
-                  {selectedEditStep.title_trigger_api && (
-                    <Flex flexDir={"column"}>
-                      <Box fontWeight={700} as="span" flex="1" textAlign="left">
-                        Trigger API external system key :
-                      </Box>
-                      <Flex
-                        color={
-                          selectedEditStep.title_trigger_api
-                            ? "black"
-                            : "#848484"
-                        }
-                      >
-                        {selectedEditStep.title_trigger_api}
-                      </Flex>
-                    </Flex>
-                  )}
-                </>
-              ) : (
-                ""
-              )}
-
               {selectedEditStep.condition &&
               !selectedEditStep.work_order_step_submissions?.length ? (
                 <>
@@ -1872,7 +1156,6 @@ export default function StepDetailsDrawerDetails({
                         gap={"8px"}
                       >
                         <Flex fontSize={"20px"}>
-                          {/* <FaRegFlag /> */}
                           <FaFlag />
                         </Flex>
                         <Flex fontWeight={700} fontSize={"16px"}>

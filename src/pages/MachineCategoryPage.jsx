@@ -127,8 +127,6 @@ export default function MachineCategoryPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -144,12 +142,7 @@ export default function MachineCategoryPage() {
   async function fetchMachineCategory() {
     setTableLoading(true);
     await api
-      .get(
-        `machine-category/pagination?page=${currentPage}
-        &rows=${rows}
-        &search=${searchFilter}`,
-        { signal: abortControllerRef.current.signal }
-      )
+      .getMachineCategoryPagination()
       .then((response) => {
         setMachineCategories(response?.data?.data);
         setFrom(response?.data?.from);
@@ -171,7 +164,7 @@ export default function MachineCategoryPage() {
   async function deleteMachineCategory(UID) {
     setDeleteButtonLoading(true);
     await api
-      .delete(`machine-category/${UID}`)
+      .testSubmit("Machine category deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
           prevState.filter((selUID) => selUID !== UID)
@@ -215,11 +208,7 @@ export default function MachineCategoryPage() {
   async function deleteSelected() {
     setDeleteSelectedButtonLoading(true);
     await api
-      .delete(`machine-category`, {
-        data: {
-          selectedUID: selectedUID,
-        },
-      })
+      .testSubmit("Selected machine category deleted successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -273,7 +262,7 @@ export default function MachineCategoryPage() {
 
   async function fetchInspectionForms(controller) {
     await api
-      .get(`inspection-form`, { signal: controller.signal })
+      .getInspectionForms()
       .then((response) => {
         setInspectionFormSelection(
           response?.data?.inspectionForms.map((inspectionForm) => ({
@@ -612,13 +601,6 @@ export default function MachineCategoryPage() {
                                     </Flex>
                                   )}
                                 </Flex>
-                                {/* <Flex>
-                            <EditMachineCategoryModal
-                              fetchMachineCategory={fetchMachineCategory}
-                              inspectionFormSelection={inspectionFormSelection}
-                              val={val}
-                            />
-                          </Flex> */}
                               </Flex>
                             </Flex>
                             <Flex gap={"5px"} flexDir={"column"}>
@@ -689,13 +671,6 @@ export default function MachineCategoryPage() {
                                     </Flex>
                                   )}
                                 </Flex>
-                                {/* <Flex>
-                            <EditMachineCategoryModal
-                              fetchMachineCategory={fetchMachineCategory}
-                              inspectionFormSelection={inspectionFormSelection}
-                              val={val}
-                            />
-                          </Flex> */}
                               </Flex>
                             </Flex>
                           </Flex>

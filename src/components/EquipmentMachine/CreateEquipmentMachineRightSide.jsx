@@ -279,7 +279,7 @@ function CreateEquipmentMachinePageRightSide({
           </Flex>
           <Flex>
             <Input
-              placeholder="United States"
+              placeholder="Zone A3 – Production Floor"
               border={
                 formik.errors.location && formik.touched.location
                   ? "1px solid crimson"
@@ -341,39 +341,7 @@ function CreateEquipmentMachinePageRightSide({
                 : ""
             }
           />
-          {/* <Flex flexDir={"column"}>
-            <CreatableSelect
-              createOptionPosition="first"
-              options={options}
-              onBlur={() => {
-                formik.setFieldTouched("category", true);
-              }}
-              value={machineInput.category}
-              onCreateOption={createCategoryHandler}
-              onChange={categorySelectHandler}
-              formatCreateLabel={(inputValue) => (
-                <Flex gap={"8px"} color={"#2684FF"} alignItems={"center"}>
-                  <FaPlus />
-                  <Flex>Create "{inputValue}" as new Category</Flex>
-                </Flex>
-              )}
-              styles={{
-                control: (provided, state) => ({
-                  ...provided,
-                  borderColor:
-                    formik.touched.category && formik.errors.category
-                      ? "crimson"
-                      : state.isFocused
-                      ? "blue"
-                      : "#E2E8F0",
-                  boxShadow: state.isFocused ? "0 0 0 1px blue" : "none",
-                }),
-              }}
-              placeholder="Search or Add New Category"
-              isSearchable
-              isMulti
-            />
-          </Flex> */}
+
           {formik.errors.category && formik.touched.category ? (
             <Flex
               position={"absolute"}

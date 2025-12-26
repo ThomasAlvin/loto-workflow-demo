@@ -3,7 +3,6 @@ import { FaUserAlt } from "react-icons/fa";
 import { components } from "react-select";
 
 export default function ReactSelectMemberMultiValue(props) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   return (
     <components.MultiValue {...props}>
       <Flex alignItems={"center"} gap={"5px"}>
@@ -18,7 +17,7 @@ export default function ReactSelectMemberMultiValue(props) {
             name={props.data.user.first_name + " " + props.data.user.last_name}
             src={
               props.data?.user.profile_image_url
-                ? IMGURL + props.data?.user.profile_image_url
+                ? props.data?.user.profile_image_url
                 : null
             }
           ></Avatar>

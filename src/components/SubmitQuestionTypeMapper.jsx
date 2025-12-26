@@ -35,11 +35,9 @@ export default function SubmitQuestionTypeMapper({
   include_date,
   include_time,
   handleImageFocus,
-  isPDF,
 }) {
   const fileInputRef = useRef(); // Create an array of refs
   const [fileDisplay, setFileDisplay] = useState("");
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const triggerFileInput = () => {
     fileInputRef.current.click();
   };

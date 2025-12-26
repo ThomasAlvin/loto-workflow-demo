@@ -47,7 +47,7 @@ export default function InspectionFormDetailsModalFormQuestions({
                   px={"5px"}
                   pb={"4px"}
                 >
-                  {index + 1}.{/* <RxDragHandleDots2 /> */}
+                  {index + 1}.
                 </Flex>
                 <InputGroup>
                   <Textarea

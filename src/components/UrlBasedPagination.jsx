@@ -68,18 +68,6 @@ export default function UrlBasedPagination({
       align="center"
       justify="space-between"
     >
-      {/* <Flex
-        onClick={() => {
-          console.log(showing);
-          console.log(from);
-          console.log(totalPages);
-          console.log(currentPage);
-          console.log(rows);
-          console.log(handleChange);
-        }}
-      >
-        saldasldsalld
-      </Flex> */}
       <Flex>
         {page !== "activitiesUser" && page !== "history" && (
           <Menu isOpen={isOpen} onClose={onClose}>

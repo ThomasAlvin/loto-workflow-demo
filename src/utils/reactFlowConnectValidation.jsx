@@ -1,5 +1,4 @@
 import findAncestorConditions from "./findAncestorConditions";
-import originatesFromHighestYesBranch from "./originatesFromHighestYesBranch";
 
 export default function reactFlowConnectValidation(
   nodes,
@@ -7,7 +6,7 @@ export default function reactFlowConnectValidation(
   sourceNode,
   targetNode,
   sourceHandle,
-  toast,
+  toast
 ) {
   function showConnectionErrorToast({ title, description }) {
     toast.closeAll();
@@ -20,11 +19,11 @@ export default function reactFlowConnectValidation(
       isClosable: true,
     });
   }
-  const targetAlreadyConnected = edges.some(
-    (edge) => edge.target === targetNode.id,
+  const targetAlreadyConnectedNormal = edges.some(
+    (edge) => edge.target === targetNode.id && edge.sourceHandle === "normal"
   );
   const sourceAlreadyConnected = edges.some(
-    (edge) => edge.source === sourceNode.id,
+    (edge) => edge.source === sourceNode.id
   );
 
   if (sourceNode.id === targetNode.id) {
@@ -37,7 +36,7 @@ export default function reactFlowConnectValidation(
     return false;
   }
   if (sourceHandle === "normal") {
-    if (targetAlreadyConnected || sourceAlreadyConnected) {
+    if (targetAlreadyConnectedNormal || sourceAlreadyConnected) {
       showConnectionErrorToast({
         title: "Invalid Connection",
         description: "You can only have one connection on each step.",
@@ -58,7 +57,7 @@ export default function reactFlowConnectValidation(
       if (sourceNodeWithAncestors[ancIndex]?.data?.condition_value === "No") {
         let allAbove = sourceNodeWithAncestors.slice(
           ancIndex + 1,
-          sourceNodeWithAncestors.length,
+          sourceNodeWithAncestors.length
         );
         validAncestors.push(...allAbove);
         break;
@@ -80,24 +79,8 @@ export default function reactFlowConnectValidation(
       });
       return false;
     }
-    console.log(conditionAncestors);
-    console.log(isAncestor);
 
     if (sourceNode.data.condition_value === "No") {
-      // Will be disabled in latest version
-      // const parentCondition = conditionAncestors[0];
-      // const highestAncestor = conditionAncestors[conditionAncestors.length - 1];
-      // const highestBranches = nodes.filter(
-      //   (n) => n.data.parent_UID === highestAncestor.data.id
-      // );
-
-      // const comesFromHighestYes = originatesFromHighestYesBranch(
-      //   nodes,
-      //   sourceNode,
-      //   highestBranches
-      // );
-      // Will be disabled in latest version
-
       if (!isAncestor) {
         showConnectionErrorToast({
           title: "Invalid loop-back connection",
@@ -106,16 +89,6 @@ export default function reactFlowConnectValidation(
         });
         return false;
       }
-
-      // Will be disabled in latest version
-      // if (comesFromHighestYes && targetNode.id !== parentCondition.id) {
-      //   showConnectionErrorToast({
-      //     title: "Invalid loop-back connection",
-      //     description: `Loop-backs that originates from the "Yes" branch can only connect to its own parent condition.`,
-      //   });
-      //   return false;
-      // }
-      // Will be disabled in latest version
     }
 
     if (sourceNode.data.condition_value === "Yes") {

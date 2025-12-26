@@ -26,7 +26,6 @@ export default function SubmitWorkOrderStepSideMenu({
   isWOCValid,
   hasNotify,
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const [showMore, setShowMore] = useState(false);
   const confirmSubmitWorkOrderStepDisclosure = useDisclosure();
   const taskItems = [

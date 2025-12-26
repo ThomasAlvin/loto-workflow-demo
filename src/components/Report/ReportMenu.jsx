@@ -8,30 +8,15 @@ import Swal from "sweetalert2";
 import { api } from "../../api/api";
 import SwalErrorMessages from "../SwalErrorMessages";
 import ReportDownloadQRCode from "./ReportDownloadQRCode";
-export default function ReportMenu({ reportUID, reportName, deleteReport }) {
+import toSnakeCase from "../../utils/toSnakeCase";
+export default function ReportMenu({ reportUID, reportName }) {
   const nav = useNavigate();
   const location = useLocation();
   const [pdfLoading, setPdfLoading] = useState(false);
   async function downloadReportPDF() {
     try {
       setPdfLoading(true);
-      const response = await api.get(`report/${reportUID}/download`, {
-        responseType: "blob", // 👈 this tells axios to handle binary
-      });
-
-      // Convert the blob into a downloadable object
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      const url = window.URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `report-${reportName}.pdf`); // name of the file
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // cleanup
-      window.URL.revokeObjectURL(url);
+      await api.downloadReportPdfByName(toSnakeCase(reportName));
     } catch (error) {
       let errorMessage = "Something went wrong while downloading the report.";
 
@@ -118,21 +103,6 @@ export default function ReportMenu({ reportUID, reportName, deleteReport }) {
             </Flex>
           </Tooltip>
         )}
-        {/* <Tooltip
-          hasArrow
-          placement={"top"}
-          label="Delete"
-          aria-label="A tooltip"
-          background={"crimson"}
-          color={"white"}
-          onClick={() => {
-            deleteReport();
-          }}
-        >
-          <Flex cursor={"pointer"} color={"crimson"}>
-            <FaRegTrashAlt />
-          </Flex>
-        </Tooltip> */}
       </Flex>
     </Flex>
   );

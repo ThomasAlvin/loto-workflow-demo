@@ -26,31 +26,12 @@ export default function WorkFlowStepBadges({ val }) {
       color: "#848484",
       icon: <FaCogs />,
     },
-    (val.lockAccess || val.access_lock) && {
-      label: "Lock Access",
-      bg: "#ffe6e6",
-      color: "#e32020",
-      icon: <MdLockOutline />,
-    },
     (val.condition || val.condition) && {
       label: "Condition",
       bg: "#fddeff",
       color: "#f329ff",
       icon: <LuNetwork />,
     },
-    (val.triggerAPI || val.trigger_api) && {
-      label: "Trigger API",
-      bg: "#dbfbff",
-      color: "#3cc1fa",
-      icon: <BsGlobe2 />,
-    },
-    (val.sendWebhook || val.send_webhook) && {
-      label: "Webhook",
-      bg: "#cffff2",
-      color: "#00CB94",
-      icon: <MdWebhook />,
-    },
-
     (val.multiLockAccess || val.multi_lock_access || val.multi_access_lock) && {
       label: `(${
         val.isMainMultiLockAccess || val.is_main_multi_access_lock
@@ -123,8 +104,6 @@ export default function WorkFlowStepBadges({ val }) {
           </Flex>
         </Tooltip>
       )}
-
-      {/* Edit, duplicate, delete buttons */}
     </>
   );
 }

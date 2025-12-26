@@ -29,7 +29,6 @@ export default function WorkOrderDetailsReviewsPage({
   hasManagePermission,
   handleOpenSendReminder,
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const nav = useNavigate();
 
   return (
@@ -316,91 +315,6 @@ export default function WorkOrderDetailsReviewsPage({
                                 ""
                               )}
 
-                              {/* <Flex gap={"20px"}>
-                                <Flex
-                                  w={"50%"}
-                                  bg={"#f8f9fa"}
-                                  boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                                  p={"20px"}
-                                  flexDir={"column"}
-                                  gap={"10px"}
-                                >
-                                  <Flex
-                                    fontWeight={700}
-                                    fontSize={"18px"}
-                                    color={"#3D9666"}
-                                  >
-                                    7 out of 10 Approved
-                                  </Flex>
-                                  <Flex flexDir={"column"}>
-                                    <Flex
-                                      fontSize={"14px"}
-                                      justify={"start"}
-                                      color={"#848484"}
-                                    >
-                                      <Flex>70%</Flex>
-                                    </Flex>
-                                    <Progress
-                                      hasStripe
-                                      colorScheme="green"
-                                      value={70}
-                                    />
-                                  </Flex>
-                                  <Flex fontSize={"14px"} color={"#848484"}>
-                                    Employee Test, Test Super Admin, and 3
-                                    others
-                                  </Flex>
-                                </Flex>
-                                <Flex
-                                  w={"50%"}
-                                  bg={"#f8f9fa"}
-                                  boxShadow={"0px 0px 3px rgba(50,50,93,0.5)"}
-                                  p={"20px"}
-                                  flexDir={"column"}
-                                  gap={"10px"}
-                                >
-                                  <Flex
-                                    fontWeight={700}
-                                    fontSize={"18px"}
-                                    // color={"#dc143c"}
-                                  >
-                                    Review Results
-                                  </Flex>
-                                  <Flex flexDir={"column"}>
-                                    <Flex flexDir={"column"}>
-                                      <Flex
-                                        fontSize={"14px"}
-                                        justify={"start"}
-                                        color={"#848484"}
-                                      >
-                                        <Flex>3 out of 10 Rejected</Flex>
-                                      </Flex>
-                                      <Progress
-                                        hasStripe
-                                        // color={"#dc143c"}
-                                        colorScheme="red"
-                                        value={30}
-                                      />
-                                    </Flex>
-                                  </Flex>
-                                  <Flex flexDir={"column"}>
-                                    <Flex flexDir={"column"}>
-                                      <Flex
-                                        fontSize={"14px"}
-                                        justify={"start"}
-                                        color={"#848484"}
-                                      >
-                                        <Flex>7 out of 10 Approved</Flex>
-                                      </Flex>
-                                      <Progress
-                                        hasStripe
-                                        colorScheme="green"
-                                        value={70}
-                                      />
-                                    </Flex>
-                                  </Flex>
-                                </Flex>
-                              </Flex> */}
                               {submittedReviews?.length ? (
                                 <Flex
                                   w={"100%"}
@@ -465,8 +379,7 @@ export default function WorkOrderDetailsReviewsPage({
                                                   }
                                                   src={
                                                     requester?.profile_image_url
-                                                      ? IMGURL +
-                                                        requester?.profile_image_url
+                                                      ? requester?.profile_image_url
                                                       : null
                                                   }
                                                 ></Avatar>
@@ -741,8 +654,7 @@ export default function WorkOrderDetailsReviewsPage({
                                                 }
                                                 src={
                                                   requester.profile_image_url
-                                                    ? IMGURL +
-                                                      requester.profile_image_url
+                                                    ? requester.profile_image_url
                                                     : null
                                                 }
                                               ></Avatar>
@@ -913,8 +825,7 @@ export default function WorkOrderDetailsReviewsPage({
                                                 }
                                                 src={
                                                   requester.profile_image_url
-                                                    ? IMGURL +
-                                                      requester.profile_image_url
+                                                    ? requester.profile_image_url
                                                     : null
                                                 }
                                               ></Avatar>
@@ -1038,8 +949,7 @@ export default function WorkOrderDetailsReviewsPage({
                                                 }
                                                 src={
                                                   requester.profile_image_url
-                                                    ? IMGURL +
-                                                      requester.profile_image_url
+                                                    ? requester.profile_image_url
                                                     : null
                                                 }
                                               ></Avatar>
@@ -1103,8 +1013,6 @@ export default function WorkOrderDetailsReviewsPage({
                       );
                     })}
                   </Accordion>
-
-                  {/* <Divider borderColor={"#848484"} m={0} /> */}
                 </Flex>
               </Flex>
             </Flex>

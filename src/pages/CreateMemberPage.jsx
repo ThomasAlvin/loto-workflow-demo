@@ -5,12 +5,31 @@ import {
   Flex,
   IconButton,
   Input,
+  InputGroup,
+  InputLeftAddon,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
   Select,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FaPlus, FaRegEdit, FaUserAlt } from "react-icons/fa";
+import ReactCountryFlag from "react-country-flag";
+import {
+  FaCaretDown,
+  FaChevronDown,
+  FaPlus,
+  FaRegEdit,
+  FaRegTrashAlt,
+  FaTrashAlt,
+  FaUserAlt,
+} from "react-icons/fa";
 import { FaCamera, FaLeftLong, FaTriangleExclamation } from "react-icons/fa6";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLoading } from "../service/LoadingContext";
 import { api } from "../api/api";
 import { useFormik } from "formik";
@@ -20,7 +39,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import YupPassword from "yup-password";
 import newRoleSelection from "../constants/NewRoleSelection";
 import SwalErrorMessages from "../components/SwalErrorMessages";
-import { IoMdClose } from "react-icons/io";
+import { IoMdClose, IoMdInformationCircleOutline } from "react-icons/io";
 import ImageFocusOverlay from "../components/ImageFocusOverlay";
 import CustomSelectionSelect from "../components/CustomSelectionSelect";
 import setAllFieldsTouched from "../utils/setAllFieldsTouched";
@@ -29,7 +48,10 @@ import formatString from "../utils/formatString";
 import { useSelector } from "react-redux";
 import checkHasPermission from "../utils/checkHasPermission";
 import convertToFormData from "../utils/convertToFormData";
-
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { IoChevronDown } from "react-icons/io5";
+import CountryPhoneNumberInput from "../components/CountryPhoneNumberInput";
+import parsePhoneNumberFromString from "libphonenumber-js";
 export default function CreateMemberPage() {
   const nav = useNavigate();
   const pageModule = "members";
@@ -47,6 +69,11 @@ export default function CreateMemberPage() {
     firstName: "",
     lastName: "",
     phoneNumber: "",
+    phoneCountry: {
+      value: "US",
+      name: "United States",
+      callingCode: "+1",
+    },
     email: "",
     department: "",
     role: "member",
@@ -120,12 +147,19 @@ export default function CreateMemberPage() {
       employeeId: Yup.string().trim().required("Employee ID is required"),
       role: Yup.string().trim().required("Role is required"),
       phoneNumber: Yup.string()
-        .notRequired()
-        .trim()
-        .matches(
-          /^(\+?[1-9]{1}[0-9]{1,2})?(\s|-|\.)?(\(?[0-9]{1,4}\)?[\s.-]?)?([0-9]{1,4}[\s.-]?[0-9]{1,4})+$/,
-          { message: "Invalid phone number format", excludeEmptyString: true }
-        ),
+        .nullable()
+        .transform((value) => (value === "" ? null : value))
+        .test("is-valid-phone", "Phone number is not valid", function (value) {
+          if (!value) return true;
+          if (!memberInput.phoneCountry.value) return false;
+
+          const phoneNumber = parsePhoneNumberFromString(
+            value,
+            memberInput.phoneCountry.value
+          );
+
+          return phoneNumber ? phoneNumber.isValid() : false;
+        }),
     }),
     onSubmit: () => {
       submitMember();
@@ -163,14 +197,19 @@ export default function CreateMemberPage() {
   async function submitMember() {
     setLoading(true);
     try {
-      const formData = convertToFormData(memberInput);
+      const memberDetails = {
+        ...memberInput,
+        phoneNumber: memberInput.phoneNumber
+          ? memberInput.phoneCountry.callingCode + memberInput.phoneNumber
+          : null,
+        phoneCountry: memberInput.phoneNumber
+          ? memberInput.phoneCountry.value
+          : "",
+      };
+      const formData = convertToFormData(memberDetails);
 
       await api
-        .post(`member`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .testSubmit("Member successfully added")
         .then((response) => {
           if (!woUID) {
             Swal.fire({
@@ -220,21 +259,24 @@ export default function CreateMemberPage() {
       console.log(errors); // Optional: log the errors for debugging
     }
   }
-  function inputHandler(event) {
-    let { id, value } = event.target;
-    let tempObject = { ...memberInput, [id]: value };
-    if (id === "phoneNumber") value = value.replace(/[^0-9-]/g, "");
-    if (id === "role") {
-      // setCustomPermissions(getNewRoleSettingsByRole(value));
-      tempObject = {
-        ...tempObject,
-        hasCustomPermissions: false,
-        accessibility: [],
-      };
-    }
-    setMemberInput(tempObject);
-    formik.setValues(tempObject);
-  }
+  const inputHandler = useCallback((event) => {
+    const { id, value } = event.target;
+    const newValue =
+      id === "phoneNumber" ? value.replace(/[^\d() -]/g, "") : value;
+    setMemberInput((prev) => {
+      let tempObject = { ...prev, [id]: newValue };
+      if (id === "role") {
+        tempObject = {
+          ...tempObject,
+          hasCustomPermissions: false,
+          accessibility: [],
+        };
+      }
+      formik.setFieldValue(id, newValue); // stable, safe
+      return tempObject;
+    });
+  }, []);
+
   function getNewRoleSettingsByRole(inputRole) {
     const newRoleSettingsValue = memberInput.hasCustomPermissions
       ? memberInput.accessibility
@@ -314,7 +356,7 @@ export default function CreateMemberPage() {
   async function fetchDepartment(controller) {
     setDepartmentSelectionLoading(true);
     await api
-      .get(`department`, { signal: controller.signal })
+      .getDepartments()
       .then((response) => {
         setDepartmentSelection(
           response?.data?.department.map((department) => ({
@@ -339,10 +381,10 @@ export default function CreateMemberPage() {
       nav(url);
     }
   }
-  async function fetchCustomAccessibility(controller) {
+  async function fetchCustomAccessibility() {
     setCustomAccessibilityLoading(true);
     await api
-      .get(`accessibility`, { signal: controller.signal })
+      .getCustomAccessibility()
       .then((response) => {
         setDefaultAccessibility(response.data.accessibility);
         setAccessibilityOptions(response.data.RBAC);
@@ -653,19 +695,26 @@ export default function CreateMemberPage() {
                       <Flex>Enter the member's phone number</Flex>
                     </Flex>
                   </Flex>
-                  <Flex>
-                    <Input
-                      border={
-                        formik.errors.phoneNumber && formik.touched.phoneNumber
-                          ? "1px solid crimson"
-                          : "1px solid #E2E8F0"
-                      }
-                      placeholder="555-123-123"
-                      onBlur={formik.handleBlur}
-                      id="phoneNumber"
-                      onChange={inputHandler}
-                    ></Input>
-                  </Flex>
+                  <CountryPhoneNumberInput
+                    selectedCountryCodeValue={memberInput.phoneCountry.value}
+                    selectedCountryCodeCallingCode={
+                      memberInput.phoneCountry.callingCode
+                    }
+                    setSelectedCountryCode={setMemberInput}
+                    registerId={"phoneCountry"}
+                    formikValidateField={formik.validateField}
+                    border={
+                      formik.errors.phoneNumber && formik.touched.phoneNumber
+                        ? "1px solid crimson"
+                        : "1px solid #E2E8F0"
+                    }
+                    placeholder={"555-123-123"}
+                    borderLeftRadius={"0"}
+                    onBlur={formik.handleBlur}
+                    id="phoneNumber"
+                    value={formik.values.phoneNumber}
+                    onChange={inputHandler}
+                  />
                   {formik.errors.phoneNumber && formik.touched.phoneNumber ? (
                     <Flex
                       position={"absolute"}
@@ -757,11 +806,6 @@ export default function CreateMemberPage() {
                       <Box as="span" color={"#dc143c"}>
                         *
                       </Box>
-                      {/* (
-                      <Box as="span" color={"#848484"}>
-                        Optional
-                      </Box>
-                      ) */}
                     </Box>
                     <Flex
                       textAlign={"center"}
@@ -866,13 +910,7 @@ export default function CreateMemberPage() {
                   position={"relative"}
                 >
                   <Flex flexDir={"column"}>
-                    <Box
-                      onClick={() => console.log(customPermissions)}
-                      fontWeight={700}
-                      as="span"
-                      flex="1"
-                      textAlign="left"
-                    >
+                    <Box fontWeight={700} as="span" flex="1" textAlign="left">
                       Access & Permissions
                     </Box>
                     <Flex
@@ -917,16 +955,6 @@ export default function CreateMemberPage() {
                   ) : (
                     ""
                   )}
-
-                  {/* <CustomSelectionSelect
-                      title={"accessibility"}
-                      selection={accessibilitySelection}
-                      selectHandler={accessibilitySelectHandler}
-                      selectedOption={memberInput?.accessibility?.label}
-                      isSearchable={false}
-                      optionColor="black"
-                      optionFontWeight={400}
-                    /> */}
 
                   {formik.errors.role && formik.touched.role ? (
                     <Flex

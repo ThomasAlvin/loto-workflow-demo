@@ -17,8 +17,6 @@ export default function ProtectedPage({
   roles,
 }) {
   const userSelector = useSelector((state) => state.login.auth);
-  console.log(userSelector);
-
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const hasPermission = () => {

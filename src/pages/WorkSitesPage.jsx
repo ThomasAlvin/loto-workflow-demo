@@ -29,7 +29,6 @@ import Can from "../components/Can";
 export default function WorkSitesPage() {
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
   const pageModule = "work_sites";
-  const dispatch = useDispatch();
   const userSelector = useSelector((state) => state.login.auth);
   const { newNotificationsCountByWorkSite } = useNotifications();
   const editWorkSiteDisclosure = useDisclosure();
@@ -67,9 +66,7 @@ export default function WorkSitesPage() {
   async function fetchWorkSites(modifiedWorkSite, isDefault) {
     setTableLoading(true);
     await api
-      .get(`work-sites/pagination`, {
-        signal: abortControllerRef.current.signal,
-      })
+      .getWorkSites()
       .then((response) => {
         setWorkSites(response.data.data);
         // to check if the worksite that is modified when editing worksite is the same as the one that is currently selected and update its data according to its change
@@ -91,39 +88,6 @@ export default function WorkSitesPage() {
       });
   }
   async function switchWorkSite(workSite, isDefault, includeSwal = true) {
-    if (isDefault) {
-      dispatch({
-        type: "login",
-        payload: {
-          ...userSelector,
-          current_work_site: workSite,
-          main_work_site: workSite,
-        },
-      });
-    } else {
-      dispatch({
-        type: "login",
-        payload: {
-          ...userSelector,
-          current_work_site: workSite,
-        },
-      });
-    }
-    // disabled karena it looks stupid without loading because api request is removed
-    // if (includeSwal) {
-    //   Swal.fire({
-    //     title: "Success!",
-    //     text: "Successfully switched work site!",
-    //     icon: "success",
-    //     customClass: {
-    //       popup: "swal2-custom-popup",
-    //       title: "swal2-custom-title",
-    //       content: "swal2-custom-content",
-    //       actions: "swal2-custom-actions",
-    //       confirmButton: "swal2-custom-confirm-button",
-    //     },
-    //   });
-    // }
     switchWorkSiteDisclosure.onClose();
   }
   function handleOpenSwitchWorkSiteModal(workSite) {
@@ -163,7 +127,7 @@ export default function WorkSitesPage() {
   async function changeDefaultWorkSite() {
     setButtonLoading(true);
     await api
-      .post(`work-sites/set-default/${selectedSetDefaultWorkSite.UID}`)
+      .testSubmit(`Default work site changed successfully`)
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -175,13 +139,6 @@ export default function WorkSitesPage() {
             content: "swal2-custom-content",
             actions: "swal2-custom-actions",
             confirmButton: "swal2-custom-confirm-button",
-          },
-        });
-        dispatch({
-          type: "login",
-          payload: {
-            ...userSelector,
-            main_work_site: selectedSetDefaultWorkSite,
           },
         });
       })
@@ -216,14 +173,7 @@ export default function WorkSitesPage() {
   }, []);
   return (
     <Flex w={"100%"} flexDir={"column"} px={"30px"} py={"20px"} gap={"20px"}>
-      <Flex
-        onClick={() => {
-          console.log(userSelector);
-        }}
-        fontSize={"28px"}
-        color={"#dc143c"}
-        fontWeight={700}
-      >
+      <Flex fontSize={"28px"} color={"#dc143c"} fontWeight={700}>
         Work Site List
       </Flex>
       <Flex h={"2px"} bg={"#bababa"}></Flex>
@@ -322,7 +272,6 @@ export default function WorkSitesPage() {
                             </Flex>
                             <Flex color={"#848484"}>
                               {val.location || "Location is not set"}
-                              {/* 123 Main St, Springfield, IL 62701, USA */}
                             </Flex>
                           </Flex>
                           <Flex gap={"20px"}>
@@ -425,18 +374,6 @@ export default function WorkSitesPage() {
                                 )}
                               </Button>
                             </Tooltip>
-
-                            {/* <Button
-                              onClick={(e) => setDefaultWorkSite(e, val)}
-                              _hover={{ background: "#b80d2f" }}
-                              color={"white"}
-                              bg={"#dc143c"}
-                              h={"28px"}
-                              px={"8px"}
-                              fontSize={"14px"}
-                            >
-                              Set as default
-                            </Button> */}
                           </Flex>
                         </Flex>
                       </Flex>

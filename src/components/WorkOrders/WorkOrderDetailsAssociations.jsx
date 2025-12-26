@@ -18,7 +18,6 @@ export default function WorkOrderDetailsAssociation({
   hasManagePermission,
   handleOpenSendReminder,
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const creatorInfo = workOrder?.creator?.is_superadmin
     ? { ...workOrder?.creator, role: labelizeRole("super_admin") }
     : {
@@ -43,7 +42,6 @@ export default function WorkOrderDetailsAssociation({
         }
       })
     );
-  console.log(remindableAssignees);
 
   return (
     <Flex minW={"400px"} flexDir={"column"} gap={"20px"}>
@@ -97,7 +95,7 @@ export default function WorkOrderDetailsAssociation({
                     name={creatorInfo.first_name + " " + creatorInfo.last_name}
                     src={
                       creatorInfo?.profile_image_url
-                        ? IMGURL + creatorInfo?.profile_image_url
+                        ? creatorInfo?.profile_image_url
                         : null
                     }
                   ></Avatar>
@@ -134,7 +132,6 @@ export default function WorkOrderDetailsAssociation({
                       (creatorInfo?.employee_id
                         ? " - " + creatorInfo.employee_id
                         : "")}
-                    {/* {labelizeRole(assignee.role) + " - " + assignee.employee_id} */}
                   </Flex>
                 </Flex>
               </Flex>
@@ -197,7 +194,7 @@ export default function WorkOrderDetailsAssociation({
                         }
                         src={
                           co_creator_member?.user.profile_image_url
-                            ? IMGURL + co_creator_member?.user.profile_image_url
+                            ? co_creator_member?.user.profile_image_url
                             : null
                         }
                       ></Avatar>
@@ -285,14 +282,7 @@ export default function WorkOrderDetailsAssociation({
             color={"#dc143c"}
             justifyContent={"space-between"}
           >
-            <Flex
-              onClick={() => {
-                console.log(remindableAssignees);
-                console.log(workOrder?.assignees);
-              }}
-            >
-              Assignees
-            </Flex>
+            <Flex>Assignees</Flex>
             <Flex
               borderRadius={"20px"}
               gap={"5px"}
@@ -360,7 +350,7 @@ export default function WorkOrderDetailsAssociation({
                         }
                         src={
                           assignee?.user.profile_image_url
-                            ? IMGURL + assignee?.user.profile_image_url
+                            ? assignee?.user.profile_image_url
                             : null
                         }
                       ></Avatar>
@@ -406,7 +396,8 @@ export default function WorkOrderDetailsAssociation({
                     remindableAssignees?.some(
                       (remindableAssignee) =>
                         remindableAssignee.UID === assignee.UID
-                    ) && (
+                    ) &&
+                    handleOpenSendReminder && (
                       <Flex>
                         <Tooltip
                           hasArrow
@@ -531,7 +522,7 @@ export default function WorkOrderDetailsAssociation({
                         }
                         src={
                           notifiedMember?.user.profile_image_url
-                            ? IMGURL + notifiedMember?.user.profile_image_url
+                            ? notifiedMember?.user.profile_image_url
                             : null
                         }
                       ></Avatar>
@@ -657,9 +648,12 @@ export default function WorkOrderDetailsAssociation({
                       <Flex color={"white"} fontSize={"20px"}>
                         {assignedMachine.main_image_url ? (
                           <Image
+                            w={"40px"}
+                            h={"40px"}
+                            objectFit={"contain"}
                             src={
                               assignedMachine.main_image_url
-                                ? IMGURL + assignedMachine.main_image_url
+                                ? assignedMachine.main_image_url
                                 : null
                             }
                           />
@@ -849,9 +843,6 @@ export default function WorkOrderDetailsAssociation({
             ) : (
               workOrder?.assignedReviewers.map((assignedReviewer, index) => (
                 <Flex
-                  onClick={() => {
-                    console.log(assignedReviewer);
-                  }}
                   cursor={"pointer"}
                   transition={"background-color 0.2s ease"}
                   _hover={{ bg: "#ededed" }}
@@ -871,7 +862,7 @@ export default function WorkOrderDetailsAssociation({
                         }
                         src={
                           assignedReviewer.profile_image_url
-                            ? IMGURL + assignedReviewer.profile_image_url
+                            ? assignedReviewer.profile_image_url
                             : null
                         }
                       ></Avatar>

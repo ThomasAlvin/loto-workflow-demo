@@ -1,13 +1,5 @@
 export default function getNotificationLinkByEvent(event, resource_UID) {
   switch (event) {
-    // -X disable role settings page X-
-    // case "accessibility":
-    //   if (resource_UID) {
-    //     return `/role`;
-    //   } else {
-    //     return `/role`;
-    //   }
-
     case "member":
       if (resource_UID) {
         return `/member`;

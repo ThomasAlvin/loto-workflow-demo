@@ -160,10 +160,6 @@ export default function SubscriptionSettingsSkeleton() {
               Manage payment method and billing information.
             </Flex>
           </Flex>
-
-          {/* <Flex _hover={{ textDecor: "underline" }} color={"#dc143c"}>
-            <Skeleton w={"200px"} h={"22px"} />
-          </Flex> */}
         </Flex>
         <Flex justify={"space-between"} alignItems={"center"}>
           <Flex alignItems={"center"} gap={"10px"}>
@@ -179,32 +175,6 @@ export default function SubscriptionSettingsSkeleton() {
             <Skeleton w={"90px"} h={"32px"} />
           </Flex>
         </Flex>
-        {/* <Flex flexDir={"column"} gap={"10px"}>
-        <Flex alignItems={"center"}>
-          <Flex w={"200px"} color={"#848484"}>
-            Payment Method
-          </Flex>
-          <Flex>9098 **** ****</Flex>
-        </Flex>
-        <Flex alignItems={"center"}>
-          <Flex w={"200px"} color={"#848484"}>
-            Expiry
-          </Flex>
-          <Flex>02/2028</Flex>
-        </Flex>
-        <Flex alignItems={"center"}>
-          <Flex w={"200px"} color={"#848484"}>
-            Billing Contact
-          </Flex>
-          <Flex>tech@visily.com</Flex>
-        </Flex>
-        <Flex alignItems={"center"}>
-          <Flex w={"200px"} color={"#848484"}>
-            Invoice History
-          </Flex>
-          <Flex>View in stripe</Flex>
-        </Flex>
-      </Flex> */}
       </Flex>
       <Flex flexDir={"column"} gap={"10px"}>
         <Flex justify={"space-between"} alignItems={"center"}>

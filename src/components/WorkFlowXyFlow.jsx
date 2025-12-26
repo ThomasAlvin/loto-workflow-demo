@@ -1,23 +1,18 @@
 import { Flex, Icon, useToast } from "@chakra-ui/react";
-import {
-  addEdge,
-  Background,
-  ReactFlow,
-  useOnSelectionChange,
-} from "@xyflow/react";
+import { addEdge, Background, ReactFlow } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import {
   memo,
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 import { IoMdClose } from "react-icons/io";
 import { v4 as uuid } from "uuid";
 import defaultNodeSettings from "../constants/defaultNodeSettings";
-import { memoPropsComparator } from "../debugging/memoPropsComparator";
 import { useDeleteContext } from "../service/DeleteMultiLockAccessContext";
 import {
   ActionsContext,
@@ -48,7 +43,6 @@ const edgeTypes = {
 };
 function WorkFlowXyFlowMemo({
   editStepDisclosureOnClose,
-  // deleteStep,
   deleteEdges,
   flowWrapperRef,
   nextAlphabeticalSequence,
@@ -68,8 +62,6 @@ function WorkFlowXyFlowMemo({
   templateDetails,
   templateOnClose,
 }) {
-  // console.log("WorkFlowXyFlow Rerendered");
-
   const actionsRef = useContext(ActionsContext);
   const { deleteStep } = actionsRef.current;
 
@@ -82,6 +74,7 @@ function WorkFlowXyFlowMemo({
 
   const toast = useToast();
   const [isFullScreen, setIsFullScreen] = useState(fullScreen || false);
+  const [isLassoing, setIsLassoing] = useState(fullScreen || false);
   const [lockInteractivity, setLockInteractivity] = useState(false);
   const reactFlowInstance = useRef();
   const defaultEdgeOptions = {
@@ -187,7 +180,6 @@ function WorkFlowXyFlowMemo({
 
       // 2. Compute allowed targets ONCE
       const allowedTargets = getAllowedLoopTargetsLatest(nodes, sourceNode);
-      console.log(allowedTargets);
 
       // switch id to UID
       // setAllowedTargetIds(new Set(allowedTargets.map((n) => n.data.id)));
@@ -362,7 +354,6 @@ function WorkFlowXyFlowMemo({
         nodes.length === 0 ? newNodeUuid : updatedNodes[0].id
       );
       // Calculate Node value after edge because edge is needed to determine node order
-      console.log(updatedNodes);
 
       setNodes(updatedNodes);
       setEdges(updatedEdges);
@@ -372,7 +363,6 @@ function WorkFlowXyFlowMemo({
 
   const onInit = (instance) => {
     reactFlowInstance.current = instance; // capture instance
-    console.log("Flow loaded:", instance);
   };
   const handleNodeClick = useCallback(
     (event, node) => {
@@ -493,30 +483,20 @@ function WorkFlowXyFlowMemo({
       return next;
     });
   }, [formikWorkOrderStepsErrors, formikWorkOrderSteps]);
-  useOnSelectionChange({
-    onChange: ({ nodes, edges }) => {
-      const selectedNodeIds = nodes.map((n) => n.id);
-
-      // 1. Mark the selected nodes
-      setNodes((prev) =>
-        prev.map((node) => ({
-          ...node,
-          selected: selectedNodeIds.includes(node.id),
-        }))
-      );
-
-      // 2. Edge selection ALWAYS disabled
-      setEdges((prev) =>
-        prev.map((edge) => ({
-          ...edge,
-          selected: false, // <- critical
-        }))
-      );
-    },
-  });
+  const onSelectionStart = useCallback(() => {
+    setIsLassoing(true);
+  }, []);
+  const onSelectionEnd = useCallback(() => {
+    setIsLassoing(false);
+  }, []);
+  const edgesWithSelectability = useMemo(() => {
+    return edges.map((edge) => ({
+      ...edge,
+      selectable: !isLassoing, // edges not selectable while lassoing
+    }));
+  }, [edges, isLassoing]);
   return (
     <>
-      {/* Is needed when user escape fullscreen so it doesnt mess up the overflow when minimizing */}
       <Flex display={isFullScreen ? "Flex" : "none"} pb={"1000px"}></Flex>
       <Flex
         top={0}
@@ -548,7 +528,6 @@ function WorkFlowXyFlowMemo({
         ) : (
           ""
         )}
-
         <Flex
           position="relative"
           ref={flowWrapperRef}
@@ -557,13 +536,14 @@ function WorkFlowXyFlowMemo({
           bg={"#f8f9fa"}
           h={isFullScreen ? "100%" : "600px"}
         >
-          <ReactFlowDebug
+          <ReactFlow
+            onSelect
             onNodeClick={handleNodeClick}
             onPaneClick={handlePaneClick}
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
             nodes={nodes}
-            edges={edges}
+            edges={edgesWithSelectability}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
@@ -572,6 +552,8 @@ function WorkFlowXyFlowMemo({
             onDragOver={onDragOver}
             onDrop={onDrop}
             onInit={onInit}
+            onSelectionStart={onSelectionStart}
+            onSelectionEnd={onSelectionEnd}
             defaultEdgeOptions={defaultEdgeOptions}
             // connectionLineComponent={CustomConnectionLine}
             connectionLineComponent={connectionLineComponent}
@@ -628,24 +610,13 @@ function WorkFlowXyFlowMemo({
             ) : (
               ""
             )}
-
-            {/* <Controls /> */}
             <Background variant="lines" color="#dedede" />
-          </ReactFlowDebug>
+          </ReactFlow>
         </Flex>
       </Flex>
     </>
   );
 }
 
-const WorkFlowXyFlow = memo(
-  WorkFlowXyFlowMemo,
-  memoPropsComparator("WorkFlowXyFlow")
-);
-
+const WorkFlowXyFlow = memo(WorkFlowXyFlowMemo);
 export default WorkFlowXyFlow;
-
-const ReactFlowDebug = memo((props) => {
-  // console.log("%c<ReactFlow> re-rendered", "color: red");
-  return <ReactFlow {...props} />;
-});

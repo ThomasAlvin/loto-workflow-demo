@@ -1,82 +1,564 @@
 {
-  "total_users": 23,
-  "total_work_orders": 1,
-  "ongoing_work_orders": 1,
-  "finished_work_orders": 0,
+  "total_users": 10,
+  "total_work_orders": 4,
+  "ongoing_work_orders": 2,
+  "finished_work_orders": 1,
   "latest_work_orders": [
     {
-      "id": 91,
-      "name": "fsadada",
+      "id": 99,
+      "name": "CNC Machine Maintenance",
       "description": null,
-      "current_step": 1,
-      "status": "ongoing",
+      "current_step": 7,
+      "status": "completed",
       "is_overdue": 0,
       "flow_chart_images": [
-        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/workOrder/1C9D88EB-0E29-4B35-B641-EF700CD67266/flowChart/1/1764996939_file.png"
+        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/workOrder/DE70512B-7B06-4859-80D2-7700D694A051/flowChart/1/1765563735_file.png"
       ],
-      "work_order_custom_id": "LXH/WS01/120625/143",
-      "reportId": null,
+      "work_order_custom_id": "LXH/WS01/121325/151",
+      "reportId": 23,
       "work_sitesId": 5,
       "creatorId": 10,
-      "UID": "1C9D88EB-0E29-4B35-B641-EF700CD67266",
-      "deadline_date_time": 1766163600000,
-      "started_at": 1764996939000,
-      "finished_at": null,
+      "UID": "DE70512B-7B06-4859-80D2-7700D694A051",
+      "deadline_date_time": 2018278800000,
+      "started_at": 1765563735000,
+      "finished_at": 1765634221000,
       "notified_due_soon_at": null,
-      "created_at": 1764996939000,
-      "updated_at": 1764996939000,
-      "completed_step_count": 0,
-      "finished_step_count": 0,
-      "work_order_steps_count": 1,
+      "created_at": 1765563735000,
+      "updated_at": 1765634234000,
+      "completed_step_count": 5,
+      "finished_step_count": 5,
+      "work_order_steps_count": 5,
       "creator": {
         "id": 10,
-        "first_name": "Super Admin",
-        "last_name": "Test",
+        "first_name": "Adrian",
+        "last_name": "Cole",
         "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
-        "firebase_uid": "l3H1XrGALKdVN3yZNkpRewVCWiy1",
-        "stripe_customer_id": "cus_S1fxYxtUczFnJs",
-        "email": "ramoh58262@lxheir.com",
-        "phone_number": "700-800-900",
-        "profile_image_url": "media/user/314A05A7-EA70-4E6B-836D-5A8789EAA51A/image/1741667823_smart-mini-padlock-r-0.jpg",
-        "company_logo_image_url": "media/user-logo/314A05A7-EA70-4E6B-836D-5A8789EAA51A/image/1741840215_smart-mini-padlock-r-0.jpg",
-        "work_orders_created_count": 143,
-        "company_name": null,
+        "email": "test@gmail.com",
+        "phone_number": null,
+        "phone_country": null,
+        "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+        "work_orders_created_count": 152,
         "is_superadmin": 1,
         "is_trial": 1,
         "is_2fa_enabled": 0,
         "two_factor_type_default": "email",
-        "google2fa_secret": "YSLHRS7GQECHUKPL",
-        "is_valid_2fa": 1,
-        "webhook_base_url": null,
+        "is_valid_2fa": 0,
         "status": "verified",
         "last_verification_email_sent_at": 1740536054000,
-        "last_login": 1765461058000,
+        "last_login": 1765566660000,
         "main_work_siteId": 5,
         "created_at": 1740536054000,
-        "updated_at": 1765461058000,
+        "updated_at": 1765566660000,
         "member": null
       },
       "work_order_steps": [
         {
-          "id": 1174,
-          "name": "Lock Access",
+          "id": 1199,
+          "name": "Power Isolation",
           "description": "",
-          "UID": "09C378F0-8568-438F-B6C9-6A3EF484B3FD",
-          "status": "ongoing",
-          "work_orderId": 91,
+          "UID": "9BF07F9C-69EE-4448-9E13-8C25B6159E11",
+          "status": "completed",
+          "work_orderId": 99,
           "aborted_by_userId": null,
           "form": 0,
           "notify": 0,
           "notify_status": null,
           "notification_message": null,
-          "multi_access_lock": 1,
-          "multi_access_lock_status": "ongoing",
-          "is_main_multi_access_lock": 1,
-          "multi_access_lock_step_index": 0,
-          "work_order_multi_lock_groupId": 19,
-          "access_lock": 0,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
           "machine": 0,
           "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 1,
+          "condition_question": "Is the power completely isolated?",
+          "condition_options": ["Yes", "No"],
+          "condition_value": null,
+          "parent_UID": null,
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": 1,
+          "is_drafted": 0,
+          "created_at": 1765563735000,
+          "updated_at": 1765634104000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1199,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            },
+            {
+              "id": 158,
+              "role": "member",
+              "userId": 223,
+              "employee_id": "234-002-008",
+              "pivot": {
+                "work_order_stepId": 1199,
+                "memberId": 158
+              },
+              "user": {
+                "id": 223,
+                "UID": "99B7A349-6696-4AB9-B509-F7D3EAE6153D",
+                "first_name": "Marcus",
+                "last_name": "Henderson",
+                "profile_image_url": "/images/dataImages/User/marcus_henderson.jpg"
+              }
+            }
+          ],
+          "work_order_step_submissions": [
+            {
+              "id": 216,
+              "action_by_userId": 12,
+              "machine_verified_by_memberId": null,
+              "work_orderId": 99,
+              "work_order_stepId": 1199,
+              "response_conditional": "Yes",
+              "notify_at": null,
+              "machine_verified_at": null,
+              "finished_at": 1765634104000,
+              "created_at": 1765634104000,
+              "updated_at": 1765634104000
+            }
+          ]
+        },
+        {
+          "id": 1200,
+          "name": "Abort and Notify Supervisor",
+          "description": "",
+          "UID": "F8FF0737-4BC6-4BAB-BFBF-38FC4D2B6ADB",
+          "status": "skipped",
+          "work_orderId": 99,
+          "aborted_by_userId": null,
+          "form": 0,
+          "notify": 1,
+          "notify_status": "pending",
+          "notification_message": "CNC Machine Power is not isolated for maintenance",
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "No",
+          "parent_UID": "9BF07F9C-69EE-4448-9E13-8C25B6159E11",
+          "loop_branch": null,
+          "loop_target_UID": "9BF07F9C-69EE-4448-9E13-8C25B6159E11",
+          "attempt": null,
+          "is_drafted": 0,
+          "created_at": 1765563735000,
+          "updated_at": 1765634104000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1200,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1201,
+          "name": "Safety Equipment Check",
+          "description": "",
+          "UID": "D8C0C354-815D-412D-804E-23809D89EE45",
+          "status": "completed",
+          "work_orderId": 99,
+          "aborted_by_userId": null,
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "Yes",
+          "parent_UID": "9BF07F9C-69EE-4448-9E13-8C25B6159E11",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": 1,
+          "is_drafted": 0,
+          "created_at": 1765563735000,
+          "updated_at": 1765634120000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1201,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            },
+            {
+              "id": 157,
+              "role": "admin",
+              "userId": 222,
+              "employee_id": "234-002-92",
+              "pivot": {
+                "work_order_stepId": 1201,
+                "memberId": 157
+              },
+              "user": {
+                "id": 222,
+                "UID": "D472BB27-0E1C-4E01-BBB1-IKUJYH2CC57251",
+                "first_name": "Dylan",
+                "last_name": "Reeves",
+                "profile_image_url": "/images/dataImages/User/dylan_reeves.jpg"
+              }
+            },
+            {
+              "id": 99,
+              "role": "member",
+              "userId": 190,
+              "employee_id": "555-0987",
+              "pivot": {
+                "work_order_stepId": 1201,
+                "memberId": 99
+              },
+              "user": {
+                "id": 190,
+                "UID": "YGTDHSTY-5CE8-48BF-AA5A-53124F6C812E",
+                "first_name": "Oliver",
+                "last_name": "Grant",
+                "profile_image_url": "/images/dataImages/User/oliver_grant.jpg"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1202,
+          "name": "Pre-Maintenance Inspection",
+          "description": "",
+          "UID": "380D03F2-C34D-405F-8C30-F892F057C6B0",
+          "status": "completed",
+          "work_orderId": 99,
+          "aborted_by_userId": null,
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 1,
+          "condition_question": "Is there no issues found during this inspection?",
+          "condition_options": ["Yes", "No"],
+          "condition_value": "Yes",
+          "parent_UID": "9BF07F9C-69EE-4448-9E13-8C25B6159E11",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": 1,
+          "is_drafted": 0,
+          "created_at": 1765563735000,
+          "updated_at": 1765634136000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1202,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            }
+          ],
+          "work_order_step_submissions": [
+            {
+              "id": 218,
+              "action_by_userId": 12,
+              "machine_verified_by_memberId": null,
+              "work_orderId": 99,
+              "work_order_stepId": 1202,
+              "response_conditional": "Yes",
+              "notify_at": null,
+              "machine_verified_at": null,
+              "finished_at": 1765634136000,
+              "created_at": 1765634136000,
+              "updated_at": 1765634136000
+            }
+          ]
+        },
+        {
+          "id": 1203,
+          "name": "Notify Supervisor",
+          "description": "",
+          "UID": "981A11C2-CDF3-4A02-9C83-AA8AB431F7C1",
+          "status": "skipped",
+          "work_orderId": 99,
+          "aborted_by_userId": null,
+          "form": 0,
+          "notify": 1,
+          "notify_status": "pending",
+          "notification_message": "There is an issue when running CNC Machine maintenance!",
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "No",
+          "parent_UID": "380D03F2-C34D-405F-8C30-F892F057C6B0",
+          "loop_branch": null,
+          "loop_target_UID": "380D03F2-C34D-405F-8C30-F892F057C6B0",
+          "attempt": null,
+          "is_drafted": 0,
+          "created_at": 1765563735000,
+          "updated_at": 1765634136000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1203,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1204,
+          "name": "Maintenance Work",
+          "description": "",
+          "UID": "1DD095E5-4C41-4BCF-88E3-601F3BEC5AFB",
+          "status": "completed",
+          "work_orderId": 99,
+          "aborted_by_userId": null,
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 1,
+          "require_verify_machine": 1,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "Yes",
+          "parent_UID": "380D03F2-C34D-405F-8C30-F892F057C6B0",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": 1,
+          "is_drafted": 0,
+          "created_at": 1765563735000,
+          "updated_at": 1765634196000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1204,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1205,
+          "name": "Completion & Documentation",
+          "description": "",
+          "UID": "65BDC8DB-FDD1-434D-A5CD-D91AE8BB0F5A",
+          "status": "completed",
+          "work_orderId": 99,
+          "aborted_by_userId": null,
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "Yes",
+          "parent_UID": "380D03F2-C34D-405F-8C30-F892F057C6B0",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": 1,
+          "is_drafted": 0,
+          "created_at": 1765563735000,
+          "updated_at": 1765634221000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1205,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "name": "Example Machine QR Scan",
+      "description": "Login with the Admin Account to check the QR code scanner feature",
+      "current_step": 1,
+      "status": "ongoing",
+      "is_overdue": 0,
+      "flow_chart_images": [
+        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/workOrder/24E3FE6E-A440-40B7-A47B-A2C955D43D1B/flowChart/1/1765560906_file.png"
+      ],
+      "work_order_custom_id": "LXH/WS01/121325/150",
+      "reportId": null,
+      "work_sitesId": 5,
+      "creatorId": 10,
+      "UID": "24E3FE6E-A440-40B7-A47B-A2C955D43D1B",
+      "deadline_date_time": 2018710800000,
+      "started_at": 1765560906000,
+      "finished_at": null,
+      "notified_due_soon_at": null,
+      "created_at": 1765560906000,
+      "updated_at": 1765560906000,
+      "completed_step_count": 0,
+      "finished_step_count": 0,
+      "work_order_steps_count": 1,
+      "creator": {
+        "id": 10,
+        "first_name": "Adrian",
+        "last_name": "Cole",
+        "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+        "email": "test@gmail.com",
+        "phone_number": null,
+        "phone_country": null,
+        "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+        "work_orders_created_count": 152,
+        "is_superadmin": 1,
+        "is_trial": 1,
+        "is_2fa_enabled": 0,
+        "two_factor_type_default": "email",
+        "is_valid_2fa": 0,
+        "status": "verified",
+        "last_verification_email_sent_at": 1740536054000,
+        "last_login": 1765566660000,
+        "main_work_siteId": 5,
+        "created_at": 1740536054000,
+        "updated_at": 1765566660000,
+        "member": null
+      },
+      "work_order_steps": [
+        {
+          "id": 1198,
+          "name": "Initiate Maintenance",
+          "description": "",
+          "UID": "3309F1DA-3FFA-47EE-8C38-8D49137A3F5F",
+          "status": "ongoing",
+          "work_orderId": 98,
+          "aborted_by_userId": null,
+          "form": 0,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 1,
+          "require_verify_machine": 1,
           "is_machine_verify": null,
           "condition": 0,
           "condition_question": null,
@@ -86,13 +568,9 @@
           "loop_branch": null,
           "loop_target_UID": null,
           "attempt": null,
-          "send_webhook": 0,
-          "trigger_api": 0,
-          "title_trigger_api": null,
-          "trigger_api_status": null,
           "is_drafted": 0,
-          "created_at": 1764996939000,
-          "updated_at": 1764996939000,
+          "created_at": 1765560906000,
+          "updated_at": 1765560906000,
           "assigned_members": [
             {
               "id": 5,
@@ -100,15 +578,372 @@
               "userId": 12,
               "employee_id": "234-005",
               "pivot": {
-                "work_order_stepId": 1174,
+                "work_order_stepId": 1198,
                 "memberId": 5
               },
               "user": {
                 "id": 12,
-                "UID": "6E339355-8DED-41B1-A7E0-D78EBA29B817",
-                "first_name": "Employee",
-                "last_name": "Test",
-                "profile_image_url": "media/user/6E339355-8DED-41B1-A7E0-D78EBA29B817/image/1741835478_Man.jpg"
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "name": "Electrical Panel Lockout Check",
+      "description": null,
+      "current_step": 1,
+      "status": "ongoing",
+      "is_overdue": 0,
+      "flow_chart_images": [
+        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/workOrder/UJHNGB5B-6078-4302-B318-EEBF2CA34363/flowChart/1/1765560599_file.png"
+      ],
+      "work_order_custom_id": "LXH/WS01/121325/149",
+      "reportId": null,
+      "work_sitesId": 5,
+      "creatorId": 10,
+      "UID": "UJHNGB5B-6078-4302-B318-EEBF2CA34363",
+      "deadline_date_time": 2018797200000,
+      "started_at": 1765560599000,
+      "finished_at": null,
+      "notified_due_soon_at": null,
+      "created_at": 1765560300000,
+      "updated_at": 1765560599000,
+      "completed_step_count": 0,
+      "finished_step_count": 0,
+      "work_order_steps_count": 5,
+      "creator": {
+        "id": 10,
+        "first_name": "Adrian",
+        "last_name": "Cole",
+        "UID": "314A05A7-EA70-4E6B-836D-5A8789EAA51A",
+        "email": "test@gmail.com",
+        "phone_number": null,
+        "phone_country": null,
+        "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+        "work_orders_created_count": 152,
+        "is_superadmin": 1,
+        "is_trial": 1,
+        "is_2fa_enabled": 0,
+        "two_factor_type_default": "email",
+        "is_valid_2fa": 0,
+        "status": "verified",
+        "last_verification_email_sent_at": 1740536054000,
+        "last_login": 1765566660000,
+        "main_work_siteId": 5,
+        "created_at": 1740536054000,
+        "updated_at": 1765566660000,
+        "member": null
+      },
+      "work_order_steps": [
+        {
+          "id": 1192,
+          "name": "Verify Machine is Powered Off",
+          "description": "",
+          "UID": "D78CCFCC-8E83-4FED-8899-C4C7A9FD079A",
+          "status": "ongoing",
+          "work_orderId": 97,
+          "aborted_by_userId": null,
+          "form": 0,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 1,
+          "condition_question": "Is the machine completely powered off?",
+          "condition_options": ["Yes", "No"],
+          "condition_value": null,
+          "parent_UID": null,
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": null,
+          "is_drafted": 0,
+          "created_at": 1765560599000,
+          "updated_at": 1765560599000,
+          "assigned_members": [
+            {
+              "id": 34,
+              "role": "member",
+              "userId": 58,
+              "employee_id": "555-102",
+              "pivot": {
+                "work_order_stepId": 1192,
+                "memberId": 34
+              },
+              "user": {
+                "id": 58,
+                "UID": "A8371034-0918-4DA9-B2B8-6B5BE7C8B936",
+                "first_name": "Travis",
+                "last_name": "Nolan",
+                "profile_image_url": "/images/dataImages/User/travis_nolan.jpg"
+              }
+            }
+          ],
+          "work_order_step_submissions": []
+        },
+        {
+          "id": 1193,
+          "name": "Notify PIC",
+          "description": "",
+          "UID": "85542B2E-C1F8-4602-981F-3A4DAD29E056",
+          "status": "pending",
+          "work_orderId": 97,
+          "aborted_by_userId": null,
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "No",
+          "parent_UID": "D78CCFCC-8E83-4FED-8899-C4C7A9FD079A",
+          "loop_branch": null,
+          "loop_target_UID": "D78CCFCC-8E83-4FED-8899-C4C7A9FD079A",
+          "attempt": null,
+          "is_drafted": 0,
+          "created_at": 1765560599000,
+          "updated_at": 1765560599000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1193,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1194,
+          "name": "Disconnect Main Power Supply",
+          "description": "",
+          "UID": "9C949610-79ED-4A6D-A31D-0CEFF7D8D0D4",
+          "status": "pending",
+          "work_orderId": 97,
+          "aborted_by_userId": null,
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "Yes",
+          "parent_UID": "D78CCFCC-8E83-4FED-8899-C4C7A9FD079A",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": null,
+          "is_drafted": 0,
+          "created_at": 1765560599000,
+          "updated_at": 1765560599000,
+          "assigned_members": [
+            {
+              "id": 157,
+              "role": "admin",
+              "userId": 222,
+              "employee_id": "234-002-92",
+              "pivot": {
+                "work_order_stepId": 1194,
+                "memberId": 157
+              },
+              "user": {
+                "id": 222,
+                "UID": "D472BB27-0E1C-4E01-BBB1-IKUJYH2CC57251",
+                "first_name": "Dylan",
+                "last_name": "Reeves",
+                "profile_image_url": "/images/dataImages/User/dylan_reeves.jpg"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1195,
+          "name": "Apply LOTO Lock and Attach Tag",
+          "description": "",
+          "UID": "53F0E48C-BC62-4B80-8657-2B9CDF5FFE0D",
+          "status": "pending",
+          "work_orderId": 97,
+          "aborted_by_userId": null,
+          "form": 0,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 1,
+          "multi_access_lock_status": "pending",
+          "is_main_multi_access_lock": 1,
+          "multi_access_lock_step_index": 0,
+          "work_order_multi_lock_groupId": 22,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "Yes",
+          "parent_UID": "D78CCFCC-8E83-4FED-8899-C4C7A9FD079A",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": null,
+          "is_drafted": 0,
+          "created_at": 1765560599000,
+          "updated_at": 1765560599000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1195,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1196,
+          "name": "Machine",
+          "description": "",
+          "UID": "BF4295A6-9145-4476-BAD2-D72135E44375",
+          "status": "pending",
+          "work_orderId": 97,
+          "aborted_by_userId": null,
+          "form": 0,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 1,
+          "require_verify_machine": 1,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": "",
+          "condition_options": null,
+          "condition_value": "Yes",
+          "parent_UID": "D78CCFCC-8E83-4FED-8899-C4C7A9FD079A",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": null,
+          "is_drafted": 0,
+          "created_at": 1765560599000,
+          "updated_at": 1765560599000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1196,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
+              }
+            }
+          ]
+        },
+        {
+          "id": 1197,
+          "name": "Record Completion in System",
+          "description": "",
+          "UID": "DE91D762-5DE7-4691-BA3E-4BA188DD6CF0",
+          "status": "pending",
+          "work_orderId": 97,
+          "aborted_by_userId": null,
+          "form": 1,
+          "notify": 0,
+          "notify_status": null,
+          "notification_message": null,
+          "multi_access_lock": 0,
+          "multi_access_lock_status": null,
+          "is_main_multi_access_lock": 0,
+          "multi_access_lock_step_index": null,
+          "work_order_multi_lock_groupId": null,
+          "machine": 0,
+          "require_verify_machine": 0,
+          "is_machine_verify": null,
+          "condition": 0,
+          "condition_question": null,
+          "condition_options": null,
+          "condition_value": "Yes",
+          "parent_UID": "D78CCFCC-8E83-4FED-8899-C4C7A9FD079A",
+          "loop_branch": null,
+          "loop_target_UID": null,
+          "attempt": null,
+          "is_drafted": 0,
+          "created_at": 1765560599000,
+          "updated_at": 1765560599000,
+          "assigned_members": [
+            {
+              "id": 5,
+              "role": "admin",
+              "userId": 12,
+              "employee_id": "234-005",
+              "pivot": {
+                "work_order_stepId": 1197,
+                "memberId": 5
+              },
+              "user": {
+                "id": 12,
+                "UID": "MJNAHSY5-8DED-41B1-A7E0-D78EBA29B817",
+                "first_name": "Natalie",
+                "last_name": "Arden",
+                "profile_image_url": "/images/dataImages/User/natalie_arden.jpg"
               }
             }
           ]
@@ -118,66 +953,40 @@
   ],
   "recent_activity": [
     {
-      "id": 8840,
+      "id": 8998,
+      "action": "create",
+      "created_at": 1765634235000,
+      "employee_id": "234-005",
+      "role": "admin",
+      "first_name": "Natalie",
+      "last_name": "Arden",
+      "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+      "table_name": "reports"
+    },
+    {
+      "id": 8996,
       "action": "login",
-      "created_at": 1765461059000,
-      "employee_id": null,
-      "role": "super_admin",
-      "first_name": "Super Admin",
-      "last_name": "Test",
-      "profile_image_url": "media/user/314A05A7-EA70-4E6B-836D-5A8789EAA51A/image/1741667823_smart-mini-padlock-r-0.jpg",
+      "created_at": 1765634017000,
+      "employee_id": "234-005",
+      "role": "admin",
+      "first_name": "Natalie",
+      "last_name": "Arden",
+      "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
       "table_name": "users"
     },
     {
-      "id": 8839,
-      "action": "logout",
-      "created_at": 1765386412000,
+      "id": 8994,
+      "action": "update",
+      "created_at": 1765566715000,
       "employee_id": null,
       "role": "super_admin",
-      "first_name": "Super Admin",
-      "last_name": "Test",
-      "profile_image_url": "media/user/314A05A7-EA70-4E6B-836D-5A8789EAA51A/image/1741667823_smart-mini-padlock-r-0.jpg",
-      "table_name": "users"
-    },
-    {
-      "id": 8838,
-      "action": "login",
-      "created_at": 1765386402000,
-      "employee_id": null,
-      "role": "super_admin",
-      "first_name": "Super Admin",
-      "last_name": "Test",
-      "profile_image_url": "media/user/314A05A7-EA70-4E6B-836D-5A8789EAA51A/image/1741667823_smart-mini-padlock-r-0.jpg",
-      "table_name": "users"
+      "first_name": "Adrian",
+      "last_name": "Cole",
+      "profile_image_url": "/images/dataImages/User/adrian_cole.jpg",
+      "table_name": "work_sites"
     }
   ],
   "members": [
-    {
-      "id": 168,
-      "userId": 231,
-      "employee_id": "234-001-002123",
-      "role": "member",
-      "user": {
-        "id": 231,
-        "UID": "06137C6E-009E-4DB0-8B39-AA40AB835E5D",
-        "first_name": "dsa",
-        "last_name": "dsada",
-        "profile_image_url": null
-      }
-    },
-    {
-      "id": 165,
-      "userId": 230,
-      "employee_id": "142-7124671",
-      "role": "admin",
-      "user": {
-        "id": 230,
-        "UID": "9850A65F-34D7-4C19-A1C9-06992E53A136",
-        "first_name": "Testing",
-        "last_name": "LOKA",
-        "profile_image_url": null
-      }
-    },
     {
       "id": 158,
       "userId": 223,
@@ -186,9 +995,9 @@
       "user": {
         "id": 223,
         "UID": "99B7A349-6696-4AB9-B509-F7D3EAE6153D",
-        "first_name": "Employee",
-        "last_name": "Junior 2",
-        "profile_image_url": null
+        "first_name": "Marcus",
+        "last_name": "Henderson",
+        "profile_image_url": "/images/dataImages/User/marcus_henderson.jpg"
       }
     },
     {
@@ -198,45 +1007,63 @@
       "role": "admin",
       "user": {
         "id": 222,
-        "UID": "D472BB27-0E1C-4E01-BBB1-501E2CC57251",
-        "first_name": "Employee",
-        "last_name": "Junior",
-        "profile_image_url": null
+        "UID": "D472BB27-0E1C-4E01-BBB1-IKUJYH2CC57251",
+        "first_name": "Dylan",
+        "last_name": "Reeves",
+        "profile_image_url": "/images/dataImages/User/dylan_reeves.jpg"
+      }
+    },
+    {
+      "id": 125,
+      "userId": 210,
+      "employee_id": "234-0019",
+      "role": "member",
+      "user": {
+        "id": 210,
+        "UID": "315F76DE-POQX-47DD-B499-B13D0369A380",
+        "first_name": "Nathan",
+        "last_name": "Crossley",
+        "profile_image_url": "/images/dataImages/User/nathan_crossley.jpg"
+      }
+    },
+    {
+      "id": 99,
+      "userId": 190,
+      "employee_id": "555-0987",
+      "role": "member",
+      "user": {
+        "id": 190,
+        "UID": "YGTDHSTY-5CE8-48BF-AA5A-53124F6C812E",
+        "first_name": "Oliver",
+        "last_name": "Grant",
+        "profile_image_url": "/images/dataImages/User/oliver_grant.jpg"
       }
     }
   ],
   "machines": [
     {
-      "name": "Test Machine",
-      "custom_machine_id": "Test-ID",
-      "model": "Test Model",
-      "location": "Test Location",
-      "serial_number": "92S180321",
+      "name": "CNC Machine",
+      "custom_machine_id": "Machine-003",
+      "model": "L9000-EMTV1",
+      "location": "Room-D-7006",
+      "serial_number": null,
       "status": "operational"
     },
     {
-      "name": "Diesel Generator Inspection",
-      "custom_machine_id": "Machine-887",
-      "model": "Friedrich Kuhl Series 12,000 BTU",
-      "location": "United States",
+      "name": "Hydraulic Press",
+      "custom_machine_id": "Machine-002",
+      "model": "D8000-EXTV2",
+      "location": "Room-C-2076",
       "serial_number": null,
       "status": "under_maintenance"
     },
     {
-      "name": "Diesel Power Generator V2",
-      "custom_machine_id": "Machine-010",
+      "name": "Electrical Panel B-2898",
+      "custom_machine_id": "Machine-001",
       "model": "D5000-EXTV2",
-      "location": "United States",
+      "location": "Room-B-2898",
       "serial_number": null,
-      "status": "operational"
-    },
-    {
-      "name": "Diesel Power Generator",
-      "custom_machine_id": "Machine - 009",
-      "model": "D5000-EXT",
-      "location": "United States",
-      "serial_number": null,
-      "status": "operational"
+      "status": "under_maintenance"
     }
   ]
 }

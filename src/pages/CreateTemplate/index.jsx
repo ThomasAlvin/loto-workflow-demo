@@ -101,11 +101,7 @@ export default function CreateTemplatePage() {
     // formData.append("flowChartImages[]", workFlowImage);
 
     await api
-      .post(`template?status=${status}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .testSubmit("Template submitted successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",

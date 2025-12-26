@@ -69,7 +69,6 @@ export default function ReviewsAndApprovalsPage() {
 
   const isIndeterminate = checkedOnPage.length > 0 && !allChecked;
 
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const debouncedSearch = useCallback(
     debounce((value) => {
       if (searchFilter === value) {
@@ -85,8 +84,6 @@ export default function ReviewsAndApprovalsPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -109,10 +106,7 @@ export default function ReviewsAndApprovalsPage() {
     const localAbortController = abortControllerRef.current;
 
     await api
-      .get(
-        `review/pagination?search=${searchFilter}&status=${statusFilter}&page=${currentPage}&rows=${rows}`,
-        { signal: abortControllerRef.current.signal }
-      )
+      .getReviewPagination()
       .then((response) => {
         setReviews(response.data.data);
         setFrom(response.data.from);
@@ -159,14 +153,7 @@ export default function ReviewsAndApprovalsPage() {
   return (
     <Flex w={"100%"} flexDir={"column"} px={"30px"} py={"20px"} gap={"20px"}>
       <Flex flexDir={"column"}>
-        <Flex
-          onClick={() => {
-            console.log(reviews);
-          }}
-          fontSize={"28px"}
-          color={"#dc143c"}
-          fontWeight={700}
-        >
+        <Flex fontSize={"28px"} color={"#dc143c"} fontWeight={700}>
           Reviews List
         </Flex>
       </Flex>

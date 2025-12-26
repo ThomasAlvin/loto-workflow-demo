@@ -21,7 +21,6 @@ import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 
 export default function ViewLatestReviewModal({ latestReview }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
 
   return (
     <>
@@ -95,7 +94,7 @@ export default function ViewLatestReviewModal({ latestReview }) {
                             }
                             src={
                               filteredReviewer.profile_image_url
-                                ? IMGURL + filteredReviewer.profile_image_url
+                                ? filteredReviewer.profile_image_url
                                 : null
                             }
                           ></Avatar>

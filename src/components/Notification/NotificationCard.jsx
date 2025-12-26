@@ -12,7 +12,6 @@ import { FaRegTrashAlt, FaUserAlt } from "react-icons/fa";
 import { HiWrenchScrewdriver } from "react-icons/hi2";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
-import { api } from "../../api/api";
 import formatString from "../../utils/formatString";
 import getNotificationLinkByEvent from "../../utils/getNotificationLinkByEvent";
 import labelizeRole from "../../utils/labelizeRole";
@@ -31,7 +30,6 @@ export default function NotificationCard({
 }) {
   const nav = useNavigate();
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
 
   async function handleOpenModal() {
     setNotifications((prevState) =>
@@ -54,12 +52,6 @@ export default function NotificationCard({
     });
 
     onOpen();
-    await api
-      .post(`notification/mark-single/${val.UID}`)
-      .then((response) => {})
-      .catch((error) => {
-        console.log(error);
-      });
   }
 
   return (
@@ -78,12 +70,6 @@ export default function NotificationCard({
           fontWeight={700}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* <Flex
-            borderRadius={"100%"}
-            h={"12px"}
-            w={"12px"}
-            bg={val.is_read ? "#bababa" : "#dc143c"}
-          ></Flex> */}
           <Checkbox
             bg={"white"}
             id={val.UID}
@@ -118,7 +104,7 @@ export default function NotificationCard({
                     }
                     src={
                       val.from_user?.profile_image_url
-                        ? IMGURL + val.from_user?.profile_image_url
+                        ? val.from_user?.profile_image_url
                         : null
                     }
                   ></Avatar>
@@ -140,16 +126,6 @@ export default function NotificationCard({
                 )}
               </>
             )}
-
-            {/* <Flex flexDir={"column"}>
-                              <Flex fontWeight={700}>
-                                {val.first_name + " " + val.last_name}
-                              </Flex>
-                              <Flex fontSize={"14px"} color={"#848484"}>
-                                {labelizeRole(val.role)}
-                                Supervisor
-                              </Flex>
-                            </Flex> */}
             <Flex flexDir={"column"}>
               <Flex gap={"5px"} alignItems={"center"}>
                 <Flex fontWeight={700}>
@@ -190,20 +166,11 @@ export default function NotificationCard({
                   : val.from_user?.is_superadmin
                   ? labelizeRole("super_admin")
                   : val?.from_user?.member?.role
-                  ? labelizeRole(val?.from_user?.member?.role)
+                  ? labelizeRole(val?.from_user?.member?.role) +
+                    " - " +
+                    val?.from_user?.member?.employee_id
                   : "Role not found"}
               </Flex>
-              {/* <Flex
-                alignItems={"center"}
-                gap={"5px"}
-                fontSize={"14px"}
-                color={val.type === "system" ? "#307aba" : "#dc143c"}
-              >
-                <Flex fontSize={"18px"}>
-                  <IoLocationSharp />
-                </Flex>
-                Main Work Site
-              </Flex> */}
             </Flex>
           </Flex>
         </Td>

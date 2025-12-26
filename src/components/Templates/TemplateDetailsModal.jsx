@@ -9,21 +9,55 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FaRegEdit } from "react-icons/fa";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { IoCheckmark } from "react-icons/io5";
+import TemplateDetailsStep from "./TemplateDetailsStep";
+import WorkFlowXyFlow from "../WorkFlowXyFlow";
 import {
   ReactFlowProvider,
   useEdgesState,
   useNodesState,
   useReactFlow,
 } from "@xyflow/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import DeleteMultiLockAccessConfirmationModal from "../CreateEditWorkOrderTemplate/DeleteMultiLockAccessConfirmationModal";
+import { DeleteMultiLockAccessProvider } from "../../service/DeleteMultiLockAccessContext";
 import convertStepsToXyFlowData from "../../utils/convertStepsToXyFlowData";
-import WorkFlowXyFlow from "../WorkFlowXyFlow";
+import StepDetailsDrawerDetails from "../WorkOrders/StepDetailsDrawerDetails";
 import TemplateStepDetailsDrawerDetails from "./TemplateStepDetailsDrawerDetails";
-
+import FlowProvider from "../../service/FlowProvider";
+export default function TemplateDetailsModal({
+  selectedTemplateDetails,
+  onClose,
+  isOpen,
+}) {
+  const stepDetailsDisclosure = useDisclosure();
+  return (
+    <ReactFlowProvider variant={"templateDetails"} editable={false}>
+      <DeleteMultiLockAccessProvider>
+        <FlowProvider
+          editStepDisclosureOnClose={stepDetailsDisclosure.onClose}
+          editable={false}
+          variant={"review"}
+        >
+          <TemplateDetailsModalContent
+            selectedTemplateDetails={selectedTemplateDetails}
+            stepDetailsDisclosure={stepDetailsDisclosure}
+            onClose={onClose}
+            isOpen={isOpen}
+          ></TemplateDetailsModalContent>
+        </FlowProvider>
+      </DeleteMultiLockAccessProvider>
+    </ReactFlowProvider>
+  );
+}
 function TemplateDetailsModalContent({
   selectedTemplateDetails,
+  stepDetailsDisclosure,
   onClose,
   isOpen,
 }) {
@@ -33,7 +67,6 @@ function TemplateDetailsModalContent({
   const [selectedEditStep, setSelectedEditStep] = useState();
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const stepDetailsDisclosure = useDisclosure();
 
   const groupName = selectedTemplateDetails?.multi_lock_access_group?.name; // or any name you want to match
   const mainStep = selectedTemplateDetails?.template_steps?.find(
@@ -45,7 +78,6 @@ function TemplateDetailsModalContent({
   const handleOpenStepDrawer = useCallback(
     (selectedStep, selectedIndex) => {
       stepDetailsDisclosure.onOpen();
-      console.log(selectedStep);
 
       setSelectedEditStep({
         ...selectedStep,
@@ -71,7 +103,6 @@ function TemplateDetailsModalContent({
       const xyFlowData = await convertStepsToXyFlowData(
         selectedTemplateDetails?.template_steps
       );
-      console.log(selectedTemplateDetails?.template_steps);
 
       setNodes(xyFlowData?.nodes);
       setEdges(xyFlowData?.edges);
@@ -191,20 +222,5 @@ function TemplateDetailsModalContent({
         </ModalContent>
       </Modal>
     </>
-  );
-}
-export default function TemplateDetailsModal({
-  selectedTemplateDetails,
-  onClose,
-  isOpen,
-}) {
-  return (
-    <ReactFlowProvider variant={"templateDetails"} editable={false}>
-      <TemplateDetailsModalContent
-        selectedTemplateDetails={selectedTemplateDetails}
-        onClose={onClose}
-        isOpen={isOpen}
-      ></TemplateDetailsModalContent>
-    </ReactFlowProvider>
   );
 }

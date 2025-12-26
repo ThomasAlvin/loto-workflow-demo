@@ -6,7 +6,7 @@ import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
 export default function WorkOrderDetailsFormQuestion({
   val,
   index,
-  submisssionIndex,
+  submissionIndex,
   handleImageFocus,
 }) {
   return (

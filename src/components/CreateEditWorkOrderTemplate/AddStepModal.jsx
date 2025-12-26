@@ -70,13 +70,9 @@ function AddStepModalMemo({
       notify_to: [],
       machine: false,
       requireVerifyMachine: false,
-      lockAccess: false,
       multiLockAccess: false,
       isMainMultiLockAccess: false,
-      triggerAPI: false,
-      sendWebhook: false,
       condition: false,
-      titleTriggerAPI: "",
       formQuestions: [
         {
           id: uuid(),
@@ -181,17 +177,12 @@ function AddStepModalMemo({
         }),
       })
       .test("atleastOne", "null", (obj) => {
-        console.log(obj);
-
         if (
           obj.form ||
           obj.notify ||
           obj.machine ||
-          obj.lockAccess ||
           obj.multiLockAccess ||
-          obj.condition ||
-          obj.triggerAPI ||
-          obj.sendWebhook
+          obj.condition
         ) {
           return true; // everything is fine
         }
@@ -219,7 +210,6 @@ function AddStepModalMemo({
       notify: false,
       notificationMessage: "",
       notify_to: [],
-      lockAccess: false,
       multiLockAccess: name ? true : false,
       isMainMultiLockAccess: false,
       ...(name
@@ -232,10 +222,7 @@ function AddStepModalMemo({
         : {}),
       machine: false,
       requireVerifyMachine: false,
-      triggerAPI: false,
-      sendWebhook: false,
       condition: false,
-      titleTriggerAPI: "",
       selectedMachines: [],
       formQuestions: [
         {
@@ -289,23 +276,6 @@ function AddStepModalMemo({
       case "machine":
         formik.setFieldValue("machine", !formik.values.machine);
         break;
-      case "lockAccess":
-        formik.setFieldValue("lockAccess", !formik.values.lockAccess);
-        formik.setFieldValue(
-          "work_order_locks",
-          !formik.values.lockAccess
-            ? [
-                {
-                  name: "",
-                  id: "",
-                  require_lock_image: false,
-                  label: "",
-                  value: "",
-                },
-              ]
-            : []
-        );
-        break;
       case "multiLockAccess":
         formik.setValues((prevState) => ({
           ...prevState,
@@ -333,12 +303,6 @@ function AddStepModalMemo({
 
         break;
 
-      case "triggerAPI":
-        formik.setFieldValue("triggerAPI", !formik.values.triggerAPI);
-        break;
-      case "sendWebhook":
-        formik.setFieldValue("sendWebhook", !formik.values.sendWebhook);
-        break;
       default:
         return;
     }
@@ -410,9 +374,6 @@ function AddStepModalMemo({
     const orderedNodes = startNode
       ? getConnectedNodes(startNode, getEdges())
       : [];
-    console.log(orderedNodes);
-    console.log(orderedNodes.size - 1);
-
     const lastOrderedNode = nodes.find(
       (nd) => nd.id === Array.from(orderedNodes).pop()
     );
@@ -664,9 +625,7 @@ function AddStepModalMemo({
             display={"flex"}
             flexDir={"column"}
           >
-            <Flex onClick={() => console.log(formik)} color={"crimson"}>
-              Add Step
-            </Flex>
+            <Flex color={"crimson"}>Add Step</Flex>
             <Flex
               textAlign={"center"}
               fontSize={"14px"}
@@ -752,19 +711,7 @@ function AddStepModalMemo({
                   fontWeight={700}
                   fontSize={"20px"}
                 >
-                  <Flex
-                    onClick={() => {
-                      console.log([
-                        formik.values.form && 0,
-                        formik.values.machine && 1,
-                        formik.values.multiLockAccess && 2,
-                        formik.values.notify && 3,
-                        formik.values.condition && 4,
-                        // addStepInput.triggerAPI && 5,
-                        // addStepInput.sendWebhook && 6,
-                      ]);
-                    }}
-                  >
+                  <Flex>
                     Actions&nbsp;
                     <Box as="span" color={"#dc143c"}>
                       *
@@ -801,8 +748,6 @@ function AddStepModalMemo({
                     formik.values.multiLockAccess ? 2 : null,
                     formik.values.notify ? 3 : null,
                     formik.values.condition ? 4 : null,
-                    // addStepInput.triggerAPI && 5,
-                    // addStepInput.sendWebhook && 6,
                   ]}
                   allowMultiple
                   gap={"0px"}
@@ -1039,17 +984,6 @@ function AddStepModalMemo({
                                 </Flex>
                               </Flex>
                             </Button>
-                            {/* <Flex
-                              cursor={"pointer"}
-                              fontWeight={400}
-                              textDecor={"underline"}
-                              color={"crimson"}
-                              alignItems={"center"}
-                              gap={"5px"}
-                            >
-                              <FaPlus />
-                              Add Page
-                            </Flex> */}
                           </Flex>
                         </Flex>
                       </Flex>
@@ -1147,57 +1081,6 @@ function AddStepModalMemo({
                       </AccordionButton>
                       <AccordionPanel pb={4}>
                         <Flex flexDir={"column"} gap={"20px"}>
-                          {/* Hide preassign feature */}
-                          {/* <Flex
-                            justify={"space-between"}
-                            alignItems={"center"}
-                            gap={"10px"}
-                          >
-                            <Flex
-                              flexDir={"column"}
-                              fontSize={"16px"}
-                              fontWeight={700}
-                            >
-                              <Flex gap={"5px"} alignItems={"center"}>
-                                <Flex>Assign Locks Now</Flex>
-                                <Tooltip
-                                  hasArrow
-                                  placement="top"
-                                  maxW={"none"}
-                                  label={
-                                    <Box maxW={"300px"}>
-                                      Enable to assign locks during setup in the
-                                      assign section. Otherwise, the assignee
-                                      will choose their own lock.
-                                    </Box>
-                                  }
-                                >
-                                  <Flex
-                                    _hover={{ color: "black" }}
-                                    color={"#848484"}
-                                    fontSize={"20px"}
-                                  >
-                                    <IoMdInformationCircleOutline />
-                                  </Flex>
-                                </Tooltip>
-                              </Flex>
-                              <Flex
-                                color={"#848484"}
-                                fontWeight={400}
-                                fontSize={"14px"}
-                              >
-                                Assign the locks for the assignee beforehand
-                              </Flex>
-                            </Flex>
-                            <Switch
-                              isChecked={
-                                addStepInput?.multiLockAccessGroup
-                                  ?.isPreAssigned
-                              }
-                              onChange={() => handlePreAssignSwitch()}
-                              size={"md"}
-                            />
-                          </Flex> */}
                           <Flex
                             w={"100%"}
                             justify={"space-between"}
@@ -1505,136 +1388,6 @@ function AddStepModalMemo({
                       </AccordionPanel>
                     </Flex>
                   </AccordionItem>
-                  {/* <AccordionItem>
-                    <Flex flexDir={"column"}>
-                      <AccordionButton
-                        onClick={() => {
-                          handleAccordionChange("triggerAPI");
-                        }}
-                      >
-                        <Flex w={"100%"} justify={"space-between"}>
-                          <Flex gap={"10px"} alignItems={"center"}>
-                            <AccordionIcon visibility={"hidden"} />
-                            <Flex flexDir={"column"}>
-                              <Flex
-                                fontWeight={700}
-                                as="span"
-                                flex="1"
-                                alignItems={"center"}
-                                gap={"4px"}
-                              >
-                                Trigger API
-                                <Tooltip
-                                  hasArrow
-                                  placement="top"
-                                  maxW={"none"}
-                                  label={
-                                    <Box whiteSpace="nowrap">
-                                      You're server must send a request to
-                                      confirm this step
-                                    </Box>
-                                  }
-                                >
-                                  <Flex
-                                    _hover={{ color: "black" }}
-                                    color={"#848484"}
-                                    fontSize={"20px"}
-                                  >
-                                    <IoMdInformationCircleOutline />
-                                  </Flex>
-                                </Tooltip>
-                              </Flex>
-                              <Flex
-                                textAlign={"center"}
-                                fontSize={"14px"}
-                                color={"#848484"}
-                                justifyContent={"space-between"}
-                              >
-                                <Flex>
-                                  This step cannot be marked as complete unless
-                                  your system sends a request to our API
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                          <Flex>
-                            <Flex
-                              flexDir={"column"}
-                              justify={"center"}
-                              pointerEvents={"none"}
-                            >
-                              <Checkbox
-                                isChecked={addStepInput.triggerAPI}
-                              ></Checkbox>
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                      </AccordionButton>
-                    </Flex>
-                  </AccordionItem>
-                  <AccordionItem>
-                    <Flex flexDir={"column"}>
-                      <AccordionButton
-                        onClick={() => {
-                          handleAccordionChange("sendWebhook");
-                        }}
-                      >
-                        <Flex w={"100%"} justify={"space-between"}>
-                          <Flex gap={"10px"} alignItems={"center"}>
-                            <AccordionIcon visibility={"hidden"} />
-                            <Flex flexDir={"column"}>
-                              <Flex
-                                fontWeight={700}
-                                as="span"
-                                flex="1"
-                                alignItems={"center"}
-                                gap={"4px"}
-                              >
-                                Send Webhook
-                                <Tooltip
-                                  hasArrow
-                                  placement="top"
-                                  maxW={"none"}
-                                  label={
-                                    <Box whiteSpace="nowrap">
-                                      Once this step is completed, we’ll send a
-                                      request to the base URL you set in the
-                                      developer menu.
-                                    </Box>
-                                  }
-                                >
-                                  <Flex
-                                    _hover={{ color: "black" }}
-                                    color={"#848484"}
-                                    fontSize={"20px"}
-                                  >
-                                    <IoMdInformationCircleOutline />
-                                  </Flex>
-                                </Tooltip>
-                              </Flex>
-                              <Flex
-                                fontSize={"14px"}
-                                color={"#848484"}
-                                justifyContent={"space-between"}
-                              >
-                                <Flex>
-                                  When this step is completed, we will send an
-                                  API request to your server to inform you.
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                          <Flex>
-                            <Flex pointerEvents={"none"}>
-                              <Checkbox
-                                isChecked={addStepInput.sendWebhook}
-                              ></Checkbox>
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                      </AccordionButton>
-                    </Flex>
-                  </AccordionItem> */}
                 </Accordion>
               </Flex>
             </Flex>

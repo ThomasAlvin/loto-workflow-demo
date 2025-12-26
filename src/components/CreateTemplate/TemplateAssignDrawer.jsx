@@ -143,15 +143,7 @@ export default function TemplateAssignDrawer({
               <Flex flexDir={"column"} py={"40px"} gap={"60px"}>
                 <Flex flexDir={"column"} gap={"10px"}>
                   <Flex alignItems={"center"} gap={"5px"}>
-                    <Flex
-                      onClick={() => {
-                        console.log(userSelector);
-                        console.log(filteredMemberSelection);
-                      }}
-                      color={"black"}
-                      fontWeight={700}
-                      fontSize={"16px"}
-                    >
+                    <Flex color={"black"} fontWeight={700} fontSize={"16px"}>
                       Template is available to
                     </Flex>
                     <Tooltip

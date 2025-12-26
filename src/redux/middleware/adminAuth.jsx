@@ -1,4 +1,3 @@
-import { api } from "../../api/api";
 
 const init = {
   id: "",
@@ -6,6 +5,7 @@ const init = {
   last_name: "",
   email: "",
   phone_number: "",
+  phone_country: "",
   role: "",
   image_url: "",
   login_loading: false,
@@ -13,8 +13,6 @@ const init = {
 };
 
 function adminReducer(state = init, action) {
-  console.log(action);
-
   if (action.type === "login") {
     return {
       ...state,
@@ -23,6 +21,7 @@ function adminReducer(state = init, action) {
       last_name: action.payload.last_name,
       email: action.payload.email,
       phone_number: action.payload.phone_number,
+      phone_country: action.payload.phone_country,
       is_superadmin: action.payload?.is_superadmin,
       role: action.payload?.role,
       profile_image_url: action.payload.profile_image_url,

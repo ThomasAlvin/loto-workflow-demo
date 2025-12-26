@@ -39,7 +39,6 @@ import SwalErrorMessages from "../components/SwalErrorMessages";
 import DuplicateWorkOrderConfirmationModal from "../components/WorkOrders/DuplicateWorkOrderConfirmationModal";
 import SelectedActionBar from "../components/SelectedActionBar";
 import checkHasPermission from "../utils/checkHasPermission";
-import { useWorkOrderListener } from "../hooks/useWorkOrderListener";
 import { useSelector } from "react-redux";
 import CustomToast from "../components/CustomToast";
 import formatString from "../utils/formatString";
@@ -62,7 +61,7 @@ export default function WorkOrdersPage() {
     "draft",
     "overdue",
   ];
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const [from, setFrom] = useState(0);
   const [showing, setShowing] = useState(0);
   const [totalPages, setTotalPages] = useState(null);
@@ -97,8 +96,6 @@ export default function WorkOrdersPage() {
   const canCreate = checkHasPermission(userSelector, pageModule, ["manage"]);
   const debouncedSearch = useCallback(
     debounce((value) => {
-      console.log(value);
-      console.log(searchFilter);
       if (searchFilter === value) {
         setTableLoading(false);
       } else {
@@ -124,8 +121,6 @@ export default function WorkOrdersPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -193,14 +188,6 @@ export default function WorkOrdersPage() {
         validCounter++;
       }
     }
-    console.log(statusFilter);
-    console.log(statusFilter);
-    console.log(searchFilter);
-    console.log(statusFilter);
-    console.log(newWorkOrder);
-    console.log(totalCounter);
-    console.log(validCounter);
-
     return totalCounter === validCounter;
   }
   function handleCheckAll(e) {
@@ -256,23 +243,10 @@ export default function WorkOrdersPage() {
 
   async function fetchWorkOrder() {
     setTableLoading(true);
-    console.log(currentPage);
-    console.log(rows);
-    console.log(searchFilter);
-    console.log(statusFilter);
-
     const localAbortController = abortControllerRef.current;
     await api
-      .get(
-        `work-order/pagination?page=${currentPage}
-        &rows=${rows}
-        &search=${searchFilter}
-        &status=${statusFilter}`,
-        { signal: abortControllerRef.current.signal }
-      )
+      .getWorkOrderPagination()
       .then((response) => {
-        console.log(response);
-
         setWorkOrders([
           ...response.data.data.map((workOrders, index) => ({
             ...workOrders,
@@ -301,7 +275,7 @@ export default function WorkOrdersPage() {
     setCancelNextPusherToast(true);
     setDeleteButtonLoading(true);
     await api
-      .delete(`work-order/${UID}`)
+      .testSubmit("Work order deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
           prevState.filter((selUID) => selUID !== UID)
@@ -347,11 +321,7 @@ export default function WorkOrdersPage() {
     setCancelNextPusherToast(true);
     setDeleteSelectedButtonLoading(true);
     await api
-      .delete(`work-order`, {
-        data: {
-          selectedUID: selectedUID,
-        },
-      })
+      .testSubmit("Selected work order deleted successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -394,13 +364,14 @@ export default function WorkOrdersPage() {
     setCancelNextPusherToast(true);
     setDuplicateButtonLoading(true);
     await api
-      .post(`work-order/${UID}/duplicate-data`)
+      .testSubmit("Work order duplicated successfully")
       .then((response) => {
-        localStorage.setItem("duplicate", "true");
-        nav(`/work-order/edit/${response.data.workOrderUID}${location.search}`);
-        abortControllerRef.current.abort(); // Cancel any previous request
-        abortControllerRef.current = new AbortController();
-        fetchWorkOrder();
+        nav(
+          `/work-order/edit/${response.data.workOrderUID}${location.search}`,
+          {
+            state: { errorMessages: response.data.errorMessages },
+          }
+        );
       })
       .catch((error) => {
         Swal.fire({
@@ -423,8 +394,6 @@ export default function WorkOrdersPage() {
       });
   }
   function handleWorkOrderNavigate(status, UID) {
-    console.log(location.search);
-
     switch (status) {
       case "draft":
       case "review_rejected":
@@ -445,8 +414,6 @@ export default function WorkOrdersPage() {
   }
   const handleChange = (e) => {
     const { value, id } = e.target;
-    console.log(value);
-
     if (id === "row") {
       const newTotalPages = Math.ceil(showing?.total / value);
       if (currentPage > newTotalPages) {
@@ -459,9 +426,6 @@ export default function WorkOrdersPage() {
     }
   };
   function handlePusherData(event, pusherData) {
-    console.log(pusherData);
-    console.log(event);
-
     switch (event) {
       case "onCreated":
         {
@@ -612,35 +576,9 @@ export default function WorkOrdersPage() {
     }
   }
 
-  useWorkOrderListener(
-    `wo.user.${userSelector.id}.ws.${workSiteUID}`,
-    {
-      onCreated: (pusherData) => {
-        return handlePusherData("onCreated", pusherData);
-      },
-      onUpdated: (pusherData) => {
-        return handlePusherData("onUpdated", pusherData);
-      },
-      onDeleted: (pusherData) => {
-        return handlePusherData("onDeleted", pusherData);
-      },
-      onGroupDeleted: (pusherData) => {
-        return handlePusherData("onGroupDeleted", pusherData);
-      },
-    },
-    [searchFilter, statusFilter, rows, workOrders, cancelNextPusherToast]
-
-    // []
-  );
-
   useEffect(() => {
     abortControllerRef.current = new AbortController();
     fetchWorkOrder();
-    console.log(searchFilter);
-    console.log(statusFilter);
-    console.log(currentPage);
-    console.log(rows);
-
     return () => {
       abortControllerRef.current.abort(); // Cleanup on unmount
     };
@@ -648,14 +586,7 @@ export default function WorkOrdersPage() {
   return (
     <Flex w={"100%"} flexDir={"column"} px={"30px"} py={"20px"} gap={"20px"}>
       <Flex flexDir={"column"}>
-        <Flex
-          fontSize={"28px"}
-          onClick={() => {
-            console.log(workOrders);
-          }}
-          color={"#dc143c"}
-          fontWeight={700}
-        >
+        <Flex fontSize={"28px"} color={"#dc143c"} fontWeight={700}>
           Work Order List
         </Flex>
       </Flex>
@@ -964,7 +895,7 @@ export default function WorkOrdersPage() {
                               }
                               src={
                                 creatorInfo?.profile_image_url
-                                  ? IMGURL + creatorInfo?.profile_image_url
+                                  ? creatorInfo?.profile_image_url
                                   : null
                               }
                             ></Avatar>
@@ -1083,8 +1014,7 @@ export default function WorkOrdersPage() {
                                           src={
                                             assignedMember?.user
                                               .profile_image_url
-                                              ? IMGURL +
-                                                assignedMember?.user
+                                              ? assignedMember?.user
                                                   .profile_image_url
                                               : null
                                           }

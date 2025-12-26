@@ -153,16 +153,6 @@ export default function NotificationPage() {
 
   function roleHandler(event) {
     const { id } = event.currentTarget;
-    // const filteredNotifs = notifications.filter((val) => {
-    //   if (id === "0") {
-    //     return val.is_read == false;
-    //   } else if (id === "1") {
-    //     return val.is_read == true;
-    //   } else {
-    //     return true;
-    //   }
-    // });
-
     setTypeFilter(id);
     setNotificationsPagination((prevState) => ({
       ...prevState,
@@ -210,10 +200,10 @@ export default function NotificationPage() {
       );
     }
   }
-  function resetSelected(e) {
+  function resetSelected() {
     setSelectedUID([]);
   }
-  async function deleteNotification(UID) {
+  async function deleteNotification() {
     setDeleteButtonLoading(true);
     await api
       .testSubmit("Notification successfully deleted")
@@ -289,8 +279,6 @@ export default function NotificationPage() {
         deleteSelectedNotificationDisclosure.onClose();
       });
   }
-  console.log(notificationsPagination);
-
   const checkedOnPage = selectedUID.filter((uid) =>
     notificationsPagination.data
       ?.map((notification) => notification.UID)
@@ -308,8 +296,6 @@ export default function NotificationPage() {
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      // -X for some reason perlu before X-
-      // return;
     }
     abortControllerRef.current = new AbortController();
 
@@ -326,14 +312,11 @@ export default function NotificationPage() {
   ]);
   useEffect(() => {
     abortControllerRef2.current = new AbortController();
-
     fetchWorkSites();
-
     return () => abortControllerRef2.current.abort(); // Cleanup on unmount
   }, []);
 
   return (
-    // <PageLayout>
     <Flex w={"100%"} flexDir={"column"} px={"30px"} py={"20px"} gap={"20px"}>
       <Flex flexDir={"column"}>
         <Flex fontSize={"28px"} color={"#dc143c"} fontWeight={700}>
@@ -594,8 +577,6 @@ export default function NotificationPage() {
                     colSpan={6}
                     header1={"No notifications found."}
                     header2={"to begin tracking them."}
-                    // link={"/user/create"}
-                    // linkText={"Create a new user"}
                   />
                 )}
               </Tbody>
@@ -628,6 +609,5 @@ export default function NotificationPage() {
         deleteSelectedDisclosure={deleteSelectedNotificationDisclosure}
       />
     </Flex>
-    // </PageLayout>
   );
 }

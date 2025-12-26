@@ -1,4 +1,4 @@
-export const InputOptions = [
+export const inputOptions = [
   {
     title: "Other",
     options: [
@@ -59,7 +59,7 @@ export const InputOptions = [
   //   ],
   // },
 ];
-export const UnitOptions = [
+export const unitOptions = [
   {
     title: "Distance",
     options: [

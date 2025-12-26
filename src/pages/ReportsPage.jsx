@@ -33,7 +33,7 @@ import Swal from "sweetalert2";
 export default function ReportsPage() {
   const nav = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const statusFilterSelection = ["completed", "ongoing", "draft", "overdue"];
+  const statusFilterSelection = ["completed", "overdue"];
   const location = useLocation();
 
   const [from, setFrom] = useState();
@@ -67,8 +67,6 @@ export default function ReportsPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -81,49 +79,10 @@ export default function ReportsPage() {
       return params;
     });
   }
-  async function deleteReport(UID) {
-    await api
-      .delete(`report/${UID}`)
-      .then((response) => {
-        Swal.fire({
-          title: "Success!",
-          text: response?.data?.message,
-          icon: "success",
-          customClass: {
-            popup: "swal2-custom-popup",
-            title: "swal2-custom-title",
-            content: "swal2-custom-content",
-            actions: "swal2-custom-actions",
-            confirmButton: "swal2-custom-confirm-button",
-          },
-        });
-        abortControllerRef.current.abort(); // Cancel any previous request
-        abortControllerRef.current = new AbortController();
-        fetchMembers();
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Oops...",
-          icon: "error",
-          html: SwalErrorMessages(error.response.data.message),
-          customClass: {
-            popup: "swal2-custom-popup",
-            title: "swal2-custom-title",
-            content: "swal2-custom-content",
-            actions: "swal2-custom-actions",
-            confirmButton: "swal2-custom-confirm-button",
-          },
-        });
-        console.error(error);
-      });
-  }
   async function fetchReport(controller) {
     setTableLoading(true);
     await api
-      .get(
-        `report/pagination?search=${searchFilter}&page=${currentPage}&rows=${rows}&status=${statusFilter}`,
-        { signal: controller.signal }
-      )
+      .getReportPagination()
       .then((response) => {
         setReports(response.data.data);
         setFrom(response.data.from);
@@ -204,14 +163,7 @@ export default function ReportsPage() {
   }, [searchFilter, statusFilter, currentPage, rows]);
   return (
     <Flex w={"100%"} flexDir={"column"} px={"30px"} py={"20px"} gap={"20px"}>
-      <Flex
-        onClick={() => {
-          console.log(reports);
-        }}
-        fontSize={"28px"}
-        color={"#dc143c"}
-        fontWeight={700}
-      >
+      <Flex fontSize={"28px"} color={"#dc143c"} fontWeight={700}>
         Report List
       </Flex>
       <Flex fontWeight={700} borderBottom={"2px solid #bababa"}>
@@ -574,7 +526,6 @@ export default function ReportsPage() {
                           <ReportMenu
                             reportUID={val.UID}
                             reportName={val.name}
-                            deleteReport={deleteReport}
                           />
                         </Flex>
                       </Td>

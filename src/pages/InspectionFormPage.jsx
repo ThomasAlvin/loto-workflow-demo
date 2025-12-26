@@ -130,8 +130,6 @@ export default function InspectionFormPage() {
       const params = new URLSearchParams(prev); // clone existing params
       Object.entries(updates).forEach(([key, value]) => {
         if (value) {
-          console.log(key);
-          console.log(value);
           if (key === "page" && value === 1) {
             params.delete(key);
           } else {
@@ -147,7 +145,7 @@ export default function InspectionFormPage() {
   async function deleteInspectionForm(UID) {
     setDeleteButtonLoading(true);
     await api
-      .delete(`inspection-form/${UID}`)
+      .testSubmit("Inspection form deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
           prevState.filter((selUID) => selUID !== UID)
@@ -191,11 +189,7 @@ export default function InspectionFormPage() {
   async function deleteSelected() {
     setDeleteSelectedButtonLoading(true);
     await api
-      .delete(`inspection-form`, {
-        data: {
-          selectedUID: selectedUID,
-        },
-      })
+      .testSubmit("Selected inspection form deleted successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -236,10 +230,7 @@ export default function InspectionFormPage() {
   async function fetchInspectionForms() {
     setTableLoading(true);
     await api
-      .get(
-        `inspection-form/pagination?search=${searchFilter}&page=${currentPage}&rows=${rows}`,
-        { signal: abortControllerRef.current.signal }
-      )
+      .getInspectionFormsPagination()
       .then((response) => {
         setInspectionForms(response.data.data);
         setFrom(response.data.from);
@@ -261,7 +252,7 @@ export default function InspectionFormPage() {
   async function fetchMachineCategory(controller) {
     setSelectionLoading(true);
     await api
-      .get(`machine-category`, { signal: controller.signal })
+      .getMachineCategories()
       .then((response) => {
         setCategorySelection(
           response?.data?.machineCategory.map((category) => ({
@@ -701,13 +692,6 @@ export default function InspectionFormPage() {
                           </Flex>
                         </Flex>
                       </Flex>
-                      {/* <CreateInspectionFormModal
-                      variant={"card"}
-                      fetchInspectionForms={fetchInspectionForms}
-                      abortControllerRef={abortControllerRef}
-                      categorySelection={categorySelection}
-                      setCategorySelection={setCategorySelection}
-                    /> */}
                     </GridItem>
                   </Can>
                 </>

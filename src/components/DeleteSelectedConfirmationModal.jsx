@@ -50,22 +50,6 @@ export default function DeleteSelectedConfirmationModal({
         </Flex>
         <Flex>Delete All</Flex>
       </Button>
-      {/* <Button
-        onClick={onOpen}
-        gap={"5px"}
-        fontSize={"14px"}
-        bg={"#dc143c"}
-        color={"white"}
-        h={"auto"}
-        p={"6px 12px"}
-        alignItems={"center"}
-      >
-        <Flex fontSize={"18px"}>
-          <RiDraftLine />
-        </Flex>
-        <Flex>Save as draft</Flex>
-      </Button> */}
-
       <Modal
         closeOnOverlayClick={!deleteSelectedButtonLoading}
         isOpen={deleteSelectedDisclosure.isOpen}

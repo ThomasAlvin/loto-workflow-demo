@@ -105,11 +105,7 @@ export default function EditTemplatePage() {
     // formData.append("flowChartImages[]", workFlowImage);
 
     await api
-      .post(`template/${templateDetails.UID}?status=${status}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .testSubmit("Template saved successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",
@@ -151,10 +147,8 @@ export default function EditTemplatePage() {
   async function fetchTemplate(controller) {
     setLoading(true);
     await api
-      .get(`template/${UID}`, { signal: controller.signal })
+      .getTemplateByUID(UID)
       .then(async (response) => {
-        console.log(response.data);
-
         const fetchedColumn = {
           templateSteps: response.data.template.template_steps.map((step) => ({
             // switch id to UID
@@ -167,7 +161,6 @@ export default function EditTemplatePage() {
             notify: !!step.notify,
             notificationMessage: step.notification_message || "",
             machine: !!step.machine,
-            lockAccess: !!step.access_lock,
             multiLockAccess: !!step.multi_access_lock,
             isMainMultiLockAccess: !!step.is_main_multi_access_lock,
             ...(step?.multi_access_lock_step_index != null && {
@@ -188,8 +181,6 @@ export default function EditTemplatePage() {
                 }),
               },
             }),
-            triggerAPI: !!step.trigger_api,
-            sendWebhook: !!step.send_webhook,
             condition: !!step.condition,
             condition_question: step.condition_question || "",
             condition_value: step.condition_value,
@@ -255,7 +246,6 @@ export default function EditTemplatePage() {
           ...fetchedTemplateDetails,
           ...fetchedColumn,
         });
-        console.log(fetchedColumn.templateSteps);
 
         const xyFlowData = await convertStepsToXyFlowData(
           fetchedColumn.templateSteps

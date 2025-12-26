@@ -16,8 +16,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { BiImageAdd } from "react-icons/bi";
-import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
-import { FaLeftLong } from "react-icons/fa6";
+import { FaPlus, FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { FaLeftLong, FaTriangleExclamation } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import { useLoading } from "../service/LoadingContext";
 import * as Yup from "yup";
@@ -27,7 +27,9 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { api } from "../api/api";
 import Swal from "sweetalert2";
 import QRCodeGenerator from "../components/LockInventory/QRCodeGenerator";
+import { MdImageNotSupported } from "react-icons/md";
 import SwalErrorMessages from "../components/SwalErrorMessages";
+import { IoMdClose } from "react-icons/io";
 import setAllFieldsTouched from "../utils/setAllFieldsTouched";
 import getLockImageByModel from "../utils/getLockImageByModel";
 import { FiZoomIn } from "react-icons/fi";
@@ -37,10 +39,11 @@ import ListEmptyState from "../components/ListEmptyState";
 import { LuNfc } from "react-icons/lu";
 import { BsDpadFill } from "react-icons/bs";
 import LockAccessMethodModal from "../components/LockInventory/LockAccessMethodModal";
+import tinycolor from "tinycolor2";
 export default function EditLockPage() {
   const nav = useNavigate();
   const imageFocusDisclosure = useDisclosure();
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
+
   const { UID } = useParams();
   const [imageFocusURL, setImageFocusURL] = useState();
   const { loading, setLoading } = useLoading();
@@ -112,11 +115,7 @@ export default function EditLockPage() {
       const formData = convertToFormData(lockInput);
 
       await api
-        .post(`lock/${UID}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .testSubmit("Lock saved successfully")
         .then((response) => {
           Swal.fire({
             title: "Success!",
@@ -167,20 +166,18 @@ export default function EditLockPage() {
   async function fetchLock(controller) {
     setLoading(true);
     await api
-      .get(`lock/${UID}`, { signal: controller.signal })
+      .getLockByUID(UID)
       .then(async (response) => {
-        console.log(response.data);
-
         setLockInput({
           name: response.data.lock.name,
           serialNumber: response.data.lock.serial_number,
           model: response.data.lock.model,
           imageUrl: response.data.lock.image_url
-            ? IMGURL + response.data.lock.image_url
+            ? response.data.lock.image_url
             : "",
           imageFile: "",
           deleteImageFile: false,
-          additionalNotes: response.data.additional_notes,
+          additionalNotes: response.data.lock.additional_notes,
           nfcTags: response.data.lock.nfc_tags,
           directionalPasscodes: response.data.lock.directional_passcodes,
         });
@@ -219,12 +216,6 @@ export default function EditLockPage() {
             <Flex gap={"10px"} flexDir={"column"}>
               <Flex fontWeight={700} justify={"space-between"}>
                 <Flex>Lock Image</Flex>
-                {/* <Flex gap={"10px"} alignItems={"center"}>
-                    <Flex color={"#848484"}>
-                      <FaRegPlusSquare />
-                    </Flex>
-                    <Flex color={"#848484"}>Image from URL</Flex>
-                  </Flex> */}
               </Flex>
               <Flex
                 position={"relative"}
@@ -329,7 +320,7 @@ export default function EditLockPage() {
           <Flex w={"60%"} h={"100%"}>
             <Flex flexDir={"column"} w={"100%"} gap={"20px"}>
               <Flex h={"40px"}></Flex>
-              <Flex flexDir={"column"}>
+              <Flex position={"relative"} flexDir={"column"}>
                 <Flex flexDir={"column"}>
                   <Box fontWeight={700} as="span" flex="1" textAlign="left">
                     Lock Name&nbsp;
@@ -352,10 +343,22 @@ export default function EditLockPage() {
                     value={lockInput.name}
                     onBlur={formik.handleBlur}
                     onChange={inputHandler}
+                    placeholder="Boiler Room LOTO Lock"
                   ></Input>
                 </Flex>
                 {formik.errors.name && formik.touched.name ? (
-                  <Flex color={"crimson"}>{formik.errors.name}</Flex>
+                  <Flex
+                    position={"absolute"}
+                    left={0}
+                    bottom={"-20px"}
+                    color="crimson"
+                    fontSize="14px"
+                    gap="5px"
+                    alignItems="center"
+                  >
+                    <FaTriangleExclamation />
+                    <Flex>{formik.errors.name}</Flex>
+                  </Flex>
                 ) : (
                   ""
                 )}
@@ -396,37 +399,6 @@ export default function EditLockPage() {
                   <Input isDisabled value={lockInput.serialNumber}></Input>
                 </Flex>
               </Flex>
-              {/* <Flex flexDir={"column"}>
-                <Flex flexDir={"column"}>
-                  <Box fontWeight={700} as="span" flex="1" textAlign="left">
-                    Password&nbsp;
-                    <Box as="span" color={"#dc143c"}>
-                      *
-                    </Box>
-                  </Box>
-                  <Flex
-                    textAlign={"center"}
-                    fontSize={"14px"}
-                    color={"#848484"}
-                    justifyContent={"space-between"}
-                  >
-                    <Flex>Give your Lock a password</Flex>
-                  </Flex>
-                </Flex>
-                <Flex>
-                  <Input
-                    id="password"
-                    value={lockInput.password}
-                    onBlur={formik.handleBlur}
-                    onChange={inputHandler}
-                  ></Input>
-                </Flex>
-                {formik.errors.password && formik.touched.password ? (
-                  <Flex color={"crimson"}>{formik.errors.password}</Flex>
-                ) : (
-                  ""
-                )}
-              </Flex> */}{" "}
               <Flex flexDir={"column"}>
                 <Flex flexDir={"column"}>
                   <Box fontWeight={700} as="span" flex="1" textAlign="left">
@@ -451,6 +423,7 @@ export default function EditLockPage() {
                     onBlur={formik.handleBlur}
                     onChange={inputHandler}
                     value={lockInput.additionalNotes}
+                    placeholder="Add safety or handling notes for this lock"
                     id="additionalNotes"
                   />
                 </Flex>
@@ -463,15 +436,7 @@ export default function EditLockPage() {
               </Flex>
               <Flex flexDir={"column"} gap={"10px"}>
                 <Flex flexDir={"column"}>
-                  <Box
-                    onClick={() => {
-                      console.log(lockInput);
-                    }}
-                    fontWeight={700}
-                    as="span"
-                    flex="1"
-                    textAlign="left"
-                  >
+                  <Box fontWeight={700} as="span" flex="1" textAlign="left">
                     Lock Access Methods
                   </Box>
 

@@ -41,9 +41,7 @@ export default function ReviewDetailsApproveModal({
   async function onSubmit() {
     setButtonLoading(true);
     await api
-      .post(`work-order/${workOrderReviewerUID}/review/approve`, {
-        reason: reasonInput,
-      })
+      .testSubmit("Work order approved successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",

@@ -28,7 +28,6 @@ export default function NotificationDetailsModal({
   deleteNotification,
   deleteButtonLoading,
 }) {
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const nav = useNavigate();
 
   return (
@@ -72,7 +71,7 @@ export default function NotificationDetailsModal({
                 }
                 src={
                   val?.from_user?.profile_image_url
-                    ? IMGURL + val.from_user.profile_image_url
+                    ? val.from_user.profile_image_url
                     : null
                 }
               ></Avatar>
@@ -95,7 +94,9 @@ export default function NotificationDetailsModal({
                   : val?.from_user?.is_superadmin
                   ? labelizeRole("super_admin")
                   : val?.from_user?.member?.role
-                  ? labelizeRole(val?.from_user?.member?.role)
+                  ? labelizeRole(val?.from_user?.member?.role) +
+                    " - " +
+                    val?.from_user?.member?.employee_id
                   : "Role not found"}
               </Flex>
             </Flex>

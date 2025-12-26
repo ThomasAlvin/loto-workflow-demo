@@ -6,18 +6,20 @@ import SaveAsTemplateModal from "./SaveAsTemplateModal";
 import WorkOrderSaveAsDraftConfirmationModal from "./WorkOrderSaveAsDraftConfirmationModal";
 export default function WorkOrderNavbar({
   formik,
+  showUnassignedStepSwal,
   stage,
   currentPage,
   setCurrentPage,
   hasChanged,
   variant,
-  clearAll,
+  workOrderStatus,
 }) {
   const saveChangesDisclosure = useDisclosure();
   const [searchParams] = useSearchParams();
   const previousPage = searchParams.get("from");
   const nav = useNavigate();
   const location = useLocation();
+  const duplicationIssues = location.state?.errorMessages;
   function handleBackRedirect() {
     if (currentPage === "assign") {
       setCurrentPage("build");
@@ -82,27 +84,6 @@ export default function WorkOrderNavbar({
           >
             1. Build
           </Button>
-          {/* <Button
-            isDisabled={!(formik?.isValid ?? true)}
-            _hover={{ bg: "#FFB0B0", color: "crimson" }}
-            width={"120px"}
-            h={"auto"}
-            maxH={"auto"}
-            minH={"auto"}
-            justifyContent={"center"}
-            borderTopLeftRadius={"20px"}
-            borderTopRightRadius={"20px"}
-            borderBottomLeftRadius={"0px"}
-            borderBottomRightRadius={"0px"}
-            bg={stage === "assign" ? "#FFB0B0" : ""}
-            py={"20px"}
-            borderBottom={stage === "assign" ? "crimson 2px solid" : ""}
-            color={stage === "assign" ? "crimson" : "#848484"}
-            // onClick={() => setCurrentPage("assign")}
-            onClick={() => setCurrentPage("assign")}
-          >
-            2. Assign
-          </Button> */}
         </Flex>
       </Flex>
       <Divider m={0} borderColor={"#848484"} />
@@ -116,6 +97,24 @@ export default function WorkOrderNavbar({
         w={"100%"}
         gap={"20px"}
       >
+        {duplicationIssues?.length ? (
+          <Button
+            onClick={() => showUnassignedStepSwal(duplicationIssues)}
+            fontSize={"14px"}
+            h={"28px"}
+            bg={"#ffbc21"}
+            color={"white"}
+          >
+            <Flex alignItems={"center"} gap={"5px"}>
+              <Flex>
+                <FaTriangleExclamation />
+              </Flex>
+              <Flex>Unassigned Issues</Flex>
+            </Flex>
+          </Button>
+        ) : (
+          ""
+        )}
         <SaveAsTemplateModal workOrderDetails={formik.values} />
         <WorkOrderSaveAsDraftConfirmationModal
           variant={variant}

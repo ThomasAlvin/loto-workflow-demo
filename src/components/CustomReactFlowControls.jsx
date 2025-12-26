@@ -97,8 +97,6 @@ export default function CustomReactFlowControls({
       "TB"
     );
 
-    console.log(newNodes);
-
     setNodes(newNodes);
     fitView({
       padding: 0.2,

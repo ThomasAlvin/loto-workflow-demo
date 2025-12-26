@@ -21,7 +21,7 @@ import {
 import { FaChevronRight, FaPlus } from "react-icons/fa";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
-import { UnitOptions } from "../utils/optionsUtils";
+import { unitOptions } from "../utils/optionsUtils";
 
 export default function FormQuestionAccordionPanel({
   type,
@@ -175,7 +175,7 @@ export default function FormQuestionAccordionPanel({
                         </Flex>
                       </MenuButton>
                       <MenuList maxH={"300px"} overflow={"auto"}>
-                        {UnitOptions.map((val) => {
+                        {unitOptions.map((val) => {
                           return (
                             <MenuGroup fontWeight={400} title={val.title}>
                               {val.options.map((val2) => {

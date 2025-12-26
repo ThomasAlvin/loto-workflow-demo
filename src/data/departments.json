@@ -1,0 +1,40 @@
+{
+  "department": [
+    {
+      "id": 20,
+      "name": "Admin",
+      "description": null,
+      "super_adminId": 10,
+      "UID": "B3B625B1-F7D1-4135-99AC-CEF4F74D2478",
+      "created_at": 1742623057000,
+      "updated_at": 1765554758000
+    },
+    {
+      "id": 18,
+      "name": "IT",
+      "description": null,
+      "super_adminId": 10,
+      "UID": "5991C5F5-D881-4D3C-AC97-06A9FB51F592",
+      "created_at": 1742177625000,
+      "updated_at": 1765554751000
+    },
+    {
+      "id": 15,
+      "name": "Sales",
+      "description": null,
+      "super_adminId": 10,
+      "UID": "1C6C1379-D51C-458E-90DA-C0293AD611BA",
+      "created_at": 1742176302000,
+      "updated_at": 1765554977000
+    },
+    {
+      "id": 3,
+      "name": "Operations Team",
+      "description": null,
+      "super_adminId": 10,
+      "UID": "009B5B2F-5EA2-479B-AD6F-B49255F16775",
+      "created_at": 1740536890000,
+      "updated_at": 1765554983000
+    }
+  ]
+}

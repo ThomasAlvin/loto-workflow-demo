@@ -1,6 +1,5 @@
 import { CgTemplate } from "react-icons/cg";
 import {
-  FaBuilding,
   FaClipboardList,
   FaFileAlt,
   FaKey,

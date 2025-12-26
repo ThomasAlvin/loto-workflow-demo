@@ -1,0 +1,353 @@
+{
+  "current_page": 1,
+  "data": [
+    {
+      "UID": "MAJTCGFB168-675A-401C-B4C5-43CBA0276A9D",
+      "employee_id": "234-002-008",
+      "role": "member",
+      "created_at": 1764917302000,
+      "departmentId": 20,
+      "userId": 223,
+      "id": 158,
+      "has_custom_permissions": 0,
+      "assigned_work_orders": [],
+      "department": {
+        "id": 20,
+        "name": "Admin"
+      },
+      "user": {
+        "id": 223,
+        "UID": "99B7A349-6696-4AB9-B509-F7D3EAE6153D",
+        "first_name": "Marcus",
+        "last_name": "Henderson",
+        "profile_image_url": "/images/dataImages/User/marcus_henderson.jpg",
+        "phone_number": null,
+        "phone_country": null,
+        "status": "verified",
+        "email": "leketekmuji@dunkos.xyz",
+        "last_login": 1765158035000,
+        "created_at": 1764917302000
+      }
+    },
+    {
+      "UID": "YQTEGDBC85-A017-45A7-96D6-C83E361A4A16",
+      "employee_id": "234-002-92",
+      "role": "admin",
+      "created_at": 1764916793000,
+      "departmentId": 20,
+      "userId": 222,
+      "id": 157,
+      "has_custom_permissions": 1,
+      "assigned_work_orders": [
+        {
+          "id": 97,
+          "name": "Electrical Panel Lockout Check",
+          "status": "ongoing",
+          "work_order_custom_id": "LXH/WS01/121325/149",
+          "deadline_date_time": 2018797200000,
+          "started_at": 1765560599000,
+          "role": ["assignee"],
+          "action_status": "pending",
+          "work_site": {
+            "id": 5,
+            "name": "Main Work Site",
+            "super_adminId": 10
+          }
+        }
+      ],
+      "department": {
+        "id": 20,
+        "name": "Admin"
+      },
+      "user": {
+        "id": 222,
+        "UID": "D472BB27-0E1C-4E01-BBB1-IKUJYH2CC57251",
+        "first_name": "Dylan",
+        "last_name": "Reeves",
+        "profile_image_url": "/images/dataImages/User/dylan_reeves.jpg",
+        "phone_number": null,
+        "phone_country": null,
+        "status": "verified",
+        "email": "lekpolmila@dunkos.xyz",
+        "last_login": 1765165044000,
+        "created_at": 1764916793000
+      }
+    },
+    {
+      "UID": "MJARYCX2-2511-4693-A3D1-1C665D9E5140",
+      "employee_id": "234-0019",
+      "role": "member",
+      "created_at": 1753103785000,
+      "departmentId": 18,
+      "userId": 210,
+      "id": 125,
+      "has_custom_permissions": 0,
+      "assigned_work_orders": [],
+      "department": {
+        "id": 18,
+        "name": "IT"
+      },
+      "user": {
+        "id": 210,
+        "UID": "315F76DE-POQX-47DD-B499-B13D0369A380",
+        "first_name": "Nathan",
+        "last_name": "Crossley",
+        "profile_image_url": "/images/dataImages/User/nathan_crossley.jpg",
+        "phone_number": null,
+        "phone_country": null,
+        "status": "verified",
+        "email": "mimaler@dunkos.xyz",
+        "last_login": 1753104042000,
+        "created_at": 1753103785000
+      }
+    },
+    {
+      "UID": "BBVGHCN1E-BB12-4F6C-AFFD-6DA2FB4FCABF",
+      "employee_id": "555-0987",
+      "role": "member",
+      "created_at": 1752585413000,
+      "departmentId": 20,
+      "userId": 190,
+      "id": 99,
+      "has_custom_permissions": 0,
+      "assigned_work_orders": [],
+      "department": {
+        "id": 20,
+        "name": "Admin"
+      },
+      "user": {
+        "id": 190,
+        "UID": "YGTDHSTY-5CE8-48BF-AA5A-53124F6C812E",
+        "first_name": "Oliver",
+        "last_name": "Grant",
+        "profile_image_url": "/images/dataImages/User/oliver_grant.jpg",
+        "phone_number": null,
+        "phone_country": null,
+        "status": "verified",
+        "email": "royfast@dunkos.xyz",
+        "last_login": 1752585849000,
+        "created_at": 1752585413000
+      }
+    },
+    {
+      "UID": "C9CEE168-9641-43E7-870F-BDCMJMHNAD9A8",
+      "employee_id": "234-008",
+      "role": "member",
+      "created_at": 1741910680000,
+      "departmentId": 3,
+      "userId": 68,
+      "id": 40,
+      "has_custom_permissions": 0,
+      "assigned_work_orders": [],
+      "department": {
+        "id": 3,
+        "name": "Operations Team"
+      },
+      "user": {
+        "id": 68,
+        "UID": "563D5B33-0CC8-92871-9AE7-29F7EC62DC48",
+        "first_name": "Ethan",
+        "last_name": "Marshall",
+        "profile_image_url": "/images/dataImages/User/ethan_marshall.jpg",
+        "phone_number": null,
+        "phone_country": null,
+        "status": "verified",
+        "email": "gatewas58607@isorax.com",
+        "last_login": 1746497608000,
+        "created_at": 1741910680000
+      }
+    },
+    {
+      "UID": "E8BCE72E-F7F9-49KSJ-A78A-FEAA10E2752C",
+      "employee_id": "234-007",
+      "role": "member",
+      "created_at": 1741901410000,
+      "departmentId": 3,
+      "userId": 67,
+      "id": 39,
+      "has_custom_permissions": 0,
+      "assigned_work_orders": [],
+      "department": {
+        "id": 3,
+        "name": "Operations Team"
+      },
+      "user": {
+        "id": 67,
+        "UID": "6B6FBE19-3952-4925-8174-ELOVERC46157",
+        "first_name": "Liam",
+        "last_name": "Westbrook",
+        "profile_image_url": "/images/dataImages/User/liam_westbrook.jpg",
+        "phone_number": null,
+        "phone_country": null,
+        "status": "verified",
+        "email": "kawapa3244@isorax.com",
+        "last_login": 1748667543000,
+        "created_at": 1741901409000
+      }
+    },
+    {
+      "UID": "FB63F7CE-C6ED-09MJ-85F0-D52C65A30560",
+      "employee_id": "234-003",
+      "role": "member",
+      "created_at": 1741833952000,
+      "departmentId": 3,
+      "userId": 59,
+      "id": 35,
+      "has_custom_permissions": 0,
+      "assigned_work_orders": [],
+      "department": {
+        "id": 3,
+        "name": "Operations Team"
+      },
+      "user": {
+        "id": 59,
+        "UID": "MAHBCG5B-4894-4F59-BA2E-27126220A2CA",
+        "first_name": "Jordan",
+        "last_name": "Pike",
+        "profile_image_url": "/images/dataImages/User/jordan_pike.jpg",
+        "phone_number": null,
+        "phone_country": null,
+        "status": "verified",
+        "email": "kameliop2071@easipro.com",
+        "last_login": 1753183016000,
+        "created_at": 1741833842000
+      }
+    },
+    {
+      "UID": "YHX7687-D70B-4B5D-A321-92DF782BB6EE",
+      "employee_id": "555-102",
+      "role": "member",
+      "created_at": 1741833490000,
+      "departmentId": 3,
+      "userId": 58,
+      "id": 34,
+      "has_custom_permissions": 0,
+      "assigned_work_orders": [
+        {
+          "id": 97,
+          "name": "Electrical Panel Lockout Check",
+          "status": "ongoing",
+          "work_order_custom_id": "LXH/WS01/121325/149",
+          "deadline_date_time": 2018797200000,
+          "started_at": 1765560599000,
+          "role": ["assignee"],
+          "action_status": "action_required",
+          "work_site": {
+            "id": 5,
+            "name": "Main Work Site",
+            "super_adminId": 10
+          }
+        }
+      ],
+      "department": {
+        "id": 3,
+        "name": "Operations Team"
+      },
+      "user": {
+        "id": 58,
+        "UID": "A8371034-0918-4DA9-B2B8-6B5BE7C8B936",
+        "first_name": "Travis",
+        "last_name": "Nolan",
+        "profile_image_url": "/images/dataImages/User/travis_nolan.jpg",
+        "phone_number": null,
+        "phone_country": null,
+        "status": "verified",
+        "email": "polimeloret909@framitag.com",
+        "last_login": null,
+        "created_at": 1741833490000
+      }
+    },
+    {
+      "UID": "MKJAXDA70A-7263-4E8F-8ACD-3933122EF1B0",
+      "employee_id": "234-005",
+      "role": "admin",
+      "created_at": 1740536916000,
+      "departmentId": 3,
+      "userId": 12,
+      "id": 5,
+      "has_custom_permissions": 1,
+      "assigned_work_orders": [
+        {
+          "id": 98,
+          "name": "Example Machine QR Scan",
+          "status": "ongoing",
+          "work_order_custom_id": "LXH/WS01/121325/150",
+          "deadline_date_time": 2018710800000,
+          "started_at": 1765560906000,
+          "role": ["assignee"],
+          "action_status": "action_required",
+          "work_site": {
+            "id": 5,
+            "name": "Main Work Site",
+            "super_adminId": 10
+          }
+        },
+        {
+          "id": 97,
+          "name": "Electrical Panel Lockout Check",
+          "status": "ongoing",
+          "work_order_custom_id": "LXH/WS01/121325/149",
+          "deadline_date_time": 2018797200000,
+          "started_at": 1765560599000,
+          "role": ["assignee"],
+          "action_status": "pending",
+          "work_site": {
+            "id": 5,
+            "name": "Main Work Site",
+            "super_adminId": 10
+          }
+        }
+      ],
+      "department": {
+        "id": 3,
+        "name": "Operations Team"
+      },
+      "user": {
+        "id": 12,
+        "UID": "MJMJNHSY5-8DED-41B1-A7E0-D78EBA29B817",
+        "first_name": "Natalie",
+        "last_name": "Arden",
+        "profile_image_url": "/images/dataImages/User/natalie_arden.jpg",
+        "phone_number": null,
+        "phone_country": null,
+        "status": "verified",
+        "email": "testAdmin@gmail.com",
+        "last_login": 1765634016000,
+        "created_at": 1740536250000
+      }
+    },
+    {
+      "UID": "134314D6-7CBC-4C56-8962-2F9B22D8D398",
+      "employee_id": "234-001",
+      "role": "admin",
+      "created_at": 1740536891000,
+      "departmentId": 15,
+      "userId": 11,
+      "id": 4,
+      "has_custom_permissions": 0,
+      "assigned_work_orders": [],
+      "department": {
+        "id": 15,
+        "name": "Sales"
+      },
+      "user": {
+        "id": 11,
+        "UID": "AYTQW99-AE68-4695-B803-644770B2D657",
+        "first_name": "Riley",
+        "last_name": "Porter",
+        "profile_image_url": "/images/dataImages/User/riley_porter.jpg",
+        "phone_number": null,
+        "phone_country": null,
+        "status": "verified",
+        "email": "qertybi41053@kytstore.com",
+        "last_login": 1748661893000,
+        "created_at": 1740536181000
+      }
+    }
+  ],
+  "from": 1,
+  "last_page": 1,
+  "per_page": 10,
+  "to": 10,
+  "total": 10
+}

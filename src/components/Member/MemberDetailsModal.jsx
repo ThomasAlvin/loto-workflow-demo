@@ -1,49 +1,62 @@
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Avatar,
-  Button,
-  Center,
-  Divider,
   Flex,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
+  useDisclosure,
+  Divider,
   ModalOverlay,
-  Spinner,
-  Table,
+  ModalContent,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Tooltip,
+  Avatar,
   TableContainer,
-  Tag,
-  TagLabel,
-  Tbody,
-  Td,
-  Th,
+  Table,
   Thead,
   Tr,
+  Th,
+  Tbody,
+  Td,
+  Center,
+  Spinner,
+  InputGroup,
+  InputLeftElement,
+  Input,
+  Tag,
+  TagLabel,
 } from "@chakra-ui/react";
-import { debounce } from "lodash";
-import moment from "moment";
-import { useCallback } from "react";
-import { AiOutlineAppstore } from "react-icons/ai";
-import { BsBarChartFill } from "react-icons/bs";
-import { FaCog, FaEdit, FaUserAlt } from "react-icons/fa";
-import { FaClock, FaMapLocationDot, FaPhone } from "react-icons/fa6";
+import {
+  FaClock,
+  FaEllipsis,
+  FaMagnifyingGlass,
+  FaMapLocationDot,
+  FaPhone,
+} from "react-icons/fa6";
+import { FaCog, FaEdit, FaUserAlt, FaUserCog } from "react-icons/fa";
 import { IoIosMail, IoMdSearch } from "react-icons/io";
-import { LuClipboardPaste } from "react-icons/lu";
+import { BsBarChartFill } from "react-icons/bs";
+import { AiOutlineAppstore } from "react-icons/ai";
 import { MdEvent } from "react-icons/md";
-import { useLocation, useNavigate } from "react-router-dom";
-import Can from "../../components/Can";
-import LabelizeAction from "../../components/LabelizeAction";
 import labelizeRole from "../../utils/labelizeRole";
-import AssignedRoleMapper from "../../utils/assignedRoleMapper";
-import ConvertTableToRoute from "../../utils/convertTableToRoute";
-import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import moment from "moment";
+import convertTableToRoute from "../../utils/convertTableToRoute";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ListEmptyState from "../ListEmptyState";
+import { api } from "../../api/api";
 import Pagination from "../Pagination";
+import { LuCircleEllipsis, LuClipboardPaste } from "react-icons/lu";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import { IoEllipsisHorizontalSharp, IoLocationSharp } from "react-icons/io5";
+import { debounce } from "lodash";
+import CustomizeMemberPermissionCard from "./CustomizeMemberPermissionCard";
 import MemberDetailsAccessibility from "./MemberDetailsAccessibility";
+import UrlBasedPagination from "../UrlBasedPagination";
+import assignedRoleMapper from "../../utils/assignedRoleMapper";
+import ActivitiesDescription from "../ActivitiesDescription";
+import LabelizeAction from "../LabelizeAction";
+import Can from "../Can";
 export default function MemberDetailsModal({
   pageModule,
   selectedMemberDetails,
@@ -70,7 +83,6 @@ export default function MemberDetailsModal({
   const nav = useNavigate();
   const location = useLocation();
 
-  const IMGURL = import.meta.env.VITE_API_IMAGE_URL;
   const debouncedSearch = useCallback(
     debounce((value) => {
       setSearchInput((prevState) => {
@@ -92,7 +104,6 @@ export default function MemberDetailsModal({
       debouncedSearch(value);
     }
   };
-
   function handleCloseModal() {
     onClose();
     setSearchInput("");
@@ -145,8 +156,7 @@ export default function MemberDetailsModal({
                       }
                       src={
                         selectedMemberDetails?.user?.profile_image_url
-                          ? IMGURL +
-                            selectedMemberDetails?.user?.profile_image_url
+                          ? selectedMemberDetails?.user?.profile_image_url
                           : null
                       }
                     ></Avatar>
@@ -465,8 +475,6 @@ export default function MemberDetailsModal({
                             ?.length ? (
                             selectedMemberDetails?.assigned_work_orders?.map(
                               (val) => {
-                                const { bgColor, textColor, icon, text } =
-                                  tableStatusStyleMapper(val.status);
                                 return (
                                   <>
                                     <Tr fontSize={"14px"}>
@@ -511,7 +519,7 @@ export default function MemberDetailsModal({
                                         >
                                           {val.role.map((value) => {
                                             const assignedRoleStyle =
-                                              AssignedRoleMapper(value);
+                                              assignedRoleMapper(value);
                                             return (
                                               <Tag
                                                 cursor={"pointer"}
@@ -705,6 +713,12 @@ export default function MemberDetailsModal({
                         <Tbody>
                           {activities.length ? (
                             activities.map((val, index) => {
+                              const { bgColor, icon, textColor, text } =
+                                TableStatusStyleMapper(val.action);
+                              const navigationLink = convertTableToRoute(
+                                val.table_name,
+                                val.resource_UID
+                              );
                               return (
                                 <Tr
                                   w={"100%"}
@@ -719,9 +733,6 @@ export default function MemberDetailsModal({
                                     whiteSpace="normal"
                                     fontSize={"14px"}
                                   >
-                                    {/* {moment(val.created_at).format(
-                                      "MMM DD YYYY, hh:mm A"
-                                    )} */}
                                     <Flex flexDir={"column"}>
                                       <Flex>
                                         {moment(val.created_at).format(
@@ -750,7 +761,22 @@ export default function MemberDetailsModal({
                                     fontSize={"14px"}
                                     px={"20px"}
                                   >
-                                    <Flex>{LabelizeAction(val.action)}</Flex>
+                                    <Flex>
+                                      <Flex
+                                        fontWeight={700}
+                                        borderRadius={"10px"}
+                                        px={"8px"}
+                                        py={"4px"}
+                                        alignItems={"center"}
+                                        gap={"8px"}
+                                        bg={bgColor}
+                                        fontSize={"14px"}
+                                        color={textColor}
+                                      >
+                                        <Flex fontSize={"18px"}>{icon}</Flex>
+                                        <Flex>{text}</Flex>
+                                      </Flex>
+                                    </Flex>
                                   </Td>
 
                                   <Td
@@ -761,20 +787,21 @@ export default function MemberDetailsModal({
                                     px={"20px"}
                                     fontSize={"14px"}
                                   >
-                                    <Flex
-                                      cursor={"pointer"}
-                                      _hover={{ color: "#dc143c" }}
-                                      onClick={() => {
-                                        nav(
-                                          ConvertTableToRoute(
-                                            val.table_name,
-                                            val.resource_UID
-                                          )
-                                        );
-                                      }}
-                                    >
-                                      {val.description}
-                                    </Flex>
+                                    {navigationLink ? (
+                                      <Link to={navigationLink}>
+                                        <ActivitiesDescription
+                                          action={val.action}
+                                          description={val.description}
+                                          navigationLink={navigationLink}
+                                        />
+                                      </Link>
+                                    ) : (
+                                      <ActivitiesDescription
+                                        action={val.action}
+                                        description={val.description}
+                                        navigationLink={navigationLink}
+                                      />
+                                    )}
                                   </Td>
                                 </Tr>
                               );

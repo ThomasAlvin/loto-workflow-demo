@@ -28,18 +28,10 @@ export default function ConfirmSubmitWorkOrderStepModal({
   }
   return (
     <>
-      {/* <Tooltip
-        placement="top"
-        label="All steps must be assigned!"
-        color="white"
-        bg={"#dc143c"}
-      > */}
       <Button
         _hover={{ background: "#b51031" }}
         w={"auto"}
-        // _focus={{}}
         alignItems={"center"}
-        // onClick={handleSubmit(confirmSubmitWorkOrderStepDisclosure.onOpen)}
         onClick={handleSubmit(
           confirmSubmitWorkOrderStepDisclosure.onOpen,
           () => {
@@ -69,7 +61,6 @@ export default function ConfirmSubmitWorkOrderStepModal({
         </Flex>
         <Flex>Complete Step {hasNotify ? "& Notify" : ""}</Flex>
       </Button>
-      {/* </Tooltip> */}
       <Modal
         closeOnOverlayClick={!buttonLoading}
         isOpen={confirmSubmitWorkOrderStepDisclosure.isOpen}

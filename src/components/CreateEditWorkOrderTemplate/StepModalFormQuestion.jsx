@@ -32,8 +32,6 @@ function StepModalFormQuestionMemo({
 
   function handleInput(e) {
     const updatedQuestion = e.target.value;
-    console.log(updatedQuestion);
-    console.log(formik);
 
     formik.setValues((prevState) => {
       return {
@@ -287,13 +285,7 @@ function StepModalFormQuestionMemo({
                 w={"50%"}
                 alignItems={"center"}
               >
-                <Flex
-                  onClick={() => {
-                    console.log(title);
-                  }}
-                  fontSize={"24px"}
-                  px={"5px"}
-                >
+                <Flex fontSize={"24px"} px={"5px"}>
                   <RxDragHandleDots2 />
                 </Flex>
 

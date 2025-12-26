@@ -56,10 +56,7 @@ export default function ReviewDetailsRejectModal({
     setButtonLoading(true);
 
     await api
-      .post(`work-order/${workOrderReviewerUID}/review/reject`, {
-        workOrderSteps: flaggedSteps,
-        reason: formik.values.reason,
-      })
+      .testSubmit("Work order rejected successfully")
       .then((response) => {
         Swal.fire({
           title: "Success!",

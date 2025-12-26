@@ -26,29 +26,11 @@ export default function NewWorkFlowStepBadges({ val }) {
       color: "#848484",
       icon: <FaCogs />,
     },
-    (val.lockAccess || val.access_lock) && {
-      label: "Lock Access",
-      bg: "#ffe6e6",
-      color: "#e32020",
-      icon: <MdLockOutline />,
-    },
     (val.condition || val.condition) && {
       label: "Condition",
       bg: "#fddeff",
       color: "#f329ff",
       icon: <LuNetwork />,
-    },
-    (val.triggerAPI || val.trigger_api) && {
-      label: "Trigger API",
-      bg: "#dbfbff",
-      color: "#3cc1fa",
-      icon: <BsGlobe2 />,
-    },
-    (val.sendWebhook || val.send_webhook) && {
-      label: "Webhook",
-      bg: "#cffff2",
-      color: "#00CB94",
-      icon: <MdWebhook />,
     },
     (val.multiLockAccess || val.multi_lock_access || val.multi_access_lock) && {
       label: `(${
@@ -97,7 +79,6 @@ export default function NewWorkFlowStepBadges({ val }) {
                     color={badge.color}
                     whiteSpace="nowrap"
                   >
-                    {/* <Flex>{badge.label}</Flex> */}
                     <Flex p={"2px"} fontSize="36px">
                       {badge.icon}
                     </Flex>
@@ -121,7 +102,6 @@ export default function NewWorkFlowStepBadges({ val }) {
                     color={badge.color}
                     whiteSpace="nowrap"
                   >
-                    {/* <Flex>{badge.label}</Flex> */}
                     <Flex fontSize="20px">{badge.icon}</Flex>
                   </Flex>
                 ))}
@@ -143,7 +123,6 @@ export default function NewWorkFlowStepBadges({ val }) {
                       color={badge.color}
                       whiteSpace="nowrap"
                     >
-                      {/* <Flex>{badge.label}</Flex> */}
                       <Flex fontSize="20px">{badge.icon}</Flex>
                     </Flex>
                   ))}
@@ -163,7 +142,6 @@ export default function NewWorkFlowStepBadges({ val }) {
                       color={badge.color}
                       whiteSpace="nowrap"
                     >
-                      {/* <Flex>{badge.label}</Flex> */}
                       <Flex fontSize="20px">{badge.icon}</Flex>
                     </Flex>
                   ))}
@@ -186,7 +164,6 @@ export default function NewWorkFlowStepBadges({ val }) {
                       color={badge.color}
                       whiteSpace="nowrap"
                     >
-                      {/* <Flex>{badge.label}</Flex> */}
                       <Flex fontSize="20px">{badge.icon}</Flex>
                     </Flex>
                   ))}
@@ -206,7 +183,6 @@ export default function NewWorkFlowStepBadges({ val }) {
                       color={badge.color}
                       whiteSpace="nowrap"
                     >
-                      {/* <Flex>{badge.label}</Flex> */}
                       <Flex fontSize="20px">{badge.icon}</Flex>
                     </Flex>
                   ))}
@@ -233,7 +209,6 @@ export default function NewWorkFlowStepBadges({ val }) {
                       color={"#24bf59"}
                       whiteSpace="nowrap"
                     >
-                      {/* <Flex>{badge.label}</Flex> */}
                       <Flex fontSize="14px">{"+" + (badges.length - 3)}</Flex>
                     </Flex>
                   </Tooltip>
@@ -244,52 +219,6 @@ export default function NewWorkFlowStepBadges({ val }) {
             return <span style={{ color: "gray" }}>ℹ Unknown</span>;
         }
       })()}
-      {/* {visibleBadges.map((badge, idx) => (
-        <Flex
-          key={idx}
-          alignItems="center"
-          gap="4px"
-          fontWeight={700}
-          fontSize="12px"
-          py="2px"
-          px="10px"
-          borderRadius="20px"
-          bg={badge.bg}
-          color={badge.color}
-          whiteSpace="nowrap"
-        >
-          <Flex>{badge.label}</Flex>
-          <Flex fontSize="16px">{badge.icon}</Flex>
-        </Flex>
-      ))} */}
-
-      {/* {hiddenCount > 0 && (
-        <Tooltip
-          color={"white"}
-          hasArrow
-          placement="top"
-          label={badges
-            .slice(2)
-            .map((b) => b.label)
-            .join(", ")}
-        >
-          <Flex
-            alignItems="center"
-            fontWeight={700}
-            fontSize="12px"
-            py="2px"
-            px="10px"
-            borderRadius="20px"
-            bg="#e1ffe0"
-            color="#35ab3d"
-            cursor="pointer"
-          >
-            +{hiddenCount} more
-          </Flex>
-        </Tooltip>
-      )} */}
-
-      {/* Edit, duplicate, delete buttons */}
     </>
   );
 }

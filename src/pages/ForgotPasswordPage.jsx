@@ -33,7 +33,7 @@ export default function ForgotPasswordPage() {
     const lastClickedTime = localStorage.getItem("lastClickedTime");
     if (lastClickedTime) {
       const elapsed = Math.floor(
-        (Date.now() - parseInt(lastClickedTime, 10)) / 1000,
+        (Date.now() - parseInt(lastClickedTime, 10)) / 1000
       );
       const remainingTime = initialCooldownTime - elapsed;
       if (remainingTime && remainingTime > 0) {
@@ -47,16 +47,15 @@ export default function ForgotPasswordPage() {
     const secondsLeft = seconds % 60;
     return `${String(minutes).padStart(2, "0")}:${String(secondsLeft).padStart(
       2,
-      "0",
+      "0"
     )}`;
   };
 
   const sendResetEmail = async () => {
     try {
       setLoading(true);
-
       await api
-        .post(`user/forgot-password`, input)
+        .testSubmit("Email sent successfully")
         .then((response) => {
           toast({
             title: response.data.message,
@@ -67,7 +66,7 @@ export default function ForgotPasswordPage() {
             isClosable: true,
           });
           const initialCooldownTime = Math.floor(
-            (response.data.cooldown_until - Date.now()) / 1000,
+            (response.data.cooldown_until - Date.now()) / 1000
           );
           setIsCooldown(true);
           if (initialCooldownTime) {
@@ -93,60 +92,6 @@ export default function ForgotPasswordPage() {
       console.error("Error sending password reset email:", error.message);
     }
   };
-
-  async function sendEmail() {
-    setLoading(true);
-    try {
-      if (!isCooldown) {
-        const formData = new FormData();
-        formData.append("email", input.email);
-        await api
-          .post("/admin/token-recover-password", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((response) => {
-            Swal.fire({
-              title: "Email Sent",
-              text: response.data.message,
-              icon: "success",
-              customClass: {
-                popup:
-                  themeSelector?.theme === "light"
-                    ? "swal2-custom-popup"
-                    : "swal2-custom-popup-dark",
-                title: "swal2-custom-title",
-                content: "swal2-custom-content",
-                actions: "swal2-custom-actions",
-                confirmButton: "swal2-custom-confirm-button",
-              },
-            });
-            setLoading(false);
-          });
-        setIsCooldown(true);
-        setCooldownTime(initialCooldownTime);
-        localStorage.setItem("lastClickedTime", Date.now().toString());
-      }
-    } catch (errors) {
-      Swal.fire({
-        title: "Oops...",
-        icon: "error",
-        html: SwalErrorMessages(error.response.data.message),
-        customClass: {
-          popup:
-            themeSelector?.theme === "light"
-              ? "swal2-custom-popup"
-              : "swal2-custom-popup-dark",
-          title: "swal2-custom-title",
-          content: "swal2-custom-content",
-          actions: "swal2-custom-actions",
-          confirmButton: "swal2-custom-confirm-button",
-        },
-      });
-      setLoading(false);
-    }
-  }
 
   const nav = useNavigate();
   function inputHandler(event) {

@@ -1,15 +1,24 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
   Flex,
+  Image,
   Spinner,
   Text,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import { v4 as uuid } from "uuid";
-import { FaRegCircleQuestion, FaTriangleExclamation } from "react-icons/fa6";
+import emptyIllustration from "../../assets/images/emptyIllustration.6782cc2c8633a338fe7d-removebg.png";
+
+import { useNavigate } from "react-router-dom";
+import { FaRegTrashAlt } from "react-icons/fa";
+import {
+  FaFlag,
+  FaRegCircleQuestion,
+  FaTriangleExclamation,
+} from "react-icons/fa6";
 import WorkOrderDetailsInput from "../../components/CreateWorkOrder/WorkOrderDetailsInput";
 import ReplaceTemplateModal from "../../components/CreateWorkOrder/ReplaceTemplateModal";
 import ReactSelect from "react-select";
@@ -33,15 +42,14 @@ import moment from "moment";
 import dayjs from "dayjs";
 import ReactSelectCustomTemplateOption from "../../components/CreateWorkOrder/ReactSelectCustomTemplateOption";
 import ReactSelectMemberFixedMultiValueRemove from "../../components/ReactSelectMemberFixedMultiValueRemove";
-import Swal from "sweetalert2";
-import SwalErrorMessages from "../../components/SwalErrorMessages";
-import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
 import FlowProvider from "../../service/FlowProvider";
+import convertStepsToXyFlowData from "../../utils/convertStepsToXyFlowData";
 export default function EditWorkOrderBuildPage({
   debouncedUpdateWorkOrderDetails,
   currentPage,
   setCurrentPage,
   formik,
+  showUnassignedStepSwal,
   handleCallToAction,
   submitWorkOrder,
   initialWorkOrderDetails,
@@ -62,6 +70,8 @@ export default function EditWorkOrderBuildPage({
   const flowWrapperRef = useRef();
   const userSelector = useSelector((state) => state.login.auth);
   const editStepDisclosure = useDisclosure();
+  const [unconnectedNodesError, setUnconnectedNodesError] = useState("");
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const deleteMultiLockAccessConfirmationDisclosure = useDisclosure();
   const [selectedEditStep, setSelectedEditStep] = useState();
@@ -139,7 +149,6 @@ export default function EditWorkOrderBuildPage({
     );
   }
   async function reviewerSelectHandler(newReviewers, actionMeta) {
-    console.log(actionMeta);
     if (actionMeta.action === "clear") {
       formik.setFieldValue(
         "review.reviewers",
@@ -165,9 +174,6 @@ export default function EditWorkOrderBuildPage({
         .filter((opt) => opt.value !== "all")
         .filter((opt2) =>
           formik.values.review.reviewers.some((val) => {
-            console.log(opt2);
-            console.log(val);
-
             return !(opt2.value === val.value);
           })
         );
@@ -193,7 +199,6 @@ export default function EditWorkOrderBuildPage({
     } else {
       // Exclude the Select All option if it's present in selection
       const filtered = newReviewers.filter((opt) => opt.value !== "all");
-      console.log(actionMeta.action);
 
       formik.setFieldValue("review.reviewers", filtered);
     }
@@ -232,7 +237,7 @@ export default function EditWorkOrderBuildPage({
       maxHeight: 200, // Ensure the inner menu list also respects the height limit
     }),
   };
-  function templateSelectHandler(event) {
+  async function templateSelectHandler(event) {
     const selectedTemplate = event;
     if (!selectedTemplate) return;
 
@@ -259,7 +264,6 @@ export default function EditWorkOrderBuildPage({
         notify: !!step.notify,
         notificationMessage: step.notification_message || "",
         machine: !!step.machine,
-        lockAccess: !!step.access_lock,
         multiLockAccess: !!step.multi_access_lock,
         isMainMultiLockAccess: !!step.is_main_multi_access_lock,
         ...(step?.multi_access_lock_step_index != null && {
@@ -283,19 +287,6 @@ export default function EditWorkOrderBuildPage({
               ],
             }),
           },
-        }),
-        triggerAPI: !!step.trigger_api,
-        sendWebhook: !!step.send_webhook,
-        ...(!!step.access_lock && {
-          work_order_locks: [
-            {
-              name: "",
-              id: "",
-              require_lock_image: false,
-              label: "",
-              value: "",
-            },
-          ],
         }),
         condition: !!step.condition,
         ...(step.condition_question
@@ -344,51 +335,16 @@ export default function EditWorkOrderBuildPage({
       ...prevState,
       ...formattedTemplate,
     }));
-    const newUuids = formattedTemplate.workOrderSteps.map(() => uuid());
-    setNodes(
-      formattedTemplate.workOrderSteps.map((step, stepIndex) => {
-        return {
-          id: newUuids[stepIndex],
-          type: "step",
-          position: {
-            x: 120,
-            y: (stepIndex + 1) * defaultNodeSettings.newStepGap,
-          },
-          data: {
-            ...step,
-            label: step.name,
-            isStart: stepIndex === 0 ? true : false,
-            isEnd:
-              stepIndex + 1 === formattedTemplate.workOrderSteps.length
-                ? true
-                : false,
-            order: stepIndex + 1,
-          },
-        };
-      })
-    );
-    setEdges(
+    const xyFlowData = await convertStepsToXyFlowData(
       formattedTemplate.workOrderSteps
-        .map((step, stepIndex) => {
-          if (!stepIndex) {
-            return null;
-          }
-
-          const prevStepId = newUuids[stepIndex - 1];
-          return {
-            id: `edge-${prevStepId}-${newUuids[stepIndex]}`,
-            source: prevStepId,
-            target: newUuids[stepIndex],
-            type: defaultNodeSettings.edgeType,
-            markerEnd: defaultNodeSettings.defaultMarkerEnd,
-          };
-        })
-        .filter(Boolean)
     );
+
+    setNodes(xyFlowData?.nodes);
+    setEdges(xyFlowData?.edges);
     setTemplateSelectDisplay(selectedTemplate);
   }
 
-  function confirmReplaceTemplate() {
+  async function confirmReplaceTemplate() {
     if (templateToReplace) {
       setWorkOrderDetailsInput((prevState) => ({
         ...prevState,
@@ -411,7 +367,6 @@ export default function EditWorkOrderBuildPage({
           notify: !!step.notify,
           notificationMessage: step.notification_message || "",
           machine: !!step.machine,
-          lockAccess: !!step.access_lock,
           multiLockAccess: !!step.multi_access_lock,
           isMainMultiLockAccess: !!step.is_main_multi_access_lock,
           ...(step?.multi_access_lock_step_index != null && {
@@ -435,19 +390,6 @@ export default function EditWorkOrderBuildPage({
                 ],
               }),
             },
-          }),
-          triggerAPI: !!step.trigger_api,
-          sendWebhook: !!step.send_webhook,
-          ...(!!step.access_lock && {
-            work_order_locks: [
-              {
-                name: "",
-                id: "",
-                require_lock_image: false,
-                label: "",
-                value: "",
-              },
-            ],
           }),
           condition: !!step.condition,
           ...(step.condition_question
@@ -494,47 +436,13 @@ export default function EditWorkOrderBuildPage({
         ...formattedTemplate,
       }));
 
-      const newUuids = formattedTemplate.workOrderSteps.map(() => uuid());
-      setNodes(
-        formattedTemplate.workOrderSteps.map((step, stepIndex) => {
-          return {
-            id: newUuids[stepIndex],
-            type: "step",
-            position: {
-              x: 120,
-              y: (stepIndex + 1) * defaultNodeSettings.newStepGap,
-            },
-            data: {
-              ...step,
-              label: step.name,
-              isStart: stepIndex === 0 ? true : false,
-              isEnd:
-                stepIndex + 1 === formattedTemplate.workOrderSteps.length
-                  ? true
-                  : false,
-              order: stepIndex + 1,
-            },
-          };
-        })
-      );
-      setEdges(
+      const xyFlowData = await convertStepsToXyFlowData(
         formattedTemplate.workOrderSteps
-          .map((step, stepIndex) => {
-            if (!stepIndex) {
-              return null;
-            }
-
-            const prevStepId = newUuids[stepIndex - 1];
-            return {
-              id: `edge-${prevStepId}-${newUuids[stepIndex]}`,
-              source: prevStepId,
-              target: newUuids[stepIndex],
-              type: defaultNodeSettings.edgeType,
-              markerEnd: defaultNodeSettings.defaultMarkerEnd,
-            };
-          })
-          .filter(Boolean)
       );
+
+      setNodes(xyFlowData?.nodes);
+      setEdges(xyFlowData?.edges);
+
       setTemplateSelectDisplay({
         ...templateToReplace,
         value: templateToReplace?.UID,
@@ -580,9 +488,7 @@ export default function EditWorkOrderBuildPage({
   async function fetchTemplates(controller) {
     setFetchTemplateLoading(true);
     await api
-      .get(`template?type=only_published&step_type=all`, {
-        signal: controller.signal,
-      })
+      .getTemplates()
       .then((response) => {
         setTemplates(
           response.data.templates.map((val) => ({
@@ -612,6 +518,10 @@ export default function EditWorkOrderBuildPage({
     }, {});
     formik.setTouched(allTouched);
 
+    const startNode = nodes.find((n) => n.data?.isStart);
+    const connectedNodeIds = getConnectedNodes(startNode, edges);
+    const unconnectedNodes = nodes.filter((n) => !connectedNodeIds.has(n.id));
+
     if (Object.keys(errors).length > 0) {
       if (errors.name) {
         workOrderTitleInputRef.current.scrollIntoView({
@@ -620,6 +530,12 @@ export default function EditWorkOrderBuildPage({
         });
       } else if (errors.deadline_date_time) {
         workOrderDeadlineInputRef.current.scrollIntoView({
+          behavior: "smooth", // or "auto"
+          block: "center", // "start", "center", "end", or "nearest"
+        });
+      } else if (unconnectedNodes.length) {
+        setSubmitAttempted(true);
+        workFlowRef.current.scrollIntoView({
           behavior: "smooth", // or "auto"
           block: "center", // "start", "center", "end", or "nearest"
         });
@@ -766,7 +682,6 @@ export default function EditWorkOrderBuildPage({
       ? getConnectedNodes(startNode, filteredEdges)
       : [];
     // let orderedNodes = reorderedNodes.filter((nds) => nds.data.order);
-    console.log(orderedNodes);
 
     setNodes((prevNodes) =>
       prevNodes.map((node) => {
@@ -803,42 +718,20 @@ export default function EditWorkOrderBuildPage({
     };
   }, []);
   useEffect(() => {
-    if (
-      localStorage.getItem("duplicate") === "true" &&
-      formik.values.workOrderSteps.length > 0
-    ) {
-      localStorage.removeItem("duplicate");
-      const validateFormAfterUpdate = async () => {
-        const errors = await formik.validateForm();
-        const otherErrorsExist = Object.keys(errors).some(
-          (key) => key !== "deadline_date_time"
-        );
+    if (!submitAttempted) return;
 
-        if (otherErrorsExist) {
-          Swal.fire({
-            title: "Warning!",
-            html: SwalErrorMessages(
-              "Some steps are unassigned because some of the options are no longer available."
-            ),
-            icon: "warning",
-            customClass: {
-              popup: "swal2-custom-popup",
-              title: "swal2-custom-title",
-              content: "swal2-custom-content",
-              actions: "swal2-custom-actions",
-              confirmButton: "swal2-custom-confirm-button",
-            },
-          });
-          formik.setTouched(setAllFieldsTouched(formik.values));
-        }
-        formik.setFieldTouched("deadline_date_time"); // Example action
-      };
-      validateFormAfterUpdate();
-    }
-  }, [formik.values.workOrderSteps]);
-  useEffect(() => {
-    formik.setFieldValue("workOrderSteps", formik.values.workOrderSteps);
-  }, [formik.values.workOrderSteps]);
+    const startNode = nodes.find((n) => n.data?.isStart);
+    const connectedNodeIds = getConnectedNodes(startNode, edges);
+    const unconnectedNodes = nodes.filter((n) => !connectedNodeIds.has(n.id));
+    setUnconnectedNodesError(
+      unconnectedNodes.length
+        ? "Some steps are not connected to the workflow. Please connect them or remove them before submitting."
+        : ""
+    );
+  }, [edges, nodes.length, submitAttempted]);
+  // useEffect(() => {
+  //   formik.setFieldValue("workOrderSteps", formik.values.workOrderSteps);
+  // }, [formik.values.workOrderSteps]);
   return (
     <FlowProvider
       nodes={nodes}
@@ -855,12 +748,14 @@ export default function EditWorkOrderBuildPage({
         <CreateWorkOrderLayout
           stage={"build"}
           formik={formik}
+          showUnassignedStepSwal={showUnassignedStepSwal}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           variant={"edit"}
           // hasSidebar={"true"}
           hasChanged={hasChanged}
           clearAll={clearAll}
+          workOrderStatus={formik.values.status}
         >
           <FormikProvider value={formik}>
             <Flex pt={"10px"} px={"140px"} gap={"20px"} flexDir={"column"}>
@@ -886,15 +781,7 @@ export default function EditWorkOrderBuildPage({
                       fontSize={"24px"}
                     >
                       <Flex alignItems={"center"} gap={"10px"}>
-                        <Flex
-                          color={"#dc143c"}
-                          onClick={() => {
-                            console.log(userSelector);
-                            console.log(coCreatorMemberSelection);
-                          }}
-                        >
-                          Assign Co-Creator
-                        </Flex>
+                        <Flex color={"#dc143c"}>Assign Co-Creator</Flex>
                         <Tooltip
                           hasArrow
                           placement={"top"}
@@ -1050,16 +937,7 @@ export default function EditWorkOrderBuildPage({
                     fontSize={"24px"}
                   >
                     <Flex alignItems={"center"} gap={"10px"}>
-                      <Flex
-                        color={"#dc143c"}
-                        onClick={() => {
-                          console.log(userSelector);
-                          console.log(formik);
-                          console.log(coCreatorMemberSelection);
-                        }}
-                      >
-                        Assign Reviewer
-                      </Flex>
+                      <Flex color={"#dc143c"}>Assign Reviewer</Flex>
                       <Tooltip
                         hasArrow
                         placement={"top"}
@@ -1148,14 +1026,7 @@ export default function EditWorkOrderBuildPage({
                   fontWeight={700}
                   fontSize={"24px"}
                 >
-                  <Flex
-                    color={"#dc143c"}
-                    onClick={() => {
-                      console.log(templates);
-                    }}
-                  >
-                    Work Order Template
-                  </Flex>
+                  <Flex color={"#dc143c"}>Work Order Template</Flex>
                   <Flex fontSize={"12px"} color={"#848484"}>
                     <Flex>
                       Choose a pre-defined template to quickly set up your
@@ -1195,16 +1066,7 @@ export default function EditWorkOrderBuildPage({
                     fontWeight={700}
                     fontSize={"24px"}
                   >
-                    <Flex
-                      color={"#dc143c"}
-                      onClick={() => {
-                        console.log(formik);
-                        console.log(nodes);
-                        console.log(edges);
-                      }}
-                    >
-                      Workflow
-                    </Flex>
+                    <Flex color={"#dc143c"}>Workflow</Flex>
                     <Flex
                       textAlign={"center"}
                       fontSize={"12px"}
@@ -1224,8 +1086,9 @@ export default function EditWorkOrderBuildPage({
                     ""
                   )}
 
-                  {formik.errors?.workOrderSteps &&
-                  formik.touched?.workOrderSteps ? (
+                  {unconnectedNodesError ||
+                  (formik?.errors?.workOrderSteps &&
+                    formik.touched?.workOrderSteps) ? (
                     <Flex
                       py={"4px"}
                       px={"8px"}
@@ -1238,7 +1101,9 @@ export default function EditWorkOrderBuildPage({
                         <FaTriangleExclamation />
                       </Flex>
                       <Flex>
-                        {typeof formik?.errors?.workOrderSteps === "string"
+                        {unconnectedNodesError
+                          ? unconnectedNodesError
+                          : typeof formik?.errors?.workOrderSteps === "string"
                           ? formik?.errors?.workOrderSteps
                           : "Some steps are not fully assigned. Please assign all steps before continuing."}
                       </Flex>
