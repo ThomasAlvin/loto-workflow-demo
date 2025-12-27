@@ -1,14 +1,11 @@
 import { Flex, Tooltip } from "@chakra-ui/react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { LuClipboardCopy } from "react-icons/lu";
-import { useNavigate } from "react-router-dom";
 export default function SwitchRequestMenu({
   handleOpenSwitchRequestDetailModal,
   status,
   UID,
 }) {
-  const nav = useNavigate();
-
   return (
     <Flex justifyContent={"center"}>
       <Flex gap={"15px"} fontSize={"20px"} justify={"space-between"}>

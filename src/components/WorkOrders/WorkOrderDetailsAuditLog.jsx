@@ -1,6 +1,6 @@
 import { Avatar, Box, Flex } from "@chakra-ui/react";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { HiWrenchScrewdriver } from "react-icons/hi2";
 import labelizeRole from "../../utils/labelizeRole";

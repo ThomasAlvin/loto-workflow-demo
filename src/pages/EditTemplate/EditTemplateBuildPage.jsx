@@ -1,32 +1,23 @@
-import React, { useEffect, useCallback, useState, useRef } from "react";
-import { Button, Flex, Image, useDisclosure } from "@chakra-ui/react";
-import { v4 as uuid } from "uuid";
-import { FaChevronRight } from "react-icons/fa";
-import { VscEmptyWindow } from "react-icons/vsc";
-import { FaTriangleExclamation } from "react-icons/fa6";
-import CreateTemplateLayout from "../../components/Layout/CreateTemplateLayout";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import WorkFlowStep from "../../components/CreateTemplate/WorkflowStep";
-import TemplateDetailsInput from "../../components/CreateTemplate/TemplateDetailsInput";
-import AddStepModal from "../../components/CreateEditWorkOrderTemplate/AddStepModal";
-import emptyIllustration from "../../assets/images/emptyIllustration.6782cc2c8633a338fe7d-removebg.png";
-import getAlphabeticSequencing from "../../utils/getAlphabeticSequencing";
-import EditStepModal from "../../components/CreateEditWorkOrderTemplate/EditStepModal";
-import WorkFlowXyFlow from "../../components/WorkFlowXyFlow";
-import { FormikProvider } from "formik";
-import EditStepDrawer from "../../components/CreateEditWorkOrderTemplate/EditStepDrawer";
+import { Button, Flex, useDisclosure } from "@chakra-ui/react";
 import {
   getConnectedEdges,
   getIncomers,
   getOutgoers,
   useReactFlow,
 } from "@xyflow/react";
-import computeNodeOrder from "../../utils/computeNodeOrder";
-import { useDeleteContext } from "../../service/DeleteMultiLockAccessContext";
+import { FormikProvider } from "formik";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FaChevronRight } from "react-icons/fa";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import DeleteMultiLockAccessConfirmationModal from "../../components/CreateEditWorkOrderTemplate/DeleteMultiLockAccessConfirmationModal";
-import getConnectedNodes from "../../utils/getConnectedNodes";
-import defaultNodeSettings from "../../constants/defaultNodeSettings";
+import EditStepDrawer from "../../components/CreateEditWorkOrderTemplate/EditStepDrawer";
+import TemplateDetailsInput from "../../components/CreateTemplate/TemplateDetailsInput";
+import CreateTemplateLayout from "../../components/Layout/CreateTemplateLayout";
+import WorkFlowXyFlow from "../../components/WorkFlowXyFlow";
 import FlowProvider from "../../service/FlowProvider";
+import computeNodeOrder from "../../utils/computeNodeOrder";
+import getAlphabeticSequencing from "../../utils/getAlphabeticSequencing";
+import getConnectedNodes from "../../utils/getConnectedNodes";
 export default function EditTemplateBuildPage({
   templateDetails,
   debouncedUpdateTemplateDetails,

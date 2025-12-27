@@ -1,4 +1,3 @@
-import React from "react";
 import { Flex } from "@chakra-ui/react";
 import { RxDragHandleDots2 } from "react-icons/rx";
 export default function StepModal({ val }) {

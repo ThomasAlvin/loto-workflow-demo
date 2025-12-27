@@ -3,7 +3,6 @@ import {
   AccordionButton,
   AccordionItem,
   AccordionPanel,
-  Avatar,
   Box,
   Button,
   Checkbox,
@@ -30,7 +29,6 @@ import {
   FaChevronDown,
   FaFilter,
   FaFlag,
-  FaUserAlt,
   FaUserCircle,
 } from "react-icons/fa";
 import tinycolor from "tinycolor2";
@@ -44,10 +42,9 @@ import { IoMdClose } from "react-icons/io";
 import { TbLineScan } from "react-icons/tb";
 import { TiWarning } from "react-icons/ti";
 import { useSelector } from "react-redux";
-import { useDeleteContext } from "../../service/DeleteMultiLockAccessContext";
 import Can from "../../components/Can";
+import { useDeleteContext } from "../../service/DeleteMultiLockAccessContext";
 import getLockImageByModel from "../../utils/getLockImageByModel";
-import labelizeRole from "../../utils/labelizeRole";
 import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 import ImageFocusOverlay from "../ImageFocusOverlay";
 import MemberGroupList from "../MemberGroupList";

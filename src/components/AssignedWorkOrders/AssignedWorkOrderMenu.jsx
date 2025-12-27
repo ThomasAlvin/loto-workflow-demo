@@ -1,7 +1,7 @@
 import { Flex, Tooltip } from "@chakra-ui/react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { LuClipboardCopy, LuCopyPlus } from "react-icons/lu";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import { LuClipboardCopy } from "react-icons/lu";
+import { useLocation, useNavigate } from "react-router-dom";
 export default function AssignedWorkOrderMenu({
   stepUID,
   val,

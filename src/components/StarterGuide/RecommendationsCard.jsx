@@ -1,5 +1,5 @@
 import { Flex, Grid, GridItem } from "@chakra-ui/react";
-import { FaChevronRight, FaUserTie } from "react-icons/fa";
+import { FaUserTie } from "react-icons/fa";
 import { IoCheckmarkCircle, IoRocket } from "react-icons/io5";
 import { Link, useLocation } from "react-router-dom";
 export default function RecommendationsCard() {

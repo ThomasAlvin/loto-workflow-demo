@@ -1,62 +1,48 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Flex,
-  useDisclosure,
-  Divider,
-  ModalOverlay,
-  ModalContent,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Tooltip,
   Avatar,
-  TableContainer,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
+  Button,
   Center,
-  Spinner,
+  Divider,
+  Flex,
+  Input,
   InputGroup,
   InputLeftElement,
-  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
+  Table,
+  TableContainer,
   Tag,
   TagLabel,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
-import {
-  FaClock,
-  FaEllipsis,
-  FaMagnifyingGlass,
-  FaMapLocationDot,
-  FaPhone,
-} from "react-icons/fa6";
-import { FaCog, FaEdit, FaUserAlt, FaUserCog } from "react-icons/fa";
-import { IoIosMail, IoMdSearch } from "react-icons/io";
-import { BsBarChartFill } from "react-icons/bs";
-import { AiOutlineAppstore } from "react-icons/ai";
-import { MdEvent } from "react-icons/md";
-import labelizeRole from "../../utils/labelizeRole";
-import moment from "moment";
-import convertTableToRoute from "../../utils/convertTableToRoute";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import ListEmptyState from "../ListEmptyState";
-import { api } from "../../api/api";
-import Pagination from "../Pagination";
-import { LuCircleEllipsis, LuClipboardPaste } from "react-icons/lu";
-import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
-import { IoEllipsisHorizontalSharp, IoLocationSharp } from "react-icons/io5";
 import { debounce } from "lodash";
-import CustomizeMemberPermissionCard from "./CustomizeMemberPermissionCard";
-import MemberDetailsAccessibility from "./MemberDetailsAccessibility";
-import UrlBasedPagination from "../UrlBasedPagination";
+import moment from "moment";
+import { useCallback } from "react";
+import { AiOutlineAppstore } from "react-icons/ai";
+import { BsBarChartFill } from "react-icons/bs";
+import { FaCog, FaEdit, FaUserAlt } from "react-icons/fa";
+import { FaClock, FaMapLocationDot, FaPhone } from "react-icons/fa6";
+import { IoIosMail, IoMdSearch } from "react-icons/io";
+import { LuClipboardPaste } from "react-icons/lu";
+import { MdEvent } from "react-icons/md";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import assignedRoleMapper from "../../utils/assignedRoleMapper";
+import convertTableToRoute from "../../utils/convertTableToRoute";
+import labelizeRole from "../../utils/labelizeRole";
 import ActivitiesDescription from "../ActivitiesDescription";
-import LabelizeAction from "../LabelizeAction";
 import Can from "../Can";
+import ListEmptyState from "../ListEmptyState";
+import Pagination from "../Pagination";
+import MemberDetailsAccessibility from "./MemberDetailsAccessibility";
 export default function MemberDetailsModal({
   pageModule,
   selectedMemberDetails,

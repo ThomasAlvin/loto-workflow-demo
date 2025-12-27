@@ -1,6 +1,5 @@
 import { Box, Button, Divider, Flex } from "@chakra-ui/react";
 import { FaArrowLeftLong } from "react-icons/fa6";
-
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import {
@@ -12,7 +11,6 @@ import {
 import checkHasPermission from "../../utils/checkHasPermission";
 import ReviewDetailsApproveModal from "../Review/ReviewDetailsApproveModal";
 import ReviewDetailsRejectModal from "../Review/ReviewDetailsRejectModal";
-import SwalErrorMessages from "../SwalErrorMessages";
 export default function WorkOrderDetailsNavbar({
   variant,
   workOrderReviewerStatus,

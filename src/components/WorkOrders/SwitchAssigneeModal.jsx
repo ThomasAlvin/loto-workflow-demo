@@ -1,6 +1,4 @@
 import {
-  Avatar,
-  Badge,
   Box,
   Button,
   Flex,
@@ -12,22 +10,16 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { FaUserAlt, FaUserCircle } from "react-icons/fa";
-import ReactSelect from "react-select";
-import { useFormik } from "formik";
-import { api } from "../../api/api";
-import { useEffect, useRef, useState } from "react";
 import { FaTriangleExclamation } from "react-icons/fa6";
-import Swal from "sweetalert2";
-import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
-import ReactSelectStepSelection from "../ReactSelectStepSelection";
+import { IoPersonAddSharp, IoPersonRemoveSharp } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import ReactSelect from "react-select";
 import MemberGroupList from "../MemberGroupList";
 import ReactSelectMemberMultiValue from "../ReactSelectMemberMultiValue";
+import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
+import ReactSelectStepSelection from "../ReactSelectStepSelection";
 import SwitchAssigneeModalSelectedStep from "./SwitchAssigneeModalSelectedStep";
-import { useSelector } from "react-redux";
-import { IoPersonAddSharp, IoPersonRemoveSharp } from "react-icons/io5";
 
 export default function SwitchAssigneeModal({
   workOrderSteps,

@@ -261,10 +261,9 @@ export default function CreateWorkOrderPage() {
       ...formik.values,
       workOrderSteps: filteredWorkFlow,
     };
-    const workFlowImage = await getWorkFlowImage();
-
-    const formData = convertToFormData(formDataObject);
-    formData.append("flowChartImages[]", workFlowImage);
+    // const workFlowImage = await getWorkFlowImage();
+    // const formData = convertToFormData(formDataObject);
+    // formData.append("flowChartImages[]", workFlowImage);
 
     try {
       const response = await api.testSubmit("Work order saved successfully");

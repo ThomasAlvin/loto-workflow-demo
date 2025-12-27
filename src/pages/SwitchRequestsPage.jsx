@@ -15,20 +15,20 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { IoMdSearch } from "react-icons/io";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { api } from "../api/api";
 import { debounce } from "lodash";
-import ListEmptyState from "../components/ListEmptyState";
-import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import moment from "moment";
-import SwitchRequestMenu from "../components/SwitchRequest/SwitchRequestMenu";
-import SwitchRequestDetailModal from "../components/SwitchRequest/SwitchRequestDetailModal";
-import labelizeRole from "../utils/labelizeRole";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
-import formatString from "../utils/formatString";
+import { IoMdSearch } from "react-icons/io";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { api } from "../api/api";
+import ListEmptyState from "../components/ListEmptyState";
+import SwitchRequestDetailModal from "../components/SwitchRequest/SwitchRequestDetailModal";
+import SwitchRequestMenu from "../components/SwitchRequest/SwitchRequestMenu";
 import UrlBasedPagination from "../components/UrlBasedPagination";
+import formatString from "../utils/formatString";
+import labelizeRole from "../utils/labelizeRole";
+import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 export default function SwitchRequestsPage() {
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
   const [searchParams, setSearchParams] = useSearchParams();

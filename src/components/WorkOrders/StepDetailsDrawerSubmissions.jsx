@@ -3,7 +3,6 @@ import {
   AccordionButton,
   AccordionItem,
   AccordionPanel,
-  Avatar,
   Box,
   Button,
   Checkbox,
@@ -30,7 +29,6 @@ import {
   FaChevronCircleUp,
   FaChevronDown,
   FaFilter,
-  FaUserAlt,
 } from "react-icons/fa";
 import tinycolor from "tinycolor2";
 import formatString from "../../utils/formatString";
@@ -47,7 +45,6 @@ import {
 import { FiZoomIn } from "react-icons/fi";
 import { TbLineScan } from "react-icons/tb";
 import getLockImageByModel from "../../utils/getLockImageByModel";
-import labelizeRole from "../../utils/labelizeRole";
 import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
 import MemberGroupList from "../MemberGroupList";
 import StepDetailsDrawerStepInspectionForm from "./StepDetailsDrawerStepInspectionForm";

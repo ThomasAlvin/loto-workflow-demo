@@ -1,6 +1,5 @@
 import { Flex, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
-
 import { AiOutlineEye } from "react-icons/ai";
 import { FaCogs } from "react-icons/fa";
 import { FaRegBell } from "react-icons/fa6";
@@ -26,7 +25,6 @@ export default function SubmitWorkOrderStepSideMenu({
   isWOCValid,
   hasNotify,
 }) {
-  const [showMore, setShowMore] = useState(false);
   const confirmSubmitWorkOrderStepDisclosure = useDisclosure();
   const taskItems = [
     workOrderStep?.form && {

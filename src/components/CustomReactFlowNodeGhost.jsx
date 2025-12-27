@@ -1,10 +1,9 @@
 import { Flex } from "@chakra-ui/react";
 
 import "@xyflow/react/dist/style.css";
-import { BsGlobe2 } from "react-icons/bs";
 import { FaCogs, FaLink, FaRegBell } from "react-icons/fa";
 import { LuNetwork } from "react-icons/lu";
-import { MdLockOutline, MdWebhook } from "react-icons/md";
+import { MdLockOutline } from "react-icons/md";
 import { TiClipboard } from "react-icons/ti";
 import NewWorkFlowStepBadges from "./CreateTemplate/NewWorkFlowStepBadges";
 export default function CustomReactFlowNodeGhost({ data, nodeGhostRef }) {

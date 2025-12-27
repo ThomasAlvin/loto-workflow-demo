@@ -10,7 +10,6 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import formatString from "../../utils/formatString";
 
 export default function SetToDefaultTFAConfirmationModal({
   setToDefaultTFADisclosure,

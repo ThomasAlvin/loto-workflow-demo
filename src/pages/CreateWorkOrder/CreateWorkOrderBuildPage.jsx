@@ -1,70 +1,45 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
-  Image,
-  Input,
   Spinner,
   Text,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { v4 as uuid } from "uuid";
-import emptyIllustration from "../../assets/images/emptyIllustration.6782cc2c8633a338fe7d-removebg.png";
-import { useNavigate } from "react-router-dom";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { FaRegCircleQuestion, FaTriangleExclamation } from "react-icons/fa6";
-import { FaChevronRight } from "react-icons/fa";
-import WorkFlowStep from "../../components/CreateTemplate/WorkflowStep";
-import AddStepModal from "../../components/CreateEditWorkOrderTemplate/AddStepModal";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import WorkOrderDetailsInput from "../../components/CreateWorkOrder/WorkOrderDetailsInput";
-import ReplaceTemplateModal from "../../components/CreateWorkOrder/ReplaceTemplateModal";
-import ReactSelect from "react-select";
-import { api } from "../../api/api";
-import CreateWorkOrderLayout from "../../components/Layout/CreateWorkOrderLayout";
-import EditStepModal from "../../components/CreateEditWorkOrderTemplate/EditStepModal";
-import DeleteMultiLockAccessConfirmationModal from "../../components/CreateEditWorkOrderTemplate/DeleteMultiLockAccessConfirmationModal";
-import getAlphabeticSequencing from "../../utils/getAlphabeticSequencing";
-import ReactSelectMemberSelection from "../../components/ReactSelectMemberSelection";
-import { useSelector } from "react-redux";
-import ReactSelectMemberMultiValue from "../../components/ReactSelectMemberMultiValue";
-import ReactSelectCustomTemplateOption from "../../components/CreateWorkOrder/ReactSelectCustomTemplateOption";
-import WorkFlowXyFlow from "../../components/WorkFlowXyFlow";
-import { toPng, toSvg } from "html-to-image";
 import {
   getConnectedEdges,
   getIncomers,
   getNodesBounds,
   getOutgoers,
   getViewportForBounds,
-  isEdge,
-  MarkerType,
-  ReactFlowProvider,
-  useEdgesState,
-  useNodesState,
-  useReactFlow,
 } from "@xyflow/react";
-import EditStepDrawer from "../../components/CreateEditWorkOrderTemplate/EditStepDrawer";
-import { FormikProvider } from "formik";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import { FormikProvider } from "formik";
+import { toPng } from "html-to-image";
 import moment from "moment";
-import computeNodeOrder from "../../utils/computeNodeOrder";
-import defaultNodeSettings from "../../constants/defaultNodeSettings";
-import getConnectedNodes from "../../utils/getConnectedNodes";
-import autoArrangeNodes from "../../utils/autoArrangeNodes";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FaRegCircleQuestion, FaTriangleExclamation } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import ReactSelect from "react-select";
+import { api } from "../../api/api";
+import DeleteMultiLockAccessConfirmationModal from "../../components/CreateEditWorkOrderTemplate/DeleteMultiLockAccessConfirmationModal";
+import EditStepDrawer from "../../components/CreateEditWorkOrderTemplate/EditStepDrawer";
+import ReactSelectCustomTemplateOption from "../../components/CreateWorkOrder/ReactSelectCustomTemplateOption";
+import ReplaceTemplateModal from "../../components/CreateWorkOrder/ReplaceTemplateModal";
+import WorkOrderDetailsInput from "../../components/CreateWorkOrder/WorkOrderDetailsInput";
+import CreateWorkOrderLayout from "../../components/Layout/CreateWorkOrderLayout";
 import ReactSelectMemberFixedMultiValueRemove from "../../components/ReactSelectMemberFixedMultiValueRemove";
-import convertStepsToXyFlowData from "../../utils/convertStepsToXyFlowData";
+import ReactSelectMemberMultiValue from "../../components/ReactSelectMemberMultiValue";
+import ReactSelectMemberSelection from "../../components/ReactSelectMemberSelection";
+import WorkFlowXyFlow from "../../components/WorkFlowXyFlow";
 import FlowProvider from "../../service/FlowProvider";
+import autoArrangeNodes from "../../utils/autoArrangeNodes";
+import computeNodeOrder from "../../utils/computeNodeOrder";
+import convertStepsToXyFlowData from "../../utils/convertStepsToXyFlowData";
+import getAlphabeticSequencing from "../../utils/getAlphabeticSequencing";
+import getConnectedNodes from "../../utils/getConnectedNodes";
 
 export default function CreateWorkOrderBuildPage({
   currentPage,
@@ -83,7 +58,6 @@ export default function CreateWorkOrderBuildPage({
   edges,
   setEdges,
   onEdgesChange,
-  getWorkFlowImage,
 }) {
   const flowWrapperRef = useRef();
   const userSelector = useSelector((state) => state.login.auth);

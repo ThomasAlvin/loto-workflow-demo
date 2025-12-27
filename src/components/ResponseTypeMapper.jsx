@@ -1,13 +1,10 @@
 import {
   Avatar,
-  Button,
   Checkbox,
   Flex,
   Image,
-  Input,
   Radio,
   RadioGroup,
-  Stack,
   Table,
   Tbody,
   Td,
@@ -15,19 +12,12 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { AiOutlineWarning } from "react-icons/ai";
-import { FaFilePdf, FaFileWord, FaTag, FaUserAlt } from "react-icons/fa";
-import { FaRegClock } from "react-icons/fa6";
-import { FiCheckCircle, FiZoomIn } from "react-icons/fi";
-import { ImCheckmark } from "react-icons/im";
-import { IoChatbubbleEllipsesOutline, IoClose } from "react-icons/io5";
-import { MdBrokenImage, MdOutlineBrokenImage } from "react-icons/md";
-import { RiDraftLine } from "react-icons/ri";
-import { TbClockX } from "react-icons/tb";
-import labelizeRole from "../utils/labelizeRole";
 import moment from "moment";
-import getLockImageByModel from "../utils/getLockImageByModel";
+import { FaFilePdf, FaFileWord, FaUserAlt } from "react-icons/fa";
+import { FiZoomIn } from "react-icons/fi";
 import getDateTimeType from "../utils/getDateTimeType";
+import getLockImageByModel from "../utils/getLockImageByModel";
+import labelizeRole from "../utils/labelizeRole";
 
 export default function ResponseTypeMapper({
   type,

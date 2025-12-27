@@ -7,7 +7,6 @@ import {
   Divider,
   Flex,
   Icon,
-  Image,
   Menu,
   MenuButton,
   MenuItem,
@@ -54,9 +53,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { api } from "../api/api";
-import logoEgeeTouch from "../assets/images/logo-egeetouch.png";
-import { useNotifications } from "../service/NotificationContext";
 import Can from "../components/Can";
+import { useNotifications } from "../service/NotificationContext";
 import labelizeRole from "../utils/labelizeRole";
 import LogoutConfirmationModal from "./LogoutConfirmationModal";
 import NotificationDetailsModal from "./Notification/NotificationDetailsModal";
@@ -575,7 +573,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
             </button>
 
             <Flex fontSize={"20px"} fontWeight={700}>
-              LOTO Workflow System Version 1.12
+              LOTO Workflow System Version 1.2
             </Flex>
           </Box>
 

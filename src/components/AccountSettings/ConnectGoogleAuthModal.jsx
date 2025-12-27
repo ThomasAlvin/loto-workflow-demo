@@ -11,17 +11,16 @@ import {
   ModalOverlay,
   PinInput,
   PinInputField,
-  useDisclosure,
 } from "@chakra-ui/react";
-import GoogleAuthenticationQRCodeGenerator from "./GoogleAuthenticationQRCodeGenerator";
-import { useCallback, useEffect, useRef, useState } from "react";
-import Swal from "sweetalert2";
-import { api } from "../../api/api";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
+import { useCallback, useRef, useState } from "react";
 import { FaTriangleExclamation } from "react-icons/fa6";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import * as Yup from "yup";
+import { api } from "../../api/api";
+import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
+import GoogleAuthenticationQRCodeGenerator from "./GoogleAuthenticationQRCodeGenerator";
 
 export default function ConnectGoogleAuthModal({
   isDisabled,

@@ -14,21 +14,20 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { FaUserAlt } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
-import { api } from "../api/api";
-import labelizeRole from "../utils/labelizeRole";
 import { debounce } from "lodash";
+import moment from "moment";
+import { useCallback, useEffect, useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
+import { Link } from "react-router-dom";
+import { api } from "../api/api";
+import ActivitiesDescription from "../components/ActivitiesDescription";
 import ListEmptyState from "../components/ListEmptyState";
 import Pagination from "../components/Pagination";
-import moment from "moment";
 import convertTableToRoute from "../utils/convertTableToRoute";
+import labelizeRole from "../utils/labelizeRole";
 import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
-import ActivitiesDescription from "../components/ActivitiesDescription";
 export default function ActivitiesPage() {
-  const nav = useNavigate();
   const [from, setFrom] = useState();
   const [rows, setRows] = useState(10);
   const [showing, setShowing] = useState(0);

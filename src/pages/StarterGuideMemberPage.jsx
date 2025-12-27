@@ -1,23 +1,13 @@
-import { Center, Flex, Grid, GridItem, Icon, Image } from "@chakra-ui/react";
-import StarterGuide from "../assets/images/starter-guide.png";
-import { IoCheckmarkCircle, IoRocket } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  FaChevronRight,
-  FaClipboardList,
-  FaCogs,
-  FaUserPlus,
-  FaUserTie,
-  FaWrench,
-} from "react-icons/fa";
-import RecommendationsCard from "../components/StarterGuide/RecommendationsCard";
+import { Center, Flex } from "@chakra-ui/react";
+import { BsListCheck } from "react-icons/bs";
+import { FaUserPlus, FaWrench } from "react-icons/fa";
+import { GoChecklist } from "react-icons/go";
+import { IoIosPaper } from "react-icons/io";
 import { LiaClipboardListSolid } from "react-icons/lia";
 import { TbLockPlus } from "react-icons/tb";
-import StarterGuidePageLayout from "../components/Layout/StarterGuidePageLayout";
-import { IoIosPaper } from "react-icons/io";
-import { BsListCheck } from "react-icons/bs";
-import { GoChecklist } from "react-icons/go";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import StarterGuidePageLayout from "../components/Layout/StarterGuidePageLayout";
 import checkHasPermission from "../utils/checkHasPermission";
 
 export default function StarterGuidePage() {

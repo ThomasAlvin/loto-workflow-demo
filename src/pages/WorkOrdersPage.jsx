@@ -364,14 +364,22 @@ export default function WorkOrdersPage() {
     setCancelNextPusherToast(true);
     setDuplicateButtonLoading(true);
     await api
-      .testSubmit("Work order duplicated successfully")
+      .testSubmit("Duplicate feature is disabled in demo environment", true)
       .then((response) => {
-        nav(
-          `/work-order/edit/${response.data.workOrderUID}${location.search}`,
-          {
-            state: { errorMessages: response.data.errorMessages },
-          }
-        );
+        console.log(response);
+
+        Swal.fire({
+          title: "Oops...",
+          text: response.data.message,
+          icon: "error",
+          customClass: {
+            popup: "swal2-custom-popup",
+            title: "swal2-custom-title",
+            content: "swal2-custom-content",
+            actions: "swal2-custom-actions",
+            confirmButton: "swal2-custom-confirm-button",
+          },
+        });
       })
       .catch((error) => {
         Swal.fire({

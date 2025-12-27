@@ -4,7 +4,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Avatar,
   Box,
   Button,
   Checkbox,
@@ -30,7 +29,6 @@ import {
   FaChevronDown,
   FaFilter,
   FaRegTrashAlt,
-  FaUserAlt,
   FaUserCircle,
 } from "react-icons/fa";
 
@@ -38,7 +36,6 @@ import moment from "moment";
 import { memo, useState } from "react";
 import { FaFlag, FaRegFlag } from "react-icons/fa6";
 import { TiWarning } from "react-icons/ti";
-import labelizeRole from "../../utils/labelizeRole";
 import WorkOrderDetailsFormQuestion from "./WorkOrderDetailsFormQuestion";
 
 import { FiZoomIn } from "react-icons/fi";

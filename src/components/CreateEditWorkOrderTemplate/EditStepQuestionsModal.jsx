@@ -1,59 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
 import {
-  Flex,
-  useDisclosure,
-  Divider,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
   Button,
+  Divider,
+  Flex,
   Modal,
-  ModalHeader,
   ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
-  Box,
-  Checkbox,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  Input,
-  Textarea,
-  Tooltip,
-  Avatar,
-  Collapse,
-  Slider,
-  SliderMark,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  Switch,
-  Menu,
-  MenuButton,
-  Portal,
-  MenuList,
-  MenuItem,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
-import {
-  FaAngleDown,
-  FaCaretDown,
-  FaChevronDown,
-  FaFlag,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
-import { FaPlus, FaRegEdit, FaUserAlt } from "react-icons/fa";
-import { IoAccessibility } from "react-icons/io5";
-import { GoPencil } from "react-icons/go";
+import { useFormik } from "formik";
+import { useEffect, useRef } from "react";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { FaPlus } from "react-icons/fa";
+import { FaTriangleExclamation } from "react-icons/fa6";
+import { VscEmptyWindow } from "react-icons/vsc";
 import { v4 as uuid } from "uuid";
 import * as Yup from "yup";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { VscEmptyWindow } from "react-icons/vsc";
-import { useFormik } from "formik";
+import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
 import UnsavedChangesModal from "../CreateTemplate/UnsavedChangesModal";
 import StepModalFormDraggable from "./StepModalFormDraggable";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
 // this component is used in Create Template Page, Create Template Sidebar and Create workOrder Page
 export default function EditStepQuestionModal({
   editStepQuestionsDisclosure,

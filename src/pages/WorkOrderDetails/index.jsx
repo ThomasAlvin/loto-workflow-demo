@@ -1,21 +1,20 @@
 import { Box, useDisclosure, useToast } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import { useLoading } from "../../service/LoadingContext";
-import WorkOrderDetailsOverviewPage from "./WorkOrderDetailsOverviewPage.jsx";
-import WorkOrderDetailsAuditLogPage from "./WorkOrderDetailsAuditLogPage.jsx";
-import { useParams } from "react-router-dom";
-import { api } from "../../api/api.js";
-import Swal from "sweetalert2";
-import SwalErrorMessages from "../../components/SwalErrorMessages.jsx";
-import WorkOrderDetailsReviewsPage from "./WorkOrderDetailsReviewsPage.jsx";
-import WorkOrderDetailsLayout from "../../components/Layout/WorkOrderDetailsLayout.jsx";
-import WorkOrderDetails404Page from "./WorkOrderDetails404Page.jsx";
-import { useSelector } from "react-redux";
-import CustomToast from "../../components/CustomToast.jsx";
-import SendReminderModal from "../../components/WorkOrders/SendReminderModal.jsx";
-import checkHasPermission from "../../utils/checkHasPermission.jsx";
 import { ReactFlowProvider } from "@xyflow/react";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import { api } from "../../api/api.js";
+import WorkOrderDetailsLayout from "../../components/Layout/WorkOrderDetailsLayout.jsx";
+import SwalErrorMessages from "../../components/SwalErrorMessages.jsx";
+import SendReminderModal from "../../components/WorkOrders/SendReminderModal.jsx";
 import { DeleteMultiLockAccessProvider } from "../../service/DeleteMultiLockAccessContext.jsx";
+import { useLoading } from "../../service/LoadingContext";
+import checkHasPermission from "../../utils/checkHasPermission.jsx";
+import WorkOrderDetails404Page from "./WorkOrderDetails404Page.jsx";
+import WorkOrderDetailsAuditLogPage from "./WorkOrderDetailsAuditLogPage.jsx";
+import WorkOrderDetailsOverviewPage from "./WorkOrderDetailsOverviewPage.jsx";
+import WorkOrderDetailsReviewsPage from "./WorkOrderDetailsReviewsPage.jsx";
 
 export default function WorkOrderDetailsPage() {
   const pageModule = "work_orders";

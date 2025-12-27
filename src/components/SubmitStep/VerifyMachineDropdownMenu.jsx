@@ -1,35 +1,6 @@
-import {
-  Box,
-  Button,
-  Center,
-  Collapse,
-  Flex,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Spinner,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useFormik } from "formik";
-import { useEffect, useRef, useState } from "react";
-import { AiOutlineCloudUpload } from "react-icons/ai";
-import { BsQrCode } from "react-icons/bs";
-import QrScanner from "qr-scanner";
-import {
-  FaChevronDown,
-  FaFileCsv,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
+import { Box, Flex } from "@chakra-ui/react";
 import { FiCheckCircle } from "react-icons/fi";
-import { GrPowerCycle } from "react-icons/gr";
-import { IoMdCheckmark, IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { IoWarning } from "react-icons/io5";
-import { LuUpload } from "react-icons/lu";
-import { MdKeyboardTab } from "react-icons/md";
-import tinycolor from "tinycolor2";
-import { FaCheckCircle } from "react-icons/fa";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 export default function VerifyMachineDropdownMenu({ formik, machine }) {
   const hasInputError =
     formik.errors.inputUID && formik.touched.inputUID

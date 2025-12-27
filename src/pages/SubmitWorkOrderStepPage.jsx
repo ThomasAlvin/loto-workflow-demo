@@ -4,7 +4,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Avatar,
   Box,
   Button,
   Center,
@@ -17,39 +16,38 @@ import {
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { IoCheckmarkSharp, IoInformationCircle } from "react-icons/io5";
-import { IoMdLock } from "react-icons/io";
-import { LuNetwork } from "react-icons/lu";
-import SubmitWorkOrderStepNavbar from "../components/SubmitStep/SubmitWorkOrderStepNavbar";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { get } from "lodash";
+import moment from "moment";
+import { useEffect, useRef, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import { FaCogs } from "react-icons/fa";
 import {
   FaArrowLeftLong,
   FaRegBell,
   FaTriangleExclamation,
 } from "react-icons/fa6";
-import SubmitWorkOrderStepSideMenu from "../components/SubmitStep/SubmitWorkOrderStepSideMenu";
-import { TiClipboard } from "react-icons/ti";
-import { FaCogs, FaUserAlt } from "react-icons/fa";
-import * as Yup from "yup";
-import { useForm, useWatch } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useLoading } from "../service/LoadingContext";
-import { useEffect, useRef, useState } from "react";
-import { api } from "../api/api";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import LoadingOverlay from "../components/LoadingOverlay";
-import Swal from "sweetalert2";
-import SwalErrorMessages from "../components/SwalErrorMessages";
-import { get } from "lodash";
 import { FiCheckCircle } from "react-icons/fi";
-import SubmitWorkOrderStepFormQuestions from "../components/SubmitStep/SubmitWorkOrderStepFormQuestions";
-import { useSelector } from "react-redux";
-import labelizeRole from "../utils/labelizeRole";
-import MemberGroupList from "../components/MemberGroupList";
-import VerifyMachineUIDModal from "../components/SubmitStep/VerifyMachineUIDModal";
-import image404 from "../assets/images/404-page.png";
+import { IoMdLock } from "react-icons/io";
+import { IoCheckmarkSharp, IoInformationCircle } from "react-icons/io5";
+import { LuNetwork } from "react-icons/lu";
 import { TbLineScan } from "react-icons/tb";
-import moment from "moment";
+import { TiClipboard } from "react-icons/ti";
+import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import * as Yup from "yup";
+import { api } from "../api/api";
+import image404 from "../assets/images/404-page.png";
+import LoadingOverlay from "../components/LoadingOverlay";
+import MemberGroupList from "../components/MemberGroupList";
 import SubmitQuestionTypeMapper from "../components/SubmitQuestionTypeMapper";
+import SubmitWorkOrderStepFormQuestions from "../components/SubmitStep/SubmitWorkOrderStepFormQuestions";
+import SubmitWorkOrderStepNavbar from "../components/SubmitStep/SubmitWorkOrderStepNavbar";
+import SubmitWorkOrderStepSideMenu from "../components/SubmitStep/SubmitWorkOrderStepSideMenu";
+import VerifyMachineUIDModal from "../components/SubmitStep/VerifyMachineUIDModal";
+import SwalErrorMessages from "../components/SwalErrorMessages";
+import { useLoading } from "../service/LoadingContext";
 export default function SubmitWorkOrderStepPage() {
   const taskRefs = useRef([]);
   const location = useLocation();

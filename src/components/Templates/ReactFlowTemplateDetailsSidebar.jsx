@@ -1,5 +1,4 @@
 import { Avatar, Box, Flex, useDisclosure } from "@chakra-ui/react";
-import { useReactFlow } from "@xyflow/react";
 import moment from "moment";
 import { useRef, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
@@ -16,7 +15,6 @@ export default function ReactFlowTemplateDetailsSidebar({ templateDetails }) {
 
   const nodeGhostRef = useRef();
   const [ghostData, setGhostData] = useState({});
-  const { getEdges, getNodes } = useReactFlow();
   const creator = templateDetails.template_access.find(
     (user) => user.role === "owner"
   );

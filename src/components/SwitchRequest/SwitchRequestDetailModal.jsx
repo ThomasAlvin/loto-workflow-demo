@@ -1,10 +1,5 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
   Avatar,
-  Box,
   Button,
   Divider,
   Flex,
@@ -16,21 +11,18 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import SwitchRequestDetailStep from "./SwitchRequestDetailStep";
-import tinycolor from "tinycolor2";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import { FaUserAlt } from "react-icons/fa";
-import labelizeRole from "../../utils/labelizeRole";
-import ReactSelect from "react-select";
-import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
-import { FaTriangleExclamation } from "react-icons/fa6";
-import Swal from "sweetalert2";
 import { useEffect, useRef, useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
+import tinycolor from "tinycolor2";
+import * as Yup from "yup";
 import { api } from "../../api/api";
-import SwalErrorMessages from "../SwalErrorMessages";
-import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import labelizeRole from "../../utils/labelizeRole";
 import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
+import tableStatusStyleMapper from "../../utils/tableStatusStyleMapper";
+import SwalErrorMessages from "../SwalErrorMessages";
+import SwitchRequestDetailStep from "./SwitchRequestDetailStep";
 export default function SwitchRequestDetailModal({
   abortControllerRef,
   fetchSwitchRequest,

@@ -16,7 +16,6 @@ import {
 } from "react-icons/fa6";
 
 export default function UrlBasedPagination({
-  // setCurrentPage,
   updateSearchParams,
   totalPages,
   currentPage,

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -12,13 +11,13 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { FaChevronLeft, FaTrashAlt, FaUserAlt } from "react-icons/fa";
-import CreateTemplatePageLayout from "../../components/Layout/CreateTemplateLayout";
 import { ImCheckmark } from "react-icons/im";
-import TemplateAssignDrawer from "../../components/CreateTemplate/TemplateAssignDrawer";
-import { api } from "../../api/api";
 import { useSelector } from "react-redux";
+import { api } from "../../api/api";
+import TemplateAssignDrawer from "../../components/CreateTemplate/TemplateAssignDrawer";
+import CreateTemplatePageLayout from "../../components/Layout/CreateTemplateLayout";
 import labelizeRole from "../../utils/labelizeRole";
 export default function EditTemplateAccessPage({
   submitTemplate,
@@ -28,7 +27,6 @@ export default function EditTemplateAccessPage({
   currentPage,
   setCurrentPage,
 }) {
-  const nav = useNavigate();
   const userSelector = useSelector((state) => state.login.auth);
 
   const [memberSelection, setMemberSelection] = useState([]);

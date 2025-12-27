@@ -1,5 +1,4 @@
 import { Flex } from "@chakra-ui/react";
-
 import ResponseTypeMapper from "../../components/ResponseTypeMapper";
 import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
 

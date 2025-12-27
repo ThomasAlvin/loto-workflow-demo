@@ -1,25 +1,4 @@
 import { Box, useDisclosure } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
-import { debounce } from "lodash";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { api } from "../../api/api";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
-import { useLoading } from "../../service/LoadingContext";
-import EditWorkOrderAssignPage from "./EditWorkOrderAssignPage";
-import EditWorkOrderBuildPage from "./EditWorkOrderBuildPage";
-import moment from "moment";
-import Swal from "sweetalert2";
-import LeavePageConfirmationModal from "../../components/CreateWorkOrder/LeavePageConfirmationModal";
-import EmptySelectionWarningModal from "../../components/CreateWorkOrder/EmptySelectionWarningModal";
-import SwalErrorMessages from "../../components/SwalErrorMessages";
-import convertToFormData from "../../utils/convertToFormData";
 import {
   getNodesBounds,
   getViewportForBounds,
@@ -27,14 +6,32 @@ import {
   useEdgesState,
   useNodesState,
 } from "@xyflow/react";
-import { DeleteMultiLockAccessProvider } from "../../service/DeleteMultiLockAccessContext";
-import defaultNodeSettings from "../../constants/defaultNodeSettings";
-import getConnectedNodes from "../../utils/getConnectedNodes";
-import autoArrangeNodes from "../../utils/autoArrangeNodes";
+import { useFormik } from "formik";
 import { toPng } from "html-to-image";
+import { debounce } from "lodash";
+import moment from "moment";
+import { useCallback, useEffect, useState } from "react";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import Swal from "sweetalert2";
+import { v4 as uuid } from "uuid";
+import * as Yup from "yup";
+import { api } from "../../api/api";
+import EmptySelectionWarningModal from "../../components/CreateWorkOrder/EmptySelectionWarningModal";
+import LeavePageConfirmationModal from "../../components/CreateWorkOrder/LeavePageConfirmationModal";
+import SwalErrorMessages from "../../components/SwalErrorMessages";
+import { DeleteMultiLockAccessProvider } from "../../service/DeleteMultiLockAccessContext";
+import { useLoading } from "../../service/LoadingContext";
 import base64ToFile from "../../utils/base64ToFile";
 import convertStepsToXyFlowData from "../../utils/convertStepsToXyFlowData";
+import convertToFormData from "../../utils/convertToFormData";
+import getConnectedNodes from "../../utils/getConnectedNodes";
 import WorkOrderDetails404Page from "../WorkOrderDetails/WorkOrderDetails404Page";
+import EditWorkOrderBuildPage from "./EditWorkOrderBuildPage";
 
 export default function EditWorkOrderPage() {
   const location = useLocation();
@@ -244,9 +241,9 @@ export default function EditWorkOrderPage() {
         ),
       },
     };
-    const workFlowImage = await getWorkFlowImage();
-    const formData = convertToFormData(formDataObject);
-    formData.append("flowChartImages[]", workFlowImage);
+    // const workFlowImage = await getWorkFlowImage();
+    // const formData = convertToFormData(formDataObject);
+    // formData.append("flowChartImages[]", workFlowImage);
 
     try {
       const response = await api.testSubmit("Work order saved successfully");

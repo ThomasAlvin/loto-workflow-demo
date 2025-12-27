@@ -23,6 +23,9 @@ import {
   Tr,
 } from "@chakra-ui/react";
 
+import moment from "moment";
+import { useEffect, useRef, useState } from "react";
+import { AiFillPlusCircle } from "react-icons/ai";
 import {
   FaCheck,
   FaRegCalendarAlt,
@@ -33,23 +36,20 @@ import {
 import { FaChevronRight, FaMapLocationDot, FaUserLarge } from "react-icons/fa6";
 import {
   LuClipboardCheck,
-  LuClipboardPen,
   LuClipboardList,
   LuClipboardPaste,
+  LuClipboardPen,
 } from "react-icons/lu";
-import { AiFillPlusCircle } from "react-icons/ai";
-import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import tinycolor from "tinycolor2";
 import { api } from "../api/api";
-import moment from "moment";
+import emptyIllustration from "../assets/images/EmptyStateImage.png";
+import ListEmptyState from "../components/ListEmptyState";
+import DashboardPageSkeleton from "../skeletons/DashboardPageSkeleton";
+import formatString from "../utils/formatString";
 import labelizeRole from "../utils/labelizeRole";
 import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
-import { useNavigate } from "react-router-dom";
-import DashboardPageSkeleton from "../skeletons/DashboardPageSkeleton";
-import ListEmptyState from "../components/ListEmptyState";
-import emptyIllustration from "../assets/images/EmptyStateImage.png";
-import tinycolor from "tinycolor2";
-import { useDispatch, useSelector } from "react-redux";
-import formatString from "../utils/formatString";
 
 export default function DashboardPage() {
   const abortControllerRef = useRef(new AbortController()); // Persistent controller

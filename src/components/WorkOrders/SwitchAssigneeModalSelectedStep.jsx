@@ -15,10 +15,8 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { FaUserAlt } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 import ReactSelect from "react-select";
-import labelizeRole from "../../utils/labelizeRole";
 import WorkFlowStepBadges from "../CreateTemplate/WorkFlowStepBadges";
 import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
 import MemberGroupList from "../MemberGroupList";

@@ -6,7 +6,6 @@ import {
   AccordionPanel,
   Avatar,
   Box,
-  Checkbox,
   Flex,
   Table,
   TableContainer,
@@ -14,28 +13,19 @@ import {
   Td,
   Th,
   Thead,
-  Tooltip,
   Tr,
 } from "@chakra-ui/react";
-import { FaCogs, FaUserAlt } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import {
-  FaChevronDown,
-  FaRegBell,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
-import { BsGlobe2, BsQuestionCircle } from "react-icons/bs";
-import { TiClipboard } from "react-icons/ti";
-import { MdLockOutline } from "react-icons/md";
+import { useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
+import { FaChevronDown, FaTriangleExclamation } from "react-icons/fa6";
+import ReactSelect from "react-select";
 import labelizeRole from "../../utils/labelizeRole";
 import WorkFlowStepBadges from "../CreateTemplate/WorkFlowStepBadges";
 import InspectionQuestionAccordion from "../InspectionQuestionAccordion";
-import ReactSelect from "react-select";
 
-import WorkOrderDetailsStepInspectionForm from "../WorkOrders/WorkOrderDetailsStepInspectionForm";
-import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
-import ReactSelectMemberMultiValue from "../ReactSelectMemberMultiValue";
 import MemberGroupList from "../MemberGroupList";
+import ReactSelectMemberSelection from "../ReactSelectMemberSelection";
+import WorkOrderDetailsStepInspectionForm from "../WorkOrders/WorkOrderDetailsStepInspectionForm";
 
 export default function SwitchRequestDetailStep({
   val,

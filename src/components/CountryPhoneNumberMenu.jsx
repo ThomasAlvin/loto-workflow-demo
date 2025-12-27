@@ -1,17 +1,13 @@
 import {
   Button,
   Flex,
-  Input,
   Menu,
   MenuButton,
-  MenuItem,
-  MenuList,
   useDisclosure,
 } from "@chakra-ui/react";
+import { memo, useEffect, useRef } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { FaCaretDown } from "react-icons/fa";
-import { getCountries, getCountryCallingCode } from "libphonenumber-js";
-import { memo, useEffect, useMemo, useRef, useState } from "react";
 import CountryPhoneNumberMenuList from "./CountryPhoneNumberMenuList";
 function CountryPhoneNumberMenuMemo({
   selectedCountryCodeValue,

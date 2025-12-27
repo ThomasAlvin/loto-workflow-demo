@@ -11,7 +11,6 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import tinycolor from "tinycolor2";
 

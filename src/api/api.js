@@ -75,13 +75,15 @@ export const mockApi = {
     await delay();
     return;
   },
-  testSubmit: async (successMessage) => {
+  testSubmit: async (successMessage, isError = false) => {
     await delay();
     return {
       data: {
         message:
           successMessage +
-          " (This is a demo environment. Data is not persisted.)",
+          (isError
+            ? ""
+            : " (This is a demo environment. Data is not persisted.)"),
       },
     };
   },

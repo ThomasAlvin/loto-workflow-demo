@@ -1,44 +1,33 @@
 import {
   Box,
   Button,
-  Collapse,
   Divider,
   Flex,
   Input,
-  MenuItem,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
   Spinner,
-  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { FaChevronDown, FaTriangleExclamation } from "react-icons/fa6";
-import { ImExit } from "react-icons/im";
-import { IoIosLock } from "react-icons/io";
-import { IoWarning } from "react-icons/io5";
-import VerifyMachineDropdownMenu from "./VerifyMachineDropdownMenu";
-import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useEffect, useRef, useState } from "react";
-import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
-import Swal from "sweetalert2";
-import SwalErrorMessages from "../SwalErrorMessages";
-import { api } from "../../api/api";
-import { useLocation, useNavigate } from "react-router-dom";
 import QrScanner from "qr-scanner";
+import { useEffect, useRef, useState } from "react";
 import {
-  BsCameraFill,
-  BsCameraVideo,
   BsCameraVideoFill,
   BsCameraVideoOffFill,
   BsQrCodeScan,
 } from "react-icons/bs";
+import { FaTriangleExclamation } from "react-icons/fa6";
 import { FiCheckCircle } from "react-icons/fi";
+import { IoWarning } from "react-icons/io5";
+import { useLocation, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
+import VerifyMachineDropdownMenu from "./VerifyMachineDropdownMenu";
 
 export default function VerifyMachineUIDModal({
   setValue,

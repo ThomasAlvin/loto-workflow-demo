@@ -1,52 +1,52 @@
-import { memo, useEffect, useRef, useState } from "react";
 import {
-  Flex,
-  useDisclosure,
-  Divider,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Box,
-  Checkbox,
   Accordion,
-  AccordionItem,
   AccordionButton,
-  AccordionPanel,
   AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  Flex,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Slider,
+  SliderFilledTrack,
+  SliderMark,
+  SliderThumb,
+  SliderTrack,
   Textarea,
   Tooltip,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderMark,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { FaTriangleExclamation } from "react-icons/fa6";
-import { FaPlus } from "react-icons/fa";
-import { v4 as uuid } from "uuid";
-import { IoAccessibility } from "react-icons/io5";
-import { GoPencil } from "react-icons/go";
-import * as Yup from "yup";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { VscEmptyWindow } from "react-icons/vsc";
-import { useFormik } from "formik";
-import StepModalFormDraggable from "./StepModalFormDraggable";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import dynamicPropsComparator from "../../utils/dynamicPropsComparator";
-import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
 import { useReactFlow } from "@xyflow/react";
-import computeNodeOrder from "../../utils/computeNodeOrder";
+import { useFormik } from "formik";
+import { memo, useEffect, useRef, useState } from "react";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { FaPlus } from "react-icons/fa";
+import { FaTriangleExclamation } from "react-icons/fa6";
+import { GoPencil } from "react-icons/go";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import { IoAccessibility } from "react-icons/io5";
+import { VscEmptyWindow } from "react-icons/vsc";
+import { v4 as uuid } from "uuid";
+import * as Yup from "yup";
 import defaultNodeSettings from "../../constants/defaultNodeSettings";
-import getConnectedNodes from "../../utils/getConnectedNodes";
+import computeNodeOrder from "../../utils/computeNodeOrder";
+import dynamicPropsComparator from "../../utils/dynamicPropsComparator";
 import getConditionalEdge from "../../utils/getConditionalEdge";
 import getConditionalNode from "../../utils/getConditionalNode";
 import getConditionalStepValue from "../../utils/getConditionalStepValue";
+import getConnectedNodes from "../../utils/getConnectedNodes";
+import setAllFieldsTouched from "../../utils/setAllFieldsTouched";
+import StepModalFormDraggable from "./StepModalFormDraggable";
 
 function AddStepModalMemo({
   setColumns,
