@@ -21,7 +21,8 @@ export default function EquipmentMachineDownloadQRCode({ UID, name }) {
       <Flex display={"none"} ref={QRCodeRef}>
         <QRCodeCanvas
           value={UID}
-          size={170} // Size of the QR code in pixels
+          size={170}
+          marginSize={3}
           bgColor="#ffffff" // Background color
           fgColor="#000000" // Foreground (QR code) color
           level="L" // Error correction level (L, M, Q, H)

@@ -14,9 +14,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { api } from "../../api/api";
 import SwalErrorMessages from "../SwalErrorMessages";
+import toSnakeCase from "../../utils/toSnakeCase";
 export default function ReportDetailsNavbar({
   generatePdf,
-  reportUID,
+  reportName,
   setCurrentPage,
   currentPage,
 }) {
@@ -24,24 +25,7 @@ export default function ReportDetailsNavbar({
   async function downloadReportPDF(controller) {
     try {
       setPdfLoading(true);
-      const response = await api.get(`report/${reportUID}/download`, {
-        signal: controller.signal,
-        responseType: "blob", // 👈 this tells axios to handle binary
-      });
-
-      // Convert the blob into a downloadable object
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      const url = window.URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `report-${reportUID}.pdf`); // name of the file
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // cleanup
-      window.URL.revokeObjectURL(url);
+      await api.downloadReportPdfByName(toSnakeCase(reportName));
     } catch (error) {
       let errorMessage = "Something went wrong while downloading the report.";
 
@@ -196,17 +180,6 @@ export default function ReportDetailsNavbar({
                   )}
                 </Button>
               </ButtonGroup>
-            </Flex>
-            <Flex>
-              <Button
-                px={"20px"}
-                bg={"#dc143c"}
-                color={"white"}
-                alignItems={"center"}
-                gap={"10px"}
-              >
-                Share
-              </Button>
             </Flex>
           </Flex>
         </Box>

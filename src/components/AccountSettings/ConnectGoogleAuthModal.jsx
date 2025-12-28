@@ -173,6 +173,15 @@ export default function ConnectGoogleAuthModal({
                   QRLoading={QRLoading}
                 />
               </Flex>
+              <Flex
+                w={"100%"}
+                justify={"center"}
+                fontSize={"14px"}
+                color={"#848484"}
+              >
+                Note: This is a demo environment and the QR Code shown is not
+                real
+              </Flex>
               <Flex flexDir={"column"} gap={"20px"}>
                 <Flex fontSize={"14px"} gap={"10px"} align={"flex-start"}>
                   <Flex

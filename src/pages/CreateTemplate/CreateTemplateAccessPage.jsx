@@ -18,7 +18,7 @@ import CreateTemplatePageLayout from "../../components/Layout/CreateTemplateLayo
 import { ImCheckmark } from "react-icons/im";
 import TemplateAssignDrawer from "../../components/CreateTemplate/TemplateAssignDrawer";
 import { api } from "../../api/api";
-import labelizeRole from "../utils/labelizeRole";
+import labelizeRole from "../../utils/labelizeRole";
 export default function CreateTemplateAccessPage({
   templateDetails,
   setTemplateDetails,

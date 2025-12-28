@@ -465,69 +465,66 @@ export default function VerifyMachineUIDModal({
                           Enter the machine’s unique ID to verify the machine
                         </Flex>
                       </Flex>
-                      <Flex>
-                        <Input
-                          isDisabled={
-                            hasQrError === false &&
-                            formik.values.inputQrUID ===
-                              formik.values.machineUID
-                              ? true
-                              : false
-                          }
-                          placeholder="Ex: 6907FA3F-427B-4196-BE7B-48D3CACB30BE"
-                          border={
-                            hasInputError
-                              ? "1px solid #dc143c"
-                              : hasInputError === false &&
-                                formik.values.inputUID ===
-                                  formik.values.machineUID
-                              ? "1px solid #3D9666"
-                              : "1px solid #E2E8F0"
-                          }
-                          onBlur={formik.handleBlur}
-                          onChange={(e) => {
-                            inputHandler(e);
-                          }}
-                          // value={machineInput.inputUID}
-                          id={`inputUID`}
-                        ></Input>
+                      <Flex flexDir={"column"} gap={"10px"}>
+                        <Flex>
+                          <Input
+                            isDisabled={
+                              hasQrError === false &&
+                              formik.values.inputQrUID ===
+                                formik.values.machineUID
+                                ? true
+                                : false
+                            }
+                            placeholder="Ex: 6907FA3F-427B-4196-BE7B-48D3CACB30BE"
+                            border={
+                              hasInputError
+                                ? "1px solid #dc143c"
+                                : hasInputError === false &&
+                                  formik.values.inputUID ===
+                                    formik.values.machineUID
+                                ? "1px solid #3D9666"
+                                : "1px solid #E2E8F0"
+                            }
+                            onBlur={formik.handleBlur}
+                            onChange={(e) => {
+                              inputHandler(e);
+                            }}
+                            // value={machineInput.inputUID}
+                            id={`inputUID`}
+                          ></Input>
+                        </Flex>
+                        {hasInputError ? (
+                          <Flex
+                            bg={"#fde2e2"}
+                            px={"10px"}
+                            py={"2px"}
+                            color="crimson"
+                            fontSize="14px"
+                            gap="5px"
+                            alignItems="center"
+                          >
+                            <FaTriangleExclamation />
+                            <Flex>{formik.errors?.inputUID}</Flex>
+                          </Flex>
+                        ) : hasInputError === false &&
+                          formik.values.inputUID ===
+                            formik.values.machineUID ? (
+                          <Flex
+                            bg={"#DBF6CB"}
+                            px={"10px"}
+                            py={"2px"}
+                            color="#3D9666"
+                            fontSize="14px"
+                            gap="5px"
+                            alignItems="center"
+                          >
+                            <FiCheckCircle />
+                            <Flex>Equipment/Machine UID is valid</Flex>
+                          </Flex>
+                        ) : (
+                          ""
+                        )}
                       </Flex>
-                      {hasInputError ? (
-                        <Flex
-                          bg={"#fde2e2"}
-                          px={"10px"}
-                          py={"2px"}
-                          position={"absolute"}
-                          left={0}
-                          bottom={"-35px"}
-                          color="crimson"
-                          fontSize="14px"
-                          gap="5px"
-                          alignItems="center"
-                        >
-                          <FaTriangleExclamation />
-                          <Flex>{formik.errors?.inputUID}</Flex>
-                        </Flex>
-                      ) : hasInputError === false &&
-                        formik.values.inputUID === formik.values.machineUID ? (
-                        <Flex
-                          bg={"#DBF6CB"}
-                          px={"10px"}
-                          py={"2px"}
-                          position={"absolute"}
-                          left={0}
-                          bottom={"-35px"}
-                          color="#3D9666"
-                          fontSize="14px"
-                          gap="5px"
-                          alignItems="center"
-                        >
-                          <FiCheckCircle />
-                          <Flex>Equipment/Machine UID is valid</Flex>
-                        </Flex>
-                      ) : (
-                        ""
-                      )}
                     </Flex>
                   </Box>
                 </Flex>

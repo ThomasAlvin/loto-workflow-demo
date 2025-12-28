@@ -162,7 +162,7 @@ export default function NotificationCard({
                 color={val.type === "system" ? "#307aba" : "#848484"}
               >
                 {val.type === "system"
-                  ? "Digipas Technologies.Inc"
+                  ? "LOTO Workflow System"
                   : val.from_user?.is_superadmin
                   ? labelizeRole("super_admin")
                   : val?.from_user?.member?.role

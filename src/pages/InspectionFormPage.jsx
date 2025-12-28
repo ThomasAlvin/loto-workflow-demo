@@ -648,7 +648,9 @@ export default function InspectionFormPage() {
                         color={"#bababa"}
                       >
                         <Flex fontSize={"14px"}>
-                          Updated {moment(val.updated_at).fromNow()}
+                          {moment(val.created_at).format(
+                            "DD MMMM YYYY | hh:mm A"
+                          )}
                         </Flex>
                       </Flex>
                     </Flex>

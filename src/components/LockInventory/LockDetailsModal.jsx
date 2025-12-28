@@ -8,8 +8,8 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Link,
   Modal,
+  Link as ChakraLink,
   ModalBody,
   ModalContent,
   ModalFooter,
@@ -35,7 +35,7 @@ import { IoIosLock, IoMdSearch } from "react-icons/io";
 import { IoBatteryHalf } from "react-icons/io5";
 import { LuNfc } from "react-icons/lu";
 import { MdEvent } from "react-icons/md";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../api/api";
 import labelizeRole from "../../utils/labelizeRole";
 import formatString from "../../utils/formatString";
@@ -406,10 +406,12 @@ export default function LockDetailsModal({
                         textOverflow={"ellipsis"}
                         whiteSpace={"nowrap"}
                         onClick={(e) => e.stopPropagation()}
+                        fontWeight={700}
+                        color={"#848484"}
+                        _hover={{ color: "black" }}
                       >
                         <Link
-                          href={`/work-order/${selectedLockDetails?.work_order_multi_lock_group_item?.work_order_step?.work_order?.UID}`}
-                          fontWeight={700}
+                          to={`/work-order/${selectedLockDetails?.work_order_multi_lock_group_item?.work_order_step?.work_order?.UID}`}
                         >
                           {
                             selectedLockDetails
@@ -655,7 +657,7 @@ export default function LockDetailsModal({
                                 >
                                   {val.longitude && val.latitude ? (
                                     <Flex>
-                                      <Link
+                                      <ChakraLink
                                         target="_blank"
                                         href={`https://www.google.com/maps?q=${val.longitude},${val.latitude}`}
                                       >
@@ -668,7 +670,7 @@ export default function LockDetailsModal({
                                             <FaMapLocationDot />
                                           </Flex>
                                         </Flex>
-                                      </Link>
+                                      </ChakraLink>
                                     </Flex>
                                   ) : (
                                     "-"

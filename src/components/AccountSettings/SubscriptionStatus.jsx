@@ -13,7 +13,7 @@ export default function SubscriptionStatus({ subscription }) {
           case "active":
             return (
               <Flex fontSize={"14px"} alignItems={"center"} color={"#848484"}>
-                Your free trial ends on
+                Your free trial ends on{" "}
                 {moment(subscription?.current_period_end).format(
                   "MMMM D, YYYY"
                 )}

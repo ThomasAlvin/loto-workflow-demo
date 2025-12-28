@@ -173,6 +173,7 @@ export default function CreateWorkSiteModal({
                 <Flex>
                   <Input
                     {...register("name")}
+                    placeholder="Los Angeles Office"
                     border={
                       errors.name ? "1px solid crimson" : "1px solid #E2E8F0"
                     }
@@ -220,6 +221,7 @@ export default function CreateWorkSiteModal({
                         : "1px solid #E2E8F0"
                     }
                     {...register("location")}
+                    placeholder="Saint Louis Street 23rd Block B No 29"
                   />
                 </Flex>
                 {errors.location ? (

@@ -1,6 +1,7 @@
-import { Button, Center, Flex, Image, Link } from "@chakra-ui/react";
+import { Button, Center, Flex, Image } from "@chakra-ui/react";
 import image404 from "../assets/images/404-page.png";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 export default function NotFoundPage() {
   return (
@@ -18,7 +19,7 @@ export default function NotFoundPage() {
             The page might be deleted or it never existed
           </Flex>
         </Center>
-        <Link href="/starter-guide">
+        <Link to="/starter-guide">
           <Button color={"white"} bg={"#dc143c"}>
             <Flex alignItems={"center"} gap={"10px"}>
               <FaArrowLeftLong />

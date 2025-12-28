@@ -9,6 +9,7 @@ import {
   Spinner,
   Tooltip,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { Link } from "react-router-dom";
@@ -29,6 +30,7 @@ import Can from "../components/Can";
 export default function WorkSitesPage() {
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
   const pageModule = "work_sites";
+  const toast = useToast();
   const userSelector = useSelector((state) => state.login.auth);
   const { newNotificationsCountByWorkSite } = useNotifications();
   const editWorkSiteDisclosure = useDisclosure();
@@ -69,16 +71,6 @@ export default function WorkSitesPage() {
       .getWorkSites()
       .then((response) => {
         setWorkSites(response.data.data);
-        // to check if the worksite that is modified when editing worksite is the same as the one that is currently selected and update its data according to its change
-        if (userSelector.current_work_site?.UID === modifiedWorkSite?.UID) {
-          switchWorkSite(
-            response.data.data.find(
-              (workSite) => workSite.UID === modifiedWorkSite.UID
-            ),
-            isDefault,
-            false
-          );
-        }
       })
       .catch((error) => {
         console.log(error);
@@ -88,6 +80,14 @@ export default function WorkSitesPage() {
       });
   }
   async function switchWorkSite(workSite, isDefault, includeSwal = true) {
+    toast({
+      title: "Feature disabled",
+      description: "Switching work sites is disabled in demo environment",
+      status: "warning",
+      duration: 3000,
+      position: "top",
+      isClosable: true,
+    });
     switchWorkSiteDisclosure.onClose();
   }
   function handleOpenSwitchWorkSiteModal(workSite) {

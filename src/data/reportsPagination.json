@@ -6,7 +6,7 @@
       "name": "CNC Machine Maintenance",
       "description": null,
       "flow_chart_images": [
-        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/report/EB1E4259-0D5A-463E-9746-9971DBEFE1A6/flowChart/1/EB1E4259-0D5A-463E-9746-9971DBEFE1A6.jpg"
+        "/images/dataImages/ReportWorkflow/cnc_machine_maintenance.png"
       ],
       "work_sitesId": 5,
       "creatorId": 10,

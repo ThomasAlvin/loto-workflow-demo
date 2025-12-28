@@ -336,7 +336,7 @@ export default function SubmitWorkOrderStepPage() {
   async function fetchWorkOrderStepDetails() {
     setLoading(true);
     await api
-      .getSubmitWorkOrderStep()
+      .getSubmitWorkOrderStep(UID)
       .then((response) => {
         const responseWorkOrder = response.data.work_order;
         const workOrderStep = responseWorkOrder?.work_order_step;
@@ -410,75 +410,66 @@ export default function SubmitWorkOrderStepPage() {
       });
   }
 
-  function applyCompletedInspectionForms(response) {
-    if (!response?.completed_inspection_forms) return;
-
+  function applyCompletedInspectionForms(inspectionFormUID) {
     const machines = getValues().workOrderStepMachines;
-    const attempt = workOrder.work_order_step.attempt || 0;
-    response.completed_inspection_forms.forEach((inspectionForm) => {
-      const index = machines.findIndex(
-        (machine) =>
-          machine.workOrderInspectionFormUID ===
-          inspectionForm.work_order_step_inspection_form_UID
-      );
+    const index = machines.findIndex(
+      (machine) => machine.workOrderInspectionFormUID === inspectionFormUID
+    );
+    setWorkOrder((prev) => {
+      return {
+        ...prev,
+        work_order_step: {
+          ...prev.work_order_step,
+          work_order_step_machines:
+            prev.work_order_step.work_order_step_machines?.map((wosm) => ({
+              ...wosm,
+              selected_inspection_forms: wosm.selected_inspection_forms?.map(
+                (sif) => {
+                  if (
+                    sif.work_order_step_inspection_form.UID ===
+                    inspectionFormUID
+                  ) {
+                    return {
+                      ...sif,
+                      work_order_step_inspection_form: {
+                        ...sif.work_order_step_inspection_form,
 
-      if (index === -1) return;
-      setWorkOrder((prev) => {
-        return {
-          ...prev,
-          work_order_step: {
-            ...prev.work_order_step,
-            work_order_step_machines:
-              prev.work_order_step.work_order_step_machines?.map((wosm) => ({
-                ...wosm,
-                selected_inspection_forms: wosm.selected_inspection_forms?.map(
-                  (sif) => {
-                    if (
-                      sif.work_order_step_inspection_form.UID ===
-                      inspectionForm.work_order_step_inspection_form_UID
-                    ) {
-                      return {
-                        ...sif,
-                        work_order_step_inspection_form: {
-                          ...sif.work_order_step_inspection_form,
+                        // ⭐ Replace-or-Push logic here
+                        work_order_step_inspection_form_submission: (() => {
+                          const prev =
+                            sif.work_order_step_inspection_form
+                              .work_order_step_inspection_form_submission;
 
-                          // ⭐ Replace-or-Push logic here
-                          work_order_step_inspection_form_submission: (() => {
-                            const prev =
-                              sif.work_order_step_inspection_form
-                                .work_order_step_inspection_form_submission;
+                          const attempt =
+                            workOrder.work_order_step.attempt || 0;
 
-                            const attempt =
-                              workOrder.work_order_step.attempt || 0;
+                          const arr = [...prev];
 
-                            const arr = [...prev];
+                          // If attempt index exists → replace
+                          if (attempt < arr.length) {
+                            arr[attempt] = { created_at: Date.now() };
+                          } else {
+                            // If index does NOT exist → push
+                            arr.push({ created_at: Date.now() });
+                          }
 
-                            // If attempt index exists → replace
-                            if (attempt < arr.length) {
-                              arr[attempt] = inspectionForm.submission;
-                            } else {
-                              // If index does NOT exist → push
-                              arr.push(inspectionForm.submission);
-                            }
-
-                            return arr;
-                          })(),
-                        },
-                      };
-                    }
-                    return sif; // ⭐ FIX
+                          return arr;
+                        })(),
+                      },
+                    };
                   }
-                ),
-              })),
-          },
-        };
-      });
-      setValue(`workOrderStepMachines[${index}].isCompleted`, true, {
-        shouldValidate: true,
-      });
-      setValue(`workOrderStepMachines[${index}].isMachineVerified`, true, {
-        shouldValidate: true,
-      });
+                  return sif; // ⭐ FIX
+                }
+              ),
+            })),
+        },
+      };
+    });
+    setValue(`workOrderStepMachines[${index}].isCompleted`, true, {
+      shouldValidate: true,
+    });
+    setValue(`workOrderStepMachines[${index}].isMachineVerified`, true, {
+      shouldValidate: true,
     });
   }
 
@@ -599,7 +590,7 @@ export default function SubmitWorkOrderStepPage() {
           confirmButton: "swal2-custom-confirm-button",
         },
       });
-      applyCompletedInspectionForms(responseMachine.data);
+      applyCompletedInspectionForms(inspectionFormUID);
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -1417,43 +1408,6 @@ export default function SubmitWorkOrderStepPage() {
                                                                             "10px"
                                                                           }
                                                                         >
-                                                                          <Flex
-                                                                            flexDir={
-                                                                              "column"
-                                                                            }
-                                                                            gap={
-                                                                              "5px"
-                                                                            }
-                                                                          >
-                                                                            <Flex
-                                                                              fontWeight={
-                                                                                700
-                                                                              }
-                                                                            >
-                                                                              Submitted
-                                                                              by
-                                                                              :
-                                                                            </Flex>
-                                                                            <MemberGroupList
-                                                                              grayBg={
-                                                                                false
-                                                                              }
-                                                                              memberArray={[
-                                                                                inspectionForm
-                                                                                  .work_order_step_inspection_form
-                                                                                  .work_order_step_inspection_form_submission[
-                                                                                  workOrder
-                                                                                    .work_order_step
-                                                                                    .attempt ||
-                                                                                    0
-                                                                                ]
-                                                                                  .user,
-                                                                              ]}
-                                                                              isDataUserFirst={
-                                                                                true
-                                                                              }
-                                                                            />
-                                                                          </Flex>
                                                                           <Flex
                                                                             gap={
                                                                               "10px"

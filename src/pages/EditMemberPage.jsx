@@ -2,59 +2,38 @@ import {
   Avatar,
   Box,
   Button,
-  Divider,
   Flex,
   IconButton,
   Input,
-  InputGroup,
-  InputLeftElement,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Select,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { FaPlus, FaRegEdit, FaUserAlt } from "react-icons/fa";
-import {
-  FaCamera,
-  FaChevronDown,
-  FaLeftLong,
-  FaTriangleExclamation,
-} from "react-icons/fa6";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useLoading } from "../service/LoadingContext";
-import { api } from "../api/api";
 import { useFormik } from "formik";
-import * as Yup from "yup";
+import parsePhoneNumberFromString from "libphonenumber-js";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FaRegEdit } from "react-icons/fa";
+import { FaCamera, FaLeftLong, FaTriangleExclamation } from "react-icons/fa6";
+import { ImCheckmark } from "react-icons/im";
+import { IoMdClose } from "react-icons/io";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import { ImCheckmark } from "react-icons/im";
-import CreatableSelect from "react-select/creatable";
-import roleSelection from "../constants/RoleSelection";
-import SwalErrorMessages from "../components/SwalErrorMessages";
-import ImageFocusOverlay from "../components/ImageFocusOverlay";
-import {
-  IoMdClose,
-  IoMdInformationCircleOutline,
-  IoMdSearch,
-} from "react-icons/io";
-import ReactSelectCustomControl from "../components/ReactSelectCustomControl";
-import CustomMenuList from "../components/CustomSelectionSelect";
-import { BiBorderBottom, BiChevronDownCircle } from "react-icons/bi";
-import CustomSelectionSelect from "../components/CustomSelectionSelect";
-import setAllFieldsTouched from "../utils/setAllFieldsTouched";
-import CustomizeMemberPermissionModal from "../components/Member/CustomizeMemberPermissionModal";
-import newRoleSelection from "../constants/NewRoleSelection";
-import formatString from "../utils/formatString";
-import checkHasPermission from "../utils/checkHasPermission";
-import { useSelector } from "react-redux";
-import convertToFormData from "../utils/convertToFormData";
+import * as Yup from "yup";
+import { api } from "../api/api";
 import CountryPhoneNumberInput from "../components/CountryPhoneNumberInput";
-import removeCountryCode from "../utils/removeCountryCode";
+import CustomSelectionSelect from "../components/CustomSelectionSelect";
+import ImageFocusOverlay from "../components/ImageFocusOverlay";
+import CustomizeMemberPermissionModal from "../components/Member/CustomizeMemberPermissionModal";
+import SwalErrorMessages from "../components/SwalErrorMessages";
+import newRoleSelection from "../constants/NewRoleSelection";
+import { useLoading } from "../service/LoadingContext";
+import checkHasPermission from "../utils/checkHasPermission";
+import convertToFormData from "../utils/convertToFormData";
+import formatString from "../utils/formatString";
 import getPhoneCountryDetailsByCountryCode from "../utils/getPhoneCountryDetailsByCountryCode";
-import parsePhoneNumberFromString from "libphonenumber-js";
+import removeCountryCode from "../utils/removeCountryCode";
+import setAllFieldsTouched from "../utils/setAllFieldsTouched";
 
 export default function EditMemberPage() {
   const pageModule = "members";

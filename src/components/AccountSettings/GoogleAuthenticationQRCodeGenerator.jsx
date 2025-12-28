@@ -1,4 +1,7 @@
+import { Flex, Spinner } from "@chakra-ui/react";
+import { QRCodeCanvas } from "qrcode.react";
 import { useRef } from "react";
+import { GrPowerCycle } from "react-icons/gr";
 export default function GoogleAuthenticationQRCodeGenerator({
   QRCodeValue,
   refreshQrCode,

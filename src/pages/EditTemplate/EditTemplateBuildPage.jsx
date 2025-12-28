@@ -92,41 +92,39 @@ export default function EditTemplateBuildPage({
       formik.handleSubmit();
     }
   }
-  function deleteEdges(deletedEdges) {
-    const filteredEdges = edges.filter(
-      (e) => !deletedEdges.some((de) => de.id === e.id)
-    );
-    setEdges(filteredEdges);
+  const deleteEdges = useCallback(
+    (deletedEdges) => {
+      const filteredEdges = edges.filter(
+        (e) => !deletedEdges.some((de) => de.id === e.id)
+      );
+      setEdges(filteredEdges);
 
-    let reorderedNodes = computeNodeOrder(
-      nodes,
-      filteredEdges,
-      nodes[0]?.id || null
-    );
-    const startNode = reorderedNodes.find((n) => n.data.isStart);
-    const orderedNodes = startNode
-      ? getConnectedNodes(startNode, filteredEdges)
-      : [];
-    // let orderedNodes = reorderedNodes.filter((nds) => nds.data.order);
+      let reorderedNodes = computeNodeOrder(
+        nodes,
+        filteredEdges,
+        nodes[0]?.id || null
+      );
+      setNodes(
+        reorderedNodes.map((node) => {
+          const hadLoopBackFromThisNode = deletedEdges.some(
+            (edge) =>
+              edge.source === node.id && edge.sourceHandle === "loop-back"
+          );
 
-    setNodes((prevNodes) =>
-      prevNodes.map((node) => {
-        const hadLoopBackFromThisNode = deletedEdges.some(
-          (edge) => edge.source === node.id && edge.sourceHandle === "loop-back"
-        );
+          if (!hadLoopBackFromThisNode) return node;
 
-        if (!hadLoopBackFromThisNode) return node;
-
-        return {
-          ...node,
-          data: {
-            ...node.data,
-            loop_target_UID: null,
-          },
-        };
-      })
-    );
-  }
+          return {
+            ...node,
+            data: {
+              ...node.data,
+              loop_target_UID: null,
+            },
+          };
+        })
+      );
+    },
+    [edges, nodes, setEdges, setNodes, computeNodeOrder, getConnectedNodes]
+  );
   const handleOpenEditStepModal = useCallback(
     (selectedStep, selectedIndex) => {
       editStepDisclosure.onOpen();

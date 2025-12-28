@@ -5,7 +5,7 @@ import ReportDetailsNavbar from "../Report/ReportDetailsNavbar";
 
 export default function ReportDetailsLayout({
   children,
-  reportUID,
+  reportName,
   generatePdf,
   currentPage,
   setCurrentPage,
@@ -18,7 +18,7 @@ export default function ReportDetailsLayout({
           <Flex w={"100%"} pb={"100px"} flexDir={"column"}>
             <ReportDetailsNavbar
               currentPage={currentPage}
-              reportUID={reportUID}
+              reportName={reportName}
               setCurrentPage={setCurrentPage}
               generatePdf={generatePdf}
             />

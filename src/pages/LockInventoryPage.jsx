@@ -546,10 +546,10 @@ export default function LockInventoryPage() {
                               maxW={"240px"}
                               whiteSpace={"nowrap"}
                               onClick={(e) => e.stopPropagation()}
+                              fontWeight={700}
                             >
                               <Link
-                                href={`/work-order/${val?.work_order_multi_lock_group_item?.work_order_step?.work_order?.UID}`}
-                                fontWeight={700}
+                                to={`/work-order/${val?.work_order_multi_lock_group_item?.work_order_step?.work_order?.UID}`}
                               >
                                 {
                                   val?.work_order_multi_lock_group_item
@@ -616,7 +616,7 @@ export default function LockInventoryPage() {
                             // bg={"#D32F2F"}
                             borderRadius={"100%"}
                           ></Flex>
-                          <Flex>90%</Flex>
+                          <Flex>{val.battery_level || 0}%</Flex>
                         </Flex>
                       </Td>
                       <Td

@@ -10,7 +10,6 @@ import * as Yup from "yup";
 import { useLoading } from "../../service/LoadingContext";
 import Swal from "sweetalert2";
 import SwalErrorMessages from "../../components/SwalErrorMessages";
-import convertToFormData from "../../utils/convertToFormData";
 import { ReactFlowProvider, useEdgesState, useNodesState } from "@xyflow/react";
 import { DeleteMultiLockAccessProvider } from "../../service/DeleteMultiLockAccessContext";
 import getConnectedNodes from "../../utils/getConnectedNodes";
@@ -74,35 +73,6 @@ export default function EditTemplatePage() {
     const connectedNodes = nodes
       .filter((n) => connectedNodeIds.has(n.id))
       .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
-
-    const filteredWorkFlow = connectedNodes.map((item) => {
-      const filteredItem = { ...item.data };
-
-      if (!filteredItem.form) {
-        delete filteredItem.formQuestions;
-      }
-
-      if (!filteredItem.notify) {
-        delete filteredItem.notificationMessage;
-      }
-
-      return filteredItem;
-    });
-
-    let formDataObject = {
-      ...templateDetails,
-      name: titleInput || templateDetails.name,
-      workFlow: filteredWorkFlow,
-      access: templateDetails.access.filter(
-        (templateAccess) => templateAccess.role !== "owner"
-      ),
-    };
-
-    // disabled cause template don't save workflow images
-    // const workFlowImage = await getWorkFlowImage();
-    const formData = convertToFormData(formDataObject);
-    // disabled cause template don't save workflow images
-    // formData.append("flowChartImages[]", workFlowImage);
 
     await api
       .testSubmit("Template saved successfully")

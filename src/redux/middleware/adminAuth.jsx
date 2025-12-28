@@ -1,4 +1,3 @@
-
 const init = {
   id: "",
   first_name: "",
@@ -45,7 +44,7 @@ function adminReducer(state = init, action) {
   } else if (action.type === "stopLoading") {
     return { ...init, login_loading: false };
   } else if (action.type === "logout") {
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("authUid");
     return init;
   }
 

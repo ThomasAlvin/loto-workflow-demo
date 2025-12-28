@@ -14,12 +14,13 @@ export default function AuthProvider({ children }) {
   const userSelector = useSelector((state) => state.login.auth);
 
   async function initializeAuth() {
-    const user = localStorage.getItem("isLoggedIn");
+    const authUid = localStorage.getItem("authUid");
 
-    if (user) {
+    if (authUid) {
       try {
+        if (!authUid) return;
         const authData = await api
-          .getAuth()
+          .getAuth(authUid)
           .then((res) => res.data.user)
           .catch((error) => {
             toast({

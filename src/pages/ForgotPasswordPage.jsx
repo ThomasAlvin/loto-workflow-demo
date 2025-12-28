@@ -211,7 +211,7 @@ export default function ForgotPasswordPage() {
         <Center color={"blackAlpha.700"} gap={"20px"}>
           <Flex fontSize={"13px"}>English</Flex>
           <Flex fontSize={"13px"}>
-            © {moment().format("YYYY")} Digipas Technologies
+            © {moment().format("YYYY")} LOTO Workflow System Demo
           </Flex>
         </Center>
       </Center>

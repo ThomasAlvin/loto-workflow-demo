@@ -604,19 +604,16 @@ export default function CreateWorkOrderBuildPage({
 
   const deleteEdges = useCallback(
     (deletedEdges) => {
-      // 1. Filter out deleted edges
       const filteredEdges = edges.filter(
         (e) => !deletedEdges.some((de) => de.id === e.id)
       );
       setEdges(filteredEdges);
 
-      // 2. Recompute node ordering
       let reorderedNodes = computeNodeOrder(
         nodes,
         filteredEdges,
         nodes[0]?.id || null
       );
-
       setNodes(
         reorderedNodes.map((node) => {
           const hadLoopBackFromThisNode = deletedEdges.some(

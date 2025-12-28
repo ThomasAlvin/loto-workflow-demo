@@ -69,6 +69,8 @@ export default function EquipmentMachineDetailsModal({
                   >
                     {selectedEquipmentMachineDetails?.main_image_url ? (
                       <Image
+                        w="100%"
+                        h="100%"
                         borderRadius={"100%"}
                         src={selectedEquipmentMachineDetails?.main_image_url}
                       ></Image>

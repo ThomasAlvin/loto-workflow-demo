@@ -187,7 +187,7 @@ export default function ReportDetailsPage() {
 
   return !fetchError ? (
     <ReportDetailsLayout
-      reportUID={UID}
+      reportName={report?.name}
       setCurrentPage={setCurrentPage}
       currentPage={currentPage}
       generatePdf={generatePdf}

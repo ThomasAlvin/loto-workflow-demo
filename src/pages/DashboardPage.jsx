@@ -21,6 +21,7 @@ import {
   Thead,
   Tooltip,
   Tr,
+  useToast,
 } from "@chakra-ui/react";
 
 import moment from "moment";
@@ -59,6 +60,7 @@ export default function DashboardPage() {
   const [dashboardData, setDashboardData] = useState({});
   const [workSiteLoading, setWorkSiteLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const toast = useToast();
   const nav = useNavigate();
 
   const summaryCards = [
@@ -105,10 +107,15 @@ export default function DashboardPage() {
         setWorkSiteLoading(false);
       });
   }
-  async function switchWorkSite(workSite) {
-    abortControllerRef.current.abort(); // Cancel any previous request
-    abortControllerRef.current = new AbortController();
-    fetchDashboardData();
+  async function switchWorkSite() {
+    toast({
+      title: "Feature disabled",
+      description: "Switching work sites is disabled in demo environment",
+      status: "warning",
+      duration: 3000,
+      position: "top",
+      isClosable: true,
+    });
   }
   async function fetchDashboardData() {
     setIsLoading(true);

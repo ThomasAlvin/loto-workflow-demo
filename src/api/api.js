@@ -59,7 +59,7 @@ export const mockApi = {
         },
       };
     } else if (
-      loginInput.email === "testAdmin@gmail.com" &&
+      loginInput.email === "testadmin@gmail.com" &&
       loginInput.password === "Test@123"
     ) {
       return {
@@ -149,11 +149,13 @@ export const mockApi = {
       },
     };
   },
-  getAuth: async () => {
+  getAuth: async (UID) => {
     await delay();
     return {
       data: {
-        user: superAdminUserAuth,
+        user: {
+          ...[superAdminUserAuth, adminUserAuth].find((val) => val.UID === UID),
+        },
       },
     };
   },
@@ -189,11 +191,11 @@ export const mockApi = {
       },
     };
   },
-  getSubmitWorkOrderStep: async () => {
+  getSubmitWorkOrderStep: async (UID) => {
     await delay();
     return {
       data: {
-        ...submitWorkOrderStep,
+        ...submitWorkOrderStep.find((val) => val.work_order.UID === UID),
       },
     };
   },

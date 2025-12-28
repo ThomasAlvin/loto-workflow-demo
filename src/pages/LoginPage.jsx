@@ -41,6 +41,7 @@ export default function LoginPage() {
     setValue,
     register,
     handleSubmit,
+    reset,
     getValues,
     setFocus,
     formState: { errors, isSubmitting },
@@ -63,9 +64,8 @@ export default function LoginPage() {
     localStorage.getItem("locale") || navigator.language.split("-")[0]
   );
 
-  async function handleLogin() {
-    const loginInput = getValues();
-    localStorage.setItem("isLoggedIn", true);
+  async function handleLogin(loginInput) {
+    reset(loginInput);
     dispatch({ type: "startLoading" });
     // setButtonLoading(true);
 
@@ -76,6 +76,7 @@ export default function LoginPage() {
         const isSubscriptionValid =
           userAuthData?.main_work_site?.superadmin?.subscriptions?.status ===
           "active";
+        localStorage.setItem("authUid", userAuthData.UID);
         dispatch({
           type: "login",
           payload: {
@@ -125,118 +126,139 @@ export default function LoginPage() {
   }
 
   return (
-    <>
-      <Center flexDir={"column"} gap={"10px"} h={"100vh"} w={"100%"}>
-        <Center flexDir={"column"} gap={"80px"}>
-          <Center flexDir={"column"}>
-            <Center gap={"12px"} flexDir={"column"}>
-              <Center
-                py={"30px"}
-                className={"loginpage-container"}
-                flexDir={"column"}
-                border={"1px solid #dbdbdb"}
-              >
-                <Flex flexDir={"column"} pb={"30px"}>
-                  <Center
-                    fontSize={"32px"}
-                    fontWeight={"700"}
-                    color={"#dc143c"}
-                  >
-                    Welcome Admin!
-                  </Center>
-                  <Center color={"#848484"} fontSize={"12px"}>
-                    Login with email and password
-                  </Center>
-                </Flex>
-                <Center flexDir={"column"} px={"20px"}>
-                  <Flex flexDir={"column"} position={"relative"} pb={"20px"}>
-                    <Input
-                      {...register("email")}
-                      fontSize={"12px"}
-                      onKeyDown={handleKeyPress}
-                      bgColor={"#fafafa"}
-                      placeholder={"Email"}
-                      pl={"15px"}
-                      onChange={inputHandler}
-                      id="email"
-                      w={"300px"}
-                    ></Input>
-                    {errors.email && (
-                      <Flex
-                        position={"absolute"}
-                        left={0}
-                        bottom={0}
-                        color="crimson"
-                        fontSize="14px"
-                        gap="5px"
-                        alignItems="center"
-                      >
-                        <FaTriangleExclamation />
-                        <Flex>{errors.email.message}</Flex>
-                      </Flex>
-                    )}
-                  </Flex>
-                  <Flex flexDir={"column"} position={"relative"} pb={"20px"}>
-                    <InputGroup>
-                      <Input
-                        {...register("password")}
-                        w={"300px"}
-                        id="password"
-                        bgColor={"#fafafa"}
-                        onKeyDown={handleKeyPress}
-                        onChange={inputHandler}
-                        fontSize={"12px"}
-                        type={seePassword ? "text" : "password"}
-                        placeholder={"Password"}
-                      ></Input>
-                      <InputRightElement width={"2.5rem"} h={"100%"}>
-                        <IconButton
-                          colorScheme="whiteAlpha"
-                          color={"grey"}
-                          as={
-                            seePassword ? AiOutlineEye : AiOutlineEyeInvisible
-                          }
-                          w={"24px"}
-                          h={"24px"}
-                          onClick={() => setSeePassword(!seePassword)}
-                          cursor={"pointer"}
-                        ></IconButton>
-                      </InputRightElement>
-                    </InputGroup>
-                    {errors.password && (
-                      <Flex
-                        position={"absolute"}
-                        left={0}
-                        bottom={0}
-                        color="crimson"
-                        fontSize="14px"
-                        gap="5px"
-                        alignItems="center"
-                      >
-                        <FaTriangleExclamation />
-                        <Flex>{errors.password.message}</Flex>
-                      </Flex>
-                    )}
-                  </Flex>
-                  <Flex
-                    pb={"20px"}
-                    w={"100%"}
-                    justifyContent="right"
-                    fontSize={"14px"}
-                    color={"#dc143c"}
-                    _hover={{ color: "#23527c" }}
-                  >
+    <Center flexDir={"column"} gap={"10px"} h={"100vh"} w={"100%"}>
+      <Center flexDir={"column"} gap={"80px"}>
+        <Center flexDir={"column"}>
+          <Center gap={"12px"} flexDir={"column"}>
+            <Center
+              py={"30px"}
+              className={"loginpage-container"}
+              flexDir={"column"}
+              border={"1px solid #dbdbdb"}
+            >
+              <Flex flexDir={"column"} pb={"30px"}>
+                <Center fontSize={"32px"} fontWeight={"700"} color={"#dc143c"}>
+                  Welcome User!
+                </Center>
+                <Center color={"#848484"} fontSize={"14px"}>
+                  LOTO Workflow System Demo
+                </Center>
+              </Flex>
+              <Center flexDir={"column"} px={"20px"}>
+                <Flex flexDir={"column"} position={"relative"} pb={"20px"}>
+                  <Input
+                    {...register("email")}
+                    fontSize={"12px"}
+                    onKeyDown={handleKeyPress}
+                    bgColor={"#fafafa"}
+                    placeholder={"Email"}
+                    pl={"15px"}
+                    onChange={inputHandler}
+                    id="email"
+                    w={"300px"}
+                  ></Input>
+                  {errors.email && (
                     <Flex
-                      cursor={"pointer"}
-                      fontWeight={400}
-                      color={"#dc143c"}
-                      _hover={{ color: "#b80d2f", textDecor: "underline" }}
-                      onClick={() => {
-                        nav("/forgot-password");
-                      }}
+                      position={"absolute"}
+                      left={0}
+                      bottom={0}
+                      color="crimson"
+                      fontSize="14px"
+                      gap="5px"
+                      alignItems="center"
                     >
-                      Forgot Password?{" "}
+                      <FaTriangleExclamation />
+                      <Flex>{errors.email.message}</Flex>
                     </Flex>
+                  )}
+                </Flex>
+                <Flex flexDir={"column"} position={"relative"} pb={"20px"}>
+                  <InputGroup>
+                    <Input
+                      {...register("password")}
+                      w={"300px"}
+                      id="password"
+                      bgColor={"#fafafa"}
+                      onKeyDown={handleKeyPress}
+                      onChange={inputHandler}
+                      fontSize={"12px"}
+                      type={seePassword ? "text" : "password"}
+                      placeholder={"Password"}
+                    ></Input>
+                    <InputRightElement width={"2.5rem"} h={"100%"}>
+                      <IconButton
+                        colorScheme="whiteAlpha"
+                        color={"grey"}
+                        as={seePassword ? AiOutlineEye : AiOutlineEyeInvisible}
+                        w={"24px"}
+                        h={"24px"}
+                        onClick={() => setSeePassword(!seePassword)}
+                        cursor={"pointer"}
+                      ></IconButton>
+                    </InputRightElement>
+                  </InputGroup>
+                  {errors.password && (
+                    <Flex
+                      position={"absolute"}
+                      left={0}
+                      bottom={0}
+                      color="crimson"
+                      fontSize="14px"
+                      gap="5px"
+                      alignItems="center"
+                    >
+                      <FaTriangleExclamation />
+                      <Flex>{errors.password.message}</Flex>
+                    </Flex>
+                  )}
+                </Flex>
+                <Flex
+                  pb={"20px"}
+                  w={"100%"}
+                  justifyContent="right"
+                  fontSize={"14px"}
+                  color={"#dc143c"}
+                  _hover={{ color: "#23527c" }}
+                >
+                  <Flex
+                    cursor={"pointer"}
+                    fontWeight={400}
+                    color={"#dc143c"}
+                    _hover={{ color: "#b80d2f", textDecor: "underline" }}
+                    onClick={() => {
+                      nav("/forgot-password");
+                    }}
+                  >
+                    Forgot Password?{" "}
+                  </Flex>
+                </Flex>
+                <Flex flexDir={"column"} gap={"10px"} w={"100%"}>
+                  <Button
+                    ref={submitButtonRef}
+                    isLoading={userSelector.login_loading}
+                    color={"white"}
+                    borderRadius={"10px"}
+                    id="submit"
+                    w={"100%"}
+                    bgColor={"#dc143c"}
+                    onClick={handleSubmit(() =>
+                      handleLogin({
+                        email: "test@gmail.com",
+                        password: "Test@123",
+                      })
+                    )}
+                  >
+                    Login as Super Admin{" "}
+                  </Button>
+                  <Flex
+                    pt={"5px"}
+                    gap={"10px"}
+                    w={"100%"}
+                    alignItems={"center"}
+                  >
+                    <Flex flex={1} borderBottom={"1px solid #848484"}></Flex>
+                    <Flex color={"#848484"}>OR</Flex>
+                    <Flex flex={1} borderBottom={"1px solid #848484"}></Flex>
                   </Flex>
                   <Button
                     ref={submitButtonRef}
@@ -246,40 +268,45 @@ export default function LoginPage() {
                     id="submit"
                     w={"100%"}
                     bgColor={"#dc143c"}
-                    onClick={handleSubmit(handleLogin)}
+                    onClick={handleSubmit(() =>
+                      handleLogin({
+                        email: "testadmin@gmail.com",
+                        password: "Test@123",
+                      })
+                    )}
                   >
-                    Login{" "}
+                    Login as Admin{" "}
                   </Button>
-                </Center>
-              </Center>
-              <Center
-                className="loginpage-border"
-                height={"60px"}
-                flexDir={"column"}
-                border={"1px solid #dbdbdb"}
-                paddingY={"20px"}
-              >
-                <Flex
-                  color={"blackAlpha.500"}
-                  fontSize={"13px"}
-                  textAlign={"center"}
-                  px={2}
-                >
-                  If you forgot your password and email, please contact your
-                  supervisor{" "}
                 </Flex>
               </Center>
-              <Center></Center>
             </Center>
+            <Center
+              className="loginpage-border"
+              height={"60px"}
+              flexDir={"column"}
+              border={"1px solid #dbdbdb"}
+              paddingY={"20px"}
+            >
+              <Flex
+                color={"blackAlpha.500"}
+                fontSize={"13px"}
+                textAlign={"center"}
+                px={2}
+              >
+                If you forgot your password and email, please contact your
+                supervisor{" "}
+              </Flex>
+            </Center>
+            <Center></Center>
           </Center>
         </Center>
-        <Center color={"blackAlpha.700"} gap={"20px"}>
-          <Flex fontSize={"13px"}>English</Flex>
-          <Flex fontSize={"13px"}>
-            © {moment().format("YYYY")} Digipas Technologies
-          </Flex>
-        </Center>
       </Center>
-    </>
+      <Center color={"blackAlpha.700"} gap={"20px"}>
+        <Flex fontSize={"13px"}>English</Flex>
+        <Flex fontSize={"13px"}>
+          © {moment().format("YYYY")} LOTO Workflow System Demo
+        </Flex>
+      </Center>
+    </Center>
   );
 }

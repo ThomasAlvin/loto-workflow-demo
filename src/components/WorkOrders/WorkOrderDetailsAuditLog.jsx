@@ -120,7 +120,7 @@ export default function WorkOrderDetailsAuditLog({
                     " - " +
                     auditLogUser.employee_id
                 : val.type === "system"
-                ? "Digipas Technologies.inc"
+                ? "LOTO Workflow System"
                 : ""}
             </Flex>
           </Flex>

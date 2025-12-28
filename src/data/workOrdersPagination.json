@@ -397,9 +397,6 @@
       "current_step": 7,
       "status": "completed",
       "is_overdue": 0,
-      "flow_chart_images": [
-        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/workOrder/DE70512B-7B06-4859-80D2-7700D694A051/flowChart/1/1765563735_file.png"
-      ],
       "work_order_custom_id": "LXH/WS01/121325/151",
       "reportId": 23,
       "work_sitesId": 5,
@@ -1238,9 +1235,6 @@
       "current_step": 1,
       "status": "ongoing",
       "is_overdue": 0,
-      "flow_chart_images": [
-        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/workOrder/24E3FE6E-A440-40B7-A47B-A2C955D43D1B/flowChart/1/1765560906_file.png"
-      ],
       "work_order_custom_id": "LXH/WS01/121325/150",
       "reportId": null,
       "work_sitesId": 5,
@@ -1364,9 +1358,6 @@
       "current_step": 1,
       "status": "ongoing",
       "is_overdue": 0,
-      "flow_chart_images": [
-        "media/superadmin/314A05A7-EA70-4E6B-836D-5A8789EAA51A/workOrder/UJHNGB5B-6078-4302-B318-EEBF2CA34363/flowChart/1/1765560599_file.png"
-      ],
       "work_order_custom_id": "LXH/WS01/121325/149",
       "reportId": null,
       "work_sitesId": 5,
