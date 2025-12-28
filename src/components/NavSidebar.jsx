@@ -573,7 +573,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
             </button>
 
             <Flex fontSize={"20px"} fontWeight={700}>
-              LOTO Workflow System Demo Version 1.3
+              LOTO Workflow System Demo Version 1.4
             </Flex>
           </Box>
 
