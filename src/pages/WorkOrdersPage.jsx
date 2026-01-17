@@ -34,9 +34,7 @@ import ListEmptyState from "../components/ListEmptyState";
 import Swal from "sweetalert2";
 import labelizeRole from "../utils/labelizeRole";
 import moment from "moment";
-import DeleteWorkOrderConfirmationModal from "../components/WorkOrders/DeleteWorkOrderConfirmationModal";
 import SwalErrorMessages from "../components/SwalErrorMessages";
-import DuplicateWorkOrderConfirmationModal from "../components/WorkOrders/DuplicateWorkOrderConfirmationModal";
 import SelectedActionBar from "../components/SelectedActionBar";
 import checkHasPermission from "../utils/checkHasPermission";
 import { useSelector } from "react-redux";
@@ -44,6 +42,7 @@ import CustomToast from "../components/CustomToast";
 import formatString from "../utils/formatString";
 import UrlBasedPagination from "../components/UrlBasedPagination";
 import Can from "../components/Can";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 export default function WorkOrdersPage() {
   const toast = useToast();
@@ -73,7 +72,7 @@ export default function WorkOrdersPage() {
     : Number(searchParams.get("page")) || 1;
   const searchFilter = searchParams.get("search") || "";
   const statusFilter = statusFilterSelection.includes(
-    searchParams.get("status")
+    searchParams.get("status"),
   )
     ? searchParams.get("status")
     : "";
@@ -102,11 +101,11 @@ export default function WorkOrdersPage() {
         updateSearchParams({ page: 1, search: value });
       }
     }, 1000),
-    [searchParams]
+    [searchParams],
   );
   function getTooltipLabel(members) {
     const names = members?.map(
-      (member) => member.user.first_name + " " + member.user.last_name
+      (member) => member.user.first_name + " " + member.user.last_name,
     );
     const displayedNames = names?.slice(0, 3).join(", ");
     const remainingCount = names?.length - 3;
@@ -142,14 +141,14 @@ export default function WorkOrdersPage() {
             return { ...state, copySuccess: false };
           }
           return state;
-        })
+        }),
       );
     }, 5000), // Adjust the delay as needed
-    []
+    [],
   );
 
   const checkedOnPage = selectedUID.filter((uid) =>
-    workOrders.map((workOrder) => workOrder.UID).includes(uid)
+    workOrders.map((workOrder) => workOrder.UID).includes(uid),
   );
   const allChecked =
     checkedOnPage.length ===
@@ -201,8 +200,8 @@ export default function WorkOrdersPage() {
     } else {
       setSelectedUID((prevState) =>
         prevState.filter(
-          (uid) => !workOrders.some((workOrder) => workOrder.UID === uid)
-        )
+          (uid) => !workOrders.some((workOrder) => workOrder.UID === uid),
+        ),
       );
     }
   }
@@ -218,7 +217,7 @@ export default function WorkOrdersPage() {
       (prevState) =>
         e.target.checked
           ? [...prevState, itemId] // Add if checked
-          : prevState.filter((id) => id !== itemId) // Remove if unchecked
+          : prevState.filter((id) => id !== itemId), // Remove if unchecked
     );
   }
 
@@ -278,7 +277,7 @@ export default function WorkOrdersPage() {
       .testSubmit("Work order deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
-          prevState.filter((selUID) => selUID !== UID)
+          prevState.filter((selUID) => selUID !== UID),
         );
         Swal.fire({
           title: "Success!",
@@ -493,7 +492,7 @@ export default function WorkOrdersPage() {
                       isDeleted: false,
                       isNew: false,
                     }
-                  : wo
+                  : wo,
               );
             });
             if (!cancelNextPusherToast) {
@@ -518,14 +517,14 @@ export default function WorkOrdersPage() {
           const deletedWorkOrder = pusherData.workOrder;
           if (
             workOrders.filter(
-              (workOrder) => workOrder.UID === deletedWorkOrder.UID
+              (workOrder) => workOrder.UID === deletedWorkOrder.UID,
             ).length
           ) {
             setWorkOrders((prevState) => {
               return prevState.map((wo) =>
                 wo.UID === deletedWorkOrder.UID
                   ? { ...wo, isDeleted: true, isUpdated: false, isNew: false }
-                  : wo
+                  : wo,
               );
             });
 
@@ -551,14 +550,14 @@ export default function WorkOrdersPage() {
           const deletedWorkOrders = pusherData.workOrder;
           if (
             workOrders.some((workOrder) =>
-              deletedWorkOrders.some((delWO) => delWO.UID === workOrder.UID)
+              deletedWorkOrders.some((delWO) => delWO.UID === workOrder.UID),
             )
           ) {
             setWorkOrders((prevState) => {
               return prevState.map((wo) =>
                 deletedWorkOrders.some((delWO) => delWO.UID === wo.UID)
                   ? { ...wo, isDeleted: true, isUpdated: false, isNew: false }
-                  : wo
+                  : wo,
               );
             });
 
@@ -788,19 +787,19 @@ export default function WorkOrdersPage() {
                         val?.isNew
                           ? "#f7f7ff"
                           : val?.isUpdated
-                          ? "#fffbf0"
-                          : val?.isDeleted
-                          ? "#fff5f5"
-                          : "white"
+                            ? "#fffbf0"
+                            : val?.isDeleted
+                              ? "#fff5f5"
+                              : "white"
                       }
                       _hover={{
                         background: val?.isNew
                           ? "#ededff"
                           : val?.isUpdated
-                          ? "#fff7e0"
-                          : val?.isDeleted
-                          ? ""
-                          : "#f5f5f5",
+                            ? "#fff7e0"
+                            : val?.isDeleted
+                              ? ""
+                              : "#f5f5f5",
                       }}
                       onClick={
                         val?.isDeleted
@@ -994,7 +993,7 @@ export default function WorkOrdersPage() {
                                 hasArrow
                                 label={getTooltipLabel(
                                   val.work_order_steps[val.current_step - 1]
-                                    ?.assigned_members
+                                    ?.assigned_members,
                                 )}
                               >
                                 <AvatarGroup max={3} size={"sm"} spacing={-3}>
@@ -1053,7 +1052,7 @@ export default function WorkOrdersPage() {
                                             <FaUserAlt />
                                           </Flex>
                                         </Flex>
-                                      )
+                                      ),
                                   )}
                                 </AvatarGroup>
                               </Tooltip>
@@ -1129,7 +1128,7 @@ export default function WorkOrdersPage() {
                                           ]?.assigned_members.length -
                                             1
                                             ? " "
-                                            : ", ")
+                                            : ", "),
                                       )
                                     : "No assignee"}
                                 </Flex>
@@ -1150,7 +1149,7 @@ export default function WorkOrdersPage() {
                             {Math.ceil(
                               (val.finished_step_count /
                                 val.work_order_steps_count) *
-                                100
+                                100,
                             ) || 0}
                             %
                           </Flex>
@@ -1161,7 +1160,7 @@ export default function WorkOrdersPage() {
                               Math.ceil(
                                 (val.finished_step_count /
                                   val.work_order_steps_count) *
-                                  100
+                                  100,
                               ) || 0
                             }
                           />
@@ -1212,7 +1211,7 @@ export default function WorkOrdersPage() {
                                 ""
                               )}
                               {moment(val.deadline_date_time).format(
-                                "YYYY-MM-DD"
+                                "YYYY-MM-DD",
                               )}
                             </Flex>
                             <Flex color={"#848484"} fontSize={"14px"}>
@@ -1301,20 +1300,25 @@ export default function WorkOrdersPage() {
         deleteSelectedButtonLoading={deleteSelectedButtonLoading}
         deleteSelectedDisclosure={deleteSelectedWorkOrderDisclosure}
       />
-      <DeleteWorkOrderConfirmationModal
-        deleteButtonLoading={deleteButtonLoading}
-        deleteWorkOrder={deleteWorkOrder}
-        selectedDeleteWorkOrderUID={selectedDeleteWorkOrderUID}
-        onClose={deleteWorkOrderDisclosure.onClose}
-        isOpen={deleteWorkOrderDisclosure.isOpen}
-        cancelNextPusherToast={cancelNextPusherToast}
+      <ConfirmationModal
+        header={"Delete Work order from worksite?"}
+        header2={"Are you sure you want to delete this Work Order?"}
+        body={"deleting this Work order is permanent and cannot be undone."}
+        confirmationFunction={() => deleteWorkOrder(selectedDeleteWorkOrderUID)}
+        buttonLoading={deleteButtonLoading}
+        confirmationDisclosure={deleteWorkOrderDisclosure}
+        confirmationLabel={"Confirm"}
       />
-      <DuplicateWorkOrderConfirmationModal
-        duplicateButtonLoading={duplicateButtonLoading}
-        duplicateWorkOrder={duplicateWorkOrder}
-        selectedDuplicateWorkOrderUID={selectedDuplicateWorkOrderUID}
-        onClose={duplicateWorkOrderDisclosure.onClose}
-        isOpen={duplicateWorkOrderDisclosure.isOpen}
+      <ConfirmationModal
+        header={"Duplicate Work order from worksite?"}
+        header2={"Are you sure you want to duplicate this Work Order?"}
+        body={"This action will create a drafted copy of the Work Order."}
+        confirmationFunction={() =>
+          duplicateWorkOrder(selectedDuplicateWorkOrderUID)
+        }
+        buttonLoading={duplicateButtonLoading}
+        confirmationDisclosure={duplicateWorkOrderDisclosure}
+        confirmationLabel={"Confirm"}
       />
     </Flex>
   );

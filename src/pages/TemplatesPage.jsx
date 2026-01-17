@@ -38,7 +38,6 @@ import ImportListModal from "../components/ImportListModal";
 import ListEmptyState from "../components/ListEmptyState";
 import SelectedActionBar from "../components/SelectedActionBar";
 import SwalErrorMessages from "../components/SwalErrorMessages";
-import DeleteTemplateConfirmationModal from "../components/Templates/DeleteTemplateConfirmationModal";
 import TemplateDetailsModal from "../components/Templates/TemplateDetailsModal";
 import TemplateMenu from "../components/Templates/TemplateMenu";
 import UrlBasedPagination from "../components/UrlBasedPagination";
@@ -47,6 +46,7 @@ import formatAvatarGroupTooltip from "../utils/formatAvatarGroupTooltip";
 import formatString from "../utils/formatString";
 import labelizeRole from "../utils/labelizeRole";
 import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
+import ConfirmationModal from "../components/ConfirmationModal";
 export default function TemplatesPage() {
   const userSelector = useSelector((state) => state.login.auth);
   const abortControllerRef = useRef(new AbortController());
@@ -68,7 +68,7 @@ export default function TemplatesPage() {
     : Number(searchParams.get("page")) || 1;
   const searchFilter = searchParams.get("search") || "";
   const statusFilter = statusFilterSelection.includes(
-    searchParams.get("status")
+    searchParams.get("status"),
   )
     ? searchParams.get("status")
     : "";
@@ -91,7 +91,7 @@ export default function TemplatesPage() {
         updateSearchParams({ page: 1, search: value });
       }
     }, 1000),
-    [searchParams]
+    [searchParams],
   );
   function updateSearchParams(updates) {
     setSearchParams((prev) => {
@@ -111,7 +111,7 @@ export default function TemplatesPage() {
     });
   }
   const checkedOnPage = selectedUID.filter((uid) =>
-    templates.map((template) => template.UID).includes(uid)
+    templates.map((template) => template.UID).includes(uid),
   );
   const allChecked =
     checkedOnPage.length === templates.map((template) => template.UID).length &&
@@ -130,8 +130,8 @@ export default function TemplatesPage() {
     } else {
       setSelectedUID((prevState) =>
         prevState.filter(
-          (uid) => !templates.some((template) => template.UID === uid)
-        )
+          (uid) => !templates.some((template) => template.UID === uid),
+        ),
       );
     }
   }
@@ -147,7 +147,7 @@ export default function TemplatesPage() {
       (prevState) =>
         e.target.checked
           ? [...prevState, itemId] // Add if checked
-          : prevState.filter((id) => id !== itemId) // Remove if unchecked
+          : prevState.filter((id) => id !== itemId), // Remove if unchecked
     );
   }
 
@@ -191,7 +191,7 @@ export default function TemplatesPage() {
       .testSubmit("Template deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
-          prevState.filter((selUID) => selUID !== UID)
+          prevState.filter((selUID) => selUID !== UID),
         );
         Swal.fire({
           title: "Success!",
@@ -516,10 +516,10 @@ export default function TemplatesPage() {
                     tableStatusStyleMapper(val.status);
                   const currentUserAccess = val.template_access.find(
                     (templateAccess) =>
-                      templateAccess?.member?.userId === userSelector.id
+                      templateAccess?.member?.userId === userSelector.id,
                   );
                   const creator = val.template_access.find(
-                    (user) => user.role === "owner"
+                    (user) => user.role === "owner",
                   );
                   const creatorInfo = creator?.super_admin
                     ? {
@@ -653,7 +653,7 @@ export default function TemplatesPage() {
                                   placement="top"
                                   hasArrow
                                   label={formatAvatarGroupTooltip(
-                                    templateAccessMembers
+                                    templateAccessMembers,
                                   )}
                                 >
                                   <AvatarGroup max={3} size={"sm"} spacing={-3}>
@@ -710,7 +710,7 @@ export default function TemplatesPage() {
                                               <FaUserAlt />
                                             </Flex>
                                           </Flex>
-                                        )
+                                        ),
                                     )}
                                   </AvatarGroup>
                                 </Tooltip>
@@ -736,7 +736,7 @@ export default function TemplatesPage() {
                                         (assignedMemberIndex ===
                                         templateAccessMembers.length - 1
                                           ? " "
-                                          : ", ")
+                                          : ", "),
                                     )
                                   : "No assignee"}
                               </Flex>
@@ -858,12 +858,14 @@ export default function TemplatesPage() {
         deleteSelectedButtonLoading={deleteSelectedButtonLoading}
         deleteSelectedDisclosure={deleteSelectedTemplateDisclosure}
       />
-      <DeleteTemplateConfirmationModal
-        deleteButtonLoading={deleteButtonLoading}
-        deleteTemplate={deleteTemplate}
-        selectedDeleteTemplateUID={selectedDeleteTemplateUID}
-        onClose={deleteTemplateDisclosure.onClose}
-        isOpen={deleteTemplateDisclosure.isOpen}
+      <ConfirmationModal
+        header={"Delete Template?"}
+        header2={"Are you sure you want to delete this Template?"}
+        body={"deleting this template is permanent and cannot be undone."}
+        confirmationFunction={() => deleteTemplate(selectedDeleteTemplateUID)}
+        buttonLoading={deleteButtonLoading}
+        confirmationDisclosure={deleteTemplateDisclosure}
+        confirmationLabel={"Confirm"}
       />
       <TemplateDetailsModal
         selectedTemplateDetails={selectedTemplateDetails}

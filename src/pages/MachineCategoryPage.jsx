@@ -32,12 +32,12 @@ import moment from "moment";
 import ImportListModal from "../components/ImportListModal";
 import { debounce } from "lodash";
 import SelectedActionBar from "../components/SelectedActionBar";
-import DeleteMachineCategoryConfirmationModal from "../components/MachineCategories/DeleteMachineCategoryConfirmationModal";
 import SwalErrorMessages from "../components/SwalErrorMessages";
 import { useSelector } from "react-redux";
 import ListEmptyState from "../components/ListEmptyState";
 import UrlBasedPagination from "../components/UrlBasedPagination";
 import Can from "../components/Can";
+import ConfirmationModal from "../components/ConfirmationModal";
 export default function MachineCategoryPage() {
   const pageModule = "equipment_machines";
   const [searchParams, setSearchParams] = useSearchParams();
@@ -70,7 +70,7 @@ export default function MachineCategoryPage() {
   const checkedOnPage = selectedUID.filter((uid) =>
     machineCategories
       .map((machineCategory) => machineCategory.UID)
-      .includes(uid)
+      .includes(uid),
   );
   const allChecked =
     checkedOnPage.length ===
@@ -85,7 +85,7 @@ export default function MachineCategoryPage() {
       (prevState) =>
         e.target.checked
           ? [...prevState, itemId] // Add if checked
-          : prevState.filter((id) => id !== itemId) // Remove if unchecked
+          : prevState.filter((id) => id !== itemId), // Remove if unchecked
     );
   }
   function handleCheckAll(e) {
@@ -99,8 +99,8 @@ export default function MachineCategoryPage() {
     } else {
       setSelectedUID((prevState) =>
         prevState.filter(
-          (uid) => !machineCategories.some((lock) => lock.UID === uid)
-        )
+          (uid) => !machineCategories.some((lock) => lock.UID === uid),
+        ),
       );
     }
   }
@@ -120,7 +120,7 @@ export default function MachineCategoryPage() {
         updateSearchParams({ page: 1, search: value });
       }
     }, 1000),
-    [searchParams]
+    [searchParams],
   );
   function updateSearchParams(updates) {
     setSearchParams((prev) => {
@@ -167,7 +167,7 @@ export default function MachineCategoryPage() {
       .testSubmit("Machine category deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
-          prevState.filter((selUID) => selUID !== UID)
+          prevState.filter((selUID) => selUID !== UID),
         );
         Swal.fire({
           title: "Success!",
@@ -269,7 +269,7 @@ export default function MachineCategoryPage() {
             id: inspectionForm.id,
             value: inspectionForm,
             label: inspectionForm.name,
-          }))
+          })),
         );
       })
       .catch((error) => {
@@ -279,10 +279,10 @@ export default function MachineCategoryPage() {
 
   function hasCreateMachineCategoryPermission() {
     const modulePermissions = userSelector.permissions?.find(
-      (perm) => perm.name === "machine_categories"
+      (perm) => perm.name === "machine_categories",
     );
     return modulePermissions?.permissions.some(
-      (perm) => perm.permission === "manage"
+      (perm) => perm.permission === "manage",
     );
   }
   useEffect(() => {
@@ -509,7 +509,7 @@ export default function MachineCategoryPage() {
                                           icon={<FaRegTrashAlt />}
                                           onClick={() => {
                                             handleOpenDeleteMachineCategoryModal(
-                                              val.UID
+                                              val.UID,
                                             );
                                           }}
                                         >
@@ -557,7 +557,7 @@ export default function MachineCategoryPage() {
                                             onClick={() => {
                                               nav(
                                                 "/equipment-machine?search=" +
-                                                  item?.machine?.name
+                                                  item?.machine?.name,
                                               );
                                             }}
                                             key={index}
@@ -627,7 +627,7 @@ export default function MachineCategoryPage() {
                                             onClick={() => {
                                               nav(
                                                 "/inspection-form?search=" +
-                                                  item?.name
+                                                  item?.name,
                                               );
                                             }}
                                             key={index}
@@ -684,7 +684,7 @@ export default function MachineCategoryPage() {
                         >
                           <Flex fontSize={"14px"}>
                             {moment(val.created_at).format(
-                              "DD MMMM YYYY | hh:mm A"
+                              "DD MMMM YYYY | hh:mm A",
                             )}
                           </Flex>
                         </Flex>
@@ -737,12 +737,18 @@ export default function MachineCategoryPage() {
           deleteSelectedButtonLoading={deleteSelectedButtonLoading}
           deleteSelectedDisclosure={deleteSelectedMachineCategoryDisclosure}
         />
-        <DeleteMachineCategoryConfirmationModal
-          deleteButtonLoading={deleteButtonLoading}
-          deleteMachineCategory={deleteMachineCategory}
-          selectedDeleteMachineCategoryUID={selectedDeleteMachineCategoryUID}
-          onClose={deleteMachineCategoryDisclosure.onClose}
-          isOpen={deleteMachineCategoryDisclosure.isOpen}
+        <ConfirmationModal
+          header={"Delete Machine Category from worksite?"}
+          header2={"Are you sure you want to delete this Machine Category?"}
+          body={
+            "deleting this machine category is permanent and cannot be undone."
+          }
+          confirmationFunction={() =>
+            deleteMachineCategory(selectedDeleteMachineCategoryUID)
+          }
+          buttonLoading={deleteButtonLoading}
+          confirmationDisclosure={deleteMachineCategoryDisclosure}
+          confirmationLabel={"Confirm"}
         />
       </Flex>
     </>

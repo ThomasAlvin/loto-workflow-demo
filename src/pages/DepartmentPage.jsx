@@ -27,12 +27,12 @@ import Swal from "sweetalert2";
 import SwalErrorMessages from "../components/SwalErrorMessages";
 import ListEmptyState from "../components/ListEmptyState";
 import DepartmentMenu from "../components/Department/DepartmentMenu";
-import DeleteDepartmentConfirmationModal from "../components/Department/DeleteDepartmentConfirmationModal";
 import EditDepartmentModal from "../components/Department/EditDepartmentModal";
 import DepartmentDetailsModal from "../components/Department/DepartmentDetailsModal";
 import CreateDepartmentModal from "../components/Department/CreateDepartmentModal";
 import UrlBasedPagination from "../components/UrlBasedPagination";
 import Can from "../components/Can";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 export default function DepartmentPage() {
   const pageModule = "members";
@@ -76,7 +76,7 @@ export default function DepartmentPage() {
   const createDepartmentDisclosure = useDisclosure();
 
   const checkedOnPage = selectedUID.filter((uid) =>
-    departments.map((department) => department.UID).includes(uid)
+    departments.map((department) => department.UID).includes(uid),
   );
   const allChecked =
     checkedOnPage.length ===
@@ -92,7 +92,7 @@ export default function DepartmentPage() {
       (prevState) =>
         e.target.checked
           ? [...prevState, itemId] // Add if checked
-          : prevState.filter((id) => id !== itemId) // Remove if unchecked
+          : prevState.filter((id) => id !== itemId), // Remove if unchecked
     );
   }
   function handleCheckAll(e) {
@@ -105,7 +105,9 @@ export default function DepartmentPage() {
       });
     } else {
       setSelectedUID((prevState) =>
-        prevState.filter((uid) => !departments.some((lock) => lock.UID === uid))
+        prevState.filter(
+          (uid) => !departments.some((lock) => lock.UID === uid),
+        ),
       );
     }
   }
@@ -120,12 +122,12 @@ export default function DepartmentPage() {
   function handleOpenEditDepartmentModal(UID) {
     editDepartmentDisclosure.onOpen();
     setSelectedEditDepartment(
-      departments.find((dept) => dept.UID === UID) || null
+      departments.find((dept) => dept.UID === UID) || null,
     );
   }
   function handleOpenDepartmentDetailsModal(UID) {
     setSelectedDepartmentDetails(
-      departments.find((dept) => dept.UID === UID) || null
+      departments.find((dept) => dept.UID === UID) || null,
     );
 
     departmentDetailsDisclosure.onOpen();
@@ -138,7 +140,7 @@ export default function DepartmentPage() {
         updateSearchParams({ page: 1, search: value });
       }
     }, 1000),
-    [searchParams]
+    [searchParams],
   );
   function updateSearchParams(updates) {
     setSearchParams((prev) => {
@@ -185,7 +187,7 @@ export default function DepartmentPage() {
       .testSubmit("Department deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
-          prevState.filter((selUID) => selUID !== UID)
+          prevState.filter((selUID) => selUID !== UID),
         );
         Swal.fire({
           title: "Success!",
@@ -610,12 +612,16 @@ export default function DepartmentPage() {
           onClose={departmentDetailsDisclosure.onClose}
           isOpen={departmentDetailsDisclosure.isOpen}
         />
-        <DeleteDepartmentConfirmationModal
-          deleteButtonLoading={deleteButtonLoading}
-          deleteDepartment={deleteDepartment}
-          selectedDeleteDepartmentUID={selectedDeleteDepartmentUID}
-          onClose={deleteDepartmentDisclosure.onClose}
-          isOpen={deleteDepartmentDisclosure.isOpen}
+        <ConfirmationModal
+          header={"Delete Department?"}
+          header2={"Are you sure you want to delete this Department?"}
+          body={"deleting this department is permanent and cannot be undone."}
+          confirmationFunction={() =>
+            deleteDepartment(selectedDeleteDepartmentUID)
+          }
+          buttonLoading={deleteButtonLoading}
+          confirmationDisclosure={deleteDepartmentDisclosure}
+          confirmationLabel={"Confirm"}
         />
         <EditDepartmentModal
           editButtonLoading={editButtonLoading}

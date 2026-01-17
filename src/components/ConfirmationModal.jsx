@@ -40,14 +40,6 @@ export default function ConfirmationModal({
           >
             <Flex flexDir={"column"}>
               <Flex>{header}</Flex>
-              <Box
-                fontWeight={700}
-                color={"#848484"}
-                fontSize={"16px"}
-                as="span"
-                flex="1"
-                textAlign="left"
-              ></Box>
             </Flex>
           </ModalHeader>
           <ModalCloseButton isDisabled={buttonLoading} color={"black"} />

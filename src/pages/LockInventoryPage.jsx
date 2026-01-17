@@ -27,12 +27,12 @@ import ListEmptyState from "../components/ListEmptyState";
 import Swal from "sweetalert2";
 import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
 import SelectedActionBar from "../components/SelectedActionBar";
-import DeleteLockConfirmationModal from "../components/LockInventory/DeleteLockConfirmationModal";
 import SwalErrorMessages from "../components/SwalErrorMessages";
 import getLockImageByModel from "../utils/getLockImageByModel";
 import LockDetailsModal from "../components/LockInventory/LockDetailsModal";
 import formatString from "../utils/formatString";
 import UrlBasedPagination from "../components/UrlBasedPagination";
+import ConfirmationModal from "../components/ConfirmationModal";
 export default function LockInventoryPage() {
   const pageModule = "lock_inventory";
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
@@ -55,7 +55,7 @@ export default function LockInventoryPage() {
     : Number(searchParams.get("page")) || 1;
   const searchFilter = searchParams.get("search") || "";
   const statusFilter = statusFilterSelection.includes(
-    searchParams.get("status")
+    searchParams.get("status"),
   )
     ? searchParams.get("status")
     : "";
@@ -71,7 +71,7 @@ export default function LockInventoryPage() {
   const lockDetailsDisclosure = useDisclosure();
   const deleteSelectedLockDisclosure = useDisclosure();
   const checkedOnPage = selectedUID.filter((uid) =>
-    locks.map((lock) => lock.UID).includes(uid)
+    locks.map((lock) => lock.UID).includes(uid),
   );
   const allChecked =
     checkedOnPage.length === locks.map((lock) => lock.UID).length &&
@@ -87,7 +87,7 @@ export default function LockInventoryPage() {
         updateSearchParams({ page: 1, search: value });
       }
     }, 1000),
-    [searchParams]
+    [searchParams],
   );
   function updateSearchParams(updates) {
     setSearchParams((prev) => {
@@ -113,7 +113,7 @@ export default function LockInventoryPage() {
       (prevState) =>
         e.target.checked
           ? [...prevState, itemId] // Add if checked
-          : prevState.filter((id) => id !== itemId) // Remove if unchecked
+          : prevState.filter((id) => id !== itemId), // Remove if unchecked
     );
   }
   function handleCheckAll(e) {
@@ -126,7 +126,7 @@ export default function LockInventoryPage() {
       });
     } else {
       setSelectedUID((prevState) =>
-        prevState.filter((uid) => !locks.some((lock) => lock.UID === uid))
+        prevState.filter((uid) => !locks.some((lock) => lock.UID === uid)),
       );
     }
   }
@@ -179,7 +179,7 @@ export default function LockInventoryPage() {
       .testSubmit("Lock deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
-          prevState.filter((selUID) => selUID !== UID)
+          prevState.filter((selUID) => selUID !== UID),
         );
         Swal.fire({
           title: "Success!",
@@ -697,12 +697,14 @@ export default function LockInventoryPage() {
         deleteSelectedButtonLoading={deleteSelectedButtonLoading}
         deleteSelectedDisclosure={deleteSelectedLockDisclosure}
       />
-      <DeleteLockConfirmationModal
-        deleteButtonLoading={deleteButtonLoading}
-        deleteLock={deleteLock}
-        selectedDeleteLockUID={selectedDeleteLockUID}
-        onClose={deleteLockDisclosure.onClose}
-        isOpen={deleteLockDisclosure.isOpen}
+      <ConfirmationModal
+        header={"Delete Lock?"}
+        header2={"Are you sure you want to delete this Lock?"}
+        body={"deleting this lock is permanent and cannot be undone."}
+        confirmationFunction={() => deleteLock(selectedDeleteLockUID)}
+        buttonLoading={deleteButtonLoading}
+        confirmationDisclosure={deleteLockDisclosure}
+        confirmationLabel={"Confirm"}
       />
       <LockDetailsModal
         selectedLockDetails={selectedLockDetails}

@@ -8,7 +8,6 @@ import { api } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { useLoading } from "../../service/LoadingContext";
 import Swal from "sweetalert2";
-import LeavePageConfirmationModal from "../../components/CreateWorkOrder/LeavePageConfirmationModal";
 import EmptySelectionWarningModal from "../../components/CreateWorkOrder/EmptySelectionWarningModal";
 import SwalErrorMessages from "../../components/SwalErrorMessages";
 import {
@@ -24,6 +23,7 @@ import { toPng } from "html-to-image";
 import base64ToFile from "../../utils/base64ToFile";
 import autoArrangeNodes from "../../utils/autoArrangeNodes";
 import convertToFormData from "../../utils/convertToFormData";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 export default function CreateWorkOrderPage() {
   const initialWorkOrderDetails = {
@@ -37,7 +37,7 @@ export default function CreateWorkOrderPage() {
 
   const { loading, setLoading } = useLoading();
   const [currentPage, setCurrentPage] = useState("build");
-  const leavePageConfirmationModal = useDisclosure();
+  const leavePageConfirmationModalDisclosure = useDisclosure();
   const emptySelectionWarningModal = useDisclosure();
   const [leavePageNav, setLeavePageNav] = useState();
   const [memberSelection, setMemberSelection] = useState([]);
@@ -55,7 +55,7 @@ export default function CreateWorkOrderPage() {
     initialValues: initialWorkOrderDetails,
     validationSchema: Yup.object().shape({
       deadline_date_time: Yup.date("Deadline date format is invalid.").required(
-        "Deadline date and time is required."
+        "Deadline date and time is required.",
       ),
       workOrderSteps: Yup.array()
         .of(
@@ -66,7 +66,7 @@ export default function CreateWorkOrderPage() {
                   id: Yup.string()
                     .trim()
                     .required("This step requires an assigned member."),
-                })
+                }),
               )
               .min(1, "Must assign at least 1 member"),
             notify_to: Yup.array().when("notify", {
@@ -78,11 +78,11 @@ export default function CreateWorkOrderPage() {
                       id: Yup.string()
                         .trim()
                         .required("Each notified member must have an ID."),
-                    })
+                    }),
                   )
                   .min(
                     1,
-                    "This step requires at least 1 member to be notified."
+                    "This step requires at least 1 member to be notified.",
                   ),
               otherwise: (schema) => schema.notRequired(),
             }),
@@ -98,7 +98,7 @@ export default function CreateWorkOrderPage() {
                       selectedInspectionForms: Yup.array()
                         .min(1, "Machine requires at least 1 inspection form.")
                         .required("Inspection forms are required."),
-                    })
+                    }),
                   ),
               otherwise: (schema) => schema.notRequired(),
             }),
@@ -123,9 +123,9 @@ export default function CreateWorkOrderPage() {
                             return val && val.trim() !== ""; // Ensure ID is provided (not empty or whitespace)
                           }
                           return true;
-                        }
+                        },
                       ),
-                  })
+                  }),
                 )
                 .test(
                   "minLocks",
@@ -140,15 +140,15 @@ export default function CreateWorkOrderPage() {
                       return Array.isArray(value) && value.length > 0;
                     }
                     return true;
-                  }
+                  },
                 ),
             }),
-          })
+          }),
         )
         .min(1, "At least one step is required")
         .required("This field cannot be empty"),
       name: Yup.string("Name must be a string").required(
-        "Work order title is required"
+        "Work order title is required",
       ),
     }),
     onSubmit: () => {
@@ -156,7 +156,7 @@ export default function CreateWorkOrderPage() {
       // setCurrentPage("assign");
       submitWorkOrder(
         formik.values.review?.reviewers?.length ? "under_review" : "ongoing",
-        true
+        true,
         // confirmCreateWorkOrderDisclosure.onClose
       );
     },
@@ -181,7 +181,7 @@ export default function CreateWorkOrderPage() {
             ...val,
             label: val.user.first_name + " " + val.user.last_name,
             value: val.id,
-          }))
+          })),
         );
         setMachineSelection(
           response.data.machines.map((val) => ({
@@ -189,21 +189,21 @@ export default function CreateWorkOrderPage() {
             label: val.name,
             value: val.id,
             selectedInspectionForms: [],
-          }))
+          })),
         );
         setLockSelection(
           response.data.locks.map((val) => ({
             ...val,
             label: val.name,
             value: val.id,
-          }))
+          })),
         );
         const hasLocks = response.data.locks && response.data.locks.length > 0;
 
         const hasValidMachine = response.data.machines?.some((machine) =>
           machine.categories?.some(
-            (category) => category.inspection_forms?.length > 0
-          )
+            (category) => category.inspection_forms?.length > 0,
+          ),
         );
         const hasMembers =
           response.data.members && response.data.members.length > 0;
@@ -224,7 +224,7 @@ export default function CreateWorkOrderPage() {
   async function submitWorkOrder(
     status,
     showSuccessSwal = true,
-    closeModalFunction
+    closeModalFunction,
   ) {
     setLoading(true);
     const startNode = nodes.find((n) => n.data.isStart);
@@ -329,7 +329,7 @@ export default function CreateWorkOrderPage() {
           x: node.position.x - (node.measured.width || 0) / 2,
           y: node.position.y - (node.measured.height || 0) / 2,
         },
-      }))
+      })),
     );
     const padding = 40;
     const paddedBounds = {
@@ -343,7 +343,7 @@ export default function CreateWorkOrderPage() {
       imageWidth,
       imageHeight,
       0.5,
-      2
+      2,
     );
 
     const base64WorkFlow = await toPng(
@@ -358,13 +358,13 @@ export default function CreateWorkOrderPage() {
           transform: `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.zoom})`,
         },
         skipFonts: true,
-      }
+      },
     );
     return base64ToFile(base64WorkFlow);
   };
 
   const handleCallToAction = useCallback((link) => {
-    leavePageConfirmationModal.onOpen();
+    leavePageConfirmationModalDisclosure.onOpen();
     setLeavePageNav(link);
   }, []);
   async function handleLeavePageConfirmation() {
@@ -419,9 +419,13 @@ export default function CreateWorkOrderPage() {
             />
           </DeleteMultiLockAccessProvider>
         </Box>
-        <LeavePageConfirmationModal
-          handleLeavePageConfirmation={handleLeavePageConfirmation}
-          leavePageConfirmationModal={leavePageConfirmationModal}
+        <ConfirmationModal
+          header={"Leave Page?"}
+          header2={"Are you sure you want to leave you're current work?"}
+          body={"You're work will be saved as drafted if you proceed"}
+          confirmationFunction={handleLeavePageConfirmation}
+          confirmationDisclosure={leavePageConfirmationModalDisclosure}
+          confirmationLabel={"Confirm"}
         />
         <EmptySelectionWarningModal
           selectionErrors={selectionErrors}

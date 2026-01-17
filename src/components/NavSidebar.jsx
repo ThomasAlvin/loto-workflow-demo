@@ -56,10 +56,11 @@ import { api } from "../api/api";
 import Can from "../components/Can";
 import { useNotifications } from "../service/NotificationContext";
 import labelizeRole from "../utils/labelizeRole";
-import LogoutConfirmationModal from "./LogoutConfirmationModal";
 import NotificationDetailsModal from "./Notification/NotificationDetailsModal";
 import NotificationMarkAllAsReadConfirmationModal from "./Notification/NotificationMarkAllAsReadConfirmationModal";
 import SwalErrorMessages from "./SwalErrorMessages";
+import ConfirmationModal from "./ConfirmationModal";
+import { ImExit } from "react-icons/im";
 export default function NavSidebar({ hideSidebar, setHideSidebar }) {
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
   const {
@@ -73,6 +74,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
     markAllAsRead,
     fetchNotification,
   } = useNotifications();
+  const logoutModalDisclosure = useDisclosure();
 
   const announcementArray = [
     {
@@ -133,7 +135,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
   const containerRef = useRef();
   const [showNotifWarning, setShowNotifWarning] = useState(
     localStorage.getItem("showNotificationWarning") &&
-      localStorage.getItem("showNotificationWarning") === "true"
+      localStorage.getItem("showNotificationWarning") === "true",
   );
   const [buttonLoading, setButtonLoading] = useState(false);
   const [deleteNotificationButtonLoading, setDeleteNotificationButtonLoading] =
@@ -381,7 +383,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                   //   ["view", "view_assigned"].includes(perm)
                   // );
                   const hasModuleAccess = modulePermissions.some((perm) =>
-                    option2.permission.includes(perm)
+                    option2.permission.includes(perm),
                   );
 
                   return hasRoleAccess || hasModuleAccess;
@@ -420,7 +422,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
             ?.permissions.map((perm) => perm.permission) || [];
 
         const hasModuleAccess = modulePermissions.some((perm) =>
-          ["view", "view_assigned", "view_owned", "full_access"].includes(perm)
+          ["view", "view_assigned", "view_owned", "full_access"].includes(perm),
         );
 
         return hasRoleAccess || hasModuleAccess ? menu : null;
@@ -492,7 +494,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
         "",
         1,
         10,
-        null
+        null,
       );
     } catch (error) {
       console.log(error);
@@ -505,15 +507,15 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
       prevState.map((notification) =>
         notification.UID === val.UID
           ? { ...notification, is_read: 1 } // Mark as read
-          : notification
-      )
+          : notification,
+      ),
     );
     setNotificationsPagination((prevState) => ({
       ...prevState,
       data: prevState.data.map((notification) =>
         notification.UID === val.UID
           ? { ...notification, is_read: 1 } // Mark as read
-          : notification
+          : notification,
       ),
     }));
     setNewNotificationsCount((prevState) => {
@@ -573,7 +575,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
             </button>
 
             <Flex fontSize={"20px"} fontWeight={700}>
-              LOTO Workflow System Demo Version 1.4
+              LOTO Workflow System Demo Version 1.4.1
             </Flex>
           </Box>
 
@@ -900,9 +902,26 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                       <Flex>User Activities</Flex>
                     </Flex>
                   </MenuItem>
-                  <LogoutConfirmationModal
+                  <MenuItem onClick={logoutModalDisclosure.onOpen}>
+                    <Flex gap={"10px"} alignItems={"center"}>
+                      <Flex>
+                        <ImExit />
+                      </Flex>
+                      <Flex>Logout</Flex>
+                    </Flex>
+                  </MenuItem>
+                  <ConfirmationModal
+                    header={"Logout from account?"}
+                    header2={
+                      "Are you sure you want to log out of this account?"
+                    }
+                    body={
+                      "Logging out will end your current session. You can log back in anytime."
+                    }
+                    confirmationFunction={logout}
                     buttonLoading={buttonLoading}
-                    logoutFunction={logout}
+                    confirmationDisclosure={logoutModalDisclosure}
+                    confirmationLabel={"Logout"}
                   />
                 </MenuList>
               </Menu>
@@ -1036,7 +1055,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                       >
                         {getMenuForRole(
                           userSelector.role,
-                          userSelector.permissions
+                          userSelector.permissions,
                         ).map((val) => {
                           return val?.isMenu ? (
                             <>
@@ -1094,7 +1113,7 @@ export default function NavSidebar({ hideSidebar, setHideSidebar }) {
                                 border={0}
                                 onClick={() => {
                                   nav(
-                                    `${location.pathname}?refresh=${Date.now()}`
+                                    `${location.pathname}?refresh=${Date.now()}`,
                                   );
                                 }}
                                 borderLeft={"8px solid #dc143c"}

@@ -9,6 +9,7 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
+import ConfirmationModal from "../components/ConfirmationModal";
 import { yupResolver } from "@hookform/resolvers/yup";
 import parsePhoneNumberFromString from "libphonenumber-js";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -28,7 +29,6 @@ import { api } from "../api/api";
 import ChangePasswordModal from "../components/AccountSettings/ChangePasswordModal";
 import ChangesDetectedWarning from "../components/AccountSettings/ChangesDetectedWarning";
 import ConnectGoogleAuthModal from "../components/AccountSettings/ConnectGoogleAuthModal";
-import DeleteMethodConfirmationModal from "../components/AccountSettings/DeleteMethodConfirmationModal";
 import SetToDefaultTFAConfirmationModal from "../components/AccountSettings/SetToDefaultTFAConfirmationModal";
 import SubscriptionStatus from "../components/AccountSettings/SubscriptionStatus";
 import Can from "../components/Can";
@@ -56,8 +56,9 @@ export default function AccountSettingsPage() {
   const [TFASwitchLoading, setTFASwitchLoading] = useState(false);
   const [TFAButtonLoading, setTFAButtonLoading] = useState(false);
   const [profileImagePreview, setProfileImagePreview] = useState(
-    userSelector.profile_image_url ? userSelector.profile_image_url : ""
+    userSelector.profile_image_url ? userSelector.profile_image_url : "",
   );
+  const deleteGoogle2faModalDisclosure = useDisclosure();
   const setToDefaultTFADisclosure = useDisclosure();
   const nav = useNavigate();
   const dispatch = useDispatch();
@@ -67,7 +68,7 @@ export default function AccountSettingsPage() {
     lastName: userSelector.last_name,
     phoneNumber: removeCountryCode(userSelector.phone_number) || "",
     phoneCountry: getPhoneCountryDetailsByCountryCode(
-      userSelector.phone_country
+      userSelector.phone_country,
     ) || {
       value: "US",
       name: "United States",
@@ -110,13 +111,13 @@ export default function AccountSettingsPage() {
 
               const phoneNumber = parsePhoneNumberFromString(
                 value,
-                phoneCountry.value
+                phoneCountry.value,
               );
 
               return phoneNumber ? phoneNumber.isValid() : false;
-            }
+            },
           ),
-      })
+      }),
     ),
     mode: "onTouched",
     reValidateMode: "onChange",
@@ -146,7 +147,7 @@ export default function AccountSettingsPage() {
       else if (TFA === "google_auth")
         setSelectedTFA({ label: "Google Authenticator", value: "google_auth" });
     },
-    [setSelectedTFA]
+    [setSelectedTFA],
   );
 
   function handleFileChange(e) {
@@ -305,7 +306,7 @@ export default function AccountSettingsPage() {
     setTFAButtonLoading(true);
     await api
       .testSubmit(
-        "Your default two-factor authentication method has been updated."
+        "Your default two-factor authentication method has been updated.",
       )
       .then((response) => {
         Swal.fire({
@@ -378,7 +379,7 @@ export default function AccountSettingsPage() {
           title: "Oops...",
           icon: "error",
           html: SwalErrorMessages(
-            error.response?.data?.message || "An error occurred"
+            error.response?.data?.message || "An error occurred",
           ),
           customClass: {
             popup: "swal2-custom-popup",
@@ -441,7 +442,7 @@ export default function AccountSettingsPage() {
         userSelector,
         pageModule,
         ["full_access"],
-        ["guest"]
+        ["guest"],
       ) ? (
         <Flex flexDir={"column"} w={"100%"} gap={"30px"} pb={"100px"}>
           <Flex flexDir={"column"} gap={"10px"}>
@@ -494,7 +495,7 @@ export default function AccountSettingsPage() {
                             {Math.trunc(
                               (storageUsage / 50 / 1024 / 1024 / 1024) *
                                 100 *
-                                100
+                                100,
                             ) / 100}
                             %
                           </Flex>
@@ -808,7 +809,7 @@ export default function AccountSettingsPage() {
                           onChange: (e) => {
                             e.target.value = e.target.value.replace(
                               /[^\d() -]/g,
-                              ""
+                              "",
                             );
                           },
                         })}
@@ -1039,9 +1040,41 @@ export default function AccountSettingsPage() {
                           gap={"5px"}
                           fontSize={"24px"}
                         >
-                          <DeleteMethodConfirmationModal
+                          <Button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteGoogle2faModalDisclosure.onOpen();
+                            }}
+                            _hover={{
+                              bg: tinycolor("#dc143c").darken(5).toString(),
+                            }}
+                            h={"auto"}
+                            borderRadius={"5px"}
+                            fontWeight={700}
+                            fontSize={"12px"}
+                            bg={"#dc143c"}
+                            color={"white"}
+                            px={"8px"}
+                            py={"5px"}
+                          >
+                            <Flex gap={"4px"} alignItems={"center"}>
+                              <Flex>
+                                <FaTrashAlt />
+                              </Flex>
+                              <Flex>Delete</Flex>
+                            </Flex>
+                          </Button>
+                          <ConfirmationModal
+                            header={"Delete Google Authenticator Connection?"}
+                            header2={
+                              "Are you sure you want to delete your Google Authenticator connection?"
+                            }
+                            confirmationFunction={deleteGoogle2FA}
                             buttonLoading={deleteGoogle2FALoading}
-                            submitFn={deleteGoogle2FA}
+                            confirmationDisclosure={
+                              deleteGoogle2faModalDisclosure
+                            }
+                            confirmationLabel={"Delete"}
                           />
                         </Flex>
                       )}

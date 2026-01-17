@@ -34,7 +34,6 @@ import ListEmptyState from "../components/ListEmptyState";
 import Swal from "sweetalert2";
 import ImportListModal from "../components/ImportListModal";
 import SelectedActionBar from "../components/SelectedActionBar";
-import DeleteEquipmentMachineConfirmationModal from "../components/EquipmentMachine/DeleteEquipmentMachineConfirmationModal";
 import SwalErrorMessages from "../components/SwalErrorMessages";
 import ImageFocusOverlay from "../components/ImageFocusOverlay";
 import EquipmentMachineDetailsModal from "../components/EquipmentMachine/EquipmentMachineDetailsModal";
@@ -43,6 +42,7 @@ import { useSelector } from "react-redux";
 import formatString from "../utils/formatString";
 import UrlBasedPagination from "../components/UrlBasedPagination";
 import Can from "../components/Can";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 export default function EquipmentMachinesPage() {
   const nav = useNavigate();
@@ -70,7 +70,7 @@ export default function EquipmentMachinesPage() {
     : Number(searchParams.get("page")) || 1;
   const searchFilter = searchParams.get("search") || "";
   const statusFilter = statusFilterSelection.includes(
-    searchParams.get("status")
+    searchParams.get("status"),
   )
     ? searchParams.get("status")
     : "";
@@ -91,7 +91,7 @@ export default function EquipmentMachinesPage() {
   const checkedOnPage = selectedUID.filter((uid) =>
     equipmentMachines
       .map((equipmentMachine) => equipmentMachine.UID)
-      .includes(uid)
+      .includes(uid),
   );
   const allChecked =
     checkedOnPage.length ===
@@ -110,7 +110,7 @@ export default function EquipmentMachinesPage() {
         updateSearchParams({ page: 1, search: value });
       }
     }, 1000),
-    [searchParams]
+    [searchParams],
   );
   function updateSearchParams(updates) {
     setSearchParams((prev) => {
@@ -136,7 +136,7 @@ export default function EquipmentMachinesPage() {
       (prevState) =>
         e.target.checked
           ? [...prevState, itemId] // Add if checked
-          : prevState.filter((id) => id !== itemId) // Remove if unchecked
+          : prevState.filter((id) => id !== itemId), // Remove if unchecked
     );
   }
   function handleImageFocus(imageURL) {
@@ -154,8 +154,8 @@ export default function EquipmentMachinesPage() {
     } else {
       setSelectedUID((prevState) =>
         prevState.filter(
-          (uid) => !equipmentMachines.some((lock) => lock.UID === uid)
-        )
+          (uid) => !equipmentMachines.some((lock) => lock.UID === uid),
+        ),
       );
     }
   }
@@ -195,7 +195,7 @@ export default function EquipmentMachinesPage() {
       .testSubmit("Machine deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
-          prevState.filter((selUID) => selUID !== UID)
+          prevState.filter((selUID) => selUID !== UID),
         );
         Swal.fire({
           title: "Success!",
@@ -748,12 +748,18 @@ export default function EquipmentMachinesPage() {
         deleteSelectedButtonLoading={deleteSelectedButtonLoading}
         deleteSelectedDisclosure={deleteSelectedMachineDisclosure}
       />
-      <DeleteEquipmentMachineConfirmationModal
-        deleteButtonLoading={deleteButtonLoading}
-        deleteEquipmentMachine={deleteEquipmentMachine}
-        selectedDeleteMachineUID={selectedDeleteMachineUID}
-        onClose={deleteMachineDisclosure.onClose}
-        isOpen={deleteMachineDisclosure.isOpen}
+      <ConfirmationModal
+        header={"Delete Equipment/Machine from worksite?"}
+        header2={"Are you sure you want to delete this Equipment/Machine?"}
+        body={
+          "deleting this equipment/machine is permanent and cannot be undone."
+        }
+        confirmationFunction={() =>
+          deleteEquipmentMachine(selectedDeleteMachineUID)
+        }
+        buttonLoading={deleteButtonLoading}
+        confirmationDisclosure={deleteMachineDisclosure}
+        confirmationLabel={"Confirm"}
       />
       <EquipmentMachineDetailsModal
         selectedEquipmentMachineDetails={selectedEquipmentMachineDetails}

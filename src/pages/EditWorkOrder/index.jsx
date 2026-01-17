@@ -22,7 +22,6 @@ import { v4 as uuid } from "uuid";
 import * as Yup from "yup";
 import { api } from "../../api/api";
 import EmptySelectionWarningModal from "../../components/CreateWorkOrder/EmptySelectionWarningModal";
-import LeavePageConfirmationModal from "../../components/CreateWorkOrder/LeavePageConfirmationModal";
 import SwalErrorMessages from "../../components/SwalErrorMessages";
 import { DeleteMultiLockAccessProvider } from "../../service/DeleteMultiLockAccessContext";
 import { useLoading } from "../../service/LoadingContext";
@@ -32,6 +31,7 @@ import convertToFormData from "../../utils/convertToFormData";
 import getConnectedNodes from "../../utils/getConnectedNodes";
 import WorkOrderDetails404Page from "../WorkOrderDetails/WorkOrderDetails404Page";
 import EditWorkOrderBuildPage from "./EditWorkOrderBuildPage";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 export default function EditWorkOrderPage() {
   const location = useLocation();
@@ -76,13 +76,13 @@ export default function EditWorkOrderPage() {
   });
   const [latestReview, setLatestReview] = useState([]);
 
-  const leavePageConfirmationModal = useDisclosure();
+  const leavePageConfirmationModalDisclosure = useDisclosure();
   const nav = useNavigate();
   const formik = useFormik({
     initialValues: initialWorkOrderDetails,
     validationSchema: Yup.object().shape({
       deadline_date_time: Yup.date("Deadline date format is invalid.").required(
-        "Deadline date and time is required."
+        "Deadline date and time is required.",
       ),
       workOrderSteps: Yup.array()
         .of(
@@ -93,7 +93,7 @@ export default function EditWorkOrderPage() {
                   id: Yup.string()
                     .trim()
                     .required("This step requires an assigned member."),
-                })
+                }),
               )
               .min(1, "Must assign at least 1 member"),
             notify_to: Yup.array().when("notify", {
@@ -105,11 +105,11 @@ export default function EditWorkOrderPage() {
                       id: Yup.string()
                         .trim()
                         .required("Each notified member must have an ID."),
-                    })
+                    }),
                   )
                   .min(
                     1,
-                    "This step requires at least 1 member to be notified."
+                    "This step requires at least 1 member to be notified.",
                   ),
               otherwise: (schema) => schema.notRequired(),
             }),
@@ -124,7 +124,7 @@ export default function EditWorkOrderPage() {
                       selectedInspectionForms: Yup.array()
                         .min(1, "Machine requires at least 1 inspection form.")
                         .required("Inspection forms are required."),
-                    })
+                    }),
                   ),
               otherwise: (schema) => schema.notRequired(),
             }),
@@ -149,9 +149,9 @@ export default function EditWorkOrderPage() {
                             return val && val.trim() !== ""; // Ensure ID is provided (not empty or whitespace)
                           }
                           return true;
-                        }
+                        },
                       ),
-                  })
+                  }),
                 )
                 .test(
                   "minLocks",
@@ -166,15 +166,15 @@ export default function EditWorkOrderPage() {
                       return Array.isArray(value) && value.length > 0;
                     }
                     return true;
-                  }
+                  },
                 ),
             }),
-          })
+          }),
         )
         .min(1, "At least one step is required")
         .required("This field cannot be empty"), // Ensure the items array exists
       name: Yup.string("Name must be a string").required(
-        "Template title is required"
+        "Template title is required",
       ),
     }),
     onSubmit: () => {
@@ -182,7 +182,7 @@ export default function EditWorkOrderPage() {
       // setCurrentPage("assign");
       submitWorkOrder(
         formik.values.review?.reviewers?.length ? "under_review" : "ongoing",
-        true
+        true,
         // confirmCreateWorkOrderDisclosure.onClose
       );
     },
@@ -199,7 +199,7 @@ export default function EditWorkOrderPage() {
   async function submitWorkOrder(
     status,
     showSuccessSwal = true,
-    closeModalFunction
+    closeModalFunction,
   ) {
     setLoading(true);
     const startNode = nodes.find((n) => n.data.isStart);
@@ -237,7 +237,7 @@ export default function EditWorkOrderPage() {
         type: formik.values.review.type,
         reviewers: formik.values.review.reviewers,
         newReviewers: formik.values.review.reviewers.filter(
-          (reviewer) => !reviewer.isDisabled
+          (reviewer) => !reviewer.isDisabled,
         ),
       },
     };
@@ -299,7 +299,7 @@ export default function EditWorkOrderPage() {
           x: node.position.x - (node.measured.width || 0) / 2,
           y: node.position.y - (node.measured.height || 0) / 2,
         },
-      }))
+      })),
     );
 
     const padding = 40;
@@ -314,7 +314,7 @@ export default function EditWorkOrderPage() {
       imageWidth,
       imageHeight,
       0.5,
-      2
+      2,
     );
 
     const base64WorkFlow = await toPng(
@@ -329,13 +329,13 @@ export default function EditWorkOrderPage() {
           transform: `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.zoom})`,
         },
         skipFonts: true,
-      }
+      },
     );
     return base64ToFile(base64WorkFlow);
   };
 
   function handleCallToAction(link) {
-    leavePageConfirmationModal.onOpen();
+    leavePageConfirmationModalDisclosure.onOpen();
     setLeavePageNav(link);
   }
   async function handleLeavePageConfirmation() {
@@ -350,7 +350,7 @@ export default function EditWorkOrderPage() {
   function filterValidLocks(workOrderLocks = [], lockSelection = []) {
     const validLockIds = lockSelection.map((lock) => lock.id);
     const removedLocks = workOrderLocks.filter(
-      (groupItem) => !validLockIds.includes(groupItem?.lockId)
+      (groupItem) => !validLockIds.includes(groupItem?.lockId),
     );
 
     const validLocks = workOrderLocks
@@ -369,7 +369,7 @@ export default function EditWorkOrderPage() {
   function filterValidMachines(workOrderMachines = [], machineSelection = []) {
     const validMachineIds = machineSelection.map((machine) => machine.id);
     const removedMachines = workOrderMachines.filter(
-      (groupItem) => !validMachineIds.includes(groupItem?.machineId)
+      (groupItem) => !validMachineIds.includes(groupItem?.machineId),
     );
     const validMachines = workOrderMachines
       .filter((groupItem) => validMachineIds.includes(groupItem?.machineId))
@@ -394,7 +394,7 @@ export default function EditWorkOrderPage() {
               value:
                 selectedForms.work_order_step_inspection_form.inspection_formId,
             };
-          }
+          },
         ),
         label: groupItem.machine.name,
         value: groupItem.machineId,
@@ -426,7 +426,7 @@ export default function EditWorkOrderPage() {
             ...val,
             label: val.user.first_name + " " + val.user.last_name,
             value: val.id,
-          }))
+          })),
         );
         setMachineSelection(
           response.data.selection.machines.map((val) => ({
@@ -434,14 +434,14 @@ export default function EditWorkOrderPage() {
             label: val.name,
             value: val.id,
             selectedInspectionForms: [],
-          }))
+          })),
         );
         setLockSelection(
           response.data.selection.locks.map((val) => ({
             ...val,
             label: val.name,
             value: val.id,
-          }))
+          })),
         );
         if (!paramRedirected && !duplicateRedirect) {
           const hasLocks =
@@ -451,8 +451,8 @@ export default function EditWorkOrderPage() {
           const hasValidMachine = response.data.selection.machines?.some(
             (machine) =>
               machine.categories?.some(
-                (category) => category.inspection_forms?.length > 0
-              )
+                (category) => category.inspection_forms?.length > 0,
+              ),
           );
           const hasMembers =
             response.data.selection.members &&
@@ -497,12 +497,12 @@ export default function EditWorkOrderPage() {
             (step, stepIndex) => {
               const filteredValidMachines = filterValidMachines(
                 step.work_order_step_machines,
-                response.data.selection.machines
+                response.data.selection.machines,
               );
               const filteredValidLocks = filterValidLocks(
                 step.work_order_multi_lock_group
                   ?.work_order_multi_lock_group_items,
-                response.data.selection.locks
+                response.data.selection.locks,
               );
 
               if (filteredValidMachines.hasRemovedMachine) {
@@ -515,8 +515,9 @@ export default function EditWorkOrderPage() {
               return {
                 reviewsThatFlaggedThisStep: responseReview.filter((review) =>
                   review?.work_order_step_review_rejections?.some(
-                    (rejection) => rejection.no_work_order_step == stepIndex + 1
-                  )
+                    (rejection) =>
+                      rejection.no_work_order_step == stepIndex + 1,
+                  ),
                 ),
                 // -X multi assign problem X-
                 assigned_to: step.assigned_members.map((assignedMember) => ({
@@ -570,7 +571,7 @@ export default function EditWorkOrderPage() {
                 isMainMultiLockAccess: !!step.is_main_multi_access_lock,
                 ...(step?.multi_access_lock_step_index != null && {
                   multiLockAccessStepIndex: Number(
-                    step.multi_access_lock_step_index
+                    step.multi_access_lock_step_index,
                   ),
                 }),
                 ...(!!step.multi_access_lock && {
@@ -626,11 +627,11 @@ export default function EditWorkOrderPage() {
                 })),
                 selectedMachines: filteredValidMachines.machines || [],
               };
-            }
+            },
           ),
           deadline_date_time: response.data.workOrder.deadline_date_time
             ? moment(response.data.workOrder.deadline_date_time).format(
-                "YYYY-MM-DD hh:mm A"
+                "YYYY-MM-DD hh:mm A",
               )
             : null,
           review: {
@@ -671,7 +672,7 @@ export default function EditWorkOrderPage() {
                 " " +
                 coCreatorMember.user.last_name,
               value: coCreatorMember.id,
-            })
+            }),
           ),
           workOrderCustomId:
             response.data.workOrder.work_order_custom_id || null,
@@ -682,7 +683,7 @@ export default function EditWorkOrderPage() {
             duplicationIssues,
             selectionCheck.lock ||
               selectionCheck.member ||
-              selectionCheck.machine
+              selectionCheck.machine,
           );
         } else {
           if (
@@ -705,11 +706,11 @@ export default function EditWorkOrderPage() {
         formik.setValues(fetchedValue);
         const errors = await formik.validateForm(fetchedValue);
         const xyFlowData = await convertStepsToXyFlowData(
-          fetchedValue.workOrderSteps
+          fetchedValue.workOrderSteps,
         );
         const nodesWithError = xyFlowData.nodes.map((n) => {
           const idx = fetchedValue.workOrderSteps.findIndex(
-            (s) => s.UID === n.data.UID
+            (s) => s.UID === n.data.UID,
           );
           const hasError = Boolean(errors?.workOrderSteps?.[idx]);
           return {
@@ -739,7 +740,7 @@ export default function EditWorkOrderPage() {
         title: "Warning!",
         html: SwalErrorMessages(
           `Some steps could not retain their assigned machines or locks because the selected resources are no longer available.`,
-          duplicationIssues
+          duplicationIssues,
         ),
         icon: "warning",
         customClass: {
@@ -758,7 +759,7 @@ export default function EditWorkOrderPage() {
             }
           : {}),
       });
-    }
+    },
   );
   useEffect(() => {
     const controller = new AbortController();
@@ -810,9 +811,14 @@ export default function EditWorkOrderPage() {
           <Box
             style={{ display: currentPage === "assign" ? "block" : "none" }}
           ></Box>
-          <LeavePageConfirmationModal
-            handleLeavePageConfirmation={handleLeavePageConfirmation}
-            leavePageConfirmationModal={leavePageConfirmationModal}
+
+          <ConfirmationModal
+            header={"Leave Page?"}
+            header2={"Are you sure you want to leave you're current work?"}
+            body={"You're work will be saved as drafted if you proceed"}
+            confirmationFunction={handleLeavePageConfirmation}
+            confirmationDisclosure={leavePageConfirmationModalDisclosure}
+            confirmationLabel={"Confirm"}
           />
           <EmptySelectionWarningModal
             emptySelectionWarningModal={emptySelectionWarningModal}

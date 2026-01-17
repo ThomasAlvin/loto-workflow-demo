@@ -27,13 +27,13 @@ import Swal from "sweetalert2";
 import NotificationCard from "../components/Notification/NotificationCard";
 import NotificationMarkAllAsReadConfirmationModal from "../components/Notification/NotificationMarkAllAsReadConfirmationModal";
 import { useNotifications } from "../service/NotificationContext";
-import DeleteNotificationConfirmationModal from "../components/Notification/DeleteNotificationConfirmationModal";
 import SwalErrorMessages from "../components/SwalErrorMessages";
 import tinycolor from "tinycolor2";
 import { FaFilter, FaMapLocationDot } from "react-icons/fa6";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 import SelectedActionBar from "../components/SelectedActionBar";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 export default function NotificationPage() {
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
@@ -83,7 +83,7 @@ export default function NotificationPage() {
         currentPage: 1,
       }));
     }, 1000),
-    []
+    [],
   );
   function customSetCurrentPage(updater) {
     setNotificationsPagination((prevState) => ({
@@ -124,7 +124,7 @@ export default function NotificationPage() {
         notificationsPagination.currentPage,
         notificationsPagination.rows,
         typeFilter,
-        workSiteFilter
+        workSiteFilter,
       );
     } catch (error) {
       console.log(error);
@@ -178,7 +178,7 @@ export default function NotificationPage() {
       (prevState) =>
         e.target.checked
           ? [...prevState, itemId] // Add if checked
-          : prevState.filter((id) => id !== itemId) // Remove if unchecked
+          : prevState.filter((id) => id !== itemId), // Remove if unchecked
     );
   }
   function handleCheckAll(e) {
@@ -194,9 +194,9 @@ export default function NotificationPage() {
         prevState.filter(
           (uid) =>
             !notificationsPagination.data.some(
-              (notification) => notification.UID === uid
-            )
-        )
+              (notification) => notification.UID === uid,
+            ),
+        ),
       );
     }
   }
@@ -282,7 +282,7 @@ export default function NotificationPage() {
   const checkedOnPage = selectedUID.filter((uid) =>
     notificationsPagination.data
       ?.map((notification) => notification.UID)
-      .includes(uid)
+      .includes(uid),
   );
   const allChecked =
     checkedOnPage.length ===
@@ -593,12 +593,17 @@ export default function NotificationPage() {
         handleChange={handleChange}
         showing={notificationsPagination.showing}
       />
-      <DeleteNotificationConfirmationModal
-        deleteButtonLoading={deleteButtonLoading}
-        deleteNotifications={deleteNotification}
-        selectedDeleteNotificationUID={selectedDeleteNotificationUID}
-        onClose={deleteNotificationDisclosure.onClose}
-        isOpen={deleteNotificationDisclosure.isOpen}
+
+      <ConfirmationModal
+        header={"Delete Notification?"}
+        header2={"Are you sure you want to delete this Notification?"}
+        body={"deleting this notification is permanent and cannot be undone."}
+        confirmationFunction={() =>
+          deleteNotification(selectedDeleteNotificationUID)
+        }
+        buttonLoading={deleteButtonLoading}
+        confirmationDisclosure={deleteNotificationDisclosure}
+        confirmationLabel={"Confirm"}
       />
       <SelectedActionBar
         variant={"notifications"}

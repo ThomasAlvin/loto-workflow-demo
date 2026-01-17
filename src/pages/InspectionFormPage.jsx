@@ -33,12 +33,12 @@ import ImportListModal from "../components/ImportListModal";
 import { debounce } from "lodash";
 import SelectedActionBar from "../components/SelectedActionBar";
 import Swal from "sweetalert2";
-import DeleteInspectionFormConfirmationModal from "../components/MachineInspectionForms/DeleteInspectionFormConfirmationModal";
 import SwalErrorMessages from "../components/SwalErrorMessages";
 import ListEmptyState from "../components/ListEmptyState";
 import { useSelector } from "react-redux";
 import UrlBasedPagination from "../components/UrlBasedPagination";
 import Can from "../components/Can";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 export default function InspectionFormPage() {
   const pageModule = "equipment_machines";
@@ -70,7 +70,7 @@ export default function InspectionFormPage() {
   const deleteSelectedInspectionFormDisclosure = useDisclosure();
   const createInspectionFormDisclosure = useDisclosure();
   const checkedOnPage = selectedUID.filter((uid) =>
-    inspectionForms.map((inspectionForm) => inspectionForm.UID).includes(uid)
+    inspectionForms.map((inspectionForm) => inspectionForm.UID).includes(uid),
   );
   const allChecked =
     checkedOnPage.length ===
@@ -88,7 +88,7 @@ export default function InspectionFormPage() {
       (prevState) =>
         e.target.checked
           ? [...prevState, itemId] // Add if checked
-          : prevState.filter((id) => id !== itemId) // Remove if unchecked
+          : prevState.filter((id) => id !== itemId), // Remove if unchecked
     );
   }
   function handleCheckAll(e) {
@@ -102,8 +102,8 @@ export default function InspectionFormPage() {
     } else {
       setSelectedUID((prevState) =>
         prevState.filter(
-          (uid) => !inspectionForms.some((lock) => lock.UID === uid)
-        )
+          (uid) => !inspectionForms.some((lock) => lock.UID === uid),
+        ),
       );
     }
   }
@@ -123,7 +123,7 @@ export default function InspectionFormPage() {
         updateSearchParams({ page: 1, search: value });
       }
     }, 1000),
-    [searchParams]
+    [searchParams],
   );
   function updateSearchParams(updates) {
     setSearchParams((prev) => {
@@ -148,7 +148,7 @@ export default function InspectionFormPage() {
       .testSubmit("Inspection form deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
-          prevState.filter((selUID) => selUID !== UID)
+          prevState.filter((selUID) => selUID !== UID),
         );
         Swal.fire({
           title: "Success!",
@@ -260,7 +260,7 @@ export default function InspectionFormPage() {
             value: category.name,
             label: category.name,
             newCategory: false,
-          }))
+          })),
         );
       })
       .catch((error) => {
@@ -286,11 +286,11 @@ export default function InspectionFormPage() {
 
   function hasCreateInspectionFormPermission() {
     const modulePermissions = userSelector.permissions?.find(
-      (perm) => perm.name === "inspection_forms"
+      (perm) => perm.name === "inspection_forms",
     );
     return (
       modulePermissions?.permissions.some(
-        (perm) => perm.permission === "manage"
+        (perm) => perm.permission === "manage",
       ) || userSelector.is_superadmin
     );
   }
@@ -506,7 +506,7 @@ export default function InspectionFormPage() {
                                         icon={<FaRegTrashAlt />}
                                         onClick={() => {
                                           handleOpenDeleteInspectionFormModal(
-                                            val.UID
+                                            val.UID,
                                           );
                                         }}
                                       >
@@ -592,7 +592,7 @@ export default function InspectionFormPage() {
                                       onClick={() => {
                                         nav(
                                           "/machine-categories?search=" +
-                                            item?.name
+                                            item?.name,
                                         );
                                       }}
                                       key={index}
@@ -649,7 +649,7 @@ export default function InspectionFormPage() {
                       >
                         <Flex fontSize={"14px"}>
                           {moment(val.created_at).format(
-                            "DD MMMM YYYY | hh:mm A"
+                            "DD MMMM YYYY | hh:mm A",
                           )}
                         </Flex>
                       </Flex>
@@ -734,12 +734,18 @@ export default function InspectionFormPage() {
           deleteSelectedButtonLoading={deleteSelectedButtonLoading}
           deleteSelectedDisclosure={deleteSelectedInspectionFormDisclosure}
         />
-        <DeleteInspectionFormConfirmationModal
-          deleteButtonLoading={deleteButtonLoading}
-          deleteInspectionForm={deleteInspectionForm}
-          selectedDeleteInspectionFormUID={selectedDeleteInspectionFormUID}
-          onClose={deleteInspectionFormDisclosure.onClose}
-          isOpen={deleteInspectionFormDisclosure.isOpen}
+        <ConfirmationModal
+          header={"Delete Inspection Form from worksite?"}
+          header2={"Are you sure you want to delete this Inspection Form?"}
+          body={
+            "deleting this inspection Form is permanent and cannot be undone."
+          }
+          confirmationFunction={() =>
+            deleteInspectionForm(selectedDeleteInspectionFormUID)
+          }
+          buttonLoading={deleteButtonLoading}
+          confirmationDisclosure={deleteInspectionFormDisclosure}
+          confirmationLabel={"Confirm"}
         />
         <CreateInspectionFormModal
           onClose={createInspectionFormDisclosure.onClose}

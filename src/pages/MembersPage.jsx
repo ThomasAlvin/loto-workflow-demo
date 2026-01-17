@@ -36,7 +36,6 @@ import MemberMenu from "../components/Member/MemberMenu";
 import moment from "moment";
 import SelectedActionBar from "../components/SelectedActionBar";
 import tableStatusStyleMapper from "../utils/tableStatusStyleMapper";
-import RemoveMemberConfirmationModal from "../components/Member/RemoveMemberConfirmationModal";
 import MemberDetailsModal from "../components/Member/MemberDetailsModal";
 import SwalErrorMessages from "../components/SwalErrorMessages";
 import ImageFocusOverlay from "../components/ImageFocusOverlay";
@@ -47,6 +46,7 @@ import { useSelector } from "react-redux";
 import formatString from "../utils/formatString";
 import UrlBasedPagination from "../components/UrlBasedPagination";
 import Can from "../components/Can";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 export default function MembersPage() {
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
@@ -102,7 +102,7 @@ export default function MembersPage() {
   const [imageFocusURL, setImageFocusURL] = useState();
   const imageFocusDisclosure = useDisclosure();
   const checkedOnPage = selectedUID.filter((uid) =>
-    members.map((member) => member.UID).includes(uid)
+    members.map((member) => member.UID).includes(uid),
   );
   const allChecked =
     checkedOnPage.length === members.map((member) => member.UID).length &&
@@ -120,7 +120,7 @@ export default function MembersPage() {
         updateSearchParams({ page: 1, search: value });
       }
     }, 1000),
-    [searchParams]
+    [searchParams],
   );
   function updateSearchParams(updates) {
     setSearchParams((prev) => {
@@ -147,7 +147,7 @@ export default function MembersPage() {
       (prevState) =>
         e.target.checked
           ? [...prevState, itemId] // Add if checked
-          : prevState.filter((id) => id !== itemId) // Remove if unchecked
+          : prevState.filter((id) => id !== itemId), // Remove if unchecked
     );
   }
   function handleCheckAll(e) {
@@ -160,7 +160,7 @@ export default function MembersPage() {
       });
     } else {
       setSelectedUID((prevState) =>
-        prevState.filter((uid) => !members.some((lock) => lock.UID === uid))
+        prevState.filter((uid) => !members.some((lock) => lock.UID === uid)),
       );
     }
   }
@@ -179,7 +179,7 @@ export default function MembersPage() {
       .testSubmit("Member deleted successfully")
       .then((response) => {
         setSelectedUID((prevState) =>
-          prevState.filter((selUID) => selUID !== UID)
+          prevState.filter((selUID) => selUID !== UID),
         );
         Swal.fire({
           title: "Success!",
@@ -714,7 +714,7 @@ export default function MembersPage() {
                               <Flex fontSize={"14px"} color={"#848484"}>
                                 {labelizeRole(
                                   val.role,
-                                  val.has_custom_permissions
+                                  val.has_custom_permissions,
                                 ) +
                                   " - " +
                                   val.employee_id}
@@ -908,19 +908,25 @@ export default function MembersPage() {
         deleteSelectedFunction={deleteSelected}
         deleteSelectedDisclosure={deleteSelectedMemberDisclosure}
       />
-      <RemoveMemberConfirmationModal
-        removeButtonLoading={removeButtonLoading}
-        removeMember={removeMember}
-        selectedRemoveMemberUID={selectedRemoveMemberUID}
-        onClose={removeMemberDisclosure.onClose}
-        isOpen={removeMemberDisclosure.isOpen}
+      <ConfirmationModal
+        header={"Remove member?"}
+        header2={"Are you sure you want to remove this member?"}
+        body={"removing this member is permanent and cannot be undone."}
+        confirmationFunction={() => removeMember(selectedRemoveMemberUID)}
+        buttonLoading={removeButtonLoading}
+        confirmationDisclosure={removeMemberDisclosure}
+        confirmationLabel={"Confirm"}
       />
-      <ResendEmailMemberConfirmationModal
-        resendEmailButtonLoading={resendEmailButtonLoading}
-        resendEmailMember={resendEmailMember}
-        selectedResendEmailMemberUID={selectedResendEmailMemberUID}
-        onClose={resendEmailMemberDisclosure.onClose}
-        isOpen={resendEmailMemberDisclosure.isOpen}
+      <ConfirmationModal
+        header={"Resend email for this member?"}
+        header2={"Are you sure you want to resend email to this member?"}
+        body={"the last sent mail will be invalidated if you proceed."}
+        confirmationFunction={() =>
+          resendEmailMember(selectedResendEmailMemberUID)
+        }
+        buttonLoading={resendEmailButtonLoading}
+        confirmationDisclosure={resendEmailMemberDisclosure}
+        confirmationLabel={"Confirm"}
       />
       <MemberDetailsModal
         pageModule={pageModule}

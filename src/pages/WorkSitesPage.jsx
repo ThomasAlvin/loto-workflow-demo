@@ -22,11 +22,11 @@ import EditWorkSiteModal from "../components/WorkSite/EditWorkSiteModal";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import SetDefaultWorkSiteConfirmationModal from "../components/WorkSite/SetDefaultWorkSiteConfirmationModal";
 import SwitchWorkSiteConfirmationModal from "../components/WorkSite/SwitchWorkSiteConfirmationModal";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { useNotifications } from "../service/NotificationContext";
 import Can from "../components/Can";
+import ConfirmationModal from "../components/ConfirmationModal";
 export default function WorkSitesPage() {
   const abortControllerRef = useRef(new AbortController()); // Persistent controller
   const pageModule = "work_sites";
@@ -59,7 +59,7 @@ export default function WorkSitesPage() {
         location: Yup.string()
           .trim()
           .required("Work site location is required"),
-      })
+      }),
     ),
     mode: "onTouched",
     reValidateMode: "onChange",
@@ -101,7 +101,7 @@ export default function WorkSitesPage() {
     editWorkSiteForm.setValue("location", workSite.location);
     editWorkSiteForm.setValue(
       "isDefault",
-      userSelector.main_work_site?.UID === workSite.UID
+      userSelector.main_work_site?.UID === workSite.UID,
     );
     setIsInitiallyDefault(userSelector.main_work_site?.UID === workSite.UID);
     editWorkSiteDisclosure.onOpen();
@@ -212,7 +212,7 @@ export default function WorkSitesPage() {
               .sort(
                 (a, b) =>
                   (userSelector.main_work_site?.UID === b.UID ? 1 : 0) -
-                  (userSelector.main_work_site?.UID === a.UID ? 1 : 0)
+                  (userSelector.main_work_site?.UID === a.UID ? 1 : 0),
               ) // Sort: isDefault=true first
               .map((val, index) => {
                 const isSelectedWorkSite =
@@ -329,11 +329,11 @@ export default function WorkSitesPage() {
                                   <IoNotificationsSharp />
                                 </Flex>
                                 {Array.isArray(
-                                  newNotificationsCountByWorkSite
+                                  newNotificationsCountByWorkSite,
                                 ) ? (
                                   newNotificationsCountByWorkSite.find(
                                     (newNotifCount) =>
-                                      newNotifCount.work_site_name === val.name
+                                      newNotifCount.work_site_name === val.name,
                                   ) ? (
                                     <Flex
                                       aspectRatio={1}
@@ -353,8 +353,8 @@ export default function WorkSitesPage() {
                                           newNotificationsCountByWorkSite.find(
                                             (newNotifCount) =>
                                               newNotifCount.work_site_name ===
-                                              val.name
-                                          ).new_notif_count
+                                              val.name,
+                                          ).new_notif_count,
                                         )
                                       }
                                     >
@@ -362,7 +362,7 @@ export default function WorkSitesPage() {
                                         newNotificationsCountByWorkSite.find(
                                           (newNotifCount) =>
                                             newNotifCount.work_site_name ===
-                                            val.name
+                                            val.name,
                                         ).new_notif_count
                                       }
                                     </Flex>
@@ -407,20 +407,27 @@ export default function WorkSitesPage() {
         isOpen={editWorkSiteDisclosure.isOpen}
         onClose={editWorkSiteDisclosure.onClose}
       />
-      <SetDefaultWorkSiteConfirmationModal
-        changeDefaultWorkSite={changeDefaultWorkSite}
+      <ConfirmationModal
+        header={"Set worksite as default?"}
+        header2={"Are you sure you want to set this as your default worksite?"}
+        body={
+          "This worksite will be automatically selected each time you login"
+        }
+        confirmationFunction={changeDefaultWorkSite}
         buttonLoading={buttonLoading}
-        // setDefaultWorkSiteDisclosure={setDefaultWorkSiteDisclosure}
-        handleOpenSetDefaultModal={handleOpenSetDefaultModal}
-        isOpen={setDefaultWorkSiteDisclosure.isOpen}
-        onClose={setDefaultWorkSiteDisclosure.onClose}
+        confirmationDisclosure={setDefaultWorkSiteDisclosure}
+        confirmationLabel={"Confirm"}
       />
-      <SwitchWorkSiteConfirmationModal
-        switchWorkSite={switchWorkSite}
+      <ConfirmationModal
+        header={"Switch worksite?"}
+        header2={"Are you sure you want to switch to this worksite?"}
+        body={
+          "When you switch worksites, work orders, equipment/machines , and other site-specific data will automatically adjust based on your site."
+        }
+        confirmationFunction={() => switchWorkSite(selectedSwitchWorkSite)}
         buttonLoading={buttonLoading}
-        selectedSwitchWorkSite={selectedSwitchWorkSite}
-        onClose={switchWorkSiteDisclosure.onClose}
-        isOpen={switchWorkSiteDisclosure.isOpen}
+        confirmationDisclosure={switchWorkSiteDisclosure}
+        confirmationLabel={"Confirm"}
       />
     </Flex>
   );
