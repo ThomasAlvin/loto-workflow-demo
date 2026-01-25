@@ -22,7 +22,6 @@ import EditWorkSiteModal from "../components/WorkSite/EditWorkSiteModal";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import SwitchWorkSiteConfirmationModal from "../components/WorkSite/SwitchWorkSiteConfirmationModal";
 import { IoNotificationsSharp } from "react-icons/io5";
 import { useNotifications } from "../service/NotificationContext";
 import Can from "../components/Can";

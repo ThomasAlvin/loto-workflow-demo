@@ -40,7 +40,6 @@ import MemberDetailsModal from "../components/Member/MemberDetailsModal";
 import SwalErrorMessages from "../components/SwalErrorMessages";
 import ImageFocusOverlay from "../components/ImageFocusOverlay";
 import { IoEllipsisHorizontalSharp } from "react-icons/io5";
-import ResendEmailMemberConfirmationModal from "../components/Member/ResendEmailMemberConfirmationModal";
 import checkHasPermission from "../utils/checkHasPermission";
 import { useSelector } from "react-redux";
 import formatString from "../utils/formatString";
